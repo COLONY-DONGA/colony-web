@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/colony
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true # sql 문 포맷
+logging.level:
+  org.hibernate.SQL: trace # 디버그 모드로 sql 출력
+
