@@ -24,7 +24,6 @@ public class PrincipalDetailService implements UserDetailsService {
         log.info("loadUserByUsername 메소드 실행");
         log.info(username);
         Member member = memberRepository.findByLoginId(username);
-
         if(member == null) {
             throw new EntityNotFoundException("아이디를 다시 확인해주세요"); //loginId 에 해당하는 엔티티 없음
         }
