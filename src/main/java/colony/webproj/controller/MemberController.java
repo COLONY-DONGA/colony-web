@@ -3,9 +3,16 @@ package colony.webproj.controller;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.LoginFormDto;
 import colony.webproj.entity.Member;
+import colony.webproj.entity.Role;
 import colony.webproj.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +25,11 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final AuthenticationManager authenticationManager;
 
+    /**
+     * 로그인 페이지
+     */
     @GetMapping("/login")
     public String loginPage(@RequestParam(value = "error", required = false) String error,
                             @RequestParam(value = "exception", required = false) String errorMessage,
@@ -28,28 +39,41 @@ public class MemberController {
         return "login";
     }
 
-    @ResponseBody
-    @GetMapping("/")
-    public List<Member> a() {
-        List<Member> allMember = memberService.findAllMember();
-        return allMember;
+    /**
+     * 비회원 로그인
+     */
+    @GetMapping("/login-guest")
+    public String guestLogin() {
+        UserDetails guestUser = User.builder()
+                .username("guest_oxigdkrjbgwzeoisghzisejb")
+                .password("guestpassword")
+                .authorities(Role.ROLE_GUEST.toString())
+                .build();
+
+        //토큰 생성
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(guestUser, guestUser.getPassword(), guestUser.getAuthorities());
+
+        //인증 처리
+        //loadUserByUsername 실행되는지 안 되는지 모르겠음
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+
+        //컨텍스트 홀더에 authenticate 객체 저장
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        return "redirect:/boards";
     }
 
-//
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute LoginFormDto loginFormDto) {
-//        log.info("ㅇㅇ");
-//        log.info(loginFormDto.getLoginId());
-//        log.info(loginFormDto.getPassword());
-//        return "로그인완료";
-//    }
-
+    /**
+     * 회원가입
+     */
     @PostMapping("/join")
     public String join(@ModelAttribute JoinFormDto joinFormDto) {
         Long savedMemberId = memberService.join(joinFormDto);
         log.info("회원가입 완료 id=" + savedMemberId);
         return "redirect:/login";
     }
+
+
 
 
 
