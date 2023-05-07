@@ -37,6 +37,12 @@ public class InitDB {
                         .role(Role.ROLE_MEMBER).build();
                 em.persist(member);
             }
+            //게스트 회원 아이디 추가
+            Member guest = Member.builder()
+                    .loginId("guest_oxigdkrjbgwzeoisghzisejb")
+                    .password(encoder.encode("guestpassword"))
+                    .role(Role.ROLE_GUEST).build();
+            em.persist(guest);
         }
 
 
