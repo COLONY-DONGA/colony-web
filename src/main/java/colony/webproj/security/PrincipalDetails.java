@@ -31,12 +31,12 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.getPassword();
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return this.getLoginId();
+        return this.loginId;
     }
 
     @Override
