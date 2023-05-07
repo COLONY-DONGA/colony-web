@@ -44,7 +44,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .usernameParameter("loginId")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/login", true) //메인페이지로 갈듯
-//                        .failureHandler(customAuthFailureHandler)
+                        .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )
                 .logout(withDefaults());

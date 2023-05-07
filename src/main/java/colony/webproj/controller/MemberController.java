@@ -2,12 +2,15 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.LoginFormDto;
+import colony.webproj.entity.Member;
 import colony.webproj.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +26,13 @@ public class MemberController {
         model.addAttribute("error", error);
         model.addAttribute("exception", errorMessage);
         return "login";
+    }
+
+    @ResponseBody
+    @GetMapping("/")
+    public List<Member> a() {
+        List<Member> allMember = memberService.findAllMember();
+        return allMember;
     }
 
 //
