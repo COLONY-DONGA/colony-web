@@ -1,6 +1,7 @@
 package colony.webproj.security;
 
 import colony.webproj.dto.MemberDto;
+import colony.webproj.entity.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,26 +13,30 @@ import java.util.Collection;
 @Getter
 public class PrincipalDetails implements UserDetails {
 
-    private MemberDto memberDto;
+    private String loginId;
+    private String password;
+    private Role role;
 
-    public PrincipalDetails(MemberDto memberDto) {
-        this.memberDto = memberDto;
+    public PrincipalDetails(String loginId, String password, Role role) {
+        this.loginId = loginId;
+        this.password = password;
+        this.role = role;
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority(memberDto.getRole().toString())); //권한
+        auth.add(new SimpleGrantedAuthority(this.role.toString())); //권한
         return auth;
     }
 
     @Override
     public String getPassword() {
-        return memberDto.getPassword();
+        return this.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return memberDto.getLoginId();
+        return this.getLoginId();
     }
 
     @Override

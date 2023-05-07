@@ -236,6 +236,9 @@
           <i class="bx bx-lock login__icon"></i>
           <input type="text" placeholder="Password" name="password" class="login__input" />
         </div>
+        <div th:if="error">
+          <p style="color: red; font-size:11px;"><a th:text="${exception}"></a></p>
+        </div>
 
         <button type="submit" class="login__button">Sign In</button>
 
