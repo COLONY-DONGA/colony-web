@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,22 +23,23 @@ public class PrincipalDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try{
-            log.info("loadUserByUsername 메소드 실행");
-            Member member = memberRepository.findByLoginId(username);
-
-            MemberDto memberDto = MemberDto.builder()
-                    .id(member.getId())
-                    .loginId(member.getLoginId())
-                    .password(member.getPassword())
-                    .name(member.getName())
-                    .nickname(member.getNickname())
-                    .phoneNumber(member.getPhoneNumber())
-                    .department(member.getDepartment())
-                    .role(member.getRole()).build();
-            log.info("loadUserByUsername 메소드 종료");
-            return new PrincipalDetails(memberDto); //세션에 커스텀한 PrincipalDetails 저장
+        log.info("loadUserByUsername 메소드 실행");
+        Optional<Member> findMember = memberRepository.findByLoginId(username);
+        if (!findMember.isPresent()) {
+            throw new UsernameNotFoundException("가입되지 않은 회원입니다."); //스프링 내부에서 BadCredentialsException 예외로 변형시켜버림
         }
+        Member member = findMember.get();
+        MemberDto memberDto = MemberDto.builder()
+                .id(member.getId())
+                .loginId(member.getLoginId())
+                .password(member.getPassword())
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .phoneNumber(member.getPhoneNumber())
+                .department(member.getDepartment())
+                .role(member.getRole()).build();
+        log.info("loadUserByUsername 메소드 종료");
+        return new PrincipalDetails(memberDto); //세션에 커스텀한 PrincipalDetails 저장
 
     }
 }
