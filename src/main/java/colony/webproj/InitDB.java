@@ -6,6 +6,7 @@ import colony.webproj.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ public class InitDB {
         initService.initMember();
     }
 
-    @Component
     @Service
     @RequiredArgsConstructor
     @Transactional
@@ -38,5 +38,7 @@ public class InitDB {
                 em.persist(member);
             }
         }
+
+
     }
 }
