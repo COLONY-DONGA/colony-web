@@ -21,23 +21,23 @@ public class PrincipalDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("loadUserByUsername 메소드 실행");
-        log.info(username);
-        Member member = memberRepository.findByLoginId(username);
-        if(member == null) {
-            throw new EntityNotFoundException("아이디를 다시 확인해주세요"); //loginId 에 해당하는 엔티티 없음
+        try{
+            log.info("loadUserByUsername 메소드 실행");
+            Member member = memberRepository.findByLoginId(username);
+
+            MemberDto memberDto = MemberDto.builder()
+                    .id(member.getId())
+                    .loginId(member.getLoginId())
+                    .password(member.getPassword())
+                    .name(member.getName())
+                    .nickname(member.getNickname())
+                    .phoneNumber(member.getPhoneNumber())
+                    .department(member.getDepartment())
+                    .role(member.getRole()).build();
+            log.info("loadUserByUsername 메소드 종료");
+            return new PrincipalDetails(memberDto); //세션에 커스텀한 PrincipalDetails 저장
         }
-        MemberDto memberDto = MemberDto.builder()
-                .id(member.getId())
-                .loginId(member.getLoginId())
-                .password(member.getPassword())
-                .name(member.getName())
-                .nickname(member.getNickname())
-                .phoneNumber(member.getPhoneNumber())
-                .department(member.getDepartment())
-                .role(member.getRole()).build();
-        log.info("loadUserByUsername 메소드 종료");
-        return new PrincipalDetails(memberDto); //세션에 커스텀한 PrincipalDetails 저장
+
     }
 }
 
