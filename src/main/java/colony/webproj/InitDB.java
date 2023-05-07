@@ -32,8 +32,8 @@ public class InitDB {
         public void initMember() {
             for(int i = 0; i<20;i ++){
                 Member member = Member.builder()
-                        .loginId("abcde")
-                        .password(encoder.encode("abcde1!"))
+                        .loginId("abcde" + i)
+                        .password(encoder.encode("abcde" + i + "!"))
                         .role(Role.ROLE_MEMBER).build();
                 em.persist(member);
             }
