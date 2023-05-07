@@ -31,8 +31,9 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.getPassword();
     }
+    //dfssdfsf
 
     @Override
     public String getUsername() {
