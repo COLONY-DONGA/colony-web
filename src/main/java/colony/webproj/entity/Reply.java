@@ -16,7 +16,7 @@ public class Reply extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "comment_id")
+    @Column(name = "reply_id")
     private Long id;
     private String content;
     private String createdBy; // 작성자
