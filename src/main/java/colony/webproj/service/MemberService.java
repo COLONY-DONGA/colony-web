@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +35,14 @@ public class MemberService {
                 .build();
         memberRepository.save(member);
         return member.getId();
+    }
+
+    /**
+     * 아이디 중복 체크
+     */
+    public Boolean validateLoginId(String loginId) {
+        Optional<Member> memberEntity = memberRepository.findByLoginId(loginId);
+        return memberEntity.isPresent() ? false : true;
     }
 
 
