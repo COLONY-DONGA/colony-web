@@ -15,7 +15,7 @@ public class File {
     private Long id;
 
     private String storeFileName;   // 저장위치
-    private String originFileName;  // 사용자가 올린 파일이름
+    private String originFileName;  // 파일이름
 
     @ManyToOne(fetch = FetchType.LAZY) // 멤버 셀렉은 나중에.
     @JoinColumn(name = "post_id")

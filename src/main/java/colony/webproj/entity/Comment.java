@@ -2,7 +2,6 @@ package colony.webproj.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
@@ -26,4 +25,9 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> commentList;
 
+
 }
+
+
+
+
