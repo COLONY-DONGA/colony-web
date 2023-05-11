@@ -3,7 +3,6 @@ package colony.webproj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.util.List;
 
 
@@ -25,10 +24,9 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-
-
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> commentList;
+
 
 }
 
