@@ -5,12 +5,13 @@ import lombok.*;
 
 @Entity
 @Getter @Setter
-@AllArgsConstructor
+@AllArgsConstructor // 생성자?
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Member {
     @Id
     @GeneratedValue
+
     @Column(name = "member_id")
     private Long id;
 
