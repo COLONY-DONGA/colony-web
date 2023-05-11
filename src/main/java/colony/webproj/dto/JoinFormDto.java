@@ -1,11 +1,14 @@
 package colony.webproj.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class JoinFormDto {
+    @NotBlank
     private String loginId;
     private String password;
     private String name; //이름

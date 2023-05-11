@@ -61,7 +61,7 @@ public class MemberController {
 
         //컨텍스트 홀더에 authenticate 객체 저장
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-        return "redirect:/boards";
+        return "redirect:/posts";
     }
 
     /**
@@ -77,10 +77,18 @@ public class MemberController {
     /**
      * 아이디 중복 체크
      */
+    @GetMapping("validation-id")
+    public ResponseEntity<?> validationId(@RequestParam(value = "loginId") String loginId) {
+        return ResponseEntity.ok(memberService.validateLoginId(loginId));
+    }
 
-
-
-
+    /**
+     * 닉네임 중복 체크
+     */
+    @GetMapping("validation-nickname")
+    public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
+        return ResponseEntity.ok(memberService.validateNickname(nickname));
+    }
 
 
 }

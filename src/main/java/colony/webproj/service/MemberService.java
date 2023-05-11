@@ -45,9 +45,17 @@ public class MemberService {
         return memberEntity.isPresent() ? false : true;
     }
 
+    /**
+     * 닉네임 중복 체크
+     */
+    public Boolean validateNickname(String nickname) {
+        Optional<Member> memberEntity = memberRepository.findByNickname(nickname);
+        return memberEntity.isPresent() ? false : true;
+    }
 
     public List<Member> findAllMember() {
         List<Member> all = memberRepository.findAll();
         return all;
     }
+
 }
