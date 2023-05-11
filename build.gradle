@@ -2,8 +2,15 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.6'
 	id 'io.spring.dependency-management' version '1.1.0'
-	//querydsl 추가
+	// queryDSL 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+// Querydsl 설정부
+def generatedDir = 'src/main/generated'
+
+clean {
+	delete file (generatedDir)
 }
 
 group = 'colony'
@@ -57,24 +64,21 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// Querydsl 설정부
-def generated = 'src/main/generated'
+
+// queryDSL 추가 : QueryDSL 빌드 옵션
+def querydslDir = "$buildDir/generated/querydsl"
 
 querydsl {
 	jpa = true
-	querydslSourcesDir = generated
+	querydslSourcesDir = querydslDir
 }
 sourceSets {
-	main.java.srcDir generated
+	main.java.srcDir querydslDir
 }
-
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
-
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
 	querydsl.extendsFrom compileClasspath
 }
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+// 여기까지
