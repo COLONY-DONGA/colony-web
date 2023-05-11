@@ -3,6 +3,7 @@ package colony.webproj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Getter @Setter
 @AllArgsConstructor // 생성자?
@@ -20,4 +21,9 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+
 }
+
+
+
+
