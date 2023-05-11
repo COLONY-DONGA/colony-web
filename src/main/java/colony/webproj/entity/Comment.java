@@ -23,9 +23,7 @@ public class Comment extends BaseEntity {
     private Post post;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reply> commentList;
-
-
+    private List<Reply> replyList;
 }
 
 
