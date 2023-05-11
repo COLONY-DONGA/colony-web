@@ -14,7 +14,7 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    private String content;
+    private String content; // 내용
 
     @ManyToOne(fetch = FetchType.LAZY) // 멤버 셀렉은 나중에.
     @JoinColumn(name = "post_id")
