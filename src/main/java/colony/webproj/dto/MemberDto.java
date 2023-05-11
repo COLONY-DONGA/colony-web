@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 시큐리티에서 사용
+ */
 @Getter @Setter
 @AllArgsConstructor
 @Builder
