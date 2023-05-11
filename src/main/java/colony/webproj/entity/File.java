@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Getter @Setter
-@AllArgsConstructor // 생성자?
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class File {
