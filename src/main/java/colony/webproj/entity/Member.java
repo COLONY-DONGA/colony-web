@@ -8,10 +8,9 @@ import lombok.*;
 @AllArgsConstructor // 생성자?
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue
-
     @Column(name = "member_id")
     private Long id;
 
