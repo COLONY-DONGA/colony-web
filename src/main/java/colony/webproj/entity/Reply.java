@@ -3,6 +3,9 @@ package colony.webproj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * 대댓글
+ */
 @Entity
 @Getter
 @Setter
