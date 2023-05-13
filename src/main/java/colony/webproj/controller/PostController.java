@@ -31,15 +31,17 @@ public class PostController {
     /**
      * 게시글 리스트
      */
-    @GetMapping("/postlist")
-    public String postList(@RequestParam SearchType searchType, @RequestParam String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
-                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+    @GetMapping("/post-list")
+    @ResponseBody
+    public String postList(@RequestParam(required = false) SearchType searchType,
+                           @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @PageableDefault(size = 10) Pageable pageable,
-                           ModelMap map) {
+                           @RequestParam
+                           Model model) {
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
 
-        map.addAttribute("posts", posts);
-        return "redirect:/index";  // 이 부분 어느 쪽으로 보낼지. 잘 모름.
+        model.addAttribute("posts", posts);
+        return "postList";
     }
 
     /**
@@ -64,8 +66,8 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
         }
-        postService.savePost(postFormDto, principalDetails.getLoginId());
-        return "redirect:/postList";
+        Long savedPostId = postService.savePost(postFormDto, principalDetails.getLoginId());
+        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
 
     /**
