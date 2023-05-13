@@ -8,14 +8,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class File {
+public class Image {
     @Id
     @GeneratedValue
-    @Column(name = "file_id")
+    @Column(name = "image_id")
     private Long id;
 
-    private String storeFileName;   // 저장위치
-    private String originFileName;  // 파일이름
+    private String storeImageName;   // 저장위치
+    private String originImageName;  // 파일이름
 
     @ManyToOne(fetch = FetchType.LAZY) // 멤버 셀렉은 나중에.
     @JoinColumn(name = "post_id")

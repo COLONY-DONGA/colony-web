@@ -16,3 +16,7 @@ spring:
 logging.level:
   org.hibernate.SQL: trace # 디버그 모드로 sql 출력
 
+#파일 저장 경로 설정
+file:
+  dir: C:/Users/김진수/colony/
+
