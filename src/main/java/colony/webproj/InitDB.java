@@ -50,15 +50,15 @@ public class InitDB {
             for(int i = 1; i<=50; i++) {
                 Post post = new Post();
                 if (i <= 10) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member1).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).createdBy(member1.getNickname()).member(member1).answered(true).build();
                 } else if(i<=20) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member2).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).createdBy(member2.getNickname()).member(member2).answered(false).build();
                 } else if(i<=30) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).createdBy(member3.getNickname()).member(member3).answered(true).build();
                 } else if(i<=40) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).createdBy(member4.getNickname()).member(member4).answered(false).build();
                 } else if(i<=50) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member5).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).createdBy(member5.getNickname()).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }

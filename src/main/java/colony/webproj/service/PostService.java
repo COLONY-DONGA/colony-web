@@ -53,6 +53,14 @@ public class PostService {
     }
 
     /**
+     * queryDsl 게시글 리스트 조회
+     */
+    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+        return postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+    }
+
+
+    /**
      * 게시글 저장
      */
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
