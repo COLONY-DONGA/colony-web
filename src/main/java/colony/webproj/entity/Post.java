@@ -19,6 +19,8 @@ public class Post extends BaseEntity {
     private String title;   // 게시글 제목
     private String content; // 본문 내용
     private String createdBy; // 작성자
+    @Builder.Default
+    private boolean answered = false; // 답변 완료시 true
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

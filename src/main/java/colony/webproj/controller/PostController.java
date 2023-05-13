@@ -32,16 +32,20 @@ public class PostController {
      * 게시글 리스트
      */
     @GetMapping("/post-list")
-    @ResponseBody
-    public String postList(@RequestParam(required = false) SearchType searchType,
+    @ResponseBody //데이터 테스트하기 위해서 씀
+    public Page<PostDto> postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @PageableDefault(size = 10) Pageable pageable,
-                           @RequestParam
+                           @RequestParam(defaultValue = "false") Boolean answered,
+                           @RequestParam(defaultValue = "createdAt") String sortBy,
                            Model model) {
+        //승지방식
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
+        //진수방식
+        Page<PostDto> postDtos = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
 
         model.addAttribute("posts", posts);
-        return "postList";
+        return postDtos;
     }
 
     /**
@@ -59,6 +63,7 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
+    @ResponseBody
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -66,8 +71,9 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
         }
-        Long savedPostId = postService.savePost(postFormDto, principalDetails.getLoginId());
-        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
+//        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        return "생성완료";
     }
 
     /**

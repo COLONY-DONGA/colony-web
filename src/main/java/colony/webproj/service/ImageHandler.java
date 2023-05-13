@@ -1,6 +1,7 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Image;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class ImageHandler {
 
     @Value("${file.dir}")
@@ -21,7 +23,6 @@ public class ImageHandler {
 
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
-
         /* 비었는지 체크 */
         if(!CollectionUtils.isEmpty(multipartFiles)) {
             for(MultipartFile multipartFile : multipartFiles) {
@@ -36,7 +37,6 @@ public class ImageHandler {
                     else if (contentType.contains("image/png")) originalFileExtension = ".png";
                     else break; //다른 확장자일 경우 처리 x
                 }
-
                 String storeImageName = createStoreImageName();
 
                 Image image = Image.builder()

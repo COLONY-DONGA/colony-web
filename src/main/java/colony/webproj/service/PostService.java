@@ -53,6 +53,14 @@ public class PostService {
     }
 
     /**
+     * queryDsl 게시글 리스트 조회
+     */
+    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+        return postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+    }
+
+
+    /**
      * 게시글 저장
      */
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
@@ -71,6 +79,7 @@ public class PostService {
             for (Image image : imageList) {
                 image.setPost(postEntity); //연관관계 설정
                 imageRepository.save(image);
+                log.info("이미지 저장 완료");
             }
         }
         return postRepository.save(postEntity).getId();
