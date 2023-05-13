@@ -1,12 +1,8 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Image;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +14,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class FileHandler {
+public class ImageHandler {
 
     @Value("${file.dir}")
-    String fileDir;
+    private String fileDir;
 
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
