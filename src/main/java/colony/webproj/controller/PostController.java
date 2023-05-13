@@ -63,6 +63,7 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
+    @ResponseBody
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
@@ -70,8 +71,9 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
         }
-        Long savedPostId = postService.savePost(postFormDto, principalDetails.getLoginId());
-        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
+//        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        return "생성완료";
     }
 
     /**

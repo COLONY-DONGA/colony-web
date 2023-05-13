@@ -79,6 +79,7 @@ public class PostService {
             for (Image image : imageList) {
                 image.setPost(postEntity); //연관관계 설정
                 imageRepository.save(image);
+                log.info("이미지 저장 완료");
             }
         }
         return postRepository.save(postEntity).getId();

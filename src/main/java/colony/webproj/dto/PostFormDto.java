@@ -13,5 +13,5 @@ public class PostFormDto {
     @NotBlank(message = "제목을 입력해주세요")
     private String title;
     private String content;
-    private List<MultipartFile> ImageList;
+    private List<MultipartFile> imageList;
 }
