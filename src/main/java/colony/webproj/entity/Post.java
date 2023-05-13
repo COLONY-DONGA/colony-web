@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor // 생성자?
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "post_id")
@@ -26,5 +26,8 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<File> fileList;
 
 }
