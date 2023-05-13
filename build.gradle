@@ -65,6 +65,12 @@ tasks.named('test') {
 }
 
 
+//gradle의 complieQuerydsl task를 통해 QType을 생성하는데, 기존 QType이 존재하면 에러가 발생했다.
+//따라서, clean 이후 complieQuerydsl 을 실행시켜주어야 했는데 매번 두 번 클릭하기 귀찮았기 때문에 clean 동작을 추가해 줄 수 있음.
+
+// complieQuerydsl Task에 clean 동작 추가
+//tasks.compileQuerydsl.dependsOn(clean);
+
 // queryDSL 추가 : QueryDSL 빌드 옵션
 def querydslDir = "$buildDir/generated/querydsl"
 
@@ -80,5 +86,6 @@ configurations {
 }
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+	// 필요하면 clean동작 추가
 }
 // 여기까지

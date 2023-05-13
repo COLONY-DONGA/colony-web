@@ -37,6 +37,7 @@ public class MemberController {
                             Model model) {
         model.addAttribute("error", error);
         model.addAttribute("exception", errorMessage);
+
         return "login";
     }
 

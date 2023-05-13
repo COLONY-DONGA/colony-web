@@ -21,8 +21,6 @@ public class Member extends BaseEntity {
     private String phoneNumber; //전화번호
     private String department; //학과
 
-    private String createdBy; // 작성자
-
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
 

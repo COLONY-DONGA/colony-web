@@ -2,7 +2,9 @@ package colony.webproj.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.List;
+
 
 @Entity
 @Getter

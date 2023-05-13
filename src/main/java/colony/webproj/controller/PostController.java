@@ -1,19 +1,24 @@
 package colony.webproj.controller;
 
+import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
+import colony.webproj.entity.Post;
 import colony.webproj.entity.Role;
+import colony.webproj.entity.type.SearchType;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -22,6 +27,20 @@ import java.io.IOException;
 public class PostController {
 
     private final PostService postService;
+
+    /**
+     * 게시글 리스트
+     */
+    @GetMapping("/postlist")
+    public String postList(@RequestParam SearchType searchType, @RequestParam String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           @PageableDefault(size = 10) Pageable pageable,
+                           ModelMap map) {
+        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
+
+        map.addAttribute("posts", posts);
+        return "redirect:/index";  // 이 부분 어느 쪽으로 보낼지. 잘 모름.
+    }
 
     /**
      * 게시글 폼
@@ -40,7 +59,7 @@ public class PostController {
     @PostMapping("/post")
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
@@ -59,12 +78,12 @@ public class PostController {
                            Model model) {
         /* 로그인 유저와 작성자가 다를 때 */
         /* admin 유저일 경우는 배제 */
-        if(!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
+        if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
             return "error/404";
         }
         /* 수정 실패시 입력 데이터 값 유지 */
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
         }
