@@ -1,6 +1,7 @@
 package colony.webproj;
 
 import colony.webproj.entity.Member;
+import colony.webproj.entity.Post;
 import colony.webproj.entity.Role;
 import colony.webproj.service.MemberService;
 import jakarta.annotation.PostConstruct;
@@ -30,20 +31,39 @@ public class InitDB {
         private final BCryptPasswordEncoder encoder;
 
         public void initMember() {
-            for(int i = 0; i<20;i ++){
-                Member member = Member.builder()
-                        .loginId("abcde" + i)
-                        .password(encoder.encode("abcde" + i + "!"))
-                        .role(Role.ROLE_MEMBER).build();
-                em.persist(member);
-            }
+            Member member1 = Member.builder().loginId("abcde1").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                    .name("김진수").department("컴퓨터공학과").nickname("김진짜").phoneNumber("01012345678").build();
+            Member member2 = Member.builder().loginId("abcde2").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                    .name("채승지").department("컴퓨터공학과").nickname("채똘복").phoneNumber("01012345678").build();
+            Member member3 = Member.builder().loginId("abcde3").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                    .name("박태민").department("컴퓨터공학과").nickname("카사노바").phoneNumber("01012345678").build();
+            Member member4 = Member.builder().loginId("abcde4").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                    .name("박유진").department("컴퓨터공학과").nickname("야경맨").phoneNumber("01012345678").build();
+            Member member5 = Member.builder().loginId("abcde5").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                    .name("최유현").department("컴퓨터공학과").nickname("박유진이남친").phoneNumber("01012345678").build();
             //게스트 회원 아이디 추가
-            Member guest = Member.builder()
-                    .loginId("guest_oxigdkrjbgwzeoisghzisejb")
-                    .password(encoder.encode("guestpassword"))
-                    .role(Role.ROLE_GUEST).build();
-            em.persist(guest);
+            Member guest = Member.builder().loginId("guest_oxigdkrjbgwzeoisghzisejb")
+                    .password(encoder.encode("guestpassword")).role(Role.ROLE_GUEST).build();
+
+            em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);em.persist(guest);
+
+            for(int i = 1; i<=50; i++) {
+                Post post = new Post();
+                if (i <= 10) {
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member1).build();
+                } else if(i<=20) {
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member2).build();
+                } else if(i<=30) {
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).build();
+                } else if(i<=40) {
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).build();
+                } else if(i<=50) {
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member5).build();
+                }
+                em.persist(post);
+            }
         }
+
 
 
     }

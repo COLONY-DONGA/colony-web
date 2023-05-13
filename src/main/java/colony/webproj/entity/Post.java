@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @AllArgsConstructor // 생성자?
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
 public class Post extends BaseEntity {
     @Id
@@ -20,7 +20,7 @@ public class Post extends BaseEntity {
     private String content; // 본문 내용
     private String createdBy; // 작성자
 
-    @ManyToOne(fetch = FetchType.LAZY) // 멤버 셀렉은 나중에.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
