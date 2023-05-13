@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.io.IOException;
+
 @Controller
 @RequiredArgsConstructor
 public class PostController {
@@ -51,7 +53,7 @@ public class PostController {
      */
     @PostMapping("/post")
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
         if(bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
