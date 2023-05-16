@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -82,10 +83,10 @@ public class PostController {
      */
     @GetMapping("/edit-post/{postId}")
     @ResponseBody
-    public String editFrom(@PathVariable("postId") Long postId, Model model) {
+    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model) {
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
-        return "게시글 폼";
+        return postFormDto;
     }
 
     /**

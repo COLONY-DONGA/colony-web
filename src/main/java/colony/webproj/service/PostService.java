@@ -31,7 +31,7 @@ public class PostService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final ImageService imageHandler;
+    private final ImageService imageService;
 
     /**
      * 게시글리스트 조회
@@ -73,17 +73,19 @@ public class PostService {
                 .createdBy(member.getNickname())
                 .member(member)
                 .build();
-        List<Image> imageList = imageHandler.uploadFile(postFormDto.getImageList());
+        Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
+
+        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {
-                image.setPost(postEntity); //연관관계 설정
+                image.setPost(postEntity);
                 imageRepository.save(image);
                 log.info("이미지 저장 완료");
             }
         }
-        return postRepository.save(postEntity).getId();
+        return savedPost;
     }
 
     /**
@@ -107,7 +109,7 @@ public class PostService {
         post.setContent(post.getContent());
 
         //수정하며 추가한 사진 파일 업로드
-        List<Image> imageList = imageHandler.uploadFile(postFormDto.getImageList());
+        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
@@ -141,7 +143,7 @@ public class PostService {
 
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
-        imageHandler.deleteFile(imageList);
+        imageService.deleteFile(imageList);
         postRepository.deleteById(postId);
     }
 }
