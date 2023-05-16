@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,7 @@ public class PostService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final ImageHandler imageHandler;
+    private final ImageService imageHandler;
 
     /**
      * 게시글리스트 조회
@@ -140,4 +139,9 @@ public class PostService {
         return postFormDto;
     }
 
+    public void deletePost(Long postId) {
+        List<Image> imageList = imageRepository.findByPostId(postId);
+        imageHandler.deleteFile(imageList);
+        postRepository.deleteById(postId);
+    }
 }

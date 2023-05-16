@@ -1,9 +1,12 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Image;
+import colony.webproj.repository.ImageRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,32 +17,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Service
+@RequiredArgsConstructor
 @Slf4j
-public class ImageHandler {
+public class ImageService {
+
+    private final ImageRepository imageRepository;
 
     @Value("${file.dir}")
     private String fileDir;
 
+    /**
+     * 이미지 업로드
+     */
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
         /* 비었는지 체크 */
         if(!CollectionUtils.isEmpty(multipartFiles)) {
             for(MultipartFile multipartFile : multipartFiles) {
-                String originalFileExtension; //확장자명
+                String extension; //확장자명
                 String contentType = multipartFile.getContentType();
 
                 if(ObjectUtils.isEmpty(contentType)) {
                     break;
                 }
                 else { //확장자명이 jpeg, png 인 파일들만 받아서 처리
-                    if(contentType.contains("image/jpeg")) originalFileExtension = ".jpg";
-                    else if (contentType.contains("image/png")) originalFileExtension = ".png";
+                    if(contentType.contains("image/jpeg")) extension = ".jpg";
+                    else if (contentType.contains("image/png")) extension = ".png";
                     else {
                         break; //다른 확장자일 경우 처리 x
                     }
                 }
-                String storeImageName = createStoreImageName();
+                String storeImageName = createStoreImageName(extension);
 
                 Image image = Image.builder()
                         .originImageName(multipartFile.getOriginalFilename())
@@ -54,11 +63,24 @@ public class ImageHandler {
     }
 
     /**
+     * 이미지 삭제
+     */
+    public void deleteFile(List<Image> imageList) {
+        for (Image image : imageList) {
+            imageRepository.deleteById(image.getId());
+            File file = new File(getFullPath(image.getStoreImageName()));
+            boolean delete = file.delete();
+            if(delete) log.info("로컬 파일 삭제 완료");
+            else log.info("로컬 파일 삭제 실패");
+        }
+    }
+
+    /**
      * 이름 중복을 피하기 위해 UUID.(파일타입) 로 storeFileName 생성
      */
-    private String createStoreImageName() {
+    private String createStoreImageName(String extension) {
         String uuid = UUID.randomUUID().toString();
-        String storeFileName = uuid;
+        String storeFileName = uuid + extension;
         return storeFileName;
     }
 
