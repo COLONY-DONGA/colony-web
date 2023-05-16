@@ -1,0 +1,15 @@
+/* CSS code for centering the login box */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login-box {
+  width: 300px;
+  text-align: center;
+}
+/* CSS code for aligning the image to the left */
+img {
+  float: left;
+}
