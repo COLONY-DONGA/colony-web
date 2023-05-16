@@ -35,16 +35,16 @@ public class PostController {
     @ResponseBody //데이터 테스트하기 위해서 씀
     public Page<PostDto> postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
+                           @RequestParam(defaultValue = "false") Boolean answered, //답변 유무에 따른 필터
+                           @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
                            @PageableDefault(size = 10) Pageable pageable,
-                           @RequestParam(defaultValue = "false") Boolean answered,
-                           @RequestParam(defaultValue = "createdAt") String sortBy,
                            Model model) {
         //승지방식
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtos = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
 
-        model.addAttribute("posts", posts);
+        model.addAttribute("posts", postDtos);
         return postDtos;
     }
 
@@ -77,13 +77,22 @@ public class PostController {
     }
 
     /**
+     * 게시글 수정 페이지
+     */
+    @GetMapping("/edit-post/{postId}")
+    public String editFrom(@PathVariable("postId") Long postId) {
+        postService.
+        return null;
+    }
+
+    /**
      * 게시글 수정
      */
     @PutMapping("/edit-post/{postId}")
     public String editPost(@PathVariable("postId") Long postId,
                            @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
-                           Model model) {
+                           Model model) throws IOException {
         /* 로그인 유저와 작성자가 다를 때 */
         /* admin 유저일 경우는 배제 */
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
@@ -95,8 +104,7 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "postForm";
         }
-
-//        postService.updatePost(postId, postFormDto)
+        postService.updatePost(postId, postFormDto);
         return null;
     }
 }

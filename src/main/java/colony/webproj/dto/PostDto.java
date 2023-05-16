@@ -22,8 +22,6 @@ public class PostDto {
     private Boolean Answered; //답변 유무
     //사진
     //댓글 관련
-    //생성일
-    //수정일
 
     /**
      * postList 에 사용

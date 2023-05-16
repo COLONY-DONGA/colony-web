@@ -35,7 +35,9 @@ public class ImageHandler {
                 else { //확장자명이 jpeg, png 인 파일들만 받아서 처리
                     if(contentType.contains("image/jpeg")) originalFileExtension = ".jpg";
                     else if (contentType.contains("image/png")) originalFileExtension = ".png";
-                    else break; //다른 확장자일 경우 처리 x
+                    else {
+                        break; //다른 확장자일 경우 처리 x
+                    }
                 }
                 String storeImageName = createStoreImageName();
 
