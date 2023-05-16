@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+    <link rel="stylesheet" href="resister.css" />
+  </head>
+  <body>
+    <form
+      action="/resister"
+      method="post"
+      class="login__register"
+      id="resister"
+    >
+      <!--sign up 상자가 들어갈 자리-->
+      <div class="전체틀" id="123">
+        <div class="signup" id="123">
+          <div class="회원가입상자" id="33279:439">
+            <div class="id-box" id="33279:400">
+              <p class="id-AJj" id="33279:401">ID</p>
+              <input
+                type="text"
+                name="id"
+                class="inputframe"
+                id="33279:402"
+                placeholder="사용할 아이디를 입력하세요"
+              />
+            </div>
+
+            <div class="pw-box" id="33279:400">
+              <p class="pw" id="33279:401">PW</p>
+              <input
+                type="password"
+                name="pw"
+                class="inputframe"
+                id="33279:402"
+                placeholder="사용할 패스워드를 입력하세요"
+              />
+            </div>
+
+            <div class="pwcheck-box" id="33279:400">
+              <p class="pw check" id="33279:401">PW CHECK</p>
+              <input
+                type="password"
+                name="pw_check"
+                class="inputframe"
+                id="33279:402"
+                placeholder="사용할 패스워드를 한번 더 입력하세요"
+              />
+            </div>
+
+            <div class="name-box" id="33279:400">
+              <p class="name" id="33279:401">이름</p>
+              <input
+                type="text"
+                name="name"
+                class="inputframe"
+                id="33279:402"
+                placeholder="이름을 입력하세요"
+              />
+            </div>
+
+            <div class="Nickname-box" id="33279:400">
+              <p class="nickname" id="33279:401">닉네임</p>
+              <input
+                type="text"
+                name="nickname"
+                class="inputframe"
+                id="33279:402"
+                placeholder="사용할 닉네임을 입력하세요"
+              />
+            </div>
+
+            <div class="Phone-box" id="33279:400">
+              <p class="phone" id="33279:401">휴대폰 번호</p>
+              <input
+                type="tel"
+                name="phone"
+                class="inputframe"
+                id="33279:402"
+                placeholder="010-****-****"
+              />
+            </div>
+
+            <div class="Department-box" id="33279:400">
+              <p class="department" id="33279:401">소속</p>
+              <input
+                type="text"
+                name="department"
+                class="inputframe"
+                id="33279:402"
+                placeholder="소속을 입력하세요"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button class="join-btn" onclick="joinbtn()" />Join
+        <button class="join-btn" onclick="cancelbtn()" />Cancel
+      </div>
+      <script>
+        function joinbtn() {
+          window.location.href = '질문목록페이지.html';
+        }
+        function cancelbtn() {
+          window.location.href = 'login.html';
+        }
+      </script>
+    </form>
+  </body>
+</html>
+
+<!--중복체크 기능 아직 안넣음-->
