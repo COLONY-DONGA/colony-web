@@ -4,48 +4,35 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="../static/css/login.css" />
+    <title>Login</title>
   </head>
   <body>
     <img src="../static/img/colony.jpg" width="250" height="250" alt="사진 없음" />
     <div class="login-box">
-      <form action="/login" method="post" class="login__register" id="login-in">
-        <input
-          type="text"
-          name="id"
-          class="text-field"
-          placeholder="아이디를 입력하세요"
-        />
+      <form action="/login.html" method="post" class="login__register" id="login-in">
+        <input type="text" name="id" class="text-field" placeholder="아이디를 입력하세요" />
         <br />
 
-        <input
-          type="text"
-          name="pw"
-          class="text-field"
-          placeholder="비밀번호를 입력하세요"
-        />
+        <input type="text" name="pw" class="text-field" placeholder="비밀번호를 입력하세요" />
         <br />
-        <button class="login-btn" onclick="memberLogin()">로그인</button>
-        <button class="login-btn" onclick="nonmemberLogin()">
-          비회원로그인
-        </button>
-        
-      <!--submit check-->
+
+        <button type="button" class="login-btn" onclick="memberLogin()">로그인</button>
+        <button class="login-btn" onclick="nonmemberLogin()">비회원 로그인</button>
+      </form>
+
       <div class="links">
-          <a href="resister.html">Create an account</a>
-        </p>
+        <a href="resister.html">Sign up</a>
       </div>
     </div>
-    
-    <script src="headerfooter.js"> //회원일때, 이벤트리스너
+
+    <script>
       function memberLogin() {
-        window.location.href = "질문목록페이지(비회원).html";
+        window.location.href = '/src/main/resources/templates/member.html';
       }
-      function nonmemberLogin() { //비회원일때, 이벤트리스너
-        window.location.href = "질문목록페이지(비회원).html";
+      function nonmemberLogin() {
+        window.location.href = '질문목록페이지(비회원).html';
       }
     </script>
-  </form>
   </body>
 </html>

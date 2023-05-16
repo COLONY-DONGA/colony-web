@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>회원가입</title>
     <link rel="stylesheet" href="resister.css" />
+    <title>회원가입</title>
   </head>
   <body>
-    <form action="/resister" method="post" class="login__register" id="resister">
-      <!--sign up 상자가 들어갈 자리-->
+    <form action="#" method="post" class="login__register" id="resister">
       <div class="전체틀" id="123">
         <div class="signup" id="123">
           <div class="회원가입상자" id="33279:439">
@@ -91,10 +90,10 @@
             </div>
           </div>
         </div>
-
-        <button class="join-btn" onclick="joinbtn()" />Join
-        <button class="join-btn" onclick="cancelbtn()" />Cancel
+        <button class="join-btn" onclick="joinbtn()">Join</button>
+        <button type="button" class="join-btn" onclick="cancelbtn()">Cancel</button>
       </div>
+<<<<<<< HEAD
       <script>
         function joinbtn() {
           window.location.href = '질문목록페이지.html';
@@ -103,8 +102,17 @@
           window.location.href = '/src/main.resourse/templates/login.html';
         }
       </script>
+=======
+>>>>>>> origin/yujinn00
     </form>
+
+    <script>
+      function joinbtn() {
+        window.location.href = '질문목록페이지.html';
+      }
+      function cancelbtn() {
+        window.location.href = '/src/main/resources/templates/login.html';
+      }
+    </script>
   </body>
 </html>
-
-<!--중복체크 기능 아직 안넣음-->
