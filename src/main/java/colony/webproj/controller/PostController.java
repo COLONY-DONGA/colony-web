@@ -42,10 +42,10 @@ public class PostController {
         //승지방식
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
-        Page<PostDto> postDtos = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
 
-        model.addAttribute("posts", postDtos);
-        return postDtos;
+        model.addAttribute("postDtoList", postDtoList);
+        return postDtoList;
     }
 
     /**
@@ -80,8 +80,9 @@ public class PostController {
      * 게시글 수정 페이지
      */
     @GetMapping("/edit-post/{postId}")
-    public String editFrom(@PathVariable("postId") Long postId) {
-        postService.
+    public String editFrom(@PathVariable("postId") Long postId, Model model) {
+        PostFormDto postFormDto = postService.updateForm(postId);
+        model.addAttribute("postFormDto", postFormDto);
         return null;
     }
 
