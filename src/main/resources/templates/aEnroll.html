@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="header.js" type="module"></script>
+    <script src="footer.js" type="module"></script>
+    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <link rel="stylesheet" href="../static/css/aEnroll.css" />
+    <title>aEnroll</title>
+  </head>
+  <body>
+    <script type="module">
+      import header from '../static/js/board/header.js';
+      import footer from '../static/js/board/footer.js';
+      document.getElementById('header-container').innerHTML = header;
+      document.getElementById('footer-container').innerHTML = footer;
+    </script>
+
+    <div id="header-container"></div>
+
+    <!-- <div class="item--KEP" id="33203:156">
+      <div class="item--q6F" id="33253:11">
+        <div class="auto-group-onzk-PfV" id="6gdd8a9GUNKzBJAf6MoNzK">
+          <div class="item--hRH" id="33253:28">답변 등록</div>
+          <div class="item--ocj" id="33253:21">Text box</div>
+        </div>
+        <div class="auto-group-jhxs-b2o" id="6gdcwunN9dacETAtviJHxs">
+          <div class="item--XBM" id="33253:18">📁Add file</div>
+          <div class="item--fgs" id="33253:15">등록</div>
+          <div class="item--gM5" id="33253:12">취소</div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="answer-registration-container" id="answer-registration-156">
+      <div class="answer-registration-item" id="answer-registration-item-33253:11">
+        <div
+          class="answer-registration-content"
+          id="answer-registration-content-6gdd8a9GUNKzBJAf6MoNzK"
+        >
+          <div class="answer-registration-header" id="answer-registration-header-33253:28">
+            답변 등록
+          </div>
+          <div class="answer-registration-field" id="answer-registration-field-33253:21">
+            Text box
+          </div>
+        </div>
+        <div
+          class="answer-registration-actions"
+          id="answer-registration-actions-6gdcwunN9dacETAtviJHxs"
+        >
+          <div class="answer-registration-action" id="answer-registration-action-33253:18">
+            📁 Add file
+          </div>
+          <div class="answer-registration-action" id="answer-registration-action-33253:15">
+            등록
+          </div>
+          <div class="answer-registration-action" id="answer-registration-action-33253:12">
+            취소
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-container"></div>
+  </body>
+</html>

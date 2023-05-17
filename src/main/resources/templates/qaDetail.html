@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="header.js" type="module"></script>
+    <script src="footer.js" type="module"></script>
+    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <link rel="stylesheet" href="../static/css/qaDetail.css" />
+    <title>qaDetail</title>
+  </head>
+  <body>
+    <script type="module">
+      import header from '../static/js/board/header.js';
+      import footer from '../static/js/board/footer.js';
+      document.getElementById('header-container').innerHTML = header;
+      document.getElementById('footer-container').innerHTML = footer;
+    </script>
+
+    <div id="header-container"></div>
+
+    <!-- <div class="item--2ij" id="33203:154">
+      <div class="item--1Km" id="33262:13">
+        <div class="auto-group-4gnb-s2X" id="6gdevgpTByMHqMmV4W4GnB">
+          <div class="item--WbH" id="33203:169">
+            <div class="rectangle-19-nYo" id="33203:157"></div>
+            <div class="item--UAj" id="33203:166">질문 세부 내용</div>
+          </div>
+          <div class="auto-group-ccp7-gXh" id="6gdeNCkaX1R4SM7F2JCcp7">
+            <div class="item--BDZ" id="33203:174">
+              <div class="rectangle-20-77D" id="33203:159"></div>
+              <div class="item--EDm" id="33203:170">제목</div>
+            </div>
+            <div class="item--i8w" id="33217:2">
+              <div class="rectangle-24-dmh" id="33203:163"></div>
+              <div class="item--yKm" id="33203:172">작성자 이름</div>
+            </div>
+          </div>
+          <div class="item--dv7" id="33217:3">질문 세부 내용</div>
+          <div class="item--oCK" id="33217:15">
+            <div class="item--hHh" id="33217:17">
+              내용이 없으면 답변 등록 버튼
+              <br />
+              <br />
+              <br />
+              나영이 있으면 답변이 표시
+            </div>
+          </div>
+          <div class="auto-group-t7ks-gQX" id="6gdeXhUksKYt5QsSGKt7ks">
+            <div class="auto-group-ws2t-R7D" id="6gdefhFS7NcR33cktZWS2T">
+              <div class="item--Jwh" id="33217:18">
+                <div class="rectangle-22-qAw" id="33217:19"></div>
+                <div class="item--9Bd" id="33217:20">답변 등록</div>
+              </div>
+              <div class="item--ETy" id="33217:10">
+                <div class="rectangle-22-a23" id="33203:161"></div>
+                <div class="item--4xo" id="33217:9">목록가기</div>
+              </div>
+            </div>
+            <div class="item--kqd" id="33217:7">
+              <div class="rectangle-25-JMM" id="33203:164"></div>
+              <div class="item--2o9" id="33217:4">수정</div>
+            </div>
+            <div class="item--uM9" id="33217:6">
+              <div class="rectangle-26-4E3" id="33203:165"></div>
+              <div class="item--aCP" id="33217:5">삭제</div>
+            </div>
+          </div>
+        </div>
+        <div class="item--Enj" id="33217:23">
+          <div class="item--N8F" id="33314:2">유진</div>
+          <div class="item--2Co" id="33314:3">댓글입니다.</div>
+          <div class="item--uXV" id="33314:10">유진</div>
+          <div class="item--PhZ" id="33314:11">대댓글입니다.</div>
+          <img
+            class="item--4oh"
+            src="/api/try-prod-ap-southeast-1-first-cluster/project..."
+            id="33314:9"
+          />
+          <div class="line-3-oFV" id="33314:12"></div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="question-container" id="question-container-154">
+      <div class="question-wrapper" id="question-wrapper-13">
+        <div class="question-group-container" id="question-group-container-6gdevgpTByMHqMmV4W4GnB">
+          <div class="question-group-header" id="question-group-header-169">
+            <div class="question-icon-rectangle" id="question-icon-157"></div>
+            <div class="question-group-title" id="question-group-title-166">질문 세부 내용</div>
+          </div>
+          <div class="question-group-wrapper" id="question-group-wrapper-6gdeNCkaX1R4SM7F2JCcp7">
+            <div class="question-info-container" id="question-info-container-174">
+              <div class="question-info-rectangle" id="question-info-rectangle-159"></div>
+              <div class="question-info-text" id="question-info-title-170">제목</div>
+            </div>
+            <div class="question-author" id="question-author-2">
+              <div class="question-author-rectangle" id="question-author-163"></div>
+              <div class="question-author-name" id="question-author-name-172">작성자 이름</div>
+            </div>
+          </div>
+          <div class="question-details" id="question-details-3">질문 세부 내용</div>
+          <div class="answer-container" id="answer-container-15">
+            <div class="answer-content" id="answer-content-17">
+              내용이 없으면 답변 등록 버튼
+              <br />
+              <br />
+              <br />
+              나영이 있으면 답변이 표시
+            </div>
+          </div>
+          <div
+            class="action-buttons-container"
+            id="action-buttons-container-6gdeXhUksKYt5QsSGKt7ks"
+          >
+            <div class="answer-submit-button" id="answer-submit-button-18">
+              <div class="answer-submit-rectangle" id="answer-submit-rectangle-19"></div>
+              <div class="answer-submit-text" id="answer-submit-text-20">답변 등록</div>
+            </div>
+            <div class="back-to-list-button" id="back-to-list-button-10">
+              <div class="back-to-list-rectangle" id="back-to-list-rectangle-22"></div>
+              <div class="back-to-list-text" id="back-to-list-text-9">목록가기</div>
+            </div>
+          </div>
+          <div class="edit-button" id="edit-button-7">
+            <div class="edit-rectangle" id="edit-rectangle-25"></div>
+            <div class="edit-text" id="edit-text-4">수정</div>
+          </div>
+          <div class="delete-button" id="delete-button-6">
+            <div class="delete-rectangle" id="delete-rectangle-26"></div>
+            <div class="delete-text" id="delete-text-5">삭제</div>
+          </div>
+        </div>
+        <div class="comment-container" id="comment-container-23">
+          <div class="comment-author" id="comment-author-2">유진</div>
+          <div class="comment-text" id="comment-text-3">댓글입니다.</div>
+          <div class="sub-comment-author" id="sub-comment-author-10">유진</div>
+          <div class="sub-comment-text" id="sub-comment-text-11">대댓글입니다.</div>
+          <img
+            class="comment-image"
+            src="/api/try-prod-ap-southeast-1-first-cluster/project..."
+            id="comment-image-9"
+          />
+          <div class="comment-divider" id="comment-divider-12"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-container"></div>
+  </body>
+</html>

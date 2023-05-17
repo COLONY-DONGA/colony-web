@@ -18,7 +18,6 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
     private String content; // 내용
-    private String createdBy; // 작성자
     @Builder.Default
     private boolean isRemoved = false; //삭제 됐는지 체크 //댓글에 대댓글이 달린 경우 댓글을 삭제해도 대댓글은 삭제 X
 
@@ -36,6 +35,10 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent; //부모 댓글 id 참조
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
 
 

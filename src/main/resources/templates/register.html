@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="resister.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>회원가입</title>
   </head>
   <body>
@@ -16,12 +17,15 @@
               <p class="id-AJj" id="33279:401">ID</p>
               <input
                 type="text"
-                name="id"
+                name="user-id"
                 class="inputframe"
-                id="33279:402"
+                id="id"
                 placeholder="사용할 아이디를 입력하세요"
               />
             </div>
+            <button onclick="checkDuplicate()">중복 체크</button>
+            <div id="duplicateResult"></div>
+            <!-- 결과를 표시할 요소 추가 -->
 
             <div class="pw-box" id="33279:400">
               <p class="pw" id="33279:401">PW</p>
@@ -29,7 +33,7 @@
                 type="password"
                 name="pw"
                 class="inputframe"
-                id="33279:402"
+                id="pw"
                 placeholder="사용할 패스워드를 입력하세요"
               />
             </div>
@@ -40,7 +44,7 @@
                 type="password"
                 name="pw_check"
                 class="inputframe"
-                id="33279:402"
+                id="pw_check"
                 placeholder="사용할 패스워드를 한번 더 입력하세요"
               />
             </div>
@@ -51,7 +55,7 @@
                 type="text"
                 name="name"
                 class="inputframe"
-                id="33279:402"
+                id="name"
                 placeholder="이름을 입력하세요"
               />
             </div>
@@ -62,7 +66,7 @@
                 type="text"
                 name="nickname"
                 class="inputframe"
-                id="33279:402"
+                id="nickname"
                 placeholder="사용할 닉네임을 입력하세요"
               />
             </div>
@@ -73,7 +77,7 @@
                 type="tel"
                 name="phone"
                 class="inputframe"
-                id="33279:402"
+                id="phone"
                 placeholder="010-****-****"
               />
             </div>
@@ -84,7 +88,7 @@
                 type="text"
                 name="department"
                 class="inputframe"
-                id="33279:402"
+                id="department"
                 placeholder="소속을 입력하세요"
               />
             </div>
@@ -93,7 +97,7 @@
         <button class="join-btn" onclick="joinbtn()">Join</button>
         <button type="button" class="join-btn" onclick="cancelbtn()">Cancel</button>
       </div>
-<<<<<<< HEAD
+
       <script>
         function joinbtn() {
           window.location.href = '질문목록페이지.html';
@@ -103,16 +107,40 @@
         }
       </script>
 =======
->>>>>>> origin/yujinn00
-    </form>
 
-    <script>
-      function joinbtn() {
-        window.location.href = '질문목록페이지.html';
-      }
-      function cancelbtn() {
-        window.location.href = '/src/main/resources/templates/login.html';
-      }
-    </script>
+    </form>
+=======
+
+      <script>
+        function joinbtn() {
+          window.location.href = '질문목록페이지.html';
+        }
+        function cancelbtn() {
+          window.location.href = '/src/main.resourse/templates/login.html';
+        }
+
+        function checkDuplicate() {
+          var usernameInput = document.getElementById('id'); // 수정된 부분
+          var duplicateResult = document.getElementById('duplicateResult'); // 수정된 부분
+
+          // AJAX 요청
+          $.ajax({
+            type: 'GET',
+            url: '/validation-id', // 서버로 경로 지정
+            data: { id: usernameInput.value },
+            success: function (result) {
+              if (result) {
+                alert('사용 가능한 아이디입니다.');
+              } else {
+                alert('이미 사용 중인 아이디입니다.');
+              }
+            },
+            error: function () {
+              alert('서버 오류가 발생했습니다.');
+            },
+          });
+        }
+      </script>
+    </form>
   </body>
 </html>

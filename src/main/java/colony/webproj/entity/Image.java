@@ -14,10 +14,10 @@ public class Image {
     @Column(name = "image_id")
     private Long id;
 
-    private String storeImageName;   // 저장위치
-    private String originImageName;  // 파일이름
+    private String storeImageName;   // 저장이름
+    private String originImageName;  // 사용자가 올린 파일 이름
 
-    @ManyToOne(fetch = FetchType.LAZY) // 멤버 셀렉은 나중에.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 

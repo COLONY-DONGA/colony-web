@@ -1,5 +1,6 @@
 package colony.webproj.service;
 
+import colony.webproj.dto.ImageDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
 import colony.webproj.entity.Image;
@@ -14,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class PostService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final ImageHandler imageHandler;
+    private final ImageService imageService;
 
     /**
      * 게시글리스트 조회
@@ -72,17 +73,19 @@ public class PostService {
                 .createdBy(member.getNickname())
                 .member(member)
                 .build();
-        List<Image> imageList = imageHandler.uploadFile(postFormDto.getImageList());
+        Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
+
+        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {
-                image.setPost(postEntity); //연관관계 설정
+                image.setPost(postEntity);
                 imageRepository.save(image);
                 log.info("이미지 저장 완료");
             }
         }
-        return postRepository.save(postEntity).getId();
+        return savedPost;
     }
 
     /**
@@ -95,17 +98,56 @@ public class PostService {
         return post.getMember().getLoginId();
     }
 
+    /**
+     * 게시글 업데이트
+     */
+    public Long updatePost(Long postId, PostFormDto postFormDto) throws IOException {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+
+        post.setTitle(post.getTitle());
+        post.setContent(post.getContent());
+
+        //수정하며 추가한 사진 파일 업로드
+        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
+
+        //파일이 있다면 db 저장
+        if (!imageList.isEmpty()) {
+            for (Image image : imageList) {
+                image.setPost(post); //연관관계 설정
+                imageRepository.save(image);
+                log.info("이미지 저장 완료");
+            }
+        }
+        return post.getId();
+    }
 
     /**
-     * 게시글 수정, 파일 추가해야함
+     * 게시글 조회(업데이트)
      */
-//    public void updatePost(Long postId, PostFormDto postFormDto) {
-//        Post post = postRepository.findById(postId)
-//                .orElseThrow(()-> new EntityNotFoundException("게시글이 존재하지 않습니다."));
-//        post.setTitle(postFormDto.getTitle());
-//        post.setContent(postFormDto.getContent());
-//        post.setFileList(postFormDto.get);
-//    }
+    public PostFormDto updateForm(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
+                .map(image -> new ImageDto(image))
+                .collect(Collectors.toList());
 
+        PostFormDto postFormDto = PostFormDto.builder()
+                .postId(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .imageDtoList(imageDtoList)
+                .build();
+        return postFormDto;
+    }
 
+    /**
+     * 게시글 삭제
+     * 댓글 등 연관된 데이터 제거 필요
+     */
+    public void deletePost(Long postId) {
+        List<Image> imageList = imageRepository.findByPostId(postId);
+        imageService.deleteFile(imageList);
+        postRepository.deleteById(postId);
+    }
 }
