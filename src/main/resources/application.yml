@@ -10,11 +10,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true # sql 문 포맷
-logging.level:
-  org.hibernate.SQL: trace # 디버그 모드로 sql 출력
+#    properties:
+#      hibernate:
+#        format_sql: true # sql 문 포맷
+#logging.level:
+#  org.hibernate.SQL: trace # 디버그 모드로 sql 출력
 
 #파일 저장 경로 설정
 file:

@@ -66,6 +66,14 @@ public class MemberController {
     }
 
     /**
+     * 회원가입 폼
+     */
+    @GetMapping("/join")
+    public String joinForm() {
+        return "회원가입 폼";
+    }
+
+    /**
      * 회원가입
      */
     @PostMapping("/join")

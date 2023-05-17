@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class PostDto {
-    private Long id;
+    private Long postId;
     private String title;
     private String content;
     private String createdBy;
@@ -28,7 +28,7 @@ public class PostDto {
      */
     @QueryProjection
     public PostDto(Long id, String title, String createdBy, LocalDateTime createdAt, Boolean answered) {
-        this.id = id;
+        this.postId = id;
         this.title = title;
         this.createdBy = createdBy;
         this.createdAt = createdAt;

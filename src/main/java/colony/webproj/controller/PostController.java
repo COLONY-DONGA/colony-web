@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -49,14 +50,12 @@ public class PostController {
     }
 
     /**
-     * 게시글 폼
+     * 게시글 생성 폼
      */
     @GetMapping("/post-form")
-    public String postForm(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        if (principalDetails == null) {
-            return "redirect:/login";
-        }
-        return "postForm";
+    @ResponseBody
+    public String postForm() {
+        return "게시글 폼";
     }
 
     /**
@@ -66,6 +65,9 @@ public class PostController {
     @ResponseBody
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
+        if (principalDetails == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
@@ -73,39 +75,61 @@ public class PostController {
         }
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
 //        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
-        return "생성완료";
+        return "게시글 상세";
     }
 
     /**
-     * 게시글 수정 페이지
+     * 게시글 수정 폼
      */
     @GetMapping("/edit-post/{postId}")
-    public String editFrom(@PathVariable("postId") Long postId, Model model) {
+    @ResponseBody
+    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model) {
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
-        return null;
+        return postFormDto;
     }
 
     /**
      * 게시글 수정
      */
     @PutMapping("/edit-post/{postId}")
+    @ResponseBody
     public String editPost(@PathVariable("postId") Long postId,
                            @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
+        if (principalDetails == null) {
+            return "redirect:/login";
+        }
         /* 로그인 유저와 작성자가 다를 때 */
         /* admin 유저일 경우는 배제 */
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
-            return "error/404";
+            return "에러";
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
             model.addAttribute("postFormDto", postFormDto);
-            return "postForm";
+            return "게시글 폼";
         }
         postService.updatePost(postId, postFormDto);
-        return null;
+        return "게시글 상세";
+    }
+    
+    @DeleteMapping("/delete-post/{postId}")
+    @ResponseBody
+    public String deletePost(@PathVariable("postId") Long postId,
+                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        if (principalDetails == null) {
+            return "redirect:/login";
+        }
+        /* 로그인 유저와 작성자가 다를 때 */
+        /* admin 유저일 경우는 배제 */
+        if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
+                !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
+            return "에러";
+        }
+        postService.deletePost(postId);
+        return "게시글 리스트";
     }
 }
