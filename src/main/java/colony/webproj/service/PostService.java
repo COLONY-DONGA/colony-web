@@ -141,6 +141,10 @@ public class PostService {
         return postFormDto;
     }
 
+    /**
+     * 게시글 삭제
+     * 댓글 등 연관된 데이터 제거 필요
+     */
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
         imageService.deleteFile(imageList);
