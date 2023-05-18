@@ -43,7 +43,7 @@ public class PostDto {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
-                null,
+                null, //에러떠서 null 로 넣어둠.
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
                 entity.isAnswered()

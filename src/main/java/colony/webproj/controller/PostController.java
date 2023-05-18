@@ -82,8 +82,8 @@ public class PostController {
     @ResponseBody
     public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        /* 로그인 유저와 작성자가 다를 때 */
-        /* admin 유저일 경우는 배제 */
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
             return null;
@@ -102,8 +102,8 @@ public class PostController {
                            @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
-        /* 로그인 유저와 작성자가 다를 때 */
-        /* admin 유저일 경우는 배제 */
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
             return "에러";
@@ -116,7 +116,11 @@ public class PostController {
         postService.updatePost(postId, postFormDto);
         return "게시글 상세";
     }
-    
+
+    /**
+     * 댓글 삭제
+     * 대댓글 삭제
+     */
     @DeleteMapping("/delete-post/{postId}")
     @ResponseBody
     public String deletePost(@PathVariable("postId") Long postId,
@@ -124,10 +128,10 @@ public class PostController {
         if (principalDetails == null) {
             return "redirect:/login";
         }
-        /* 로그인 유저와 작성자가 다를 때 */
-        /* admin 유저일 경우는 배제 */
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
-                !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
             return "에러";
         }
         postService.deletePost(postId);
