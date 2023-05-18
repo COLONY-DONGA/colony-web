@@ -70,7 +70,6 @@ public class PostService {
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
-                .createdBy(member.getNickname())
                 .member(member)
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장

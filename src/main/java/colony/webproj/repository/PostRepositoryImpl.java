@@ -2,6 +2,7 @@ package colony.webproj.repository;
 
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.QPostDto;
+import colony.webproj.entity.QMember;
 import colony.webproj.entity.QPost;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.OrderSpecifier;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static colony.webproj.entity.QMember.*;
 import static colony.webproj.entity.QPost.*;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -30,11 +32,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(new QPostDto(
                         post.id,
                         post.title,
-                        post.createdBy,
+                        member.nickname,
                         post.createdAt,
                         post.answered
                 ))
                 .from(post)
+                .join(post.member, member)
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered)
@@ -52,6 +55,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchCount();
 
         return new PageImpl<>(result, pageable, total);
+        return null;
     }
 
     private OrderSpecifier<?> postOrderBy(String sortBy) {
@@ -69,7 +73,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.content.containsIgnoreCase(searchValue);
         }
         if(searchType == SearchType.NICKNAME) {
-            return post.createdBy.containsIgnoreCase(searchValue);
+            return member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
     }

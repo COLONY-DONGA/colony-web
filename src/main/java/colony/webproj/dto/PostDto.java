@@ -43,7 +43,7 @@ public class PostDto {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
-                entity.getCreatedBy(),
+                null,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
                 entity.isAnswered()

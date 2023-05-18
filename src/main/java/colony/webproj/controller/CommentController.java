@@ -32,6 +32,16 @@ public class CommentController {
         Long savedCommentId = commentService.saveComment(boardId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
     }
+
+//    /**
+//     * 대댓글 생성
+//     */
+//    @PostMapping("/comment/{postId}/{commentId}")
+//    public ResponseEntity<?> saveReComment(@PathVariable("postId") Long boardId,
+//                                           @PathVariable("commentId") Long commentId,
+//                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+//
+//    }
 }
 
 /*

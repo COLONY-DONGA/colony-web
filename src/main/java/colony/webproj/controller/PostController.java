@@ -65,9 +65,6 @@ public class PostController {
     @ResponseBody
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
-        if (principalDetails == null) {
-            return "redirect:/login";
-        }
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
@@ -83,7 +80,14 @@ public class PostController {
      */
     @GetMapping("/edit-post/{postId}")
     @ResponseBody
-    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model) {
+    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model,
+                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        /* 로그인 유저와 작성자가 다를 때 */
+        /* admin 유저일 경우는 배제 */
+        if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
+                !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
+            return null;
+        }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
         return postFormDto;
@@ -98,9 +102,6 @@ public class PostController {
                            @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
-        if (principalDetails == null) {
-            return "redirect:/login";
-        }
         /* 로그인 유저와 작성자가 다를 때 */
         /* admin 유저일 경우는 배제 */
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
