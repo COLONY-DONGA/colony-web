@@ -22,17 +22,25 @@ public class CommentDto {
     private String createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Comment parent;
-    private List<CommentDto> childList;
+    private Long parentId;
+    private List<CommentDto> childList = new ArrayList<>();
 
     @QueryProjection
-    public CommentDto(Long commentId, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Comment parent) {
+    public CommentDto(Long commentId, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.commentId = commentId;
         this.content = content;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.parent = parent;
+    }
+    @QueryProjection
+    public CommentDto(Long commentId, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long parentId) {
+        this.commentId = commentId;
+        this.content = content;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.parentId = parentId;
     }
 }
 

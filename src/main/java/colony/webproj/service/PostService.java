@@ -9,7 +9,7 @@ import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
-import colony.webproj.repository.PostRepository;
+import colony.webproj.repository.PostRepository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
