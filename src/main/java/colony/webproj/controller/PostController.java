@@ -1,14 +1,17 @@
 package colony.webproj.controller;
 
+import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
 import colony.webproj.entity.Post;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.security.PrincipalDetails;
+import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,12 +25,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     /**
      * 게시글 리스트
@@ -47,6 +53,19 @@ public class PostController {
 
         model.addAttribute("postDtoList", postDtoList);
         return postDtoList;
+    }
+
+    /**
+     * 게시글 상세
+     */
+    @GetMapping("/post/{postId}")
+    @ResponseBody
+    public List<CommentDto> postDetail(@PathVariable("postId") Long postId,
+                             Model model) {
+        log.info("컨트롤러 진입");
+        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId);
+        log.info("서비스 로직 종료");
+        return commentDtoList;
     }
 
     /**

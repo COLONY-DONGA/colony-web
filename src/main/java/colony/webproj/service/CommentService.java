@@ -1,6 +1,7 @@
 package colony.webproj.service;
 
 
+import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.CommentFromDto;
 import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
@@ -13,6 +14,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -104,4 +111,53 @@ public class CommentService {
         }
     }
 
+    /**
+     * 댓글 불러오기
+     */
+//    public List<CommentDto> hierarchicalComment(Long postId) {
+//        log.info("repo 실행");
+//        List<Comment> commentList = commentRepository.findByPostId(postId);
+//        log.info("repo 종료");
+//
+//        List<CommentDto> commentDtoList = commentList.stream().map(comment -> new CommentDto(comment)).collect(Collectors.toList());
+//
+//        List<CommentDto> parentComment = new ArrayList<>();
+//        Map<Long, CommentDto> commentMap = new HashMap<>();
+//
+//        log.info("1");
+//        commentDtoList.stream().forEach(commentDto -> {
+//            commentMap.put(commentDto.getCommentId(), commentDto);
+//        });
+//        log.info("2");
+//        commentDtoList.stream().forEach(commentDto -> {
+//            if (commentDto.getParent() != null) {
+//                commentMap.get(commentDto.getParent().getId()).getChildList().add(commentDto);
+//            }
+//        });
+//        log.info("3");
+//        commentDtoList.stream().forEach(commentDto -> {
+//            if (commentDto.getParent() == null) {
+//                CommentDto parent = commentMap.get(commentDto.getCommentId());
+//                parentComment.add(parent);
+//            }
+//        });
+//        log.info("4");
+//        return parentComment;
+//    }
+    /* 댓글 계층 정렬 */
+    public List<CommentDto> convertNestedStructure(Long postId) {
+        List<CommentDto> comments = commentRepository.findByPostId(postId);
+        List<CommentDto> result = new ArrayList<>();
+        Map<Long, CommentDto> map = new HashMap<>();
+
+        comments.stream().forEach(comment -> {
+            map.put(comment.getCommentId(), comment);
+
+            /* 부모 댓글 존재 */
+            if (comment.getParent() != null) {
+                map.get(comment.getParent().getId()).getChildList().add(comment);
+            } else result.add(comment);
+        });
+        return result;
+    }
 }
