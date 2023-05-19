@@ -1,18 +1,24 @@
 package colony.webproj.service;
 
 
+import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.CommentFromDto;
 import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
-import colony.webproj.repository.CommentRepository;
+import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.MemberRepository;
-import colony.webproj.repository.PostRepository;
+import colony.webproj.repository.PostRepository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -104,4 +110,27 @@ public class CommentService {
         }
     }
 
+    /**
+     * 댓글 불러오기
+     */
+    @Transactional(readOnly = true)
+    public List<CommentDto> convertNestedStructure(Long postId) {
+        List<CommentDto> parentCommentDto = commentRepository.findParentCommentByPostId(postId);
+        List<CommentDto> childCommentDto = commentRepository.findChildCommentByPostId(postId);
+
+        Map<Long, CommentDto> commentDtoMap = new HashMap<>();
+        List<CommentDto> responseCommentDto = new ArrayList<>();
+
+        for(CommentDto commentDto : parentCommentDto) {
+            commentDtoMap.put(commentDto.getCommentId(), commentDto);
+        }
+        for(CommentDto commentDto : childCommentDto) {
+            commentDtoMap.get(commentDto.getParentId()).getChildList().add(commentDto);
+        }
+
+        for(CommentDto commentDto : commentDtoMap.values()) {
+            responseCommentDto.add(commentDto);
+        }
+        return responseCommentDto;
+    }
 }

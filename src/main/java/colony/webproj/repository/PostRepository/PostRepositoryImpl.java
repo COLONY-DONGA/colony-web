@@ -1,12 +1,9 @@
-package colony.webproj.repository;
+package colony.webproj.repository.PostRepository;
 
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.QPostDto;
-import colony.webproj.entity.QMember;
-import colony.webproj.entity.QPost;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -55,7 +52,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchCount();
 
         return new PageImpl<>(result, pageable, total);
-        return null;
     }
 
     private OrderSpecifier<?> postOrderBy(String sortBy) {

@@ -1,5 +1,6 @@
 package colony.webproj.dto;
 
+import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,4 +25,17 @@ public class MemberDto {
     private String phoneNumber; //전화번호
     private String department; //학과
     private Role role; //권한
+
+    public static MemberDto from(Member entity){
+        return new MemberDto(
+                entity.getId(),
+                entity.getLoginId(),
+                entity.getPassword(),
+                entity.getName(),
+                entity.getNickname(),
+                entity.getPhoneNumber(),
+                entity.getDepartment(),
+                null
+        );
+    }
 }

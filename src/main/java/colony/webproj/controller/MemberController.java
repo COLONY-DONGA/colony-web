@@ -86,8 +86,8 @@ public class MemberController {
     /**
      * 아이디 중복 체크
      */
-    @GetMapping("validation-id")
-    public ResponseEntity<?> validationId(@RequestParam(value = "loginId") String loginId) {
+    @PostMapping("validation-id")
+    public ResponseEntity<?> validationId(@RequestBody String loginId) {
         return ResponseEntity.ok(memberService.validateLoginId(loginId));
     }
 
@@ -98,6 +98,4 @@ public class MemberController {
     public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
         return ResponseEntity.ok(memberService.validateNickname(nickname));
     }
-
-
 }

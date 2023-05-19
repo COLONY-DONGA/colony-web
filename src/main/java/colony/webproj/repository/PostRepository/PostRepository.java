@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.PostRepository;
 
 import colony.webproj.entity.Post;
 import org.springframework.data.domain.Page;
