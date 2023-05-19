@@ -98,6 +98,4 @@ public class MemberController {
     public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
         return ResponseEntity.ok(memberService.validateNickname(nickname));
     }
-
-
 }
