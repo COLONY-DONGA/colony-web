@@ -149,4 +149,26 @@ public class PostService {
         imageService.deleteFile(imageList);
         postRepository.deleteById(postId);
     }
+
+    /**
+     * 게시글 상세보기
+     */
+    public PostDto findPostDetail(Long postId) {
+        Post post = postRepository.findPostDetail(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
+                .map(image -> new ImageDto(image))
+                .collect(Collectors.toList());
+        PostDto postDto = PostDto.builder()
+                .postId(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdBy(post.getMember().getNickname())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .Answered(post.isAnswered())
+                .imageDto(imageDtoList)
+                .build();
+        return postDto;
+    }
 }
