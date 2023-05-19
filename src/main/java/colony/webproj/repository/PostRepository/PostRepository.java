@@ -4,7 +4,12 @@ import colony.webproj.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
@@ -15,4 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     Page<Post> findByContentContainingIgnoreCaseOrderByCreatedAtDesc(String content, Pageable pageable);
 
     Page<Post> findByMember_NicknameContainingOrderByCreatedAtDesc(String nickname, Pageable pageable);
+
+    @Query("select p from Post p left join fetch p.imageList i join p.member m where p.id= :postId")
+    Optional<Post> findPostDetail(@Param("postId") Long postId);
 }

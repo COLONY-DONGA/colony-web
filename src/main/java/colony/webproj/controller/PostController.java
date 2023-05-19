@@ -10,6 +10,8 @@ import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -60,13 +62,14 @@ public class PostController {
      */
     @GetMapping("/post/{postId}")
     @ResponseBody
-    public List<CommentDto> postDetail(@PathVariable("postId") Long postId,
+    public Response postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-        log.info("컨트롤러 진입");
         List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId);
-        log.info("서비스 로직 종료");
-        return commentDtoList;
+        model.addAttribute("commentDtoList", commentDtoList);
+        PostDto postDto = postService.findPostDetail(postId);
+        return new Response(commentDtoList, postDto);
     }
+
 
     /**
      * 게시글 생성 폼
@@ -156,4 +159,17 @@ public class PostController {
         postService.deletePost(postId);
         return "게시글 리스트";
     }
+
+    /**
+     * 데이터 잘 뿌려졌는지 확인하기 위해 잠시 만든 클래스
+     */
+    @Data
+    @AllArgsConstructor
+    static class Response {
+        private List<CommentDto> commentDtoList;
+        private PostDto postDto;
+    }
 }
+
+
+
