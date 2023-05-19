@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,8 +30,8 @@ public class MyPageController {
     /**
      * 마이페이지 (일단 내 정보 보여주기만) / 질문1
      */
-    @GetMapping("/my-page")
-    public String myPage(@RequestParam(value = "loginId") String loginId, Model model){
+    @PostMapping("/my-page")
+    public String myPage(@RequestBody String loginId, Model model){
         MemberDto member = memberService.searchMember(loginId);
         model.addAttribute("member",member);
         return "redirect:/my-page";
@@ -40,9 +41,9 @@ public class MyPageController {
      * 마이페이지 수정 시 패스워드 확인
      */
     @PostMapping("/my-page/validation-password")
-    public ResponseEntity<?> validationPassword(@RequestParam(value = "loginId") String loginId, @RequestBody String password){
+    public ResponseEntity<?> validationPassword(@RequestBody Map<String,String> requestBody){
         // 패스워드 검사 시행
-        if(memberService.validationPassword(loginId,password)){
+        if(memberService.validationPassword(requestBody.get("loginId"),requestBody.get("password"))){ // 이 때 패스워드는 사용자 입력값임
             return ResponseEntity.ok(true); // 200
         }
         else{
