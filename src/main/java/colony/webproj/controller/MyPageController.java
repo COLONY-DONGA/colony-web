@@ -23,11 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class MyPageController {
-    private final PostService postService;
     private final MemberService memberService;
-
-    // 답변과 댓글은 나중에 구현하겠음. 아직 확정되지 않음
-
 
     /**
      * 마이페이지 (일단 내 정보 보여주기만) / 질문1
