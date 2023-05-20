@@ -3,6 +3,8 @@ package colony.webproj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter @Setter
 @AllArgsConstructor // 생성자?
@@ -23,5 +25,19 @@ public class Member extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts;
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments;
+
+    public List<Post> getMyPosts(){
+        return this.getPosts();
+    }
+
+    public List<Comment> getMyComments(){
+        return this.getComments();
+    }
 
 }

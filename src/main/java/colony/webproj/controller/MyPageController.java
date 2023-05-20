@@ -2,6 +2,7 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberFormDto;
+import colony.webproj.entity.Member;
 import colony.webproj.service.MemberService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
@@ -33,8 +34,10 @@ public class MyPageController {
      */
     @PostMapping("/my-page")
     public String myPage(@RequestBody String loginId, Model model){
-        MemberDto member = memberService.searchMember(loginId);
+        Member member = memberService.searchMember(loginId);
         model.addAttribute("member",member);
+        model.addAttribute("posts",member.getMyPosts());
+        model.addAttribute("comments",member.getMyComments());
         return "redirect:/my-page";
     }
 
