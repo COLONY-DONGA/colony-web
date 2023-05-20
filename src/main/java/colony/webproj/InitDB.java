@@ -62,9 +62,12 @@ public class InitDB {
                 }
                 em.persist(post);
             }
+            for(int i = 1; i<=100; i++) {
+                Member member_ = Member.builder().loginId("dummyId"+i).password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+                        .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
+                em.persist(member_);
+            }
+
         }
-
-
-
     }
 }
