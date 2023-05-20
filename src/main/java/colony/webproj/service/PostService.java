@@ -50,6 +50,8 @@ public class PostService {
                     postRepository.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
             case NICKNAME ->
                     postRepository.findByMember_NicknameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
+            case LOGIN_ID -> null;
+            case NAME -> null;
         };
     }
 
