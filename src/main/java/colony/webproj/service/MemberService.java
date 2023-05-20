@@ -2,15 +2,18 @@ package colony.webproj.service;
 
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.MemberDto;
+import colony.webproj.dto.MemberFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,4 +86,19 @@ public class MemberService {
         return false;
     }
 
+    /**
+     *  마이페이지 사용자정보 수정
+     */
+    public Long updateMember(String loginId, MemberFormDto memberFormDto) throws IOException {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+
+        member.setPassword(encoder.encode(memberFormDto.getPassword()));
+        member.setName(memberFormDto.getName());
+        member.setNickname(memberFormDto.getNickname());
+        member.setPhoneNumber(memberFormDto.getPhoneNumber());
+        member.setDepartment(memberFormDto.getDepartment());
+
+         return member.getId();
+    }
 }

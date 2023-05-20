@@ -1,19 +1,20 @@
 package colony.webproj.controller;
 
 import colony.webproj.dto.MemberDto;
+import colony.webproj.dto.MemberFormDto;
 import colony.webproj.service.MemberService;
 import colony.webproj.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -41,22 +42,38 @@ public class MyPageController {
      * 마이페이지 수정 시 패스워드 확인
      */
     @PostMapping("/my-page/validation-password")
-    public ResponseEntity<?> validationPassword(@RequestBody Map<String,String> requestBody){
+    public String validationPassword(@RequestBody Map<String,String> requestBody){
         // 패스워드 검사 시행
         if(memberService.validationPassword(requestBody.get("loginId"),requestBody.get("password"))){ // 이 때 패스워드는 사용자 입력값임
-            return ResponseEntity.ok(true); // 200
+            return "/edit-mypage"; // 200
         }
         else{
-            return ResponseEntity.ok(false); // 200
+            return "redirect:/my-page"; // 200
         }
     }
 
-    /**
-     * 마이페이지 수정폼 /질문 2
-     */
+//    /**
+//     * 마이페이지 수정폼
+//     */
+//    @PostMapping("/edit-mypage")
+//    public String editMyPageForm(@RequestBody String loginId,Model model){
+//        MemberDto memberDto = memberService.searchMember(loginId);
+//        // 프론트 측에 패스워드 부분 비워두라고 하기
+//        return "일단은 패스";
+//    }
 
     /**
      * 마이페이지 수정
      */
+    @PutMapping("/edit-mypage")
+    public String editMyPage(@RequestBody String loginId, @Valid MemberFormDto MemberFormDto,
+                             BindingResult bindingResult,Model model) throws IOException {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("memberFormDto",MemberFormDto);
+            return "";
+        }
+        memberService.updateMember(loginId,MemberFormDto);
+        return "/my-page";
+    }
 
 }
