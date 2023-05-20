@@ -104,8 +104,8 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
 
-        post.setTitle(post.getTitle());
-        post.setContent(post.getContent());
+        post.setTitle(postFormDto.getTitle());
+        post.setContent(postFormDto.getContent());
 
         //수정하며 추가한 사진 파일 업로드
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
