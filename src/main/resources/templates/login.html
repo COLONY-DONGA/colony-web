@@ -8,22 +8,27 @@
     <title>Login</title>
   </head>
   <body>
-    <img src="../static/img/colony.jpg" width="250" height="250" alt="사진 없음" />
+    <img class="logo" src="../static/img/colony.jpg" width="250" height="250" alt="사진 없음" />
     <div class="login-box">
-      <form action="/login" method="post" class="login__register" id="login-in">
+      <div class="login-header">Login</div>
+      <form action="#" method="" class="login__register" id="login-in">
+        <div class="text-field-top">ID</div>
         <input type="text" name="loginId" class="text-field" placeholder="아이디를 입력하세요" />
         <br />
 
+        <div class="text-field-top">PW</div>
         <input type="text" name="password" class="text-field" placeholder="비밀번호를 입력하세요" />
         <br />
 
-        <button type="button" class="login-btn" onclick="memberLogin()">로그인</button>
-        <button class="login-btn" onclick="nonmemberLogin()">비회원 로그인</button>
-      </form>
+        <button type="button" class="login-btn1" onclick="memberLogin()">Login</button>
+        <button type="button" class="login-btn2" onclick="nonmemberLogin()">
+          Non-Member Login
+        </button>
 
-      <div class="links">
-        <a href="resister.html">Sign up</a>
-      </div>
+        <p>
+          <a class="signup-btn" href="/src/main/resources/templates/register.html">Sign up</a>
+        </p>
+      </form>
     </div>
 
     <script>
@@ -31,7 +36,7 @@
         window.location.href = '/src/main/resources/templates/qaList.html';
       }
       function nonmemberLogin() {
-        window.location.href = '질문목록페이지(비회원).html';
+        window.location.href = '/src/main/resources/templates/qaList.html';
       }
     </script>
   </body>
