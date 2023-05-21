@@ -2,7 +2,6 @@ package colony.webproj.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ public class Member extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
-
+    
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Post> posts;
 
@@ -39,5 +38,6 @@ public class Member extends BaseEntity {
     public List<Comment> getMyComments(){
         return this.getComments();
     }
+
 
 }

@@ -43,13 +43,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        long total = queryFactory
-                .selectFrom(post)
+        Long total = queryFactory
+                .select(post.count())
+                .from(post)
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered)
                 )
-                .fetchCount();
+                .fetchOne();
 
         return new PageImpl<>(result, pageable, total);
     }
