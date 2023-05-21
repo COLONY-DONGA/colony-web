@@ -4,7 +4,6 @@ body {
   align-items: center;
   height: 100vh;
 }
-
 .logo {
   height: 25rem;
   width: 25rem;
@@ -25,7 +24,6 @@ body {
   white-space: nowrap;
   width: 12rem;
 }
-
 .text-field-top {
   color: #828282;
   flex-shrink: 0;
@@ -36,7 +34,6 @@ body {
   white-space: nowrap;
   text-align: left;
 }
-
 .text-field {
   border: solid 0.1rem #ded2d9;
   border-radius: 0.5rem;
@@ -53,7 +50,6 @@ body {
   height: 1rem;
   margin-bottom: 1rem;
 }
-
 .login-btn1 {
   align-items: center;
   background-color: #0c0b0b;
@@ -74,7 +70,6 @@ body {
   margin-bottom: 1rem;
   border: none;
 }
-
 .login-btn2 {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6200000048);
@@ -93,7 +88,6 @@ body {
   height: 2.7rem;
   border: none;
 }
-
 .signup-btn {
   color: #7f265b;
   font-family: Nunito Sans, 'Source Sans Pro';
@@ -102,4 +96,7 @@ body {
   text-align: center;
   text-decoration: none;
   display: block;
+}
+input::placeholder {
+  color: lightgray;
 }
