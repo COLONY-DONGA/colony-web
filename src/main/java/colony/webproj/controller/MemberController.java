@@ -40,30 +40,36 @@ public class MemberController {
 
         return "login";
     }
-
     /**
      * 비회원 로그인
      */
     @GetMapping("/login-guest")
     public String guestLogin() {
-        UserDetails guestUser = User.builder()
-                .username("guest_oxigdkrjbgwzeoisghzisejb")
-                .password("guestpassword")
-                .authorities(Role.ROLE_GUEST.toString())
-                .build();
-
-        //토큰 생성
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(guestUser, guestUser.getPassword(), guestUser.getAuthorities());
-
-        //인증 처리
-        //loadUserByUsername 실행되는지 안 되는지 모르겠음
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-
-        //컨텍스트 홀더에 authenticate 객체 저장
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
         return "redirect:/posts";
     }
+//    /**
+//     * 비회원 로그인
+//     */
+//    @GetMapping("/login-guest")
+//    public String guestLogin() {
+//        UserDetails guestUser = User.builder()
+//                .username("guest_oxigdkrjbgwzeoisghzisejb")
+//                .password("guestpassword")
+//                .authorities(Role.ROLE_GUEST.toString())
+//                .build();
+//
+//        //토큰 생성
+//        UsernamePasswordAuthenticationToken authenticationToken =
+//                new UsernamePasswordAuthenticationToken(guestUser, guestUser.getPassword(), guestUser.getAuthorities());
+//
+//        //인증 처리
+//        //loadUserByUsername 실행되는지 안 되는지 모르겠음
+//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+//
+//        //컨텍스트 홀더에 authenticate 객체 저장
+//        SecurityContextHolder.getContext().setAuthentication(authenticate);
+//        return "redirect:/posts";
+//    }
 
     /**
      * 회원가입 폼
@@ -86,8 +92,8 @@ public class MemberController {
     /**
      * 아이디 중복 체크
      */
-    @GetMapping("validation-id")
-    public ResponseEntity<?> validationId(@RequestParam(value = "loginId") String loginId) {
+    @PostMapping("validation-id")
+    public ResponseEntity<?> validationId(@RequestBody String loginId) {
         return ResponseEntity.ok(memberService.validateLoginId(loginId));
     }
 
@@ -98,6 +104,4 @@ public class MemberController {
     public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
         return ResponseEntity.ok(memberService.validateNickname(nickname));
     }
-
-
 }

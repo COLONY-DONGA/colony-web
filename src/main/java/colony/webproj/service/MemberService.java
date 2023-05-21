@@ -1,15 +1,19 @@
 package colony.webproj.service;
 
 import colony.webproj.dto.JoinFormDto;
+import colony.webproj.dto.MemberDto;
+import colony.webproj.dto.MemberFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,4 +64,41 @@ public class MemberService {
         return all;
     }
 
+    /**
+     * 마이페이지 멤버 정보 가져오기
+     */
+    public MemberDto searchMember(String loginID){
+        Optional<MemberDto> memberEntity = memberRepository.findByLoginId(loginID).map(MemberDto::from);
+        return memberEntity.orElse(null); // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
+    }
+
+    /**
+     * 마이페이지 패스워드 체크
+     */
+    public Boolean validationPassword(String loginID,String inputPassword){
+        // 실제 데이터베이스의 패스워드
+        String password = memberRepository.findPasswordByLoginId(loginID);
+
+        if (password != null) {
+            return encoder.matches(inputPassword, password);
+        }
+
+        return false;
+    }
+
+    /**
+     *  마이페이지 사용자정보 수정
+     */
+    public Long updateMember(String loginId, MemberFormDto memberFormDto) throws IOException {
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+
+        member.setPassword(encoder.encode(memberFormDto.getPassword()));
+        member.setName(memberFormDto.getName());
+        member.setNickname(memberFormDto.getNickname());
+        member.setPhoneNumber(memberFormDto.getPhoneNumber());
+        member.setDepartment(memberFormDto.getDepartment());
+
+         return member.getId();
+    }
 }

@@ -1,6 +1,7 @@
 package colony.webproj.controller;
 
 import colony.webproj.dto.CommentFromDto;
+import colony.webproj.entity.Role;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,16 +21,60 @@ public class CommentController {
     /**
      * 댓글 생성
      */
-    @PostMapping("/comment/{boardId}")
-    public ResponseEntity<?> saveComment(@PathVariable("boardId") Long boardId,
+    @PostMapping("/comment/{postId}")
+    public ResponseEntity<?> saveComment(@PathVariable("postId") Long postId,
                                          CommentFromDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        if (principalDetails == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Long savedCommentId = commentService.saveComment(boardId, commentFormDto, principalDetails.getLoginId());
+        commentService.saveComment(postId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
     }
+
+    /**
+     * 대댓글 생성
+     */
+    @PostMapping("/comment/{postId}/{commentId}")
+    public ResponseEntity<?> saveReComment(@PathVariable("postId") Long postId,
+                                           @PathVariable("commentId") Long commentId,
+                                           CommentFromDto commentFromDto,
+                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        commentService.saveReComment(postId, commentId, commentFromDto, principalDetails.getLoginId());
+        return ResponseEntity.ok(true);
+    }
+
+    /**
+     * 댓글 수정
+     * 대댓글 수정
+     */
+    @PutMapping("/comment/{commentId}")
+    public ResponseEntity<?> updateCommentOrReComment(@PathVariable("commentId") Long commentId,
+                                                      CommentFromDto commentFromDto,
+                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
+        if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
+            return null;
+        }
+        commentService.updateCommentOrRecomment(commentId, commentFromDto, principalDetails.getLoginId());
+        return ResponseEntity.ok(true);
+    }
+
+    /**
+     * 댓글 삭제
+     */
+    @DeleteMapping("/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId,
+                                                      CommentFromDto commentFromDto,
+                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
+        if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId))) {
+            return null;
+        }
+        commentService.deleteComment(commentId, commentFromDto, principalDetails.getLoginId());
+        return ResponseEntity.ok(true);
+    }
+
 }
 
 /*

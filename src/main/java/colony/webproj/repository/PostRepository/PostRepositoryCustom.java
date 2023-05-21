@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.PostRepository;
 
 import colony.webproj.dto.PostDto;
 import colony.webproj.entity.type.SearchType;

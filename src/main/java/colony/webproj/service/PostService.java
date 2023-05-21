@@ -9,7 +9,7 @@ import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
-import colony.webproj.repository.PostRepository;
+import colony.webproj.repository.PostRepository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +50,8 @@ public class PostService {
                     postRepository.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
             case NICKNAME ->
                     postRepository.findByMember_NicknameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
+            case LOGIN_ID -> null;
+            case NAME -> null;
         };
     }
 
@@ -70,7 +72,6 @@ public class PostService {
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
-                .createdBy(member.getNickname())
                 .member(member)
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
@@ -105,8 +106,8 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
 
-        post.setTitle(post.getTitle());
-        post.setContent(post.getContent());
+        post.setTitle(postFormDto.getTitle());
+        post.setContent(postFormDto.getContent());
 
         //수정하며 추가한 사진 파일 업로드
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
@@ -149,5 +150,27 @@ public class PostService {
         List<Image> imageList = imageRepository.findByPostId(postId);
         imageService.deleteFile(imageList);
         postRepository.deleteById(postId);
+    }
+
+    /**
+     * 게시글 상세보기
+     */
+    public PostDto findPostDetail(Long postId) {
+        Post post = postRepository.findPostDetail(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
+                .map(image -> new ImageDto(image))
+                .collect(Collectors.toList());
+        PostDto postDto = PostDto.builder()
+                .postId(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdBy(post.getMember().getNickname())
+                .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
+                .Answered(post.isAnswered())
+                .imageDto(imageDtoList)
+                .build();
+        return postDto;
     }
 }

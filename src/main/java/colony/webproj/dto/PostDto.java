@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,8 +21,20 @@ public class PostDto {
     private LocalDateTime createdAt; //생성일
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
-    //사진
+    private List<ImageDto> imageDto; // 사진
     //댓글 관련
+
+
+    //승지 from 코드 생성자
+    public PostDto(Long postId, String title, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean answered) {
+        this.postId = postId;
+        this.title = title;
+        this.content = content;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        Answered = answered;
+    }
 
     /**
      * postList 에 사용
@@ -43,7 +56,7 @@ public class PostDto {
                 entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
-                entity.getCreatedBy(),
+                null, //에러떠서 null 로 넣어둠.
                 entity.getCreatedAt(),
                 entity.getUpdatedAt(),
                 entity.isAnswered()

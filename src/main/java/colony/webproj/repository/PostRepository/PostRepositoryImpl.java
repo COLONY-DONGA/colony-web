@@ -1,11 +1,9 @@
-package colony.webproj.repository;
+package colony.webproj.repository.PostRepository;
 
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.QPostDto;
-import colony.webproj.entity.QPost;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -15,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static colony.webproj.entity.QMember.*;
 import static colony.webproj.entity.QPost.*;
 
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -30,11 +29,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(new QPostDto(
                         post.id,
                         post.title,
-                        post.createdBy,
+                        member.nickname,
                         post.createdAt,
                         post.answered
                 ))
                 .from(post)
+                .join(post.member, member)
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered)
@@ -43,13 +43,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        long total = queryFactory
-                .selectFrom(post)
+        Long total = queryFactory
+                .select(post.count())
+                .from(post)
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered)
                 )
-                .fetchCount();
+                .fetchOne();
 
         return new PageImpl<>(result, pageable, total);
     }
@@ -69,7 +70,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.content.containsIgnoreCase(searchValue);
         }
         if(searchType == SearchType.NICKNAME) {
-            return post.createdBy.containsIgnoreCase(searchValue);
+            return member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
     }

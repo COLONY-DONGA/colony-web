@@ -3,6 +3,9 @@ package colony.webproj.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter @Setter
 @AllArgsConstructor // 생성자?
@@ -23,5 +26,11 @@ public class Member extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> postList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> commentList = new ArrayList<>();
 
 }
