@@ -1,0 +1,72 @@
+body {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+.register-header {
+  align-items: center;
+  background-color: #f5f5f7;
+  border-radius: 1.4rem;
+  color: #0c0b0b;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 2rem;
+  font-weight: 500;
+  height: 5rem;
+  justify-content: center;
+  line-height: 1.2575;
+  margin: 0rem 10.5rem 1.4rem 10.4rem;
+  white-space: nowrap;
+  width: 15rem;
+}
+.input-title {
+  color: #828282;
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3625;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+}
+.input-frame {
+  border: solid 0.1rem #ded2d9;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: black;
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.3625;
+  padding: 1.3rem 1rem 1.2rem 1rem;
+  white-space: nowrap;
+  width: 23rem;
+  height: 2.7rem;
+}
+input::placeholder {
+  color: lightgray;
+}
+.joincancel-btn {
+  align-items: center;
+  background-color: #0c0b0b;
+  border-radius: 0.6rem;
+  color: #ffffff;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 1rem;
+  font-weight: 600;
+  height: 3.85rem;
+  justify-content: center;
+  line-height: 1.3625;
+  margin-bottom: 1.45rem;
+  white-space: nowrap;
+  width: 23rem;
+  height: 2.7rem;
+  margin-top: 1rem;
+}
