@@ -169,7 +169,7 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .Answered(post.isAnswered())
-                .imageDto(imageDtoList)
+                .imageDtoList(imageDtoList) //이미지
                 .build();
         return postDto;
     }
