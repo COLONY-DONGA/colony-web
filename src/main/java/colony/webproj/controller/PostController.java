@@ -44,7 +44,7 @@ public class PostController {
     @ResponseBody //데이터 테스트하기 위해서 씀
     public Page<PostDto> postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
-                           @RequestParam(defaultValue = "false") Boolean answered, //답변 유무에 따른 필터
+                           @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
                            @PageableDefault(size = 10) Pageable pageable,
                            Model model) {
@@ -64,9 +64,9 @@ public class PostController {
     @ResponseBody
     public Response postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId);
+        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
         model.addAttribute("commentDtoList", commentDtoList);
-        PostDto postDto = postService.findPostDetail(postId);
+        PostDto postDto = postService.findPostDetail(postId); //이미지, post관련 데이터 가져오기
         return new Response(commentDtoList, postDto);
     }
 
@@ -107,7 +107,7 @@ public class PostController {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
-                !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
             return null;
         }
         PostFormDto postFormDto = postService.updateForm(postId);

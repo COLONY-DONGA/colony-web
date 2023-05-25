@@ -10,4 +10,5 @@ import java.util.Optional;
 @Controller
 public interface ImageRepository extends JpaRepository<Image, Long> {
     List<Image> findByPostId(Long postId);
+    List<Image> findByAnswerId(Long answerId);
 }

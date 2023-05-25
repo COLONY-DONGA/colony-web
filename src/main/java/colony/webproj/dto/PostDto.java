@@ -21,8 +21,7 @@ public class PostDto {
     private LocalDateTime createdAt; //생성일
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
-    private List<ImageDto> imageDto; // 사진
-    //댓글 관련
+    private List<ImageDto> imageDtoList; // 사진
 
 
     //승지 from 코드 생성자

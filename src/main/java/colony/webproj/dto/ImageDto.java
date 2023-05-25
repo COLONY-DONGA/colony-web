@@ -1,8 +1,6 @@
 package colony.webproj.dto;
 
 import colony.webproj.entity.Image;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
