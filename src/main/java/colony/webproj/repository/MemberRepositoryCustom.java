@@ -42,8 +42,8 @@ public class MemberRepositoryCustom {
                         member.role
                 ))
                 .from(member)
-                .leftJoin(member.postList, post)
-                .leftJoin(member.commentList, comment)
+                .leftJoin(member.posts, post)
+                .leftJoin(member.comments, comment)
                 .where(search(searchType, searchValue))
                 .groupBy(
                         member.id,

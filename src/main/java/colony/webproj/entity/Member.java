@@ -24,7 +24,7 @@ public class Member extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
-    
+
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Post> posts;
 

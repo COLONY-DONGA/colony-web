@@ -26,7 +26,7 @@ public class InitDB {
     @Service
     @RequiredArgsConstructor
     @Transactional
-    static class InitService {
+    public static class InitService {
         private final EntityManager em;
         private final BCryptPasswordEncoder encoder;
 
