@@ -22,6 +22,8 @@ public class Member extends BaseEntity {
     private String phoneNumber; //전화번호
     private String department; //학과
 
+    private int likes;
+
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
 
@@ -31,12 +33,19 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Answer> answers;
+
     public List<Post> getMyPosts(){
         return this.getPosts();
     }
 
     public List<Comment> getMyComments(){
         return this.getComments();
+    }
+
+    public List<Answer> getMyAnswers(){
+        return this.getAnswers();
     }
 
 

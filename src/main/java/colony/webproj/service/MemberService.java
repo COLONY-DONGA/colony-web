@@ -68,7 +68,7 @@ public class MemberService {
      * 마이페이지 멤버 정보 가져오기
      */
     public Member searchMember(String loginID){
-        Optional<Member> memberEntity = memberRepository.findByLoginId(loginID);
+        Optional<Member> memberEntity = memberRepository.findMemberWithLikeCount(loginID);
         return memberEntity.orElse(null); // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
     }
 

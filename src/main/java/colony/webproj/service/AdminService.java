@@ -24,7 +24,6 @@ import java.util.List;
 public class AdminService {
 
     private final MemberRepository memberRepository;
-    private final MemberRepositoryCustom memberRepositoryCustom;
     private final PostRepository postRepository;
     private final BCryptPasswordEncoder encoder;
 
@@ -32,7 +31,7 @@ public class AdminService {
      * 회원 정보
      */
     public Page<MemberMangeDto> findMemberInfo(Pageable pageable, SearchType searchType, String searchValue) {
-        return memberRepositoryCustom.findAllMemberInfo(pageable, searchType, searchValue);
+        return memberRepository.findAllMemberInfo(pageable, searchType, searchValue);
     }
 
 

@@ -32,9 +32,10 @@ public class MyPageController {
     @PostMapping("/my-page")
     public String myPage(@RequestBody String loginId, Model model){
         Member member = memberService.searchMember(loginId);
-        model.addAttribute("member",member);
+        model.addAttribute("member",member);    // 좋아요 개수 포함.
         model.addAttribute("posts",member.getMyPosts());
         model.addAttribute("comments",member.getMyComments());
+        model.addAttribute("answers",member.getMyAnswers());
         return "redirect:/my-page";
     }
 
@@ -61,7 +62,7 @@ public class MyPageController {
                              BindingResult bindingResult,Model model) throws IOException {
         if(bindingResult.hasErrors()){
             model.addAttribute("memberFormDto",MemberFormDto);
-            return "";
+            return "redirect:/my-page";
         }
         memberService.updateMember(loginId,MemberFormDto);
         return "/my-page";

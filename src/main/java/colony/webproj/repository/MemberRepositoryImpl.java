@@ -1,0 +1,112 @@
+package colony.webproj.repository;
+
+import colony.webproj.dto.MemberMangeDto;
+import colony.webproj.dto.QMemberMangeDto;
+import colony.webproj.entity.*;
+import colony.webproj.entity.type.SearchType;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import static colony.webproj.entity.QComment.*;
+import static colony.webproj.entity.QMember.*;
+import static colony.webproj.entity.QPost.*;
+
+@Repository
+@RequiredArgsConstructor
+public class MemberRepositoryImpl implements MemberRepositoryCustom {
+    private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
+
+    @Override
+    public Page<MemberMangeDto> findAllMemberInfo(Pageable pageable, SearchType searchType, String searchValue) {
+        List<MemberMangeDto> result = queryFactory
+                .select(new QMemberMangeDto(
+                        member.id,
+                        member.loginId,
+                        member.name,
+                        member.nickname,
+                        member.phoneNumber,
+                        member.department,
+                        member.createdAt,
+                        post.id.countDistinct(),
+                        comment.id.countDistinct(),
+                        member.role
+                ))
+                .from(member)
+                .leftJoin(member.posts, post)
+                .leftJoin(member.comments, comment)
+                .where(search(searchType, searchValue))
+                .groupBy(
+                        member.id,
+                        member.loginId,
+                        member.name,
+                        member.nickname,
+                        member.phoneNumber,
+                        member.department,
+                        member.createdAt,
+                        member.role
+                )
+                .orderBy(member.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long count = queryFactory
+                .select(member.count())
+                .from(member)
+                .where(search(searchType, searchValue))
+                .fetchOne();
+        return new PageImpl<>(result, pageable, count);
+    }
+
+    private BooleanExpression search(SearchType searchType, String searchValue) {
+        if(searchValue == null || searchType == null) return null;
+        if(searchType == SearchType.NAME) {
+            return member.name.containsIgnoreCase(searchValue);
+        }
+        if(searchType == SearchType.NICKNAME) {
+            return member.nickname.containsIgnoreCase(searchValue);
+        }
+        if(searchType == SearchType.LOGIN_ID) {
+            return member.loginId.containsIgnoreCase(searchValue);
+        }
+        return null;
+    }
+
+
+    /**
+     *  멤버정보를 가져오고, 좋아요 개수도 가져옴
+     */
+    @Override
+    public Optional<Member> findMemberWithLikeCount(String loginId) {
+        String query = "SELECT m, COUNT(a.likes) FROM Member m "
+                + "LEFT JOIN m.answers a "
+                + "WHERE m.loginId = :loginId "
+                + "GROUP BY m";
+
+        TypedQuery<Object[]> typedQuery = em.createQuery(query, Object[].class)
+                .setParameter("loginId", loginId);
+
+        Object[] result = typedQuery.getSingleResult();
+
+        Member member = (Member) result[0];
+        Long likesCount = (Long) result[1];
+        member.setLikes(likesCount.intValue());
+
+        return Optional.ofNullable(member);
+    }
+
+
+
+
+}
