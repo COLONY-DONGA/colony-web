@@ -2,8 +2,6 @@ package colony.webproj.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,13 +22,31 @@ public class Member extends BaseEntity {
     private String phoneNumber; //전화번호
     private String department; //학과
 
+    private int likes;
+
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한
 
-    @OneToMany(mappedBy = "member")
-    private List<Post> postList = new ArrayList<>();
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Post> posts;
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment> commentList = new ArrayList<>();
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Answer> answers;
+
+    public List<Post> getMyPosts(){
+        return this.getPosts();
+    }
+
+    public List<Comment> getMyComments(){
+        return this.getComments();
+    }
+
+    public List<Answer> getMyAnswers(){
+        return this.getAnswers();
+    }
+
 
 }
