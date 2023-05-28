@@ -119,62 +119,69 @@
           let ph = document.getElementById('phone').value;
           let de = document.getElementById('department').value;
 
-          if (id == '') {
-            alert('아이디 입력');
+          if (id.trim() === '') {
+            alert('아이디를 입력해주세요.');
             id.focus();
             return false;
           }
-          if (pw == '') {
-            alert('패스워드 입력');
+          if (pw.trim() === '') {
+            alert('패스워드를 입력해주세요.');
             pw.focus();
             return false;
           }
-          if (na == '') {
-            alert('이름 입력');
+          if (na.trim() === '') {
+            alert('이름을 입력해주세요.');
             na.focus();
             return false;
           }
-          if (ni == '') {
-            alert('닉네임 입력');
+          if (ni.trim() === '') {
+            alert('닉네임을 입력해주세요.');
             ni.focus();
             return false;
           }
-          if (ph == '') {
-            alert('전화번호 입력');
+          if (ph.trim() === '') {
+            alert('전화번호를 입력해주세요.');
             ph.focus();
             return false;
           }
-          if (de == '') {
-            alert('소속 입력');
+          if (de.trim() === '') {
+            alert('소속을 입력해주세요.');
             de.focus();
             return false;
           }
 
           if (!id_reg.test(id)) {
-            alert('아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자');
+            alert('아이디는 영문 대소문자, 숫자를 포함하는 4~16글자여야 합니다.');
+            id.value = '';
             id.focus();
             return false;
           }
           if (!pw_reg.test(pw)) {
-            alert('패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상');
+            alert('패스워드는 영문 대소문자, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.');
+            pw.value = '';
             pw.focus();
             return false;
           }
           if (!na_reg.test(na)) {
-            alert('이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)');
+            alert('이름은 한글로만 이루어진 2글자 이상이어야 합니다.');
+            na.value = '';
             na.focus();
             return false;
           }
           if (!ni_reg.test(ni)) {
-            alert('닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~16글자');
+            alert('닉네임은 영문 대소문자, 한글, 숫자를 포함하는 2~16글자여야 합니다.');
+            ni.value = '';
             ni.focus();
             return false;
           }
           if (!ph_reg.test(ph)) {
-            alert('전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)');
+            alert('전화번호는 숫자로만 이루어진 11글자여야 합니다.');
+            ph.value = '';
             ph.focus();
             return false;
           }
+
+          return true;
         }
 
         function checkDuplicate() {
