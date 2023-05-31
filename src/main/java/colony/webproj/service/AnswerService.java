@@ -96,7 +96,7 @@ public class AnswerService {
     }
 
     /**
-     * 게시글에 해당하는 답변 리스트
+     * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
      */
     public List<AnswerDto> findByPostId(Long postId) {
         List<Answer> byPostId = answerRepository.findByPostId(postId);
@@ -108,5 +108,19 @@ public class AnswerService {
                 .map(answer -> new AnswerDto(answer))
                 .collect(Collectors.toList());
         return answerDtoList;
+    }
+
+    public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) {
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+        answer.setContent(answerFormDto.getContent());
+        //이미지 업데이트
+        return answer.getId();
+    }
+
+
+    public void deleteByPostId(Long postId) {
+        answerRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일 삭제
+        answerRepository.deleteAnswersByPostId(postId); // Post 에 등록된 Answer 삭제
     }
 }

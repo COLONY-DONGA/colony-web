@@ -16,10 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,8 +54,8 @@ public class AnswerController {
                              Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("postFormDto", answerFormDto);
-            return "postForm";
+            model.addAttribute("answerFormDto", answerFormDto);
+            return "answerForm";
         }
         answerService.saveAnswer(postId, principalDetails.getLoginId(), answerFormDto);
         return "답변 생성";
@@ -69,7 +66,7 @@ public class AnswerController {
      */
     @GetMapping("/edit-answer/{postId}/{answerId}")
     @ResponseBody
-    public Response editForm(@PathVariable("postId") Long postId,
+    public Response editAnswerForm(@PathVariable("postId") Long postId,
                            @PathVariable("answerId") Long answerId,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {
@@ -88,6 +85,33 @@ public class AnswerController {
         model.addAttribute(answerDto);
 
         return new Response(answerDto, postDto);
+    }
+
+    /**
+     * 답변 수정 요청
+     * 게시글 상세로 리다이렉트
+     */
+    @ResponseBody
+    @PutMapping("/edit-answer/{postId}/{answerId}")
+    public String editAnswer(@PathVariable("answerId") Long answerId,
+                             @Valid AnswerFormDto answerFormDto,
+                             BindingResult bindingResult,
+                             @AuthenticationPrincipal PrincipalDetails principalDetails,
+                             Model model) {
+        //admin 은 수정 가능
+        if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
+            //에러메시지
+            return null;
+        }
+
+        if (bindingResult.hasErrors()) {
+            /* 글작성 실패시 입력 데이터 값 유지 */
+            model.addAttribute("answerFormDto", answerFormDto);
+            return "answerForm";
+        }
+        answerService.updateAnswer(answerId, answerFormDto);
+        return "업데이트 완료";
     }
 
     /**

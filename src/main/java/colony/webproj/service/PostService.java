@@ -7,6 +7,8 @@ import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.repository.CommentRepository.CommentRepository;
+import colony.webproj.repository.CommentRepository.CommentRepositoryCustom;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -27,9 +29,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 public class PostService {
+    private final CommentService commentService;
     private final ImageRepository imageRepository;
 
     private final MemberRepository memberRepository;
+    private final AnswerService answerService;
     private final PostRepository postRepository;
     private final ImageService imageService;
 
@@ -148,7 +152,9 @@ public class PostService {
      */
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
-        imageService.deleteFile(imageList);
+        imageService.deleteFile(imageList); //이미지 제거
+        commentService.deleteCommentInPost(postId); //댓글 제거
+        answerService.deleteByPostId(postId); //답변 제거
         postRepository.deleteById(postId);
     }
 
@@ -156,14 +162,11 @@ public class PostService {
      * 게시글 상세보기
      */
     public PostDto findPostDetail(Long postId) {
-        log.info("1");
         Post post = postRepository.findPostDetail(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
-        log.info("2");
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
-        log.info("3");
 
         PostDto postDto = PostDto.builder()
                 .postId(post.getId())
@@ -175,8 +178,6 @@ public class PostService {
                 .Answered(post.isAnswered())
                 .imageDtoList(imageDtoList) //이미지
                 .build();
-        log.info("4");
-
         return postDto;
     }
 }

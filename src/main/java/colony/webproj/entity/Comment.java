@@ -25,11 +25,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    //다른 방법 써볼게
-//    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Reply> replyList;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> childList;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,7 +36,5 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 }
-
-
 
 
