@@ -1,12 +1,13 @@
 package colony.webproj.controller;
 
+import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
-import colony.webproj.entity.Post;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.security.PrincipalDetails;
+import colony.webproj.service.AnswerService;
 import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
@@ -16,13 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +34,7 @@ public class PostController {
 
     private final PostService postService;
     private final CommentService commentService;
+    private final AnswerService answerService;
 
     /**
      * 게시글 리스트
@@ -52,7 +51,6 @@ public class PostController {
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
-
         model.addAttribute("postDtoList", postDtoList);
         return postDtoList;
     }
@@ -66,8 +64,11 @@ public class PostController {
                              Model model) {
         List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
         model.addAttribute("commentDtoList", commentDtoList);
-        PostDto postDto = postService.findPostDetail(postId); //이미지, post관련 데이터 가져오기
-        return new Response(commentDtoList, postDto);
+        PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
+        model.addAttribute("postDto", postDto);
+
+        List<AnswerDto> answerDtoList = answerService.findByPostId(postId);
+        return new Response(commentDtoList, postDto, answerDtoList);
     }
 
 
@@ -168,6 +169,7 @@ public class PostController {
     static class Response {
         private List<CommentDto> commentDtoList;
         private PostDto postDto;
+        private List<AnswerDto> answerDtoList;
     }
 }
 

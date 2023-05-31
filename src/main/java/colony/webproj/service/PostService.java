@@ -156,11 +156,15 @@ public class PostService {
      * 게시글 상세보기
      */
     public PostDto findPostDetail(Long postId) {
+        log.info("1");
         Post post = postRepository.findPostDetail(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        log.info("2");
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
+        log.info("3");
+
         PostDto postDto = PostDto.builder()
                 .postId(post.getId())
                 .title(post.getTitle())
@@ -171,6 +175,8 @@ public class PostService {
                 .Answered(post.isAnswered())
                 .imageDtoList(imageDtoList) //이미지
                 .build();
+        log.info("4");
+
         return postDto;
     }
 }

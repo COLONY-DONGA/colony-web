@@ -43,7 +43,7 @@ public class AnswerService {
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
-
+        post.setAnswered(true); //답변 등록됨 체크
         //answer 저장
         Answer answer = Answer.builder()
                 .content(answerFormDto.getContent())
@@ -93,5 +93,20 @@ public class AnswerService {
                 .imageDtoList(imageDtoList)
                 .build();
         return answerDto;
+    }
+
+    /**
+     * 게시글에 해당하는 답변 리스트
+     */
+    public List<AnswerDto> findByPostId(Long postId) {
+        List<Answer> byPostId = answerRepository.findByPostId(postId);
+        for(Answer a : byPostId) {
+            System.out.println(a.getMember().getNickname());
+        }
+
+        List<AnswerDto> answerDtoList = answerRepository.findByPostId(postId).stream()
+                .map(answer -> new AnswerDto(answer))
+                .collect(Collectors.toList());
+        return answerDtoList;
     }
 }
