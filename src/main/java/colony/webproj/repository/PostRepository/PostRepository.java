@@ -21,7 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
 
     Page<Post> findByMember_NicknameContainingOrderByCreatedAtDesc(String nickname, Pageable pageable);
 
-    @Query("select p from Post p left join fetch p.imageList i join p.member m where p.id= :postId")
+    @Query("select p from Post p left join fetch p.imageList i join fetch p.member m where p.id= :postId")
     Optional<Post> findPostDetail(@Param("postId") Long postId);
 
     Page<Post> findByMember_LoginIdContainingOrderByCreatedAtDesc(String loginId, Pageable pageable);

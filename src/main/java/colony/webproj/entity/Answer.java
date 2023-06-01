@@ -1,17 +1,14 @@
 package colony.webproj.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -32,10 +29,11 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Heart> likesList;
 
     // 좋아요 개수를 계산하는 메소드
@@ -47,6 +45,7 @@ public class Answer extends BaseEntity {
     public void addLike(Heart like) {
         likesList.add(like);
         like.setAnswer(this);
+
     }
 
     // 좋아요 제거 메소드
