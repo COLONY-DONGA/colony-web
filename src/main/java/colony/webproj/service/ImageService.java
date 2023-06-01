@@ -67,11 +67,11 @@ public class ImageService {
     }
 
     /**
-     * 이미지 리스트 삭제
+     * 이미지 리스트 로컬에서 삭제
+     * 부모가 지워질 때 cascade 에서 사용
      */
     public void deleteFile(List<Image> imageList) {
         for (Image image : imageList) {
-            imageRepository.deleteById(image.getId());
             File file = new File(getFullPath(image.getStoreImageName()));
             boolean delete = file.delete();
             if (delete) log.info("로컬 파일 삭제 완료");

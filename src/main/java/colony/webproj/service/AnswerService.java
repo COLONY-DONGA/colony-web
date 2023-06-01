@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class AnswerService {
     private final PostRepository postRepository;
-
     private final AnswerRepository answerRepository;
     private final MemberRepository memberRepository;
     private final ImageService imageService;
@@ -112,7 +111,7 @@ public class AnswerService {
 
     /**
      * 답변 업데이트
-     * 이미지 같은 경우 추가한 이미지만 받아와서 저장
+     * 이미지는 추가한 이미지만 받아와서 저장
      * 삭제 시 비동기 처리 할 생각
      */
     public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) throws IOException {
@@ -141,7 +140,7 @@ public class AnswerService {
      */
     public void deleteByPostId(Long postId) {
         List<Answer> answerList = answerRepository.findByPostId(postId);
-        
+
         //로컬에 있는 이미지 파일들 삭제
         for (Answer answer : answerList) {
             imageService.deleteFile(answer.getImageList());
@@ -153,12 +152,19 @@ public class AnswerService {
     /**
      * 단일 답변 삭제
      */
-    public void deleteAnswer(Long answerId) {
+    public void deleteAnswer(Long answerId, Long postId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
-        
+
         imageService.deleteFile(answer.getImageList()); //로컬에 있는 이미지 파일 삭제
-        imageRepository.deleteImagesByAnswerId(answerId); //answer 에 등록된 이미지 파일들 삭제
-        answerRepository.deleteById(answerId); // answer 삭제
+        answerRepository.deleteById(answerId); // answer 삭제 //image 도 고아객체로 삭제
+
+        //게시글에 answer 이 전부 지워졌을 경우
+        List<Answer> answerList = answerRepository.findByPostId(postId);
+        if(answerList.size() == 0) {
+            Post post = postRepository.findById(postId)
+                    .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+            post.setAnswered(false);
+        }
     }
 }

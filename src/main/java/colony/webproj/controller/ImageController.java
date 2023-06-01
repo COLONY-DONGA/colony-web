@@ -18,6 +18,7 @@ public class ImageController {
 
     /**
      * 단일 이미지 삭제
+     * 게시글, 댓글 수정 폼에서 사용
      */
     @DeleteMapping("/image/{imageId}")
     public ResponseEntity<?> deleteImage(@PathVariable("imageId") Long imageId) {

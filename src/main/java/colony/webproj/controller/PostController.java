@@ -143,6 +143,8 @@ public class PostController {
     /**
      * 댓글 삭제
      * 대댓글 삭제
+     * 답변 삭제
+     * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
     @DeleteMapping("/delete-post/{postId}")
     @ResponseBody
