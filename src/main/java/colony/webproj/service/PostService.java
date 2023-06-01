@@ -152,10 +152,14 @@ public class PostService {
      */
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
-        imageService.deleteFile(imageList); //이미지 제거
+        imageService.deleteFile(imageList); //게시글 관련 이미지 로컬에서 제거
         commentService.deleteCommentInPost(postId); //댓글 제거
-        answerService.deleteByPostId(postId); //답변 제거
-        postRepository.deleteById(postId);
+
+        //답변 제거
+        //답변에 대한 이미지도 로컬에서 지워야 되기 때문에 cascade 사용 x
+        answerService.deleteByPostId(postId);
+
+        postRepository.deleteById(postId); //종속된 엔티티를 전부 제거한 후 게시글 삭제
     }
 
     /**

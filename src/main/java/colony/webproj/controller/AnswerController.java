@@ -108,6 +108,9 @@ public class AnswerController {
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
     }
 
+    /**
+     * 답변 삭제
+     */
     @DeleteMapping("/answer/{postId}/{answerId}")
     public String deleteAnswer(@PathVariable("answerId") Long answerId, @PathVariable("postId") Long postId,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -120,7 +123,7 @@ public class AnswerController {
             return null;
         }
 
-        answerService.deleteAnswer(answerId);
+        answerService.deleteAnswer(answerId, postId);
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
 
     }
