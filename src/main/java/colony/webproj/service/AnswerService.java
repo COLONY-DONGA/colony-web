@@ -167,4 +167,12 @@ public class AnswerService {
             post.setAnswered(false);
         }
     }
+
+    /**
+     * 좋아요 추가
+     */
+
+    /**
+     * 좋아요 삭제
+     */
 }

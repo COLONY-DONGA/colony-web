@@ -65,7 +65,7 @@ public class MemberService {
     }
 
     /**
-     * 마이페이지 멤버 정보 가져오기
+     * 마이페이지 멤버 정보 가져오기 (본인의 답변에 대한 모든 좋아요 수를 보여줘야 함.)
      */
     public Member searchMember(String loginID){
         Optional<Member> memberEntity = memberRepository.findMemberWithLikeCount(loginID);
