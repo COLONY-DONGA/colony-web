@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 public class HeartController {
+
+    // https://github.com/f-lab-edu/chu-chu/blob/develop/src/main/java/com/example/chuchu/board/repository/BoardRepositoryImpl.java 좋아요 기능 개발 시 참고 사이트
+
     private final HeartService heartService;
 
     /**
