@@ -1,16 +1,13 @@
 package colony.webproj.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 
 @Entity
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -31,17 +28,16 @@ public class Answer extends BaseEntity {
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;
 
-    private int likeCount; // 좋아요 개수 필드 추가
 
     // 좋아요 개수를 증가시키는 메소드
     public void increaseLikeCount() {
-        this.likeCount++;
+        this.likes++;
     }
 
     // 좋아요 개수를 감소시키는 메소드
     public void decreaseLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount--;
+        if (this.likes > 0) {
+            this.likes--;
         }
     }
 

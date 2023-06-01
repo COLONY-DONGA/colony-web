@@ -43,7 +43,7 @@ public class AnswerService {
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
-
+        post.setAnswered(true); //답변 등록됨 체크
         //answer 저장
         Answer answer = Answer.builder()
                 .content(answerFormDto.getContent())
@@ -93,5 +93,72 @@ public class AnswerService {
                 .imageDtoList(imageDtoList)
                 .build();
         return answerDto;
+    }
+
+    /**
+     * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
+     */
+    public List<AnswerDto> findByPostId(Long postId) {
+        List<Answer> byPostId = answerRepository.findByPostId(postId);
+        for(Answer a : byPostId) {
+            System.out.println(a.getMember().getNickname());
+        }
+
+        List<AnswerDto> answerDtoList = answerRepository.findByPostId(postId).stream()
+                .map(answer -> new AnswerDto(answer))
+                .collect(Collectors.toList());
+        return answerDtoList;
+    }
+
+    /**
+     * 답변 업데이트
+     * 이미지 같은 경우 추가한 이미지만 받아와서 저장
+     * 삭제 시 비동기 처리 할 생각
+     */
+    public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) throws IOException {
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+        
+        //답변 업데이트
+        answer.setContent(answerFormDto.getContent());
+        //수정하며 추가한 사진 파일 업로드
+        List<Image> imageList = imageService.uploadFile(answerFormDto.getImageList());
+
+        //파일이 있다면 db 저장
+        if (!imageList.isEmpty()) {
+            for (Image image : imageList) {
+                image.setAnswer(answer); //연관관계 설정
+                imageRepository.save(image);
+                log.info("이미지 저장 완료");
+            }
+        }
+        return answer.getId();
+    }
+
+
+    /**
+     * 포스트에 종속된 답변 전부 삭제
+     */
+    public void deleteByPostId(Long postId) {
+        List<Answer> answerList = answerRepository.findByPostId(postId);
+        
+        //로컬에 있는 이미지 파일들 삭제
+        for (Answer answer : answerList) {
+            imageService.deleteFile(answer.getImageList());
+        }
+        imageRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일들 삭제
+        answerRepository.deleteAnswersByPostId(postId); // Post 에 등록된 Answer 삭제
+    }
+
+    /**
+     * 단일 답변 삭제
+     */
+    public void deleteAnswer(Long answerId) {
+        Answer answer = answerRepository.findAnswerDetail(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+        
+        imageService.deleteFile(answer.getImageList()); //로컬에 있는 이미지 파일 삭제
+        imageRepository.deleteImagesByAnswerId(answerId); //answer 에 등록된 이미지 파일들 삭제
+        answerRepository.deleteById(answerId); // answer 삭제
     }
 }

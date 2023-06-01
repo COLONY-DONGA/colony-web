@@ -111,6 +111,14 @@ public class CommentService {
     }
 
     /**
+     * 게시글에 포함된 댓글 전부 삭제
+     */
+    public void deleteCommentInPost(Long postId) {
+        commentRepository.deleteChildByPostId(postId); //자식부터 제거 후
+        commentRepository.deleteParentByPostId(postId); //부모 제거
+    }
+
+    /**
      * 댓글 불러오기
      */
     @Transactional(readOnly = true)
