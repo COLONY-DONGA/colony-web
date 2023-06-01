@@ -7,6 +7,7 @@ import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -85,11 +86,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
     /**
-     *  멤버정보를 가져오고, 좋아요 개수도 가져옴
+     *  멤버정보를 가져오고, 작성한 답변에 대해 받은 총 좋아요 개수도 가져옴
      */
     @Override
     public Optional<Member> findMemberWithLikeCount(String loginId) {
-        String query = "SELECT m, COUNT(a.likes) FROM Member m "
+        String query = "SELECT m, SUM(a.likeCount) FROM Member m "
                 + "LEFT JOIN m.answers a "
                 + "WHERE m.loginId = :loginId "
                 + "GROUP BY m";
@@ -97,13 +98,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         TypedQuery<Object[]> typedQuery = em.createQuery(query, Object[].class)
                 .setParameter("loginId", loginId);
 
-        Object[] result = typedQuery.getSingleResult();
+        try {
+            Object[] result = typedQuery.getSingleResult();
 
-        Member member = (Member) result[0];
-        Long likesCount = (Long) result[1];
-        member.setLikes(likesCount.intValue());
+            Member member = (Member) result[0];
+            Long likesCount = (Long) result[1];
+            member.setLikes(likesCount != null ? likesCount.intValue() : 0);
 
-        return Optional.ofNullable(member);
+            return Optional.of(member);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
 
