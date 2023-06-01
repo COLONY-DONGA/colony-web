@@ -47,6 +47,7 @@ public class ImageService {
                     if (contentType.contains("image/jpeg")) extension = ".jpg";
                     else if (contentType.contains("image/png")) extension = ".png";
                     else {
+                        log.info("사진이 아닌 파일입니다.");
                         break; //다른 확장자일 경우 처리 x
                     }
                 }
@@ -59,13 +60,14 @@ public class ImageService {
                 fileList.add(image);
 
                 multipartFile.transferTo(new File(getFullPath(storeImageName)));
+                log.info("로컬에 사진 저장");
             }
         }
         return fileList;
     }
 
     /**
-     * 이미지 삭제
+     * 이미지 리스트 삭제
      */
     public void deleteFile(List<Image> imageList) {
         for (Image image : imageList) {

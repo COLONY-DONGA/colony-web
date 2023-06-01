@@ -94,10 +94,25 @@ public class AnswerController {
     @ResponseBody
     @PutMapping("/edit-answer/{postId}/{answerId}")
     public String editAnswer(@PathVariable("answerId") Long answerId,
+                             @PathVariable("postId") Long postId,
                              @Valid AnswerFormDto answerFormDto,
                              BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
-                             Model model) {
+                             Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            /* 글작성 실패시 입력 데이터 값 유지 */
+            model.addAttribute("answerFormDto", answerFormDto);
+            return "answerForm";
+        }
+        answerService.updateAnswer(answerId, answerFormDto);
+        return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
+    }
+
+    @DeleteMapping("/answer/{postId}/{answerId}")
+    public String deleteAnswer(@PathVariable("answerId") Long answerId, @PathVariable("postId") Long postId,
+                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
@@ -105,14 +120,11 @@ public class AnswerController {
             return null;
         }
 
-        if (bindingResult.hasErrors()) {
-            /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", answerFormDto);
-            return "answerForm";
-        }
-        answerService.updateAnswer(answerId, answerFormDto);
-        return "업데이트 완료";
+        answerService.deleteAnswer(answerId);
+        return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
+
     }
+
 
     /**
      * 데이터 잘 뿌려졌는지 확인하기 위해 잠시 만든 클래스
