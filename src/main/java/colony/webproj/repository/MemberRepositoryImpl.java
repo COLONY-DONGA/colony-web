@@ -103,7 +103,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
             Member member = (Member) result[0];
             Long likesCount = (Long) result[1];
-            member.setLikes(likesCount != null ? likesCount.intValue() : 0);
+
 
             return Optional.of(member);
         } catch (NoResultException e) {
