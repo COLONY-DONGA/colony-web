@@ -33,9 +33,9 @@ public class MyPageController {
     public String myPage(@RequestBody String loginId, Model model){
         Member member = memberService.searchMember(loginId);
         model.addAttribute("member",member);    // 좋아요 개수 포함.
-        model.addAttribute("posts",member.getMyPosts());
-        model.addAttribute("comments",member.getMyComments());
-        model.addAttribute("answers",member.getMyAnswers());
+        model.addAttribute("posts",member.getPosts());
+        model.addAttribute("comments",member.getComments());
+        model.addAttribute("answers",member.getAnswers());
         return "redirect:/my-page";
     }
 
