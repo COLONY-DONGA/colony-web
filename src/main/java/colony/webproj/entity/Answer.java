@@ -33,7 +33,7 @@ public class Answer extends BaseEntity {
     private List<Image> imageList;
 
     @ColumnDefault("0")
-    @Column(name = "like_count", nullable = false)
+    @Column(name = "like_count", nullable = true)
     private Integer likeCount;
 
 
