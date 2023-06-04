@@ -52,13 +52,13 @@ public class InitDB {
                 if (i <= 10) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
                 } else if(i<=20) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member2).answered(false).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member2).answered(false).build();
                 } else if(i<=30) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).answered(false).build();
+                    post = Post.builder().title("제목제목제목제목" + i).content("내용" + i).member(member3).answered(false).build();
                 } else if(i<=40) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
                 } else if(i<=50) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member5).answered(true).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }
@@ -67,7 +67,6 @@ public class InitDB {
                         .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
                 em.persist(member_);
             }
-
         }
     }
 }

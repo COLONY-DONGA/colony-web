@@ -38,6 +38,13 @@ dependencies {
 	//devtools 적용
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
+//	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+//	implementation project(path: ':')
+//	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+//	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+//	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	//Querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
@@ -54,7 +61,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-def querydslSrcDir = 'src/main/generated'
 clean {
-	delete file(querydslSrcDir)
+	delete file('src/main/generated')
 }

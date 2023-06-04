@@ -2,6 +2,7 @@ package colony.webproj.service;
 
 import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.PostDto;
+import colony.webproj.dto.PostManageDto;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.repository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -30,8 +31,8 @@ public class AdminService {
         return memberRepository.findAllMemberInfo(pageable, searchType, searchValue);
     }
 
-    public Page<PostDto> findPostInfo(SearchType searchType, String searchValue, Pageable pageable) {
-        return postRepository.findPostDtoList(searchType, searchValue, null, "createdAt", pageable);
+    public Page<PostManageDto> findPostInfo(SearchType searchType, String searchValue, Pageable pageable) {
+        return postRepository.findPostDtoListAdmin(searchType, searchValue, pageable);
     }
 
 
