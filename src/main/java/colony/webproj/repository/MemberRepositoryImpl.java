@@ -1,7 +1,7 @@
 package colony.webproj.repository;
 
-import colony.webproj.dto.MemberMangeDto;
-import colony.webproj.dto.QMemberMangeDto;
+import colony.webproj.dto.MemberManageDto;
+import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import static colony.webproj.entity.QAnswer.*;
 import static colony.webproj.entity.QComment.*;
 import static colony.webproj.entity.QMember.*;
 import static colony.webproj.entity.QPost.*;
@@ -29,9 +30,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<MemberMangeDto> findAllMemberInfo(Pageable pageable, SearchType searchType, String searchValue) {
-        List<MemberMangeDto> result = queryFactory
-                .select(new QMemberMangeDto(
+    public Page<MemberManageDto> findAllMemberInfo(Pageable pageable, SearchType searchType, String searchValue) {
+        List<MemberManageDto> result = queryFactory
+                .select(new QMemberManageDto(
                         member.id,
                         member.loginId,
                         member.name,
@@ -41,11 +42,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         member.createdAt,
                         post.id.countDistinct(),
                         comment.id.countDistinct(),
+                        answer.id.countDistinct(),
                         member.role
                 ))
                 .from(member)
                 .leftJoin(member.posts, post)
                 .leftJoin(member.comments, comment)
+                .leftJoin(member.answers, answer)
                 .where(search(searchType, searchValue))
                 .groupBy(
                         member.id,

@@ -121,13 +121,13 @@
         }
 
         .pagination li a:hover {
-            background-color: #f2f2f2;
+            background-color: gray;
         }
 
         .pagination li.active a {
-            background-color: #4caf50;
+            background-color: black;
             color: white;
-            border: 1px solid #4caf50;
+            border: 1px solid black;
         }
 
         .pagination li.disabled a {
@@ -138,6 +138,7 @@
         .pagination li i {
             margin-top: -1px;
         }
+
     </style>
 </head>
 <body>
@@ -161,6 +162,7 @@
         <th>학과</th>
         <th>가입일자</th>
         <th>질문 수</th>
+        <th>댓글 수</th>
         <th>답변 수</th>
         <th>권한</th>
     </tr>
@@ -176,6 +178,7 @@
         <td th:text="${#temporals.format(memberDto.createdAt, 'yyyy년 MM월 dd일')}"></td>
         <td th:text="${memberDto.postNum}"></td>
         <td th:text="${memberDto.commentNum}"></td>
+        <td th:text="${memberDto.answerNum}"></td>
         <td th:text="${memberDto.role}"></td>
     </tr>
     </tbody>

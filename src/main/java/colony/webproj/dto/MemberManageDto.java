@@ -2,7 +2,6 @@ package colony.webproj.dto;
 
 import colony.webproj.entity.Role;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Builder
-public class MemberMangeDto {
+public class MemberManageDto {
     private Long memberId;
     private String loginId;
     private String name;
@@ -22,10 +21,11 @@ public class MemberMangeDto {
     private LocalDateTime createdAt; //가입일자
     private Long postNum; //게시글 수
     private Long commentNum; //댓글 수
+    private Long answerNum; //답변 수
     private Role role;
 
     @QueryProjection
-    public MemberMangeDto(Long memberId, String loginId, String name, String nickname, String phoneNumber, String department, LocalDateTime createdAt, Long postNum, Long commentNum, Role role) {
+    public MemberManageDto(Long memberId, String loginId, String name, String nickname, String phoneNumber, String department, LocalDateTime createdAt, Long postNum, Long commentNum, Long answerNum, Role role) {
         this.memberId = memberId;
         this.loginId = loginId;
         this.name = name;
@@ -35,6 +35,7 @@ public class MemberMangeDto {
         this.createdAt = createdAt;
         this.postNum = postNum;
         this.commentNum = commentNum;
+        this.answerNum = answerNum;
         this.role = role;
     }
 }
