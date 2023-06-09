@@ -19,6 +19,7 @@ public class AnswerDto {
     private LocalDateTime createdAt; //생성일
     private LocalDateTime updatedAt; //수정일
     private List<ImageDto> imageDtoList; // 사진
+    private Long heartNum; //좋아요 수
 
     public AnswerDto(Answer answer) {
         this.answerId = answer.getId();

@@ -1,3 +1,19 @@
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://colony-test.coz9al7ljo0h.ap-northeast-2.rds.amazonaws.com:3306/colony-test
+#    username: root
+#    password: 12341234
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        format_sql: true
+#    show-sql: true
+
+#spring: 에서부터 ddl-auto: create 까지 주석 풀고 이 위로는 전부 주석처리 하면 됨. (gradle 에서 mysql 주석, h2 주석풀기)
 spring:
   main:
     allow-circular-references: true
@@ -10,11 +26,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-#    properties:
-#      hibernate:
-#        format_sql: true # sql 문 포맷
-#logging.level:
-#  org.hibernate.SQL: trace # 디버그 모드로 sql 출력
 
 #파일 저장 경로 설정
 file:

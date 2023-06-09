@@ -31,15 +31,15 @@ public class HeartService {
      * 좋아요 추가 메서드 : Heart 엔티티에 AnswerId와 MemberId를 함께 추가하는 것이기 때문에 Add 라는 표현을 씀.
      */
     @Transactional
-    public void addHeart(HeartDto heartDto) {
-        Optional<Heart> existingHeart = heartRepository.findByAnswerIdAndMemberId(heartDto.getAnswerId(), heartDto.getLoginId());
+    public boolean addHeart(Long answerId, String loginId) {
+        Optional<Heart> existingHeart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId);
         if (existingHeart.isPresent()) {
-            throw new IllegalStateException("이미 좋아요를 눌렀습니다.");
+            return false;
         }
 
-        Answer answer = answerRepository.findAnswerDetail(heartDto.getAnswerId())
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
-        Member member = memberRepository.findByLoginId(heartDto.getLoginId())
+        Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("멤버가 존재하지 않습니다."));
 
         Heart heart = Heart.builder()
@@ -48,23 +48,22 @@ public class HeartService {
         .build();
 
         heartRepository.save(heart);
-        answer.increaseLikeCount();
+        return true;
     }
 
     /**
      * 좋아요 삭제 메서드 : Heart 엔티티에 AnswerId와 MemberId를 함께 추가하는 것이기 때문에 remove 라는 표현을 씀.
      */
     @Transactional
-    public void removeHeart(HeartDto heartDto) {
+    public void removeHeart(Long answerId, String loginId) {
 
-        Answer answer = answerRepository.findAnswerDetail(heartDto.getAnswerId())
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
 
-        Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDto.getAnswerId(), heartDto.getLoginId())
+        Heart heart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId)
                 .orElseThrow(() -> new IllegalStateException("좋아요를 누른 기록이 없습니다."));
 
         heartRepository.delete(heart);
-        answer.decreaseLikeCount();
     }
 
 }
