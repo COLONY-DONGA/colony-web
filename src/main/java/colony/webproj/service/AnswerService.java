@@ -85,7 +85,7 @@ public class AnswerService {
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
 
-        Long heartNum = heartRepository.findHearNumByAnswerId(answerId);
+//        Long heartNum = heartRepository.findHearNumByAnswerId(answerId);
 
         AnswerDto answerDto = AnswerDto.builder()
                 .answerId(answer.getId())
@@ -94,7 +94,7 @@ public class AnswerService {
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
                 .imageDtoList(imageDtoList)
-                .heartNum(heartNum)
+//                .heartNum(heartNum)
                 .build();
         return answerDto;
     }

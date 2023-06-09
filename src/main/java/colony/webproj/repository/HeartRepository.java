@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface HeartRepository extends JpaRepository<Heart, Long> {
     Optional<Heart> findByAnswerIdAndMemberId(Long answerId, String loginId);
 
-    @Query("select count()")
-    Long findHearNumByAnswerId(@Param("answerId") Long answerId)
+//    @Query("select count()")
+//    Long findHearNumByAnswerId(@Param("answerId") Long answerId);
 }
