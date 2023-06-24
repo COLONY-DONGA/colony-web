@@ -1,11 +1,11 @@
 const footer = `
   <footer>
     <div class="container">
-      <p>&copy; 2023 My Website. All rights reserved.</p>
+      <p>&copy; 2023 Colony Website. </p>
       <ul>
-        <li>Privacy Policy</li>
-        <li>Terms of Service</li>
-        <li>Sitemap</li>
+        <li>전화번호 : 010-0000-0000</li>
+        <li>이메일 : hello@naver.com</li>
+        <li>인스타그램 : d_b__wls </li>
       </ul>
     </div>
   </footer>
