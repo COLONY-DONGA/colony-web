@@ -53,6 +53,7 @@ public class CommentController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
+            //에러메시지
             return null;
         }
         commentService.updateCommentOrRecomment(commentId, commentFromDto, principalDetails.getLoginId());

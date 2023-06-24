@@ -2,6 +2,7 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberFormDto;
+import colony.webproj.entity.Member;
 import colony.webproj.service.MemberService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
@@ -22,19 +23,19 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class MyPageController {
-    private final PostService postService;
     private final MemberService memberService;
-
-    // 답변과 댓글은 나중에 구현하겠음. 아직 확정되지 않음
-
 
     /**
      * 마이페이지 (일단 내 정보 보여주기만) / 질문1
+     * 답변이랑 댓글 확정
      */
     @PostMapping("/my-page")
     public String myPage(@RequestBody String loginId, Model model){
-        MemberDto member = memberService.searchMember(loginId);
-        model.addAttribute("member",member);
+        Member member = memberService.searchMember(loginId);
+        model.addAttribute("member",member);    // 좋아요 개수 포함.
+        model.addAttribute("posts",member.getPosts());
+        model.addAttribute("comments",member.getComments());
+        model.addAttribute("answers",member.getAnswers());
         return "redirect:/my-page";
     }
 
@@ -42,25 +43,16 @@ public class MyPageController {
      * 마이페이지 수정 시 패스워드 확인
      */
     @PostMapping("/my-page/validation-password")
-    public String validationPassword(@RequestBody Map<String,String> requestBody){
+    public ResponseEntity<?> validationPassword(@RequestBody Map<String,String> requestBody){
         // 패스워드 검사 시행
         if(memberService.validationPassword(requestBody.get("loginId"),requestBody.get("password"))){ // 이 때 패스워드는 사용자 입력값임
-            return "/edit-mypage"; // 200
+            return ResponseEntity.ok(true); // 200
         }
         else{
-            return "redirect:/my-page"; // 200
+            return ResponseEntity.ok(false); // 200
         }
     }
 
-//    /**
-//     * 마이페이지 수정폼
-//     */
-//    @PostMapping("/edit-mypage")
-//    public String editMyPageForm(@RequestBody String loginId,Model model){
-//        MemberDto memberDto = memberService.searchMember(loginId);
-//        // 프론트 측에 패스워드 부분 비워두라고 하기
-//        return "일단은 패스";
-//    }
 
     /**
      * 마이페이지 수정
@@ -70,7 +62,7 @@ public class MyPageController {
                              BindingResult bindingResult,Model model) throws IOException {
         if(bindingResult.hasErrors()){
             model.addAttribute("memberFormDto",MemberFormDto);
-            return "";
+            return "redirect:/my-page";
         }
         memberService.updateMember(loginId,MemberFormDto);
         return "/my-page";
