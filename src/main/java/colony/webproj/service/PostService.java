@@ -7,6 +7,8 @@ import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.repository.CommentRepository.CommentRepository;
+import colony.webproj.repository.CommentRepository.CommentRepositoryCustom;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -27,9 +29,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 public class PostService {
+    private final CommentService commentService;
     private final ImageRepository imageRepository;
 
     private final MemberRepository memberRepository;
+    private final AnswerService answerService;
     private final PostRepository postRepository;
     private final ImageService imageService;
 
@@ -50,8 +54,8 @@ public class PostService {
                     postRepository.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
             case NICKNAME ->
                     postRepository.findByMember_NicknameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case LOGIN_ID -> null;
-            case NAME -> null;
+            case LOGIN_ID -> postRepository.findByMember_LoginIdContainingOrderByCreatedAtDesc(searchKeyword,pageable).map(PostDto::from);
+            case NAME -> postRepository.findByMember_NameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
         };
     }
 
@@ -148,8 +152,14 @@ public class PostService {
      */
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
-        imageService.deleteFile(imageList);
-        postRepository.deleteById(postId);
+        imageService.deleteFile(imageList); //게시글 관련 이미지 로컬에서 제거
+        commentService.deleteCommentInPost(postId); //댓글 제거
+
+        //답변 제거
+        //답변에 대한 이미지도 로컬에서 지워야 되기 때문에 cascade 사용 x
+        answerService.deleteByPostId(postId);
+
+        postRepository.deleteById(postId); //종속된 엔티티를 전부 제거한 후 게시글 삭제
     }
 
     /**
@@ -161,6 +171,7 @@ public class PostService {
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
+
         PostDto postDto = PostDto.builder()
                 .postId(post.getId())
                 .title(post.getTitle())
@@ -169,7 +180,7 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .Answered(post.isAnswered())
-                .imageDto(imageDtoList)
+                .imageDtoList(imageDtoList) //이미지
                 .build();
         return postDto;
     }

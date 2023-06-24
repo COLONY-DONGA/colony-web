@@ -26,7 +26,7 @@ public class InitDB {
     @Service
     @RequiredArgsConstructor
     @Transactional
-    static class InitService {
+    public static class InitService {
         private final EntityManager em;
         private final BCryptPasswordEncoder encoder;
 
@@ -50,19 +50,19 @@ public class InitDB {
             for(int i = 1; i<=50; i++) {
                 Post post = new Post();
                 if (i <= 10) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(true).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
                 } else if(i<=20) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member2).answered(false).build();
                 } else if(i<=30) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).answered(true).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).answered(false).build();
                 } else if(i<=40) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(false).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
                 } else if(i<=50) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }
-            for(int i = 1; i<=100; i++) {
+            for(int i = 1; i<=20; i++) {
                 Member member_ = Member.builder().loginId("dummyId"+i).password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
                         .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
                 em.persist(member_);

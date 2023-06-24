@@ -1,12 +1,13 @@
 package colony.webproj.controller;
 
+import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
-import colony.webproj.entity.Post;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.security.PrincipalDetails;
+import colony.webproj.service.AnswerService;
 import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
@@ -16,13 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +34,7 @@ public class PostController {
 
     private final PostService postService;
     private final CommentService commentService;
+    private final AnswerService answerService;
 
     /**
      * 게시글 리스트
@@ -44,7 +43,7 @@ public class PostController {
     @ResponseBody //데이터 테스트하기 위해서 씀
     public Page<PostDto> postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
-                           @RequestParam(defaultValue = "false") Boolean answered, //답변 유무에 따른 필터
+                           @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
                            @PageableDefault(size = 10) Pageable pageable,
                            Model model) {
@@ -52,7 +51,6 @@ public class PostController {
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
-
         model.addAttribute("postDtoList", postDtoList);
         return postDtoList;
     }
@@ -64,10 +62,13 @@ public class PostController {
     @ResponseBody
     public Response postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId);
+        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
         model.addAttribute("commentDtoList", commentDtoList);
-        PostDto postDto = postService.findPostDetail(postId);
-        return new Response(commentDtoList, postDto);
+        PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
+        model.addAttribute("postDto", postDto);
+        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변 데이터 가져오기
+        model.addAttribute("answerDtoList", answerDtoList);
+        return new Response(commentDtoList, postDto, answerDtoList);
     }
 
 
@@ -107,7 +108,7 @@ public class PostController {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
-                !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
             return null;
         }
         PostFormDto postFormDto = postService.updateForm(postId);
@@ -142,6 +143,8 @@ public class PostController {
     /**
      * 댓글 삭제
      * 대댓글 삭제
+     * 답변 삭제
+     * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
     @DeleteMapping("/delete-post/{postId}")
     @ResponseBody
@@ -168,6 +171,7 @@ public class PostController {
     static class Response {
         private List<CommentDto> commentDtoList;
         private PostDto postDto;
+        private List<AnswerDto> answerDtoList;
     }
 }
 

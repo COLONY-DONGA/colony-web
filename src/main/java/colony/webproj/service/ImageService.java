@@ -2,6 +2,7 @@ package colony.webproj.service;
 
 import colony.webproj.entity.Image;
 import colony.webproj.repository.ImageRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,18 +36,18 @@ public class ImageService {
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
         /* 비었는지 체크 */
-        if(!CollectionUtils.isEmpty(multipartFiles)) {
-            for(MultipartFile multipartFile : multipartFiles) {
+        if (!CollectionUtils.isEmpty(multipartFiles)) {
+            for (MultipartFile multipartFile : multipartFiles) {
                 String extension; //확장자명
                 String contentType = multipartFile.getContentType();
 
-                if(ObjectUtils.isEmpty(contentType)) {
+                if (ObjectUtils.isEmpty(contentType)) {
                     break;
-                }
-                else { //확장자명이 jpeg, png 인 파일들만 받아서 처리
-                    if(contentType.contains("image/jpeg")) extension = ".jpg";
+                } else { //확장자명이 jpeg, png 인 파일들만 받아서 처리
+                    if (contentType.contains("image/jpeg")) extension = ".jpg";
                     else if (contentType.contains("image/png")) extension = ".png";
                     else {
+                        log.info("사진이 아닌 파일입니다.");
                         break; //다른 확장자일 경우 처리 x
                     }
                 }
@@ -59,22 +60,36 @@ public class ImageService {
                 fileList.add(image);
 
                 multipartFile.transferTo(new File(getFullPath(storeImageName)));
+                log.info("로컬에 사진 저장");
             }
         }
         return fileList;
     }
 
     /**
-     * 이미지 삭제
+     * 이미지 리스트 로컬에서 삭제
+     * 부모가 지워질 때 cascade 에서 사용
      */
     public void deleteFile(List<Image> imageList) {
         for (Image image : imageList) {
-            imageRepository.deleteById(image.getId());
             File file = new File(getFullPath(image.getStoreImageName()));
             boolean delete = file.delete();
-            if(delete) log.info("로컬 파일 삭제 완료");
+            if (delete) log.info("로컬 파일 삭제 완료");
             else log.info("로컬 파일 삭제 실패");
         }
+    }
+
+    /**
+     * 단일 이미지 삭제
+     */
+    public void deleteFileOne(Long imageId) {
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new EntityNotFoundException("이미지 파일이 없습니다."));
+        imageRepository.deleteById(image.getId());
+        File file = new File(getFullPath(image.getStoreImageName()));
+        boolean delete = file.delete();
+        if (delete) log.info("로컬 파일 삭제 완료");
+        else log.info("로컬 파일 삭제 실패");
     }
 
     /**
