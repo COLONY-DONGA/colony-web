@@ -169,19 +169,21 @@
 <table id="post-table">
     <thead>
     <tr>
-        <th>게시글 ID</th>
         <th>제목</th>
-        <th>작성자</th>
+        <th>이름</th>
+        <th>학과</th>
+        <th>닉네임</th>
         <th>작성일</th>
         <th>답변 여부</th>
         <th>게시글로 이동</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="postDto : ${postDtoList.content}">
-        <td th:text="${postDto.postId}"></td>
-        <td th:text="${postDto.title}"></td>
-        <td th:text="${postDto.createdBy}"></td>
+    <tr th:each="postDto, i : ${postDtoList.content}">
+        <td th:text="${postDto.title.length() > 20 ? postDto.title.substring(0, 20) + '...' : postDto.title}"></td>
+        <td th:text="${postDto.name}"></td>
+        <td th:text="${postDto.department}"></td>
+        <td th:text="${postDto.nickname}"></td>
         <td th:text="${#temporals.format(postDto.createdAt, 'yyyy년 MM월 dd일')}"></td>
         <td th:text="${postDto.answered ? '답변 완료' : '미답변'}"></td>
         <td>

@@ -71,7 +71,9 @@ public class MemberController {
      */
     @PostMapping("validation-id")
     public ResponseEntity<?> validationId(@RequestBody String loginId) {
-        return ResponseEntity.ok(memberService.validateLoginId(loginId));
+        Boolean isValid = memberService.validateLoginId(loginId);
+        if(!isValid) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(true);
     }
 
     /**
@@ -79,6 +81,8 @@ public class MemberController {
      */
     @GetMapping("validation-nickname")
     public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
-        return ResponseEntity.ok(memberService.validateNickname(nickname));
+        Boolean isValid = memberService.validateNickname(nickname);
+        if(!isValid) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(true);
     }
 }
