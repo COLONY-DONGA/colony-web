@@ -41,24 +41,21 @@ public class InitDB {
                     .name("박유진").department("컴퓨터공학과").nickname("야경맨").phoneNumber("01012345678").build();
             Member member5 = Member.builder().loginId("abcde5").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
                     .name("최유현").department("컴퓨터공학과").nickname("박유진이남친").phoneNumber("01012345678").build();
-            //게스트 회원 아이디 추가
-            Member guest = Member.builder().loginId("guest_oxigdkrjbgwzeoisghzisejb")
-                    .password(encoder.encode("guestpassword")).role(Role.ROLE_GUEST).build();
 
-            em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);em.persist(guest);
+            em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 
             for(int i = 1; i<=50; i++) {
                 Post post = new Post();
                 if (i <= 10) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
                 } else if(i<=20) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member2).answered(false).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member2).answered(false).build();
                 } else if(i<=30) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member3).answered(false).build();
+                    post = Post.builder().title("제목제목제목제목" + i).content("내용" + i).member(member3).answered(false).build();
                 } else if(i<=40) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
                 } else if(i<=50) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member5).answered(true).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }
@@ -67,7 +64,6 @@ public class InitDB {
                         .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
                 em.persist(member_);
             }
-
         }
     }
 }

@@ -2,6 +2,7 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.PostDto;
+import colony.webproj.dto.PostManageDto;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class AdminController {
                            @RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue,
                            Model model) {
-        Page<PostDto> postDtoList = adminService.findPostInfo(searchType, searchValue, pageable);
+        Page<PostManageDto> postDtoList = adminService.findPostInfo(searchType, searchValue, pageable);
         model.addAttribute("postDtoList", postDtoList);
         model.addAttribute("pageNum", pageable.getPageNumber());
         model.addAttribute("totalPages", postDtoList.getTotalPages());

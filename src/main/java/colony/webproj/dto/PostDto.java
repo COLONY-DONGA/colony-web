@@ -45,7 +45,7 @@ public class PostDto {
         this.title = title;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
-        Answered = answered;
+        this.Answered = answered;
     }
 
     /**

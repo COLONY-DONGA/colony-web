@@ -9,6 +9,7 @@ import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.repository.AnswerRepository;
+import colony.webproj.repository.HeartRepository;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -33,6 +34,7 @@ public class AnswerService {
     private final MemberRepository memberRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
+    private final HeartRepository heartRepository;
 
     /**
      * 답변 저장
@@ -83,6 +85,8 @@ public class AnswerService {
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
 
+//        Long heartNum = heartRepository.findHearNumByAnswerId(answerId);
+
         AnswerDto answerDto = AnswerDto.builder()
                 .answerId(answer.getId())
                 .content(answer.getContent())
@@ -90,6 +94,7 @@ public class AnswerService {
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
                 .imageDtoList(imageDtoList)
+//                .heartNum(heartNum)
                 .build();
         return answerDto;
     }
