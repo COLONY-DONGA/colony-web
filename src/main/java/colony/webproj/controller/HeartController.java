@@ -27,7 +27,8 @@ public class HeartController {
     @PostMapping("/heart/{answerId}")
     public ResponseEntity<?> increaseHeart(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
-        heartService.addHeart(answerId, principalDetails.getLoginId());
+        boolean isAdd = heartService.addHeart(answerId, principalDetails.getLoginId());
+        if(!isAdd) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(true);
     }
 
