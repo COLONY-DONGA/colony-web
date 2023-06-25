@@ -29,6 +29,7 @@ public class Answer extends BaseEntity {
     private Member member;
 
 
+
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;
 }

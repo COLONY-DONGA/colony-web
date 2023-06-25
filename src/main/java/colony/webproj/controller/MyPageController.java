@@ -1,16 +1,12 @@
 package colony.webproj.controller;
 
-import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberFormDto;
-import colony.webproj.dto.MemberWithLikesDto;
-import colony.webproj.entity.Member;
+import colony.webproj.dto.MyPageDto;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
-import colony.webproj.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -38,11 +34,11 @@ public class MyPageController {
          *  To do 비회원일 때 처리하는 법 나머지 메소드도.
          */
         String loginId = principalDetails.getLoginId();
-        MemberWithLikesDto memberDto = memberService.searchMember(loginId);
-        model.addAttribute("member", memberDto);    // 좋아요 개수 포함.
-        model.addAttribute("posts", memberDto.getPostDto());
-        model.addAttribute("answers", memberDto.getAnswerDto());
-        model.addAttribute("comments", memberDto.getCommentDto());
+        MyPageDto myPageDto = memberService.searchMember(loginId);
+        model.addAttribute("member", myPageDto);    // 좋아요 개수 포함.
+        model.addAttribute("posts", myPageDto.getPostDto());
+        model.addAttribute("answers", myPageDto.getAnswerDto());
+        model.addAttribute("comments", myPageDto.getCommentDto());
 
         return "/my-page/detail";
     }

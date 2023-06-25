@@ -3,7 +3,8 @@ package colony.webproj.service;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberFormDto;
-import colony.webproj.dto.MemberWithLikesDto;
+import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.MyPageDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.repository.MemberRepository;
@@ -68,9 +69,10 @@ public class MemberService {
     /**
      * 마이페이지 멤버 정보 가져오기 (본인의 답변에 대한 모든 좋아요 수를 보여줘야 함.)
      */
-    public MemberWithLikesDto searchMember(String loginID){
-        MemberWithLikesDto memberDto = memberRepository.findMemberWithLikeCount(loginID);
-        return memberDto; // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
+    public MyPageDto searchMember(String loginID){
+        MyPageDto myPageDto = memberRepository.findMemberWithLikeCount(loginID);
+        myPageDto.setLikesCount(memberRepository.countAllAnswerLikes(loginID));
+        return myPageDto; // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
     }
 
     /**
