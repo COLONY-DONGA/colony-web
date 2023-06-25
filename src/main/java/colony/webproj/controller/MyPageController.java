@@ -34,6 +34,9 @@ public class MyPageController {
      */
     @GetMapping("/my-page")
     public String myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+        /**
+         *  To do 비회원일 때 처리하는 법 나머지 메소드도.
+         */
         String loginId = principalDetails.getLoginId();
         MemberWithLikesDto memberDto = memberService.searchMember(loginId);
         model.addAttribute("member", memberDto);    // 좋아요 개수 포함.
