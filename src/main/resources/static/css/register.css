@@ -70,3 +70,10 @@ input::placeholder {
   height: 2.7rem;
   margin-top: 1rem;
 }
+div[id*='result'] {
+  font-size: 0.6em;
+  color: red;
+}
+.chk_btn {
+  margin-top: 5px;
+}
