@@ -21,23 +21,23 @@ public class CommentController {
     /**
      * 댓글 생성
      */
-    @PostMapping("/comment/{postId}")
-    public ResponseEntity<?> saveComment(@PathVariable("postId") Long postId,
+    @PostMapping("/comment/{answerId}")
+    public ResponseEntity<?> saveComment(@PathVariable("answerId") Long answerId,
                                          CommentFromDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        commentService.saveComment(postId, commentFormDto, principalDetails.getLoginId());
+        commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
     }
 
     /**
      * 대댓글 생성
      */
-    @PostMapping("/comment/{postId}/{commentId}")
-    public ResponseEntity<?> saveReComment(@PathVariable("postId") Long postId,
+    @PostMapping("/comment/{answerId}/{commentId}")
+    public ResponseEntity<?> saveReComment(@PathVariable("answerId") Long answerId,
                                            @PathVariable("commentId") Long commentId,
                                            CommentFromDto commentFromDto,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        commentService.saveReComment(postId, commentId, commentFromDto, principalDetails.getLoginId());
+        commentService.saveReComment(answerId, commentId, commentFromDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
     }
 

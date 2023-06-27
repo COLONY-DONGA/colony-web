@@ -22,8 +22,8 @@ public class Comment extends BaseEntity {
     private boolean isRemoved = false; //삭제 됐는지 체크 //댓글에 대댓글이 달린 경우 댓글을 삭제해도 대댓글은 삭제 X
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Comment> childList;

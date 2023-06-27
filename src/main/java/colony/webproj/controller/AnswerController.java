@@ -37,7 +37,7 @@ public class AnswerController {
     @ResponseBody
     public PostDto answerForm(@PathVariable("postId") Long postId, Model model) {
         //질문 정보
-        PostDto postDto = postService.findPostDetail(postId);
+        PostDto postD   to = postService.findPostDetail(postId);
         model.addAttribute("postDto", postDto);
         return postDto;
     }

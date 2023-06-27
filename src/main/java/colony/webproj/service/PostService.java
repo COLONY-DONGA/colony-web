@@ -153,7 +153,7 @@ public class PostService {
     public void deletePost(Long postId) {
         List<Image> imageList = imageRepository.findByPostId(postId);
         imageService.deleteFile(imageList); //게시글 관련 이미지 로컬에서 제거
-        commentService.deleteCommentInPost(postId); //댓글 제거
+
 
         //답변 제거
         //답변에 대한 이미지도 로컬에서 지워야 되기 때문에 cascade 사용 x

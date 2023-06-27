@@ -5,6 +5,6 @@ import colony.webproj.dto.CommentDto;
 import java.util.List;
 
 public interface CommentRepositoryCustom {
-    List<CommentDto> findParentCommentByPostId(Long postId);
-    List<CommentDto> findChildCommentByPostId(Long postId);
+    List<CommentDto> findParentCommentByAnswerId(Long answerId);
+    List<CommentDto> findChildCommentByAnswerId(Long answerId);
 }

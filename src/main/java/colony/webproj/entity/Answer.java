@@ -28,7 +28,8 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;

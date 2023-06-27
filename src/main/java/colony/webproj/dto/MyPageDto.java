@@ -55,7 +55,7 @@ public class MyPageDto {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
 
             for (Comment comment : entity.getComments()) {
-                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getPost().getId(), comment.getContent());
+                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getId(), comment.getContent());
                 commentDtoList.add(commentDto);
             }
             this.commentDto = commentDtoList;
@@ -84,7 +84,7 @@ public class MyPageDto {
     @NoArgsConstructor
     public class CommentDtoForMemberPage {
         private Long commentId;
-        private Long postId;
+        private Long answerId;
         private String cotent;
     }
 

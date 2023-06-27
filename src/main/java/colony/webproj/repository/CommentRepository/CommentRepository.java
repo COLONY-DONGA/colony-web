@@ -11,13 +11,13 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>, CommentRepositoryCustom {
-    List<Comment> findByPostId(@Param("postId") Long postId);
+    List<Comment> findByAnswerId(@Param("answerId") Long answerId);
 
     @Modifying
-    @Query("delete from Comment c where c.post.id=:postId and c.parent is not null")
-    int deleteChildByPostId(@Param("postId") Long postId);
+    @Query("delete from Comment c where c.answer.id=:answerId and c.parent is not null")
+    int deleteChildByAnswerId(@Param("answerId") Long answerId);
 
     @Modifying
-    @Query("delete from Comment c where c.post.id=:postId and c.parent is null")
-    int deleteParentByPostId(@Param("postId") Long postId);
+    @Query("delete from Comment c where c.answer.id=:answerId and c.parent is null")
+    int deleteParentByAnswerId(@Param("answerId") Long answerId);
 }
