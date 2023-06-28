@@ -796,3 +796,43 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.dropbtn {
+  align-items: center;
+  background-color: #00a629;
+  border-radius: 0.6rem;
+  color: #ffffff;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1.3625;
+  margin-bottom: 1.45rem;
+  white-space: nowrap;
+  width: 3rem;
+  height: 2rem;
+  margin-top: 1rem;
+}
+
+.select1 {
+  align-items: center;
+  background-color: #000000;
+  border-radius: 0.6rem;
+  color: #ffffff;
+
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1.3625;
+  margin-bottom: 1.45rem;
+  white-space: nowrap;
+  width: 4rem;
+  height: 2rem;
+  margin-top: 1rem;
+}

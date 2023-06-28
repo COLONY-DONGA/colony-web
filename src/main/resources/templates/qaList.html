@@ -105,16 +105,32 @@
         <div class="qa-list" id="question-list-1">
           <!-- <div class="qa-search-dropdown" id="search-dropdown-1">드롭다운 검색</div>
           <div class="qa-sort-dropdown" id="sort-dropdown-1">드롭다운 정렬</div> -->
+
           <div class="dropdown">
-            <button class="dropbtn">검색</button>
+            <button class="dropbtn">정렬</button>
             <div class="dropdown-content">
-              <a href="#">정렬 1</a>
-              <a href="#">정렬 2</a>
-              <a href="#">정렬 3</a>
+              <a href="#">최신순</a>
+              <a href="#">오래된순</a>
+              <a href="#">좋아요순</a>
             </div>
           </div>
 
-          <p class="qa-all" id="all-questions">All Q&A</p>
+          <select class="select1" name="option">
+            <option value="01" selected="selected">제목</option>
+            <option value="02">내용</option>
+          </select>
+          <input
+            class="form-control"
+            type="text"
+            id="searchWord"
+            name="searchWord"
+            placeholder="검색어를 입력하세요"
+            aria-label="Enter search term..."
+            aria-describedby="button-search"
+          />
+          <button class="btn btn-primary" id="button-search" type="submit" name="#">검색</button>
+
+          <button class="qa-all" id="all-questions" name="#">전체내용보기</button>
           <div class="qa-register" id="register">Register</div>
         </div>
 
