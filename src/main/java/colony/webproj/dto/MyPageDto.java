@@ -33,6 +33,7 @@ public class MyPageDto {
         this.department = entity.getDepartment();
         this.likesCount = 0;
 
+        // 본인의 게시글(고유아이디, 제목)만 가져옴
         if (entity.getPosts().size() != 0) {
             List<PostDtoForMemberPage> postDtoList = new ArrayList<>();
             for (Post post : entity.getPosts()) {
@@ -42,6 +43,7 @@ public class MyPageDto {
             this.postDto = postDtoList;
         }
 
+        // 본인의 답변(고유아이디, 게시글아이디, 내용)만 가져옴
         if (entity.getAnswers().size() != 0) {
             List<AnswerDtoForMemberPage> answerDtoList = new ArrayList<>();
             for (Answer answer : entity.getAnswers()) {
@@ -51,6 +53,7 @@ public class MyPageDto {
             this.answerDto = answerDtoList;
         }
 
+        // 본인의 답변(고유아이디, 답변아이디, 내용)만 가져옴
         if (entity.getComments().size() != 0) {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
 
@@ -64,7 +67,13 @@ public class MyPageDto {
 
     @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
+    public class PostDtoForMemberPage {
+        private Long postId;
+        private String title;
+    }
+
+    @Getter
+    @AllArgsConstructor
     public class AnswerDtoForMemberPage {
         private Long answerId;
         private Long postId;
@@ -73,15 +82,6 @@ public class MyPageDto {
 
     @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
-    public class PostDtoForMemberPage {
-        private Long postId;
-        private String title;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
     public class CommentDtoForMemberPage {
         private Long commentId;
         private Long answerId;

@@ -17,7 +17,8 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @Query("select a from Answer a left join fetch a.imageList i join fetch a.member m where a.id= :answerId")
     Optional<Answer> findAnswerDetail(@Param("answerId") Long answerId);
 
-    @Query("select a from Answer a left join fetch a.imageList i join fetch a.member m where a.post.id=:postId")
+    // 승지: left join 코멘트 추가
+    @Query("select a from Answer a LEFT JOIN FETCH a.comments c left join fetch a.imageList i join fetch a.member m where a.post.id=:postId")
     List<Answer> findByPostId(@Param("postId") Long postId);
 
     @Modifying

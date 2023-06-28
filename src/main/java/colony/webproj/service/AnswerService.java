@@ -141,7 +141,7 @@ public class AnswerService {
 
 
     /**
-     * 포스트에 종속된 답변 전부 삭제
+     * 포스트에 종속된 답변 전부 삭제 (승지: 댓글 삭제 추가)
      */
     public void deleteByPostId(Long postId) {
         List<Answer> answerList = answerRepository.findByPostId(postId);
@@ -159,7 +159,7 @@ public class AnswerService {
     }
 
     /**
-     * 단일 답변 삭제
+     * 단일 답변 삭제 (승지: 댓글 삭제 추가)
      */
     public void deleteAnswer(Long answerId, Long postId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
