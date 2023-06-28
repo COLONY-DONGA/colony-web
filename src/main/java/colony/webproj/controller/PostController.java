@@ -62,13 +62,13 @@ public class PostController {
     @ResponseBody
     public Response postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
-        model.addAttribute("commentDtoList", commentDtoList);
+//        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
+//        model.addAttribute("commentDtoList", commentDtoList);
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
         List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변 데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return new Response(commentDtoList, postDto, answerDtoList);
+        return new Response(postDto, answerDtoList);
     }
 
 
@@ -169,7 +169,7 @@ public class PostController {
     @Data
     @AllArgsConstructor
     static class Response {
-        private List<CommentDto> commentDtoList;
+//        private List<CommentDto> commentDtoList;
         private PostDto postDto;
         private List<AnswerDto> answerDtoList;
     }

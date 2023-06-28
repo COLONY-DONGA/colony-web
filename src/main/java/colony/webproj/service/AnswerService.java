@@ -34,7 +34,7 @@ public class AnswerService {
     private final MemberRepository memberRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
-    private final HeartRepository heartRepository;
+    private final CommentService commentService;
 
     /**
      * 답변 저장
@@ -141,7 +141,7 @@ public class AnswerService {
 
 
     /**
-     * 포스트에 종속된 답변 전부 삭제
+     * 포스트에 종속된 답변 전부 삭제 (승지: 댓글 삭제 추가)
      */
     public void deleteByPostId(Long postId) {
         List<Answer> answerList = answerRepository.findByPostId(postId);
@@ -149,19 +149,25 @@ public class AnswerService {
         //로컬에 있는 이미지 파일들 삭제
         for (Answer answer : answerList) {
             imageService.deleteFile(answer.getImageList());
+            /**
+             * 이 부분 잘 모르겠음 굳이 반복문을 돌면서 자식 삭제하고 부모를 삭제해야하나? 그냥 코멘트에 postid 필드도 넣고 한 번에 삭제하면 안되남.?
+             */
+            commentService.deleteCommentInAnswer(answer.getId());
         }
         imageRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일들 삭제
         answerRepository.deleteAnswersByPostId(postId); // Post 에 등록된 Answer 삭제
     }
 
     /**
-     * 단일 답변 삭제
+     * 단일 답변 삭제 (승지: 댓글 삭제 추가)
      */
     public void deleteAnswer(Long answerId, Long postId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
 
         imageService.deleteFile(answer.getImageList()); //로컬에 있는 이미지 파일 삭제
+        commentService.deleteCommentInAnswer(answerId);
+
         answerRepository.deleteById(answerId); // answer 삭제 //image 도 고아객체로 삭제
 
         //게시글에 answer 이 전부 지워졌을 경우

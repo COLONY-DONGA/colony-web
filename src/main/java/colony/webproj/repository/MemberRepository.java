@@ -15,5 +15,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     @Query("select Member(m.password) from Member m where m.loginId= :loginId")
     String findPasswordByLoginId(String loginId);
 
+    @Query("select count(l) from Likes l where l.answer.id in (select a from Answer a where a.member.id = :memberId)")
+    int countAllAnswerLikes(String memberId);
+
+    @Query("select count(l) from Likes l where l.answer.id= :answerId")
+    int countAnswerLikes(String answerId);
 
 }

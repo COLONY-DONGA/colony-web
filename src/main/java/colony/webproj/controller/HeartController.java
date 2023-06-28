@@ -1,10 +1,7 @@
 package colony.webproj.controller;
 
-import colony.webproj.dto.HeartDto;
-import colony.webproj.entity.Heart;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.HeartService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

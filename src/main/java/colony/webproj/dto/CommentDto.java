@@ -1,5 +1,6 @@
 package colony.webproj.dto;
 
+import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class CommentDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
     @QueryProjection
     public CommentDto(Long commentId, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long parentId) {
         this.commentId = commentId;
@@ -41,6 +43,40 @@ public class CommentDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.parentId = parentId;
+    }
+
+    /**
+     * 부모 댓글을 위한 from 이라서 parentId는 필요없지 싶음
+     */
+    public static CommentDto from(Comment comment){
+        return new CommentDto(
+                comment.getId(),
+                comment.getContent(),
+                null,
+                comment.getCreatedAt(),
+                comment.getUpdatedAt(),
+                null,
+                makeChildListDto(comment.getChildList())
+                );
+    }
+
+    /**
+     *  이 생성자는 자식 댓글을 위한 생성자임
+     */
+    public CommentDto(Comment child) {
+        this.commentId = child.getId();
+        this.content = child.getContent();
+        this.createdAt = child.getCreatedAt();
+        this.updatedAt = child.getUpdatedAt();
+        this.parentId = child.getParent().getId();
+    }
+
+    public static List<CommentDto> makeChildListDto(List<Comment> child) {
+        List<CommentDto> childList = new ArrayList<>();
+        for (Comment comment : child) {
+            childList.add(new CommentDto(comment));
+        }
+        return childList;
     }
 }
 

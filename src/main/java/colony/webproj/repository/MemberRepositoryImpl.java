@@ -1,9 +1,10 @@
 package colony.webproj.repository;
 
 
-import colony.webproj.dto.MemberMangeDto;
-import colony.webproj.dto.MemberWithLikesDto;
-import colony.webproj.dto.QMemberMangeDto;
+import colony.webproj.dto.MemberManageDto;
+import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -93,8 +94,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
      * 멤버정보를 가져오고, 작성한 답변에 대해 받은 총 좋아요 개수도 가져옴
      */
     @Override
-    public MemberWithLikesDto findMemberWithLikeCount(String loginId) {
-        String query = "SELECT m, SUM(a.likeCount) FROM Member m "
+    public MyPageDto findMemberWithLikeCount(String loginId) {
+        String query = "SELECT m FROM Member m "
                 + "LEFT JOIN FETCH m.posts "
                 + "LEFT JOIN FETCH m.comments "
                 + "LEFT JOIN m.answers a "
@@ -102,20 +103,15 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 + "GROUP BY m";
 
 
-        TypedQuery<Object[]> typedQuery = em.createQuery(query, Object[].class)
+        TypedQuery<Object> typedQuery = em.createQuery(query, Object.class)
                 .setParameter("loginId", loginId);
+        Object result = typedQuery.getSingleResult();
+        Member member = (Member) result;
 
 
-        Object[] result = typedQuery.getSingleResult();
+        MyPageDto myPageDto = new MyPageDto(member);
 
-        Member member = (Member) result[0];
-        int likesCount = (int) result[1];
-
-        MemberWithLikesDto memberWithLikesDto = new MemberWithLikesDto(member, likesCount);
-
-        return memberWithLikesDto;
-
-
+        return myPageDto;
     }
 
 
