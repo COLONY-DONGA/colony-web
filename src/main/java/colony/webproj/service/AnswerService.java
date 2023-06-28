@@ -3,17 +3,14 @@ package colony.webproj.service;
 import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
 import colony.webproj.dto.ImageDto;
-import colony.webproj.dto.PostDto;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.repository.AnswerRepository;
-import colony.webproj.repository.HeartRepository;
 import colony.webproj.repository.ImageRepository;
 import colony.webproj.repository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
-import colony.webproj.repository.PostRepository.PostRepositoryCustom;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -179,11 +176,4 @@ public class AnswerService {
         }
     }
 
-    /**
-     * 좋아요 추가
-     */
-
-    /**
-     * 좋아요 삭제
-     */
 }

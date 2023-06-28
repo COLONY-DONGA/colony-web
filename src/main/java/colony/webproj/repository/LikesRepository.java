@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface HeartRepository extends JpaRepository<Likes, Long> {
+public interface LikesRepository extends JpaRepository<Likes, Long> {
     Optional<Likes> findByAnswerIdAndMemberId(Long answerId, String loginId);
 
 //    @Query("select count()")
