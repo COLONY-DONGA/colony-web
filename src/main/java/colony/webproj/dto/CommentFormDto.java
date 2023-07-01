@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class CommentFromDto {
+public class CommentFormDto {
     private Long commentId; // update 에서 사용
     @NotBlank(message = "내용을 입력해주세요")
     private String content;

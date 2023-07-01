@@ -101,11 +101,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 + "GROUP BY m";
 
 
-        TypedQuery<Object> typedQuery = em.createQuery(query, Object.class)
-                .setParameter("loginId", loginId);
-        Object result = typedQuery.getSingleResult();
-        Member member = (Member) result;
-
+        Member member = (Member) em.createQuery(query, Object.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
 
         MyPageDto myPageDto = new MyPageDto(member);
 
