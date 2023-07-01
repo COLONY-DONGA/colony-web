@@ -3,7 +3,6 @@ package colony.webproj.repository;
 
 import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.MyPageDto;
-import colony.webproj.dto.MyPageDto;
 import colony.webproj.entity.type.SearchType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

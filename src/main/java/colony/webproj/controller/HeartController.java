@@ -32,7 +32,7 @@ public class HeartController {
     /**
      * 좋아요 취소
      */
-    @DeleteMapping("/heart{answerId}")
+    @DeleteMapping("/heart/{answerId}")
     public ResponseEntity<?> decreaseHeart(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
         heartService.removeHeart(answerId, principalDetails.getLoginId());

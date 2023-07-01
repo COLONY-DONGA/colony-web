@@ -3,7 +3,6 @@ package colony.webproj.repository;
 
 import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.MyPageDto;
-import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static colony.webproj.entity.QAnswer.*;
 import static colony.webproj.entity.QComment.*;
@@ -103,11 +101,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 + "GROUP BY m";
 
 
-        TypedQuery<Object> typedQuery = em.createQuery(query, Object.class)
-                .setParameter("loginId", loginId);
-        Object result = typedQuery.getSingleResult();
-        Member member = (Member) result;
-
+        Member member = (Member) em.createQuery(query, Object.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
 
         MyPageDto myPageDto = new MyPageDto(member);
 

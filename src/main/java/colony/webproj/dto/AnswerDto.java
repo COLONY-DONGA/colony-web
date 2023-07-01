@@ -30,6 +30,6 @@ public class AnswerDto {
         this.createdAt = answer.getCreatedAt();
         this.updatedAt = answer.getUpdatedAt();
         this.imageDtoList = answer.getImageList().stream().map(image -> new ImageDto(image)).collect(Collectors.toList());
-        this.commentList = answer.getComments().stream().map(CommentDto::from).collect(Collectors.toList());
+        this.commentList = answer.getComments().stream().map(comment -> new CommentDto(comment)).collect(Collectors.toList());
     }
 }
