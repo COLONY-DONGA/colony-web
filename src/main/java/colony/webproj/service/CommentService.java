@@ -6,7 +6,7 @@ import colony.webproj.dto.CommentFormDto;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
-import colony.webproj.repository.AnswerRepository;
+import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
