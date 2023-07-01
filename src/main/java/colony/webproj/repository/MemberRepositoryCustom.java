@@ -1,7 +1,7 @@
 package colony.webproj.repository;
 
 
-import colony.webproj.dto.MemberMangeDto;
+import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.MemberWithLikesDto;
 import colony.webproj.entity.type.SearchType;
 import org.springframework.data.domain.Page;

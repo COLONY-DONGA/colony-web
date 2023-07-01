@@ -165,6 +165,9 @@ public class AnswerService {
         answerRepository.deleteById(answerId); // answer 삭제 //image 도 고아객체로 삭제
 
         //게시글에 answer 이 전부 지워졌을 경우
+        /**
+         * 여기서 가져오는 answerList 가 0인지 확인 필요
+         */
         List<Answer> answerList = answerRepository.findByPostId(postId);
         if(answerList.size() == 0) {
             Post post = postRepository.findById(postId)

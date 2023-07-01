@@ -1,10 +1,7 @@
 package colony.webproj.controller;
 
-import colony.webproj.dto.HeartDto;
-import colony.webproj.entity.Heart;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.HeartService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +32,7 @@ public class HeartController {
     /**
      * 좋아요 취소
      */
-    @DeleteMapping("/heart{answerId}")
+    @DeleteMapping("/heart/{answerId}")
     public ResponseEntity<?> decreaseHeart(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
         heartService.removeHeart(answerId, principalDetails.getLoginId());

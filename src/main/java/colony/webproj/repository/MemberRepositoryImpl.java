@@ -1,9 +1,9 @@
 package colony.webproj.repository;
 
 
-import colony.webproj.dto.MemberMangeDto;
+import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.MemberWithLikesDto;
-import colony.webproj.dto.QMemberMangeDto;
+import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static colony.webproj.entity.QAnswer.*;
 import static colony.webproj.entity.QComment.*;

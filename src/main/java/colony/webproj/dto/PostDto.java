@@ -22,8 +22,8 @@ public class PostDto {
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
     private List<ImageDto> imageDtoList; // 사진
-    private List<AnswerDto> answerDtoList; //답변
 
+    //댓글과 답변은 따로 modelAttribute 해줌
 
     //승지 from 코드 생성자
     public PostDto(Long postId, String title, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean answered) {
