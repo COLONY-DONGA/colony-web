@@ -2,68 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="header.js" type="module"></script>
-    <script src="footer.js" type="module"></script>
-    <link rel="stylesheet" href="../static/css/headerfooter.css" />
     <link rel="stylesheet" href="../static/css/aEnroll.css" />
     <title>aEnroll</title>
   </head>
-  <body>
-    <script type="module">
-      import header from '../static/js/board/header.js';
-      import footer from '../static/js/board/footer.js';
-      document.getElementById('header-container').innerHTML = header;
-      document.getElementById('footer-container').innerHTML = footer;
-    </script>
 
+  <body>
     <div id="header-container"></div>
 
-    <!-- <div class="item--KEP" id="33203:156">
-      <div class="item--q6F" id="33253:11">
-        <div class="auto-group-onzk-PfV" id="6gdd8a9GUNKzBJAf6MoNzK">
-          <div class="item--hRH" id="33253:28">답변 등록</div>
-          <div class="item--ocj" id="33253:21">Text box</div>
-        </div>
-        <div class="auto-group-jhxs-b2o" id="6gdcwunN9dacETAtviJHxs">
-          <div class="item--XBM" id="33253:18">📁Add file</div>
-          <div class="item--fgs" id="33253:15">등록</div>
-          <div class="item--gM5" id="33253:12">취소</div>
-        </div>
-      </div>
-    </div> -->
-
-    <div class="answer-registration-container" id="answer-registration-156">
-      <div class="answer-registration-item" id="answer-registration-item-33253:11">
-        <div
-          class="answer-registration-content"
-          id="answer-registration-content-6gdd8a9GUNKzBJAf6MoNzK"
-        >
-          <div class="answer-registration-header" id="answer-registration-header-33253:28">
-            답변 등록
+    <div class="frame">
+      <div class="container">
+        <form action="#">
+          <div class="item1">
+            <div class="answer_enroll">답변 등록</div>
+            <textarea
+              class="text_box"
+              rows="10"
+              cols="156"
+              placeholder="답변을 입력하세요"
+            ></textarea>
           </div>
-          <div class="answer-registration-field" id="answer-registration-field-33253:21">
-            Text box
+          <div class="item2">
+            <input type="file" id="file-input" style="display: none" multiple />
+            <label for="file-input" class="add_file">📁Add file</label>
+            <button class="submit_btn">등록</button>
+            <button class="cancel_btn">취소</button>
           </div>
-        </div>
-        <div
-          class="answer-registration-actions"
-          id="answer-registration-actions-6gdcwunN9dacETAtviJHxs"
-        >
-          <div class="answer-registration-action" id="answer-registration-action-33253:18">
-            📁 Add file
-          </div>
-          <div class="answer-registration-action" id="answer-registration-action-33253:15">
-            등록
-          </div>
-          <div class="answer-registration-action" id="answer-registration-action-33253:12">
-            취소
-          </div>
-        </div>
+        </form>
+        <ul id="file-list"></ul>
       </div>
     </div>
 
     <div id="footer-container"></div>
+
+    <script>
+      let fileInput = document.getElementById('file-input');
+      let fileList = document.getElementById('file-list');
+
+      fileInput.addEventListener('change', () => {
+        let selectedFiles = Array.from(fileInput.files);
+
+        selectedFiles.forEach((file) => {
+          let listItem = document.createElement('li');
+          listItem.textContent = `${file.name} (${formatFileSize(file.size)})`;
+
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-btn');
+          deleteButton.addEventListener('click', () => {
+            listItem.remove();
+          });
+
+          listItem.appendChild(deleteButton);
+          fileList.appendChild(listItem);
+        });
+      });
+
+      function formatFileSize(size) {
+        if (size === 0) return '0 Bytes';
+        let units = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        let i = Math.floor(Math.log(size) / Math.log(1024));
+        return `${parseFloat((size / Math.pow(1024, i)).toFixed(2))} ${units[i]}`;
+      }
+    </script>
   </body>
 </html>

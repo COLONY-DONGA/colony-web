@@ -19,8 +19,9 @@ public class AnswerDto {
     private LocalDateTime createdAt; //생성일
     private LocalDateTime updatedAt; //수정일
     private List<ImageDto> imageDtoList; // 사진
-    private List<CommentDto> commentDtoList;  // 이렇게
+    private List<CommentDto> commentList;
     private Long heartNum; //좋아요 수
+
 
     public AnswerDto(Answer answer) {
         this.answerId = answer.getId();
@@ -29,5 +30,6 @@ public class AnswerDto {
         this.createdAt = answer.getCreatedAt();
         this.updatedAt = answer.getUpdatedAt();
         this.imageDtoList = answer.getImageList().stream().map(image -> new ImageDto(image)).collect(Collectors.toList());
+        this.commentList = answer.getComments().stream().map(CommentDto::from).collect(Collectors.toList());
     }
 }

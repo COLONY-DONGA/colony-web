@@ -17,7 +17,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
         this.queryFactory = new JPAQueryFactory(em);
     }
     @Override
-    public List<CommentDto> findParentCommentByPostId(Long postId) {
+    public List<CommentDto> findParentCommentByAnswerId(Long answerId) {
         List<CommentDto> parentComment = queryFactory
                 .select(new QCommentDto(
                         comment.id,
@@ -28,14 +28,14 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 ))
                 .from(comment)
                 .join(comment.member, member)
-                .where(comment.post.id.eq(postId))
+                .where(comment.answer.id.eq(answerId))
                 .where(comment.parent.id.isNull())
                 .fetch();
         return parentComment;
     }
 
     @Override
-    public List<CommentDto> findChildCommentByPostId(Long postId) {
+    public List<CommentDto> findChildCommentByAnswerId(Long answerId) {
         List<CommentDto> childComment = queryFactory
                 .select(new QCommentDto(
                         comment.id,
@@ -47,7 +47,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom{
                 ))
                 .from(comment)
                 .join(comment.member, member)
-                .where(comment.post.id.eq(postId))
+                .where(comment.answer.id.eq(answerId))
                 .where(comment.parent.id.isNotNull())
                 .fetch();
         return childComment;

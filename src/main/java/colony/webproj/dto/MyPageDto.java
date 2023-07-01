@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Builder
-public class MemberWithLikesDto {
+public class MyPageDto {
     private String loginId;
     private String password;
     private String name; //이름
@@ -24,15 +24,16 @@ public class MemberWithLikesDto {
     private List<CommentDtoForMemberPage> commentDto;
 
 
-    public MemberWithLikesDto(Member entity, int likesCount) {
+    public MyPageDto(Member entity) {
         this.loginId = entity.getLoginId();
         this.password = entity.getPassword();
         this.name = entity.getName();
         this.nickname = entity.getNickname();
         this.phoneNumber = entity.getPhoneNumber();
         this.department = entity.getDepartment();
-        this.likesCount = likesCount;
+        this.likesCount = 0;
 
+        // 본인의 게시글(고유아이디, 제목)만 가져옴
         if (entity.getPosts().size() != 0) {
             List<PostDtoForMemberPage> postDtoList = new ArrayList<>();
             for (Post post : entity.getPosts()) {
@@ -42,6 +43,7 @@ public class MemberWithLikesDto {
             this.postDto = postDtoList;
         }
 
+        // 본인의 답변(고유아이디, 게시글아이디, 내용)만 가져옴
         if (entity.getAnswers().size() != 0) {
             List<AnswerDtoForMemberPage> answerDtoList = new ArrayList<>();
             for (Answer answer : entity.getAnswers()) {
@@ -51,10 +53,12 @@ public class MemberWithLikesDto {
             this.answerDto = answerDtoList;
         }
 
+        // 본인의 답변(고유아이디, 답변아이디, 내용)만 가져옴
         if (entity.getComments().size() != 0) {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
+
             for (Comment comment : entity.getComments()) {
-                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getPost().getId(), comment.getContent());
+                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getId(), comment.getContent());
                 commentDtoList.add(commentDto);
             }
             this.commentDto = commentDtoList;
@@ -63,7 +67,13 @@ public class MemberWithLikesDto {
 
     @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
+    public class PostDtoForMemberPage {
+        private Long postId;
+        private String title;
+    }
+
+    @Getter
+    @AllArgsConstructor
     public class AnswerDtoForMemberPage {
         private Long answerId;
         private Long postId;
@@ -72,18 +82,9 @@ public class MemberWithLikesDto {
 
     @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
-    public class PostDtoForMemberPage {
-        private Long postId;
-        private String title;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
     public class CommentDtoForMemberPage {
         private Long commentId;
-        private Long postId;
+        private Long answerId;
         private String cotent;
     }
 

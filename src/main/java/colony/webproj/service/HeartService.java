@@ -1,7 +1,7 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Answer;
-import colony.webproj.entity.Heart;
+import colony.webproj.entity.Likes;
 import colony.webproj.entity.Member;
 import colony.webproj.repository.AnswerRepository;
 import colony.webproj.repository.HeartRepository;
@@ -30,7 +30,7 @@ public class HeartService {
      */
     @Transactional
     public boolean addHeart(Long answerId, String loginId) {
-        Optional<Heart> existingHeart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId);
+        Optional<Likes> existingHeart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId);
         if (existingHeart.isPresent()) {
             return false;
         }
@@ -40,12 +40,12 @@ public class HeartService {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("멤버가 존재하지 않습니다."));
 
-        Heart heart = Heart.builder()
+        Likes likes = Likes.builder()
         .answer(answer)
         .member(member)
         .build();
 
-        heartRepository.save(heart);
+        heartRepository.save(likes);
         return true;
     }
 
@@ -58,10 +58,10 @@ public class HeartService {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
 
-        Heart heart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId)
+        Likes likes = heartRepository.findByAnswerIdAndMemberId(answerId, loginId)
                 .orElseThrow(() -> new IllegalStateException("좋아요를 누른 기록이 없습니다."));
 
-        heartRepository.delete(heart);
+        heartRepository.delete(likes);
     }
 
 }
