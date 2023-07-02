@@ -1,7 +1,9 @@
 package colony.webproj.repository.PostRepository;
 
 import colony.webproj.dto.PostDto;
+import colony.webproj.dto.PostManageDto;
 import colony.webproj.dto.QPostDto;
+import colony.webproj.dto.QPostManageDto;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -55,6 +57,35 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(result, pageable, total);
     }
 
+    @Override
+    public Page<PostManageDto> findPostDtoListAdmin(SearchType searchType, String searchValue, Pageable pageable) {
+        List<PostManageDto> result = queryFactory
+                .select(new QPostManageDto(
+                        post.id,
+                        post.title,
+                        member.name,
+                        member.nickname,
+                        member.department,
+                        post.createdAt,
+                        post.answered
+                        ))
+                .from(post)
+                .join(post.member, member)
+                .where(searchValue(searchType, searchValue))
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory
+                .select(post.count())
+                .from(post)
+                .where(searchValue(searchType, searchValue))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, total);
+    }
+
     private OrderSpecifier<?> postOrderBy(String sortBy) {
         if (sortBy.equals("createdAt")) return post.createdAt.desc();
         if (sortBy.equals("title")) return post.title.asc();
@@ -62,21 +93,21 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression searchValue(SearchType searchType, String searchValue) {
-        if(searchValue == null || searchType == null) return null;
-        if(searchType == SearchType.TITLE) {
+        if (searchValue == null || searchType == null) return null;
+        if (searchType == SearchType.TITLE) {
             return post.title.containsIgnoreCase(searchValue);
         }
-        if(searchType == SearchType.CONTENT) {
+        if (searchType == SearchType.CONTENT) {
             return post.content.containsIgnoreCase(searchValue);
         }
-        if(searchType == SearchType.NICKNAME) {
+        if (searchType == SearchType.NICKNAME) {
             return member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
     }
 
     private BooleanExpression answeredEq(Boolean answered) {
-        if(answered == null) return null;
+        if (answered == null) return null;
         return answered.booleanValue() == true ? post.answered.eq(true) : post.answered.eq(false);
     }
 }

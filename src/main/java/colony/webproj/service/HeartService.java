@@ -1,10 +1,9 @@
 package colony.webproj.service;
 
-import colony.webproj.dto.HeartDto;
 import colony.webproj.entity.Answer;
-import colony.webproj.entity.Heart;
+import colony.webproj.entity.Likes;
 import colony.webproj.entity.Member;
-import colony.webproj.repository.AnswerRepository;
+import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.HeartRepository;
 import colony.webproj.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,40 +29,39 @@ public class HeartService {
      * 좋아요 추가 메서드 : Heart 엔티티에 AnswerId와 MemberId를 함께 추가하는 것이기 때문에 Add 라는 표현을 씀.
      */
     @Transactional
-    public void addHeart(HeartDto heartDto) {
-        Optional<Heart> existingHeart = heartRepository.findByAnswerIdAndMemberId(heartDto.getAnswerId(), heartDto.getLoginId());
+    public boolean addHeart(Long answerId, String loginId) {
+        Optional<Likes> existingHeart = heartRepository.findByAnswerIdAndMemberId(answerId, loginId);
         if (existingHeart.isPresent()) {
-            throw new IllegalStateException("이미 좋아요를 눌렀습니다.");
+            return false;
         }
 
-        Answer answer = answerRepository.findAnswerDetail(heartDto.getAnswerId())
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
-        Member member = memberRepository.findByLoginId(heartDto.getLoginId())
+        Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("멤버가 존재하지 않습니다."));
 
-        Heart heart = Heart.builder()
+        Likes likes = Likes.builder()
         .answer(answer)
         .member(member)
         .build();
 
-        heartRepository.save(heart);
-        answer.increaseLikeCount();
+        heartRepository.save(likes);
+        return true;
     }
 
     /**
      * 좋아요 삭제 메서드 : Heart 엔티티에 AnswerId와 MemberId를 함께 추가하는 것이기 때문에 remove 라는 표현을 씀.
      */
     @Transactional
-    public void removeHeart(HeartDto heartDto) {
+    public void removeHeart(Long answerId, String loginId) {
 
-        Answer answer = answerRepository.findAnswerDetail(heartDto.getAnswerId())
+        Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
 
-        Heart heart = heartRepository.findByAnswerIdAndMemberId(heartDto.getAnswerId(), heartDto.getLoginId())
+        Likes likes = heartRepository.findByAnswerIdAndMemberId(answerId, loginId)
                 .orElseThrow(() -> new IllegalStateException("좋아요를 누른 기록이 없습니다."));
 
-        heartRepository.delete(heart);
-        answer.decreaseLikeCount();
+        heartRepository.delete(likes);
     }
 
 }

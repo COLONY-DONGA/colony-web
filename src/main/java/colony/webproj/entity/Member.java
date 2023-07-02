@@ -34,4 +34,18 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Answer> answers;
 
+
+
+    public List<Post> getMyPosts(){
+        return this.getPosts();
+    }
+
+    public List<Comment> getMyComments(){
+        return this.getComments();
+    }
+
+    public List<Answer> getMyAnswers(){
+        return this.getAnswers();
+    }
+
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -28,24 +29,9 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;
-
-    @ColumnDefault("0")
-    @Column(name = "like_count", nullable = true)
-    private Integer likeCount;
-
-
-    // 좋아요 개수를 증가시키는 메소드
-    public void increaseLikeCount() {
-        this.likeCount++;
-    }
-
-    // 좋아요 개수를 감소시키는 메소드
-    public void decreaseLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount--;
-        }
-    }
 }

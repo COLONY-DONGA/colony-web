@@ -1,13 +1,14 @@
 package colony.webproj.repository;
 
+
 import colony.webproj.dto.MemberManageDto;
+import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static colony.webproj.entity.QAnswer.*;
 import static colony.webproj.entity.QComment.*;
@@ -74,14 +74,14 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     }
 
     private BooleanExpression search(SearchType searchType, String searchValue) {
-        if(searchValue == null || searchType == null) return null;
-        if(searchType == SearchType.NAME) {
+        if (searchValue == null || searchType == null) return null;
+        if (searchType == SearchType.NAME) {
             return member.name.containsIgnoreCase(searchValue);
         }
-        if(searchType == SearchType.NICKNAME) {
+        if (searchType == SearchType.NICKNAME) {
             return member.nickname.containsIgnoreCase(searchValue);
         }
-        if(searchType == SearchType.LOGIN_ID) {
+        if (searchType == SearchType.LOGIN_ID) {
             return member.loginId.containsIgnoreCase(searchValue);
         }
         return null;
@@ -89,32 +89,26 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
 
     /**
-     *  멤버정보를 가져오고, 작성한 답변에 대해 받은 총 좋아요 개수도 가져옴
+     * 멤버정보를 가져오고, 작성한 답변에 대해 받은 총 좋아요 개수도 가져옴
      */
     @Override
-    public Optional<Member> findMemberWithLikeCount(String loginId) {
-        String query = "SELECT m, SUM(a.likeCount) FROM Member m "
+    public MyPageDto findMemberWithLikeCount(String loginId) {
+        String query = "SELECT m FROM Member m "
+                + "LEFT JOIN FETCH m.posts "
+                + "LEFT JOIN FETCH m.comments "
                 + "LEFT JOIN m.answers a "
                 + "WHERE m.loginId = :loginId "
                 + "GROUP BY m";
 
-        TypedQuery<Object[]> typedQuery = em.createQuery(query, Object[].class)
-                .setParameter("loginId", loginId);
 
-        try {
-            Object[] result = typedQuery.getSingleResult();
+        Member member = (Member) em.createQuery(query, Object.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
 
-            Member member = (Member) result[0];
-            Long likesCount = (Long) result[1];
+        MyPageDto myPageDto = new MyPageDto(member);
 
-
-            return Optional.of(member);
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        return myPageDto;
     }
-
-
 
 
 }

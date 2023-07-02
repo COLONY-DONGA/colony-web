@@ -2,13 +2,13 @@ package colony.webproj.service;
 
 
 import colony.webproj.dto.CommentDto;
-import colony.webproj.dto.CommentFromDto;
+import colony.webproj.dto.CommentFormDto;
+import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
-import colony.webproj.entity.Post;
+import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.MemberRepository;
-import colony.webproj.repository.PostRepository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,20 +27,21 @@ import java.util.Map;
 public class CommentService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+//    private final PostRepository postRepository;
+    private final AnswerRepository answerRepository;
 
     /**
      * 댓글 생성
      */
-    public Long saveComment(Long postId, CommentFromDto commentFormDto, String loginId) {
+    public Long saveComment(Long answerId, CommentFormDto commentFormDto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다"));
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다"));
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다"));
         Comment comment = Comment.builder()
                 .content(commentFormDto.getContent())
                 .member(member)
-                .post(post)
+                .answer(answer)
                 .build();
         return commentRepository.save(comment).getId();
     }
@@ -48,17 +49,17 @@ public class CommentService {
     /**
      * 대댓글 생성
      */
-    public Long saveReComment(Long postId, Long commentId, CommentFromDto commentFromDto, String loginId) {
+    public Long saveReComment(Long answerId, Long commentId, CommentFormDto commentFormDto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다"));
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다"));
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다"));
         Comment parentComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
         Comment childComment = Comment.builder()
-                .content(commentFromDto.getContent())
+                .content(commentFormDto.getContent())
                 .member(member)
-                .post(post)
+                .answer(answer)
                 .parent(parentComment)
                 .build();
         return commentRepository.save(childComment).getId();
@@ -78,17 +79,17 @@ public class CommentService {
      * 댓글 수정
      * 대댓글 수정
      */
-    public Long updateCommentOrRecomment(Long commentId, CommentFromDto commentFromDto, String loginId) {
+    public Long updateCommentOrRecomment(Long commentId, CommentFormDto commentFormDto, String loginId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
-        comment.setContent(commentFromDto.getContent());
+        comment.setContent(commentFormDto.getContent());
         return comment.getId();
     }
 
     /**
      * 댓글 삭제
      */
-    public void deleteComment(Long commentId, CommentFromDto commentFromDto, String loginId) {
+    public void deleteComment(Long commentId, CommentFormDto commentFormDto, String loginId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
 
@@ -113,18 +114,18 @@ public class CommentService {
     /**
      * 게시글에 포함된 댓글 전부 삭제
      */
-    public void deleteCommentInPost(Long postId) {
-        commentRepository.deleteChildByPostId(postId); //자식부터 제거 후
-        commentRepository.deleteParentByPostId(postId); //부모 제거
+    public void deleteCommentInAnswer(Long answerId) {
+        commentRepository.deleteChildByAnswerId(answerId); //자식부터 제거 후
+        commentRepository.deleteParentByAnswerId(answerId); //부모 제거
     }
 
     /**
      * 댓글 불러오기
      */
     @Transactional(readOnly = true)
-    public List<CommentDto> convertNestedStructure(Long postId) {
-        List<CommentDto> parentCommentDto = commentRepository.findParentCommentByPostId(postId);
-        List<CommentDto> childCommentDto = commentRepository.findChildCommentByPostId(postId);
+    public List<CommentDto> convertNestedStructure(Long answerId) {
+        List<CommentDto> parentCommentDto = commentRepository.findParentCommentByAnswerId(answerId);
+        List<CommentDto> childCommentDto = commentRepository.findChildCommentByAnswerId(answerId);
 
         Map<Long, CommentDto> commentDtoMap = new HashMap<>();
         List<CommentDto> responseCommentDto = new ArrayList<>();

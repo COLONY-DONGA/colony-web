@@ -1,5 +1,6 @@
 package colony.webproj.dto;
 
+import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class CommentDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
     @QueryProjection
     public CommentDto(Long commentId, String content, String createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long parentId) {
         this.commentId = commentId;
@@ -41,6 +43,29 @@ public class CommentDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.parentId = parentId;
+    }
+
+    /**
+     *  부모 Comment Dto 변환
+     */
+    public CommentDto(Comment comment) {
+        this.commentId = comment.getId();
+        this.content = comment.getContent();
+        this.createdAt = comment.getCreatedAt();
+        this.updatedAt = comment.getUpdatedAt();
+        this.createdBy = comment.getMember().getNickname();
+
+        //자식 comment Dto 변환
+        this.childList = comment.getChildList().stream()
+                .map(parent -> CommentDto.builder()
+                        .commentId(parent.getId())
+                        .content(parent.getContent())
+                        .parentId(parent.getParent().getId())
+                        .createdAt(parent.getCreatedAt())
+                        .updatedAt(parent.getUpdatedAt())
+                        .createdBy(parent.getMember().getNickname())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
 
