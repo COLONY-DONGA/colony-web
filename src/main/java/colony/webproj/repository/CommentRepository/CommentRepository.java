@@ -21,7 +21,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long>, Comment
     @Query("delete from Comment c where c.answer.id=:answerId and c.parent is null")
     int deleteParentByAnswerId(@Param("answerId") Long answerId);
 
-
     @Query("select c from Comment c " +
             "left join fetch c.childList cl " +
             "where c.answer.id in :answerIds")

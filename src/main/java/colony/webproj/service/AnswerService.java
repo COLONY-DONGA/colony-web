@@ -6,8 +6,8 @@ import colony.webproj.dto.ImageDto;
 import colony.webproj.entity.*;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.answerRepository.AnswerRepository;
-import colony.webproj.repository.ImageRepository;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.repository.imageRepository.ImageRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -102,31 +102,30 @@ public class AnswerService {
      */
     @Transactional(readOnly = true)
     public List<AnswerDto> findByPostId(Long postId) {
-//        List<AnswerDto> answerDtoList = answerRepository.findByPostIdWithCommentsAndChildCommentsAndImagesAndMember(postId).stream()
-//                .map(answer -> new AnswerDto(answer))
-//                .collect(Collectors.toList());
-
-
+        
+        //image, member join fetch 한 쿼리
         List<Answer> answerList = answerRepository.findAnswersByPostId(postId);
         List<Long> answerIds = answerList.stream().map(Answer::getId).collect(Collectors.toList());
 
+        //댓글, 대댓글 join fetch 한 쿼리
         List<Comment> commentList = commentRepository.findCommentsByAnswerIds(answerIds);
 
+        //부모 댓글만 저장하는 commentMap 
+        //key 가 answerId 이며 value 가 부모 댓글인 hashMap 으로 변환
         Map<Long, List<Comment>> commentMap = commentList.stream()
                 .filter(comment -> comment.getParent() == null) // parent 필드가 null이 아닌 경우만 필터링
                 .collect(Collectors.groupingBy(comment -> comment.getAnswer().getId()));
 
-        log.info("1");
+        //answer 엔티티에 부모 댓글 세팅
         for (Answer answer : answerList) {
             Long answerId = answer.getId();
             List<Comment> answerComments = commentMap.getOrDefault(answerId, Collections.emptyList());
             answer.setComments(answerComments);
         }
-        log.info("2");
+
         List<AnswerDto> answerDtoList = answerList.stream()
                 .map(answer -> new AnswerDto(answer))
                 .collect(Collectors.toList());
-        log.info("3");
         return answerDtoList;
     }
 

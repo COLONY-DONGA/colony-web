@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.heartRepository;
 
 import colony.webproj.entity.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;

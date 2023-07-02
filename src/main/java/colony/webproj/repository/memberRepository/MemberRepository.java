@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.memberRepository;
 
 import colony.webproj.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
