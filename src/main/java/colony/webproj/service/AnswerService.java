@@ -73,29 +73,7 @@ public class AnswerService {
         return answer.getMember().getLoginId();
     }
 
-    /**
-     * 답변 상세 정보
-     */
-    public AnswerDto findAnswerDetail(Long answerId) {
-        Answer answer = answerRepository.findAnswerDetail(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
-        List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
-                .map(image -> new ImageDto(image))
-                .collect(Collectors.toList());
 
-//        Long heartNum = heartRepository.findHearNumByAnswerId(answerId);
-
-        AnswerDto answerDto = AnswerDto.builder()
-                .answerId(answer.getId())
-                .content(answer.getContent())
-                .createdBy(answer.getMember().getNickname())
-                .createdAt(answer.getCreatedAt())
-                .updatedAt(answer.getUpdatedAt())
-                .imageDtoList(imageDtoList)
-//                .heartNum(heartNum)
-                .build();
-        return answerDto;
-    }
 
     /**
      * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
@@ -127,6 +105,27 @@ public class AnswerService {
                 .map(answer -> new AnswerDto(answer))
                 .collect(Collectors.toList());
         return answerDtoList;
+    }
+
+    /**
+     * 답변 상세 정보 (update 에서 사용)
+     */
+    public AnswerDto findAnswerDetail(Long answerId) {
+        Answer answer = answerRepository.findAnswerDetail(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+        List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
+                .map(image -> new ImageDto(image))
+                .collect(Collectors.toList());
+
+        AnswerDto answerDto = AnswerDto.builder()
+                .answerId(answer.getId())
+                .content(answer.getContent())
+                .createdBy(answer.getMember().getNickname())
+                .createdAt(answer.getCreatedAt())
+                .updatedAt(answer.getUpdatedAt())
+                .imageDtoList(imageDtoList)
+                .build();
+        return answerDto;
     }
 
     /**
@@ -164,9 +163,6 @@ public class AnswerService {
         //로컬에 있는 이미지 파일들 삭제
         for (Answer answer : answerList) {
             imageService.deleteFile(answer.getImageList());
-            /**
-             * 이 부분 잘 모르겠음 굳이 반복문을 돌면서 자식 삭제하고 부모를 삭제해야하나? 그냥 코멘트에 postid 필드도 넣고 한 번에 삭제하면 안되남.?
-             */
             commentService.deleteCommentInAnswer(answer.getId());
         }
         imageRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일들 삭제
@@ -196,12 +192,4 @@ public class AnswerService {
             post.setAnswered(false);
         }
     }
-
-    /**
-     * 좋아요 추가
-     */
-
-    /**
-     * 좋아요 삭제
-     */
 }
