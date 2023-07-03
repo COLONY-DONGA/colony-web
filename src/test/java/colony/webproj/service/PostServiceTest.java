@@ -7,8 +7,8 @@
 //import colony.webproj.entity.Member;
 //import colony.webproj.entity.Post;
 //import colony.webproj.entity.type.SearchType;
-//import colony.webproj.repository.ImageRepository;
-//import colony.webproj.repository.MemberRepository;
+//import colony.webproj.repository.imageRepository.ImageRepository;
+//import colony.webproj.repository.memberRepository.MemberRepository;
 //import colony.webproj.repository.PostRepository.PostRepository;
 //import colony.webproj.service.ImageService;
 //import colony.webproj.service.PostService;

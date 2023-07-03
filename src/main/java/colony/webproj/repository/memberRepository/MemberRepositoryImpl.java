@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.memberRepository;
 
 
 import colony.webproj.dto.MemberManageDto;
@@ -9,7 +9,6 @@ import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

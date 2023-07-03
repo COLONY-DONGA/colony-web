@@ -1,11 +1,7 @@
 package colony.webproj.security;
 
-import colony.webproj.dto.MemberDto;
 import colony.webproj.entity.Member;
-import colony.webproj.entity.Role;
-import colony.webproj.repository.MemberRepository;
-import colony.webproj.service.MemberService;
-import jakarta.persistence.EntityNotFoundException;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

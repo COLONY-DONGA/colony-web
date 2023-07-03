@@ -8,7 +8,7 @@ import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
 import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.CommentRepository.CommentRepository;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
