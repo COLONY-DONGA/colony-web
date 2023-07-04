@@ -1,0 +1,78 @@
+<!--&lt;!&ndash;백엔드에서 알람 기능 구현을 위한 테스트 코드임 (feat. 진수)&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="abc"></div>-->
+<!--<script>-->
+<!--    var socket = null;-->
+<!--    $(document).ready(function () {-->
+<!--        $("#setIdButton").click(function() {-->
+<!--            connectStomp($("#setId").val())-->
+<!--            console.log("연결로직 끝")-->
+<!--        })-->
+
+<!--    })-->
+
+<!--    function connectStomp(setId) {-->
+<!--        var sock = new SockJS("/stompTest"); //endpoint-->
+<!--        socket = Stomp.over(sock);-->
+
+<!--        socket.connect({}, function(frame) {-->
+<!--            console.log('STOMP 연결 성공');-->
+
+<!--            //연결하자마자 자기 자신의 url 을 구독-->
+<!--            //나중에 누군가 내 글에 답변을 작성했을 때 알림을 받기 위함-->
+<!--            socket.subscribe('/sub/alarm/' + setId, function(response) {-->
+<!--                var alarm = JSON.parse(response.body);-->
+<!--                console.log("받았다");-->
+<!--                console.log(alarm); //백엔드에서 보낸 메시지-->
+<!--                //화면에 어떻게 띄울 지 구성할 곳-->
+
+<!--            })-->
+
+<!--        });-->
+
+<!--    }-->
+
+<!--    $(document).ready(function() {-->
+<!--        // 버튼 클릭 이벤트 핸들러 등록-->
+<!--        $("#ab").click(function() {-->
+<!--            // 버튼이 클릭되었을 때 수행할 동작 작성-->
+<!--            console.log("버튼이 클릭되었습니다.");-->
+<!--            sendNotification()-->
+<!--            // 추가로 원하는 동작을 여기에 작성하세요.-->
+<!--        });-->
+<!--    });-->
+
+<!--    //댓글 작성 시-->
+<!--    function sendNotification(userId, message) {-->
+<!--        var a = $("#abab").val();-->
+<!--        var notification = {-->
+<!--            sendId: "답글or답변 작성자",-->
+<!--            receiveId: a,-->
+<!--            postTitle: "게시글 제목",-->
+<!--            code: "답글인지 댓글인지",-->
+<!--        };-->
+<!--        console.log(notification.receiveId);-->
+<!--        socket.send("/pub/alarm", {}, JSON.stringify(notification));-->
+<!--    }-->
+
+<!--    // 예시: 알림 보내기-->
+<!--    var userId = "사용자 식별자"; // 알림을 받을 사용자의 식별자-->
+<!--    var message = "알림 메시지"; // 전달할 알림 메시지-->
+<!--</script>-->
+<!--본인 아이디 결정: <input type="text" id="setId">-->
+<!--<button id="setIdButton">전송</button><br>-->
+<!--보낼 아이디 결정: <input type="text" id="abab">-->
+<!--<button id="ab">전송</button>-->
+
+<!--</body>-->
+<!--</html>-->

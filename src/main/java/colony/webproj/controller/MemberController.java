@@ -53,7 +53,7 @@ public class MemberController {
      */
     @GetMapping("/join")
     public String joinForm() {
-        return "회원가입 폼";
+        return "register";
     }
 
     /**

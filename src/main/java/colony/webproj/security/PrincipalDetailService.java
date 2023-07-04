@@ -27,7 +27,7 @@ public class PrincipalDetailService implements UserDetailsService {
         Member member = findMember.get();
 
         log.info("loadUserByUsername 메소드 종료");
-        return new PrincipalDetails(member.getLoginId(), member.getPassword(), member.getRole()); //세션에 커스텀한 PrincipalDetails 저장
+        return new PrincipalDetails(member.getId() ,member.getLoginId(), member.getPassword(), member.getRole()); //세션에 커스텀한 PrincipalDetails 저장
 
     }
 }
