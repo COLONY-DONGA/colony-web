@@ -1,8 +1,7 @@
-package colony.webproj.repository;
+package colony.webproj.repository.memberRepository;
 
 
 import colony.webproj.dto.MemberManageDto;
-import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
@@ -10,7 +9,6 @@ import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static colony.webproj.entity.QAnswer.*;
 import static colony.webproj.entity.QComment.*;
@@ -103,11 +100,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 + "GROUP BY m";
 
 
-        TypedQuery<Object> typedQuery = em.createQuery(query, Object.class)
-                .setParameter("loginId", loginId);
-        Object result = typedQuery.getSingleResult();
-        Member member = (Member) result;
-
+        Member member = (Member) em.createQuery(query, Object.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
 
         MyPageDto myPageDto = new MyPageDto(member);
 

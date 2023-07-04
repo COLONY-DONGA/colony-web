@@ -53,7 +53,7 @@ public class MyPageDto {
             this.answerDto = answerDtoList;
         }
 
-        // 본인의 답변(고유아이디, 답변아이디, 내용)만 가져옴
+        // 본인의 댓글(고유아이디, 답변아이디, 내용)만 가져옴
         if (entity.getComments().size() != 0) {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
 
@@ -77,7 +77,7 @@ public class MyPageDto {
     public class AnswerDtoForMemberPage {
         private Long answerId;
         private Long postId;
-        private String cotent;
+        private String content;
     }
 
     @Getter
@@ -85,7 +85,7 @@ public class MyPageDto {
     public class CommentDtoForMemberPage {
         private Long commentId;
         private Long answerId;
-        private String cotent;
+        private String content;
     }
 
 }

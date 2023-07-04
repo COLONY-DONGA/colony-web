@@ -12,12 +12,13 @@ import java.util.Collection;
 
 @Getter
 public class PrincipalDetails implements UserDetails {
-
+    private Long id;
     private String loginId;
     private String password;
     private Role role;
 
-    public PrincipalDetails(String loginId, String password, Role role) {
+    public PrincipalDetails(Long id, String loginId, String password, Role role) {
+        this.id = id;
         this.loginId = loginId;
         this.password = password;
         this.role = role;

@@ -3,12 +3,13 @@ package colony.webproj.service;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Likes;
 import colony.webproj.entity.Member;
-import colony.webproj.repository.AnswerRepository;
-import colony.webproj.repository.LikesRepository;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.repository.answerRepository.AnswerRepository;
+import colony.webproj.repository.likesRepository.LikesRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,8 @@ public class LikesService {
      * 좋아요 추가 메서드
      */
     @Transactional
-    public boolean addLikes(Long answerId, String loginId) {
+    public Boolean addLikes(Long answerId, String loginId) {
+
         Optional<Likes> existingLikes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId);
         if (existingLikes.isPresent()) {
             return false;
@@ -54,6 +56,9 @@ public class LikesService {
      */
     @Transactional
     public void removeLikes(Long answerId, String loginId) {
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+
         Likes likes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId)
                 .orElseThrow(() -> new IllegalStateException("좋아요를 누른 기록이 없습니다."));
 

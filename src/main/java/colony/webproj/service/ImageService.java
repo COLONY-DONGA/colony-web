@@ -1,12 +1,11 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Image;
-import colony.webproj.repository.ImageRepository;
+import colony.webproj.repository.imageRepository.ImageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

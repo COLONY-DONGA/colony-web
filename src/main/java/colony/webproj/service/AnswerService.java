@@ -3,14 +3,15 @@ package colony.webproj.service;
 import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
 import colony.webproj.dto.ImageDto;
-import colony.webproj.entity.Answer;
-import colony.webproj.entity.Image;
-import colony.webproj.entity.Member;
-import colony.webproj.entity.Post;
-import colony.webproj.repository.AnswerRepository;
-import colony.webproj.repository.ImageRepository;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.entity.*;
+import colony.webproj.repository.CommentRepository.CommentRepository;
+import colony.webproj.repository.answerRepository.AnswerRepository;
+import colony.webproj.repository.imageRepository.ImageRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
+import colony.webproj.sse.Notification;
+import colony.webproj.sse.NotificationRepository;
+import colony.webproj.sse.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +35,9 @@ public class AnswerService {
     private final ImageService imageService;
     private final ImageRepository imageRepository;
     private final CommentService commentService;
+    private final CommentRepository commentRepository;
+    private final NotificationRepository notificationRepository;
+    private final NotificationService notificationService;
 
     /**
      * 답변 저장
@@ -60,6 +66,16 @@ public class AnswerService {
                 log.info("이미지 저장 완료");
             }
         }
+
+        //알림 로직
+        Notification notification = Notification.builder()
+                .receiver(post.getMember())
+                .content(post.getTitle() + " 게시글에 답변이 달렸습니다.")
+                .url("/post/" + post.getId())
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
+        notificationService.send(post.getMember(), post.getId(), notification.getContent());
         return savedAnswer;
     }
 
@@ -72,8 +88,42 @@ public class AnswerService {
         return answer.getMember().getLoginId();
     }
 
+
+
     /**
-     * 답변 상세 정보
+     * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
+     */
+    @Transactional(readOnly = true)
+    public List<AnswerDto> findByPostId(Long postId) {
+        
+        //image, member join fetch 한 쿼리
+        List<Answer> answerList = answerRepository.findAnswersByPostId(postId);
+        List<Long> answerIds = answerList.stream().map(Answer::getId).collect(Collectors.toList());
+
+        //댓글, 대댓글 join fetch 한 쿼리
+        List<Comment> commentList = commentRepository.findCommentsByAnswerIds(answerIds);
+
+        //부모 댓글만 저장하는 commentMap 
+        //key 가 answerId 이며 value 가 부모 댓글인 hashMap 으로 변환
+        Map<Long, List<Comment>> commentMap = commentList.stream()
+                .filter(comment -> comment.getParent() == null) // parent 필드가 null이 아닌 경우만 필터링
+                .collect(Collectors.groupingBy(comment -> comment.getAnswer().getId()));
+
+        //answer 엔티티에 부모 댓글 세팅
+        for (Answer answer : answerList) {
+            Long answerId = answer.getId();
+            List<Comment> answerComments = commentMap.getOrDefault(answerId, Collections.emptyList());
+            answer.setComments(answerComments);
+        }
+
+        List<AnswerDto> answerDtoList = answerList.stream()
+                .map(answer -> new AnswerDto(answer))
+                .collect(Collectors.toList());
+        return answerDtoList;
+    }
+
+    /**
+     * 답변 상세 정보 (update 에서 사용)
      */
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
@@ -82,8 +132,6 @@ public class AnswerService {
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
 
-//        Long heartNum = heartRepository.findHearNumByAnswerId(answerId);
-
         AnswerDto answerDto = AnswerDto.builder()
                 .answerId(answer.getId())
                 .content(answer.getContent())
@@ -91,24 +139,8 @@ public class AnswerService {
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
                 .imageDtoList(imageDtoList)
-//                .heartNum(heartNum)
                 .build();
         return answerDto;
-    }
-
-    /**
-     * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
-     */
-    public List<AnswerDto> findByPostId(Long postId) {
-        List<Answer> byPostId = answerRepository.findByPostId(postId);
-        for(Answer a : byPostId) {
-            System.out.println(a.getMember().getNickname());
-        }
-
-        List<AnswerDto> answerDtoList = answerRepository.findByPostId(postId).stream()
-                .map(answer -> new AnswerDto(answer))
-                .collect(Collectors.toList());
-        return answerDtoList;
     }
 
     /**
@@ -119,7 +151,7 @@ public class AnswerService {
     public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) throws IOException {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
-        
+
         //답변 업데이트
         answer.setContent(answerFormDto.getContent());
         //수정하며 추가한 사진 파일 업로드
@@ -146,9 +178,6 @@ public class AnswerService {
         //로컬에 있는 이미지 파일들 삭제
         for (Answer answer : answerList) {
             imageService.deleteFile(answer.getImageList());
-            /**
-             * 이 부분 잘 모르겠음 굳이 반복문을 돌면서 자식 삭제하고 부모를 삭제해야하나? 그냥 코멘트에 postid 필드도 넣고 한 번에 삭제하면 안되남.?
-             */
             commentService.deleteCommentInAnswer(answer.getId());
         }
         imageRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일들 삭제
@@ -168,12 +197,14 @@ public class AnswerService {
         answerRepository.deleteById(answerId); // answer 삭제 //image 도 고아객체로 삭제
 
         //게시글에 answer 이 전부 지워졌을 경우
+        /**
+         * 여기서 가져오는 answerList 가 0인지 확인 필요
+         */
         List<Answer> answerList = answerRepository.findByPostId(postId);
-        if(answerList.size() == 0) {
+        if (answerList.size() == 0) {
             Post post = postRepository.findById(postId)
                     .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
             post.setAnswered(false);
         }
     }
-
 }

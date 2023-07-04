@@ -24,9 +24,10 @@ public class LikesController {
     @PostMapping("/heart/{answerId}")
     public ResponseEntity<?> increaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
-        boolean isAdd = likesService.addLikes(answerId, principalDetails.getLoginId());
-        if(!isAdd) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(true);
+
+        return likesService.addLikes(answerId, principalDetails.getLoginId()) ?
+                ResponseEntity.ok(true) : ResponseEntity.badRequest().build();
+
     }
 
     /**

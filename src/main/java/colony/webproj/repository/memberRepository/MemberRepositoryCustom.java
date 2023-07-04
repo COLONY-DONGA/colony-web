@@ -1,8 +1,7 @@
-package colony.webproj.repository;
+package colony.webproj.repository.memberRepository;
 
 
 import colony.webproj.dto.MemberManageDto;
-import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.MyPageDto;
 import colony.webproj.entity.type.SearchType;
 import org.springframework.data.domain.Page;

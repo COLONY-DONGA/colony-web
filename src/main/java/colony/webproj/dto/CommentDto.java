@@ -46,37 +46,26 @@ public class CommentDto {
     }
 
     /**
-     * 부모 댓글을 위한 from 이라서 parentId는 필요없지 싶음
+     *  부모 Comment Dto 변환
      */
-    public static CommentDto from(Comment comment){
-        return new CommentDto(
-                comment.getId(),
-                comment.getContent(),
-                null,
-                comment.getCreatedAt(),
-                comment.getUpdatedAt(),
-                null,
-                makeChildList(comment.getChildList())
-                );
-    }
+    public CommentDto(Comment comment) {
+        this.commentId = comment.getId();
+        this.content = comment.getContent();
+        this.createdAt = comment.getCreatedAt();
+        this.updatedAt = comment.getUpdatedAt();
+        this.createdBy = comment.getMember().getNickname();
 
-    /**
-     *  이 생성자는 자식 댓글을 위한 생성자임
-     */
-    public CommentDto(Comment child) {
-        this.commentId = child.getId();
-        this.content = child.getContent();
-        this.createdAt = child.getCreatedAt();
-        this.updatedAt = child.getUpdatedAt();
-        this.parentId = child.getParent().getId();
-    }
-
-    public static List<CommentDto> makeChildList(List<Comment> child) {
-        List<CommentDto> childList = new ArrayList<>();
-        for (Comment comment : child) {
-            childList.add(new CommentDto(comment));
-        }
-        return childList;
+        //자식 comment Dto 변환
+        this.childList = comment.getChildList().stream()
+                .map(parent -> CommentDto.builder()
+                        .commentId(parent.getId())
+                        .content(parent.getContent())
+                        .parentId(parent.getParent().getId())
+                        .createdAt(parent.getCreatedAt())
+                        .updatedAt(parent.getUpdatedAt())
+                        .createdBy(parent.getMember().getNickname())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
 

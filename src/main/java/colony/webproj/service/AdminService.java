@@ -1,10 +1,9 @@
 package colony.webproj.service;
 
 import colony.webproj.dto.MemberManageDto;
-import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostManageDto;
 import colony.webproj.entity.type.SearchType;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
