@@ -9,6 +9,9 @@ import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.imageRepository.ImageRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
+import colony.webproj.sse.Notification;
+import colony.webproj.sse.NotificationRepository;
+import colony.webproj.sse.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class AnswerService {
     private final ImageRepository imageRepository;
     private final CommentService commentService;
     private final CommentRepository commentRepository;
+    private final NotificationRepository notificationRepository;
+    private final NotificationService notificationService;
 
     /**
      * 답변 저장
@@ -61,6 +66,16 @@ public class AnswerService {
                 log.info("이미지 저장 완료");
             }
         }
+
+        //알림 로직
+        Notification notification = Notification.builder()
+                .receiver(post.getMember())
+                .content(post.getTitle() + " 게시글에 답변이 달렸습니다.")
+                .url("/post/" + post.getId())
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
+        notificationService.send(post.getMember(), post.getId(), notification.getContent());
         return savedAnswer;
     }
 
