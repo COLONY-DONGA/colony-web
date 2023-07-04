@@ -4,23 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="header.js" type="module"></script>
-    <script src="footer.js" type="module"></script>
-    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../static/css/qaDetail.css" />
+    <link rel="stylesheet" href="../static/css/headerfooter.css" />
     <title>qaDetail</title>
   </head>
   <body>
-    <script type="module">
-      import header from '../static/js/board/header.js';
-      import footer from '../static/js/board/footer.js';
-      document.getElementById('header-container').innerHTML = header;
-      document.getElementById('footer-container').innerHTML = footer;
+    <script>
+      $(function () {
+        $('#header').load('header.html');
+        $('#footer').load('footer.html');
+      });
     </script>
-
-    <div id="header-container"></div>
-
-    <!-- <div class="item--2ij" id="33203:154">
+    <div id="header"></div>
+    {% comment %}
+    <div class="item--2ij" id="33203:154">
       <div class="item--1Km" id="33262:13">
         <div class="auto-group-4gnb-s2X" id="6gdevgpTByMHqMmV4W4GnB">
           <div class="item--WbH" id="33203:169">
@@ -81,7 +79,8 @@
           <div class="line-3-oFV" id="33314:12"></div>
         </div>
       </div>
-    </div> -->
+    </div>
+    {% endcomment %}
 
     <div class="question-container" id="question-container-154">
       <div class="question-wrapper" id="question-wrapper-13">
@@ -147,6 +146,6 @@
       </div>
     </div>
 
-    <div id="footer-container"></div>
+    <div id="footer"></div>
   </body>
 </html>

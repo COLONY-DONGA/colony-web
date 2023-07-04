@@ -1,0 +1,469 @@
+/* Reset CSS */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+li,
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Layout */
+header {
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  background-color: #333;
+  padding: 10px;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+}
+
+main {
+  margin: 20px;
+}
+
+section {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.question {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.question h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.question p {
+  margin-bottom: 5px;
+}
+
+.question a {
+  color: #333;
+  font-weight: bold;
+}
+
+footer {
+  background-color: #f5f5f5;
+  padding: 10px;
+  text-align: center;
+}
+
+/* ㄴㄴ11111111111111111111111111 */
+.qa-item-content {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  height: auto;
+  display: block;
+  white-space: pre-wrap;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.qa-question {
+  font-weight: bold;
+}
+.qa-detail-content {
+  margin-top: 5px;
+}
+.qa-date {
+  color: gray;
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* 드롭다운 버튼 구현!! */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropbtn {
+  align-items: center;
+  background-color: #00a629;
+  border-radius: 0.6rem;
+  color: #ffffff;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1.3625;
+  margin-bottom: 1.45rem;
+  white-space: nowrap;
+  width: 3rem;
+  height: 2rem;
+  margin-top: 1rem;
+}
+
+.select1 {
+  align-items: center;
+  background-color: #000000;
+  border-radius: 0.6rem;
+  color: #ffffff;
+
+  flex-shrink: 0;
+  font-family: Nunito Sans, 'Source Sans Pro';
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1.3625;
+  margin-bottom: 1.45rem;
+  white-space: nowrap;
+  width: 4rem;
+  height: 2rem;
+  margin-top: 1rem;
+}
+
+/* 따온거 */
+html {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 노말라이즈 */
+body,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a:link {
+  color: lightblue;
+}
+
+/* 라이브러리 */
+.con {
+  margin: 0 auto;
+}
+
+.img-box > img {
+  width: 100%;
+  display: block;
+}
+
+.row::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.cell {
+  float: left;
+  box-sizing: border-box;
+}
+
+.cell-right {
+  float: right;
+  box-sizing: border-box;
+}
+
+.margin-0-auto {
+  margin: 0 auto;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.line-height-0-ch-only {
+  line-height: 0;
+}
+
+.line-height-0-ch-only > * {
+  line-height: normal;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute-left {
+  position: absolute;
+  left: 0;
+}
+
+.absolute-right {
+  position: absolute;
+  right: 0;
+}
+
+.absolute-middle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 커스텀 */
+/* 반응형 레이아웃 */
+.con {
+  max-width: 950px;
+}
+
+.con-min-width {
+  min-width: 320px;
+}
+
+.top-menu a {
+  text-decoration: none;
+  color: gray;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.table-common > table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-common .btn-box {
+  text-align: center;
+}
+
+.table-common > table th,
+.table-common > table td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.article-list table {
+  border: none;
+  border-top: 2px solid lightgray;
+  border-bottom: 2px solid lightgray;
+}
+
+.article-list > table th,
+.article-list > table td {
+  border: none;
+}
+
+.article-list > table td {
+  border-bottom: 1px solid lightgray;
+}
+
+.article-list > table thead {
+  border-bottom: 2px solid lightgray;
+  background-color: #f5f5f5;
+}
+
+.article-detail {
+  border: 2px solid lightgray;
+}
+
+.article-detail > table {
+  border: none;
+  width: calc(100% - 100px);
+}
+
+.article-detail > table th,
+.article-detail > table td {
+  border: none;
+}
+
+.article-detail > table tr:not(:last-child) {
+  border-bottom: 1px solid lightgray;
+}
+
+.article-detail > table tr:not(.article-body),
+.article-detail > table tr:not(.article-body) > td {
+  height: 20px;
+  font-size: 0.8rem;
+}
+
+.article-detail > table tr.article-title > td {
+  height: 40px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.article-detail > table td:last-child {
+  padding-right: 100px;
+}
+
+.article-detail > .article-writer {
+  width: 100px;
+  height: 102px;
+  background-color: lightgray;
+  border-bottom: 1px solid lightgray;
+  text-align: center;
+}
+
+.article-detail > .article-writer .writer-icon {
+  margin: 0 auto;
+  background-color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.reply {
+  margin-top: 20px;
+  border: 2px solid lightgray;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.reply-form {
+  padding: 10px;
+}
+
+.reply-form > form input[type='text'] {
+  width: 200px;
+}
+
+.reply-form > form textarea {
+  width: calc(100% - 100px);
+  min-height: 40px;
+}
+
+.reply-form > form input[type='submit'] {
+  width: 80px;
+  height: 40px;
+  transform: translatey(-40%);
+}
+
+.reply-form > form > div:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+.reply-list > table {
+  border: none;
+}
+
+.reply-list > table th {
+  display: none;
+}
+
+.reply-list > table td {
+  border: none;
+}
+
+.reply-list > table tr:nth-child(2n + 1) {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.reply-list > table td:first-child {
+  font-weight: bold;
+}
+
+.reply-list > table td:first-child::after {
+  content: ' : ';
+  font-weight: bold;
+}
+
+.btn {
+  text-align: right;
+  margin-right: 16rem;
+}
+
+.qabtn {
+  background-color: #f1ecec99;
+  border-radius: 0.5rem;
+  height: 2rem;
+  left: 1rem;
+  width: 5rem;
+}
+
+.listbtn {
+  background-color: #b6b6b64a;
+  border-radius: 0.5rem;
+  height: 2rem;
+  left: 1rem;
+  width: 4rem;
+  margin-left: 1rem;
+}
+
+.editbtn {
+  background-color: #a7ff1999;
+  border-radius: 0.5rem;
+  height: 2rem;
+  left: 1rem;
+  width: 4rem;
+  margin-left: 2rem;
+}
+
+.deletebtn {
+  background-color: #ff5e5e99;
+  border-radius: 0.5rem;
+  height: 2rem;
+  left: 1rem;
+  width: 4rem;
+}
+
+.answer-text {
+  background-color: #ff5e5e99;
+  border-radius: 0.5rem;
+  height: 2rem;
+  left: 1rem;
+  width: 4rem;
+}

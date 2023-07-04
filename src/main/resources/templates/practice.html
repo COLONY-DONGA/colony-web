@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../static/css/practice.css" />
+    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <title>질문상세페이지 테스트</title>
+  </head>
+
+  <body>
+    <script>
+      $(function () {
+        $('#header').load('header.html');
+        $('#footer').load('footer.html');
+      });
+    </script>
+
+    <div id="header"></div>
+    <br>
+    <div class="qadetail-frame">
+          <section class="article-detail table-common con row">
+            <table class="cell" border="1">
+              <colgroup>
+                <col width="100px" />
+              </colgroup>
+              <tbody>
+                <tr class="article-title">
+                  <th>제목</th>
+                  <td class="question-title" th:text="Q. : ${title}">title</td>
+                  <th>작성자</th>
+                  <td class="question-title" th:text="Q. : ${name}">name</td>
+                </tr>
+                <tr class="article-info">
+                  <th>날짜</th>
+                  <td th:text="qadate">date</td>
+                  <th>좋아요</th>
+                  <td th:text="qagood">qagood</td>
+                </tr>
+                <tr class="article-body">
+                  <td colspan="4" th:text="A. : ${question.detail}">
+                    내용이 와다다다다 들어갈 것입니당 
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <br>
+
+          <div class = "answer-text">
+            <!--답변이 있으면 답변 띄우기
+                답변이 없으면 display 숨기기-->
+                {% comment %} 넴모넴모 텍스트가 들어갈 박스 만들기, js display 처리하기 {% endcomment %}
+                
+          </div>
+
+          <div class="btn">
+          <button class="qabtn">답변 등록</button>
+          <button class="listbtn">목록</button>
+          <button class="editbtn">수정</button>
+          <button class="deletebtn">삭제</button>
+          </div>
+      </div>
+
+  <br>
+</form>
+
+    <div id="footer"></div>
+  </body>
+</html>

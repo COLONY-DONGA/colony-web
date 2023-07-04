@@ -420,3 +420,111 @@
     }
   }
 } */
+
+.question-container {
+  background-color: #ffffff;
+  box-sizing: border-box;
+  height: 203.5rem;
+  overflow: hidden;
+  padding: 5rem 7.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.question-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 182.8rem;
+  width: 119.8991rem;
+}
+
+.question-group-container {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding-bottom: 4.7376rem;
+  width: 100%;
+}
+
+.question-group-header {
+  border-radius: 1.5rem;
+  flex-shrink: 0;
+  height: 6.7063rem;
+  margin: 0rem 35.223rem 3.11rem 35.223rem;
+  position: relative;
+  width: calc(100% - 70.4458rem);
+}
+.question-icon-rectangle {
+  background-color: #b0b0b0;
+  border-radius: 1.5rem;
+  height: 6.3175rem;
+  left: 0;
+  position: absolute;
+  top: 0.3888rem;
+  width: 49.1505rem;
+}
+.question-group-title {
+  align-items: center;
+  color: #000000;
+  display: flex;
+  font-family: Inter, 'Source Sans Pro';
+  font-size: 4.8rem;
+  font-weight: 700;
+  height: 1.8rem;
+  justify-content: center;
+  left: 10.6267rem;
+  line-height: 0.375;
+  position: absolute;
+  top: 2.4531rem;
+  white-space: nowrap;
+  width: 28.2rem;
+}
+.question-group-wrapper {
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+  margin: 0rem 0rem 3.277rem 0rem;
+  width: calc(100% - 0rem);
+}
+
+.question-info-container {
+  border-radius: 1.3rem;
+  flex-shrink: 0;
+  height: 6.5119rem;
+  margin-right: 21.1943rem;
+  position: relative;
+  width: 49.5542rem;
+}
+
+.question-info-rectangle {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  height: 6.3175rem;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 49.1505rem;
+}
+.question-info-text {
+  align-items: center;
+  color: #000000;
+  display: flex;
+  font-family: Inter, 'Source Sans Pro';
+  font-size: 4.8rem;
+  font-weight: 700;
+  height: 1.8rem;
+  justify-content: center;
+  left: 21.978rem;
+  line-height: 0.375;
+  position: absolute;
+  top: 2.3559rem;
+  white-space: nowrap;
+  width: 5.8rem;
+}
+
+.question-author {
+  border-radius: 1.3rem;
+}
