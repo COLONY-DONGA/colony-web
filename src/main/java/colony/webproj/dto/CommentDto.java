@@ -56,7 +56,7 @@ public class CommentDto {
                 comment.getCreatedAt(),
                 comment.getUpdatedAt(),
                 null,
-                makeChildListDto(comment.getChildList())
+                makeChildList(comment.getChildList())
                 );
     }
 
@@ -71,7 +71,7 @@ public class CommentDto {
         this.parentId = child.getParent().getId();
     }
 
-    public static List<CommentDto> makeChildListDto(List<Comment> child) {
+    public static List<CommentDto> makeChildList(List<Comment> child) {
         List<CommentDto> childList = new ArrayList<>();
         for (Comment comment : child) {
             childList.add(new CommentDto(comment));
