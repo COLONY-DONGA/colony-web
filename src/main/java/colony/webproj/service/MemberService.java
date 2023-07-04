@@ -1,13 +1,11 @@
 package colony.webproj.service;
 
 import colony.webproj.dto.JoinFormDto;
-import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberFormDto;
-import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.MyPageDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
-import colony.webproj.repository.MemberRepository;
+import colony.webproj.repository.memberRepository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

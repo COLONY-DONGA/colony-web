@@ -1,4 +1,4 @@
-package colony.webproj.repository;
+package colony.webproj.repository.imageRepository;
 
 import colony.webproj.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
