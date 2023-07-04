@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="register-header">Sign Up</div>
-    <form action="/join" method="post" class="login__register" id="register-form">
+    <form action="/login" method="post" class="login__register" id="register-form">
       <div class="all-signup">
         <div class="all-input">
           <div class="id-box">
@@ -30,7 +30,7 @@
             <p class="input-title">PW</p>
             <input
               type="password"
-              name="pw"
+              name="password"
               class="input-frame"
               id="pw"
               placeholder="사용하실 패스워드를 입력하세요"
@@ -100,13 +100,13 @@
           <div id="department_result"></div>
         </div>
 
-        <button class="joincancel-btn" onclick="validate()">Join</button>
+        <button class="joincancel-btn" onclick="validate(event)">Join</button>
         <button class="joincancel-btn" onclick="history.back()">Cancel</button>
       </div>
     </form>
 
     <script>
-      function validate() {
+      function validate(event) {
         // 아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자
         let id_reg = /^[A-Za-z0-9]{4,16}$/;
         // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
@@ -145,36 +145,43 @@
         if (id.value.trim() === '') {
           id_result.innerText = '아이디를 입력해주세요.';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value.trim() === '') {
           pw_result.innerText = '패스워드를 입력해주세요.';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw_check.value.trim() === '') {
           pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (na.value.trim() === '') {
           na_result.innerText = '이름을 입력해주세요.';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (ni.value.trim() === '') {
           ni_result.innerText = '닉네임을 입력해주세요.';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (ph.value.trim() === '') {
           ph_result.innerText = '전화번호를 입력해주세요.';
           ph.focus();
+          event.preventDefault();
           return false;
         }
         if (de.value.trim() === '') {
           de_result.innerText = '소속을 입력해주세요.';
           de.focus();
+          event.preventDefault();
           return false;
         }
 
@@ -182,6 +189,7 @@
           id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
           id.value = '';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (!pw_reg.test(pw.value)) {
@@ -189,30 +197,35 @@
             '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
           pw.value = '';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value !== pw_check.value) {
           pw_check_result.innerText = '패스워드를 확인해주세요.';
           pw_check.value = '';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (!na_reg.test(na.value)) {
           na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
           na.value = '';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (!ni_reg.test(ni.value)) {
           ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~16글자여야 합니다.';
           ni.value = '';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (!ph_reg.test(ph.value)) {
           ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
           ph.value = '';
           ph.focus();
+          event.preventDefault();
           return false;
         }
       }
