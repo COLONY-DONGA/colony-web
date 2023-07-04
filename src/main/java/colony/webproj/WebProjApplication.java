@@ -8,9 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 
 @SpringBootApplication
 @EnableJpaAuditing //auditing 추가
+@EnableWebSocket //websocket 추가
 public class WebProjApplication {
 
 	public static void main(String[] args) {
