@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="../static/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
     <title>Login</title>
   </head>
   <body>
-    <img class="logo" src="../static/img/colony.jpg" width="250" height="250" alt="사진 없음" />
+    <img class="logo" src="/img/colony.jpg" width="250" height="250" alt="사진 없음" />
     <div class="login-box">
       <div class="login-header">Login</div>
       <form action="/login" method="post" class="login__register" id="login-in">
@@ -25,7 +25,7 @@
         />
         <br />
 
-        <button type="button" class="login-btn1" onclick="memberLogin()">Login</button>
+        <button type="submit" class="login-btn1">Login</button>
         <button type="button" class="login-btn2" onclick="nonmemberLogin()">
           Non-Member Login
         </button>
@@ -37,9 +37,6 @@
     </div>
 
     <script>
-      function memberLogin() {
-        window.location.href = '/src/main/resources/templates/qaList.html';
-      }
       function nonmemberLogin() {
         window.location.href = '/src/main/resources/templates/qaList.html';
       }
