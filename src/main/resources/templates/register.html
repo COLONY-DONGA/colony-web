@@ -4,22 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/register.css" />
+    <link rel="stylesheet" href="/css/register.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Register</title>
   </head>
   <body>
     <div class="register-header">Sign Up</div>
-    <form
-      action="/join"
-      method="post"
-      class="login__register"
-      id="register-form"
-    >
-      <div class="all-signup" id="123">
-        <div class="all-input" id="33279:439">
-          <div class="id-box" id="33279:400">
-            <p class="input-title" id="33279:401">ID</p>
+    <form action="/join" method="post" class="login__register" id="register-form">
+      <div class="all-signup">
+        <div class="all-input">
+          <div class="id-box">
+            <p class="input-title">ID</p>
             <input
               type="text"
               name="loginId"
@@ -28,14 +23,14 @@
               placeholder="사용하실 아이디를 입력하세요"
             />
           </div>
-          <button class="chk_btn" onclick="id_check()">중복 체크</button>
+          <button class="chk_btn" onclick="id_check(); return false;">중복 체크</button>
           <div id="id_result"></div>
 
-          <div class="pw-box" id="33279:400">
-            <p class="input-title" id="33279:401">PW</p>
+          <div class="pw-box">
+            <p class="input-title">PW</p>
             <input
               type="password"
-              name="pw"
+              name="password"
               class="input-frame"
               id="pw"
               placeholder="사용하실 패스워드를 입력하세요"
@@ -43,8 +38,8 @@
           </div>
           <div id="pw_result"></div>
 
-          <div class="pwcheck-box" id="33279:400">
-            <p class="input-title" id="33279:401">PW CHECK</p>
+          <div class="pwcheck-box">
+            <p class="input-title">PW CHECK</p>
             <input
               type="password"
               name="pw_check"
@@ -55,8 +50,8 @@
           </div>
           <div id="pw_check_result"></div>
 
-          <div class="name-box" id="33279:400">
-            <p class="input-title" id="33279:401">Name</p>
+          <div class="name-box">
+            <p class="input-title">Name</p>
             <input
               type="text"
               name="name"
@@ -67,8 +62,8 @@
           </div>
           <div id="name_result"></div>
 
-          <div class="Nickname-box" id="33279:400">
-            <p class="input-title" id="33279:401">Nickname</p>
+          <div class="Nickname-box">
+            <p class="input-title">Nickname</p>
             <input
               type="text"
               name="nickname"
@@ -77,11 +72,11 @@
               placeholder="사용하실 닉네임을 입력하세요"
             />
           </div>
-          <button class="chk_btn" onclick="nickname_check()">중복 체크</button>
+          <button class="chk_btn" onclick="nickname_check(); return false;">중복 체크</button>
           <div id="nickname_result"></div>
 
-          <div class="Phone-box" id="33279:400">
-            <p class="input-title" id="33279:401">Phone</p>
+          <div class="Phone-box">
+            <p class="input-title">Phone</p>
             <input
               type="tel"
               name="phoneNumber"
@@ -92,8 +87,8 @@
           </div>
           <div id="phone_result"></div>
 
-          <div class="Department-box" id="33279:400">
-            <p class="input-title" id="33279:401">Department</p>
+          <div class="Department-box">
+            <p class="input-title">Department</p>
             <input
               type="text"
               name="department"
@@ -105,13 +100,13 @@
           <div id="department_result"></div>
         </div>
 
-        <button type="button" class="joincancel-btn" onclick="validate()">Join</button>
-        <button type="button" class="joincancel-btn" onclick="history.back()">Cancel</button>
+        <button class="joincancel-btn" onclick="validate(event)">Join</button>
+        <button class="joincancel-btn" onclick="history.back()">Cancel</button>
       </div>
     </form>
 
     <script>
-      function validate() {
+      function validate(event) {
         // 아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자
         let id_reg = /^[A-Za-z0-9]{4,16}$/;
         // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
@@ -121,14 +116,15 @@
         // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~16글자
         let ni_reg = /^[A-Za-z가-힣0-9]{2,16}$/;
         // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
-        let ph_reg = /^\d{11}$;
-        let id = document.getElementById('id').value;
-        let pw = document.getElementById('pw').value;
-        let pw_check = document.getElementById('pw_check').value;
-        let na = document.getElementById('name').value;
-        let ni = document.getElementById('nickname').value;
-        let ph = document.getElementById('phone').value;
-        let de = document.getElementById('department').value;
+        let ph_reg = /^\d{11}$/;
+
+        let id = document.getElementById('id');
+        let pw = document.getElementById('pw');
+        let pw_check = document.getElementById('pw_check');
+        let na = document.getElementById('name');
+        let ni = document.getElementById('nickname');
+        let ph = document.getElementById('phone');
+        let de = document.getElementById('department');
 
         let id_result = document.getElementById('id_result');
         let pw_result = document.getElementById('pw_result');
@@ -149,36 +145,43 @@
         if (id.value.trim() === '') {
           id_result.innerText = '아이디를 입력해주세요.';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value.trim() === '') {
           pw_result.innerText = '패스워드를 입력해주세요.';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw_check.value.trim() === '') {
           pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (na.value.trim() === '') {
           na_result.innerText = '이름을 입력해주세요.';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (ni.value.trim() === '') {
           ni_result.innerText = '닉네임을 입력해주세요.';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (ph.value.trim() === '') {
           ph_result.innerText = '전화번호를 입력해주세요.';
           ph.focus();
+          event.preventDefault();
           return false;
         }
         if (de.value.trim() === '') {
           de_result.innerText = '소속을 입력해주세요.';
           de.focus();
+          event.preventDefault();
           return false;
         }
 
@@ -186,6 +189,7 @@
           id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
           id.value = '';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (!pw_reg.test(pw.value)) {
@@ -193,30 +197,35 @@
             '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
           pw.value = '';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value !== pw_check.value) {
           pw_check_result.innerText = '패스워드를 확인해주세요.';
           pw_check.value = '';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (!na_reg.test(na.value)) {
           na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
           na.value = '';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (!ni_reg.test(ni.value)) {
           ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~16글자여야 합니다.';
           ni.value = '';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (!ph_reg.test(ph.value)) {
           ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
           ph.value = '';
           ph.focus();
+          event.preventDefault();
           return false;
         }
       }
@@ -240,7 +249,6 @@
             alert('서버 오류가 발생했습니다.');
           },
         });
-        return false;
       }
 
       function nickname_check() {
