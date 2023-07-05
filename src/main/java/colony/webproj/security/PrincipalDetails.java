@@ -15,12 +15,14 @@ public class PrincipalDetails implements UserDetails {
     private Long id;
     private String loginId;
     private String password;
+    private String nickname;
     private Role role;
 
-    public PrincipalDetails(Long id, String loginId, String password, Role role) {
+    public PrincipalDetails(Long id, String loginId, String password, String nickname, Role role) {
         this.id = id;
         this.loginId = loginId;
         this.password = password;
+        this.nickname = nickname;
         this.role = role;
     }
 

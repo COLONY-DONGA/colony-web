@@ -23,7 +23,7 @@ public class CommentController {
      */
     @PostMapping("/comment/{answerId}")
     public ResponseEntity<?> saveComment(@PathVariable("answerId") Long answerId,
-                                         CommentFormDto commentFormDto,
+                                         @RequestBody CommentFormDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
@@ -35,7 +35,7 @@ public class CommentController {
     @PostMapping("/comment/{answerId}/{commentId}")
     public ResponseEntity<?> saveReComment(@PathVariable("answerId") Long answerId,
                                            @PathVariable("commentId") Long commentId,
-                                           CommentFormDto commentFormDto,
+                                           @RequestBody CommentFormDto commentFormDto,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.saveReComment(answerId, commentId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
@@ -47,7 +47,7 @@ public class CommentController {
      */
     @PutMapping("/comment/{commentId}")
     public ResponseEntity<?> updateCommentOrReComment(@PathVariable("commentId") Long commentId,
-                                                      CommentFormDto commentFormDto,
+                                                      @RequestBody CommentFormDto commentFormDto,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
@@ -65,14 +65,13 @@ public class CommentController {
      */
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId,
-                                                      CommentFormDto commentFormDto,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId))) {
             return null;
         }
-        commentService.deleteComment(commentId, commentFormDto, principalDetails.getLoginId());
+        commentService.deleteComment(commentId);
         return ResponseEntity.ok(true);
     }
 

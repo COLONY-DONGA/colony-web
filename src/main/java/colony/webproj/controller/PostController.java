@@ -45,7 +45,16 @@ public class PostController {
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
                            @PageableDefault(size = 10) Pageable pageable,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {
+        if(principalDetails == null) {
+            model.addAttribute("username", "게스트");
+            log.info("비회원 로그인");
+        }
+        else {
+            model.addAttribute("username", principalDetails.getNickname());
+            log.info("회원 로그인");
+        }
         //승지방식
         Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
