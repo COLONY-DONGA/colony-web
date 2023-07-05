@@ -26,7 +26,7 @@
         <br />
 
         <button type="submit" class="login-btn1">Login</button>
-        <button type="button" class="login-btn2">
+        <button type="button" class="login-btn2" onclick="nonmemberLogin()">
           Non-Member Login
         </button>
 
@@ -37,10 +37,8 @@
     </div>
 
     <script>
-      let nonmemberLogin = document.querySelector('.login-btn2');
-
-      nonmemberLogin.onclick =  function() {
-        window.location.href = '/src/main/resources/templates/qaList.html';
+      function nonmemberLogin() {
+        window.location.href = '/post-list';
       }
     </script>
   </body>
