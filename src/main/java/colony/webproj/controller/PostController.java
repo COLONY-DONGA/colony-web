@@ -40,8 +40,7 @@ public class PostController {
      * 게시글 리스트
      */
     @GetMapping("/post-list")
-    @ResponseBody //데이터 테스트하기 위해서 씀
-    public Page<PostDto> postList(@RequestParam(required = false) SearchType searchType,
+    public String postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
@@ -52,7 +51,7 @@ public class PostController {
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
-        return postDtoList;
+        return "qaList";
     }
 
     /**
