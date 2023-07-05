@@ -1,112 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/register.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Register</title>
-  </head>
-  <body>
-    <div class="register-header">Sign Up</div>
-    <form action="/join" method="post" class="login__register" id="register-form">
-      <div class="all-signup">
-        <div class="all-input">
-          <div class="id-box">
-            <p class="input-title">ID</p>
-            <input
-              type="text"
-              name="loginId"
-              class="input-frame"
-              id="id"
-              placeholder="사용하실 아이디를 입력하세요"
-            />
-          </div>
-          <button class="chk_btn" onclick="id_check(); return false;">중복 체크</button>
-          <div id="id_result"></div>
-
-          <div class="pw-box">
-            <p class="input-title">PW</p>
-            <input
-              type="password"
-              name="password"
-              class="input-frame"
-              id="pw"
-              placeholder="사용하실 패스워드를 입력하세요"
-            />
-          </div>
-          <div id="pw_result"></div>
-
-          <div class="pwcheck-box">
-            <p class="input-title">PW CHECK</p>
-            <input
-              type="password"
-              name="pw_check"
-              class="input-frame"
-              id="pw_check"
-              placeholder="사용하실 패스워드를 확인하세요"
-            />
-          </div>
-          <div id="pw_check_result"></div>
-
-          <div class="name-box">
-            <p class="input-title">Name</p>
-            <input
-              type="text"
-              name="name"
-              class="input-frame"
-              id="name"
-              placeholder="본인의 이름을 입력하세요"
-            />
-          </div>
-          <div id="name_result"></div>
-
-          <div class="Nickname-box">
-            <p class="input-title">Nickname</p>
-            <input
-              type="text"
-              name="nickname"
-              class="input-frame"
-              id="nickname"
-              placeholder="사용하실 닉네임을 입력하세요"
-            />
-          </div>
-          <button class="chk_btn" onclick="nickname_check(); return false;">중복 체크</button>
-          <div id="nickname_result"></div>
-
-          <div class="Phone-box">
-            <p class="input-title">Phone</p>
-            <input
-              type="tel"
-              name="phoneNumber"
-              class="input-frame"
-              id="phone"
-              placeholder="본인의 전화번호를 입력하세요"
-            />
-          </div>
-          <div id="phone_result"></div>
-
-          <div class="Department-box">
-            <p class="input-title">Department</p>
-            <input
-              type="text"
-              name="department"
-              class="input-frame"
-              id="department"
-              placeholder="본인의 소속을 입력하세요"
-            />
-          </div>
-          <div id="department_result"></div>
-        </div>
-
-        <button class="joincancel-btn" onclick="validate()">Join</button>
-        <button class="joincancel-btn" onclick="history.back()">Cancel</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/register.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>Register</title>
+</head>
+<body>
+<div class="register-header">Sign Up</div>
+<form action="/join" method="post" class="login__register" id="register-form">
+  <div class="all-signup">
+    <div class="all-input">
+      <div class="id-box">
+        <p class="input-title">ID</p>
+        <input
+                type="text"
+                name="loginId"
+                class="input-frame"
+                id="id"
+                placeholder="사용하실 아이디를 입력하세요"
+        />
       </div>
-    </form>
+      <button class="chk_btn" id="id_check">중복 체크</button>
+      <div id="id_result"></div>
 
-    <script>
-      function validate() {
+      <div class="pw-box">
+        <p class="input-title">PW</p>
+        <input
+                type="password"
+                name="password"
+                class="input-frame"
+                id="pw"
+                placeholder="사용하실 패스워드를 입력하세요"
+        />
+      </div>
+      <div id="pw_result"></div>
+
+      <div class="pwcheck-box">
+        <p class="input-title">PW CHECK</p>
+        <input
+                type="password"
+                name="pw_check"
+                class="input-frame"
+                id="pw_check"
+                placeholder="사용하실 패스워드를 확인하세요"
+        />
+      </div>
+      <div id="pw_check_result"></div>
+
+      <div class="name-box">
+        <p class="input-title">Name</p>
+        <input
+                type="text"
+                name="name"
+                class="input-frame"
+                id="name"
+                placeholder="본인의 이름을 입력하세요"
+        />
+      </div>
+      <div id="name_result"></div>
+
+      <div class="Nickname-box">
+        <p class="input-title">Nickname</p>
+        <input
+                type="text"
+                name="nickname"
+                class="input-frame"
+                id="nickname"
+                placeholder="사용하실 닉네임을 입력하세요"
+        />
+      </div>
+      <button class="chk_btn" id="nickname_check">중복 체크</button>
+      <div id="nickname_result"></div>
+
+      <div class="Phone-box">
+        <p class="input-title">Phone</p>
+        <input
+                type="tel"
+                name="phoneNumber"
+                class="input-frame"
+                id="phone"
+                placeholder="본인의 전화번호를 입력하세요"
+        />
+      </div>
+      <div id="phone_result"></div>
+
+      <div class="Department-box">
+        <p class="input-title">Department</p>
+        <input
+                type="text"
+                name="department"
+                class="input-frame"
+                id="department"
+                placeholder="본인의 소속을 입력하세요"
+        />
+      </div>
+      <div id="department_result"></div>
+    </div>
+
+    <button class="joincancel-btn" id="join-btn">Join</button>
+    <button class="joincancel-btn" id="cancel-btn">Cancel</button>
+  </div>
+</form>
+
+<script>
+      let join_btn = document.getElementById('join-btn');
+      let cancel_btn = document.getElementById('cancel-btn');
+      let id_check = document.getElementById('id_check');
+      let nickname_check = document.getElementById('nickname_check');
+
+      join_btn.onclick = function (event) {
         // 아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자
         let id_reg = /^[A-Za-z0-9]{4,16}$/;
         // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
@@ -145,36 +150,43 @@
         if (id.value.trim() === '') {
           id_result.innerText = '아이디를 입력해주세요.';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value.trim() === '') {
           pw_result.innerText = '패스워드를 입력해주세요.';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw_check.value.trim() === '') {
           pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (na.value.trim() === '') {
           na_result.innerText = '이름을 입력해주세요.';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (ni.value.trim() === '') {
           ni_result.innerText = '닉네임을 입력해주세요.';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (ph.value.trim() === '') {
           ph_result.innerText = '전화번호를 입력해주세요.';
           ph.focus();
+          event.preventDefault();
           return false;
         }
         if (de.value.trim() === '') {
           de_result.innerText = '소속을 입력해주세요.';
           de.focus();
+          event.preventDefault();
           return false;
         }
 
@@ -182,6 +194,7 @@
           id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
           id.value = '';
           id.focus();
+          event.preventDefault();
           return false;
         }
         if (!pw_reg.test(pw.value)) {
@@ -189,60 +202,69 @@
             '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
           pw.value = '';
           pw.focus();
+          event.preventDefault();
           return false;
         }
         if (pw.value !== pw_check.value) {
           pw_check_result.innerText = '패스워드를 확인해주세요.';
           pw_check.value = '';
           pw_check.focus();
+          event.preventDefault();
           return false;
         }
         if (!na_reg.test(na.value)) {
           na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
           na.value = '';
           na.focus();
+          event.preventDefault();
           return false;
         }
         if (!ni_reg.test(ni.value)) {
           ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~16글자여야 합니다.';
           ni.value = '';
           ni.focus();
+          event.preventDefault();
           return false;
         }
         if (!ph_reg.test(ph.value)) {
           ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
           ph.value = '';
           ph.focus();
+          event.preventDefault();
           return false;
         }
-      }
+      };
 
-      function id_check() {
+      cancel_btn.onclick = function () {
+        history.back();
+      };
+
+      id_check.onclick = function (event) {
+        event.preventDefault(); // 폼 제출 방지
         let id = document.getElementById('id');
-        console.log("gd");
         // AJAX 요청
         $.ajax({
           type: 'POST',
           url: '/validation-id', // 서버로 경로 지정 (아이디 중복 체크)
-          headers: {'Content-Type': 'application/json'}, //json 데이터로 지정
+          headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ loginId: id.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
-              alert('사용 가능한 아이디입니다.');
+            alert('사용 가능한 아이디입니다.');
           },
           error: function () {
             alert('이미 사용 중인 아이디입니다.');
           },
         });
-      }
+      };
 
-      function nickname_check() {
+      nickname_check.onclick = function () {
+        event.preventDefault(); // 폼 제출 방지
         let nickname = document.getElementById('nickname');
-
         // AJAX 요청
         $.ajax({
           type: 'POST',
-          url: '/validation-nickname', // 서버로 경로 지정
-            headers: {'Content-Type': 'application/json'},
+          url: '/validation-nickname', // 서버로 경로 지정 (닉네임 중복 체크)
+          headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
             if (result) {
@@ -255,7 +277,7 @@
             alert('서버 오류가 발생했습니다.');
           },
         });
-      }
+      };
     </script>
-  </body>
+</body>
 </html>
