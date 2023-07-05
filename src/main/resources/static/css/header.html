@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <title>header</title>
+  </head>
+
+  <body>
+    <div class="header">
+      <!-- 전체박스 -->
+      <div class="header-box">
+        <!-- 메뉴박스 -->
+        <div class="menu-box">
+          <!-- 그림자 -->
+          <div class="shadow"></div>
+          <!-- 본체박스 -->
+          <div class="big-box"></div>
+          <!-- 이미지 -->
+          <img class="mini-logo" src="/img/colony.jpg" />
+
+          <!-- 이름님 안녕하세요 타임리프!!-->
+          <div class="welcome-box" th:text="${name}">name 님 안녕하세요</div>
+          <div class="mypage-box">
+            <a href="mypage.html">마이페이지</a>
+          </div>
+
+          <div class="login-box">
+            <a href="login.html">로그인</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javaScript">
+      $(window).ready(function() {
+        const eventSource = new EventSource('/subscribe');
+
+        //sse 이벤트 수신 핸들러
+        eventSource.addEventListener("sse", function (event) {
+          console.log(event.data);
+
+          const data = JSON.parse(event.data);
+
+          (async () => {
+            // 브라우저 알림
+            const showNotification = () => {
+              toastr.options = {
+                closeButton: true,
+                timeOut: 3000, // 3 seconds
+                extendedTimeOut: 1000, // additional 1 second after mouse hover
+                progressBar: true,
+                preventDuplicates: true
+              };
+
+              toastr.info(data.content, '코드 봐줘', {
+                onclick: function() {
+                  window.open(data.url, '_blank'); // 알림을 누를 경우 경로로 이동
+                }
+              });
+            };
+
+            // 브라우저 알림 허용 권한
+            let granted = false;
+
+            if (Notification.permission === 'granted') {
+              granted = true;
+            } else if (Notification.permission !== 'denied') {
+              let permission = await Notification.requestPermission();
+              granted = permission === 'granted';
+            }
+
+            // 알림 보여주기
+            if (granted) {
+              showNotification();
+            }
+          })();
+        })
+      });
+    </script>
+  </body>
+</html>
