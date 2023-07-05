@@ -219,21 +219,18 @@
 
       function id_check() {
         let id = document.getElementById('id');
-
+        console.log("gd");
         // AJAX 요청
         $.ajax({
           type: 'POST',
-          url: '/validation-id', // 서버로 경로 지정
-          data: { id: id.value },
+          url: '/validation-id', // 서버로 경로 지정 (아이디 중복 체크)
+          headers: {'Content-Type': 'application/json'}, //json 데이터로 지정
+          data: JSON.stringify({ loginId: id.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
-            if (result) {
               alert('사용 가능한 아이디입니다.');
-            } else {
-              alert('이미 사용 중인 아이디입니다.');
-            }
           },
           error: function () {
-            alert('서버 오류가 발생했습니다.');
+            alert('이미 사용 중인 아이디입니다.');
           },
         });
       }
@@ -244,8 +241,9 @@
         // AJAX 요청
         $.ajax({
           type: 'POST',
-          url: '/validation-id', // 서버로 경로 지정
-          data: { id: nickname.value },
+          url: '/validation-nickname', // 서버로 경로 지정
+            headers: {'Content-Type': 'application/json'},
+          data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
             if (result) {
               alert('사용 가능한 닉네임입니다.');
