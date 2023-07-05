@@ -26,7 +26,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthenticationManager authenticationManager;
 
     /**
      * 로그인 페이지
@@ -39,13 +38,6 @@ public class MemberController {
         model.addAttribute("exception", errorMessage);
 
         return "login";
-    }
-    /**
-     * 비회원 로그인
-     */
-    @GetMapping("/login-guest")
-    public String guestLogin() {
-        return "redirect:/posts";
     }
 
     /**
