@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/headerfooter.css" />
     <link rel="stylesheet" href="/css/qaList.css" />
     <title>qaList</title>
   </head>
 
   <body>
-    <div id="header"></div>
+    <div th:replace="~{layouts/header :: header}"></div>
 
     <div class="qa-container" id="question-answer-container">
       <div class="qa-item" id="question-1">
@@ -65,13 +64,6 @@
       </div>
     </div>
 
-    <div id="footer"></div>
-
-    <script>
-      $(function () {
-        $('#header').load('/css/header.html');
-        $('#footer').load('/css/footer.html');
-      });
-    </script>
+    <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>
