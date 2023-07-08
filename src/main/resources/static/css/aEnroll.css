@@ -82,5 +82,11 @@
         width: 12rem;
       }
     }
+    #file-list-box li {
+      border: 1px solid black;
+    }
+    #file-list {
+      list-style: none;
+    }
   }
 }
