@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/memberPage.css" />
+    <title>memberPage</title>
+  </head>
+  <body>
+    <div th:replace="~{layouts/header :: header}"></div>
+
+    <div class="my-page">
+      <div class="title">My Page</div>
+      <div class="my-page-item">
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="id">ID :</label>
+            <input class="item-3-1" type="text" id="id" th:value="${member.loginId}" />
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="pw">PW :</label>
+            <input class="item-3-2" type="text" id="pw" th:text="${password}" />
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="name">Name :</label>
+            <input class="item-3-3" type="text" id="name" th:text="${name}" />
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="nickname">Nickname :</label>
+            <input class="item-3-4" type="text" id="nickname" th:text="${nickname}" />
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="phone">Phone :</label>
+            <input class="item-3-5" type="text" id="phone" th:text="${phoneNumber}" />
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="department">Department :</label>
+            <input class="item-3-6" type="text" id="department" th:text="${department}" />
+          </div>
+        </div>
+        <button class="item-btn">Edit Profile</button>
+      </div>
+      <div class="title">My History</div>
+      <div class="my-history-item">
+        <div class="item-q">My Questions</div>
+        <div class="item-q-1">
+          <div class="item-q-2">Q1. how to learn computer security ??</div>
+          <div class="item-q-2">Q2. how to learn computer security ??</div>
+          <div class="item-q-2">Q3. how to learn computer security ??</div>
+        </div>
+        <div class="item-a">My Answers</div>
+        <div class="item-a-1">
+          <div class="item-a-2">A1. how to learn computer security ??</div>
+          <div class="item-a-2">A2. how to learn computer security ??</div>
+          <div class="item-a-2">A3. how to learn computer security ??</div>
+        </div>
+        <div class="item-c">My Comments</div>
+        <div class="item-c-1">
+          <div class="item-c-2">C1. how to learn computer security ??</div>
+          <div class="item-c-2">C2. how to learn computer security ??</div>
+          <div class="item-c-2">C3. how to learn computer security ??</div>
+        </div>
+      </div>
+    </div>
+
+    <div th:replace="~{layouts/footer :: footer}"></div>
+  </body>
+</html>

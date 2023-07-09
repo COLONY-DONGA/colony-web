@@ -26,9 +26,7 @@
         <br />
 
         <button type="submit" class="login-btn1">Login</button>
-        <button type="button" class="login-btn2" onclick="nonmemberLogin()">
-          Non-Member Login
-        </button>
+        <button type="button" class="login-btn2">Non-Member Login</button>
 
         <p>
           <a class="signup-btn" href="/join">Sign up</a>
@@ -37,9 +35,12 @@
     </div>
 
     <script>
-      function nonmemberLogin() {
+      let nonmemberLogin = document.querySelector('.login-btn2');
+
+      nonmemberLogin.onclick = function () {
         window.location.href = '/src/main/resources/templates/qaList.html';
-      }
+
+      };
     </script>
   </body>
 </html>
