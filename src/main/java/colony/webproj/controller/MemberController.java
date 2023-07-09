@@ -40,11 +40,12 @@ public class MemberController {
 
         return "login";
     }
+
     /**
      * 비회원 로그인
      */
     @GetMapping("/login-guest")
-    public String guestLogin() {
+    public String guestLogin(Model model) {
         return "redirect:/posts";
     }
 
