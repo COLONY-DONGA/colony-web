@@ -5,7 +5,7 @@ import colony.webproj.dto.LoginFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.service.MemberService;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +26,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthenticationManager authenticationManager;
 
     /**
      * 로그인 페이지
@@ -40,6 +39,7 @@ public class MemberController {
 
         return "login";
     }
+<<<<<<< HEAD
     /**
      * 비회원 로그인
      */
@@ -48,6 +48,8 @@ public class MemberController {
         model.addAttribute("member","guest");
         return "redirect:/posts";
     }
+=======
+>>>>>>> main
 
     /**
      * 회원가입 폼
@@ -71,8 +73,8 @@ public class MemberController {
      * 아이디 중복 체크
      */
     @PostMapping("validation-id")
-    public ResponseEntity<?> validationId(@RequestBody String loginId) {
-        Boolean isValid = memberService.validateLoginId(loginId);
+    public ResponseEntity<?> validationId(@RequestBody Validation validation) {
+        Boolean isValid = memberService.validateLoginId(validation.getLoginId());
         if(!isValid) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(true);
     }
@@ -80,10 +82,18 @@ public class MemberController {
     /**
      * 닉네임 중복 체크
      */
-    @GetMapping("validation-nickname")
-    public ResponseEntity<?> validationNickname(@RequestParam(value = "nickname") String nickname) {
-        Boolean isValid = memberService.validateNickname(nickname);
+    @PostMapping("validation-nickname")
+    public ResponseEntity<?> validationNickname(@RequestBody Validation validation) {
+        Boolean isValid = memberService.validateNickname(validation.getNickname());
         if(!isValid) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(true);
+    }
+
+    @Getter @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Validation {
+        String loginId;
+        String nickname;
     }
 }

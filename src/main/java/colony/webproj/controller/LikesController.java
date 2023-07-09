@@ -24,14 +24,16 @@ public class LikesController {
     @PostMapping("/heart/{answerId}")
     public ResponseEntity<?> increaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
+
         return likesService.addLikes(answerId, principalDetails.getLoginId()) ?
                 ResponseEntity.ok(true) : ResponseEntity.badRequest().build();
+
     }
 
     /**
      * 좋아요 취소
      */
-    @DeleteMapping("/heart/{answerId}")
+    @DeleteMapping("/heart{answerId}")
     public ResponseEntity<?> decreaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
         likesService.removeLikes(answerId, principalDetails.getLoginId());

@@ -2,6 +2,7 @@ package colony.webproj.sse;
 
 import colony.webproj.entity.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotificationService {
     private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
     private final EmitterRepository emitterRepository;
@@ -34,16 +36,19 @@ public class NotificationService {
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
         if(!lastEventId.isEmpty()) {
+            log.info("미수신 event 존재");
             Map<String, Object> events = emitterRepository.findAllEventCacheStartWithByMemberId(String.valueOf(userId));
             events.entrySet().stream()
                     .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0) //compareTo 문자 비교를 이용해서 값이 작으면 음수 리턴
                     .forEach(entry -> sendToClient(emitter, entry.getKey(), entry.getValue())); //본인의 에미터, 이벤트 키, 이벤트 내용
         }
+        log.info("emitter 반환");
         return emitter;
     }
 
     public void sendToClient(SseEmitter emitter, String id, Object data) {
         try {
+            log.info("sendToClient: 알림 전달");
             emitter.send(SseEmitter.event()
                     .id(id)
                     .name("sse")
@@ -55,6 +60,7 @@ public class NotificationService {
     }
 
     public void send(Member receiver, Long postId, String content) {
+        log.info("send: 알림 전달");
         Notification notification = Notification.builder()
                 .receiver(receiver)
                 .content(content)

@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="../static/css/headerfooter.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <title>header</title>
+    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <title>Header</title>
   </head>
+
   <body>
-    <div class = "header">
+    <div class="header">
       <!-- 전체박스 -->
       <div class="header-box">
         <!-- 메뉴박스 -->
@@ -19,9 +23,10 @@
           <!-- 본체박스 -->
           <div class="big-box"></div>
           <!-- 이미지 -->
-          <img class="mini-logo" src="../static/img/colony.jpg" />
-      
+          <img class="mini-logo" src="/img/colony.jpg" />
+
           <!-- 이름님 안녕하세요 타임리프!!-->
+<<<<<<< HEAD:src/main/resources/templates/header.html
           <div class="welcome-box" th:text="${username}">name 님 안녕하세요</div>
           <div class="mypage-box">
             <a href="mypage.html">마이페이지</a>
@@ -29,17 +34,31 @@
             <div class="login-box">
               <a href="login.html">로그인</a>
             </div>
+=======
+          <div class="welcome-box" th:text="${nickname}">닉네임 님, 안녕하세요 !</div>
+          <div class="mypage-box">
+            <a href="mypage.html">마이페이지</a>
+          </div>
+
+          <div class="login-box">
+            <a href="login.html">로그인</a>
+>>>>>>> main:src/main/resources/templates/layouts/header.html
           </div>
         </div>
       </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javaScript">
+<<<<<<< HEAD:src/main/resources/templates/header.html
 
 
 
 
       function login() {
+=======
+      $(window).ready(function() {
+>>>>>>> main:src/main/resources/templates/layouts/header.html
         const eventSource = new EventSource('/subscribe');
 
         //sse 이벤트 수신 핸들러
@@ -82,7 +101,7 @@
             }
           })();
         })
-      }
+      });
     </script>
   </body>
 </html>

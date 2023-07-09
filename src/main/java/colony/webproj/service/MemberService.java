@@ -30,6 +30,7 @@ public class MemberService {
      * 회원가입
      */
     public Long join(JoinFormDto joinFormDto) {
+        log.info(joinFormDto.getPassword().toString());
         Member member = Member.builder()
                 .loginId(joinFormDto.getLoginId())
                 .password(encoder.encode(joinFormDto.getPassword()))
