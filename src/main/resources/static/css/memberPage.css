@@ -1,0 +1,106 @@
+.my-page {
+  align-items: center;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0rem 10rem 2rem 10rem;
+  position: relative;
+  width: 100%;
+}
+.title {
+  align-items: center;
+  background-color: #b0b0b0;
+  border-radius: 1.4rem;
+  color: #0c0b0b;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.8rem;
+  font-weight: 400;
+  height: 3.5rem;
+  justify-content: center;
+  line-height: 1.2;
+  margin: 0rem 20rem 0rem 20rem;
+  white-space: nowrap;
+  width: 25rem;
+  margin-top: 2rem;
+}
+.my-page-item {
+  background-color: #f5f5f7;
+  border: solid 0.1rem rgba(0, 0, 0, 0.2);
+  border-radius: 1.4rem;
+  box-sizing: border-box;
+  height: 33rem;
+  left: 0;
+  top: 0;
+  margin-top: 1rem;
+  width: 70rem;
+}
+.item-box {
+  border-radius: 1.3rem;
+  flex-shrink: 0;
+  height: 3rem;
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.item-1 {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  box-sizing: border-box;
+  display: flex;
+  height: 2rem;
+  left: 2.8rem;
+  line-height: 1.2;
+  padding: 1.6rem 3.7rem 1.6rem 3.7rem;
+  margin-top: 1rem;
+  position: absolute;
+  white-space: nowrap;
+  width: 50rem;
+}
+.item-2 {
+  color: #0c0b0b;
+  display: flex;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 3.1rem;
+  left: 1.6rem;
+  line-height: 1.2;
+  position: absolute;
+  top: 1.1rem;
+  white-space: nowrap;
+  width: 10rem;
+}
+.item-btn {
+  align-items: center;
+  background-color: rgba(111, 225, 92, 0.9);
+  border: none;
+  border-radius: 0.6rem;
+  box-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
+  color: #0c0b0b;
+  display: flex;
+  flex-shrink: 0;
+  font-family: Roboto, 'Source Sans Pro';
+  font-size: 1.3rem;
+  font-weight: 700;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1.1;
+  white-space: nowrap;
+  width: 11rem;
+  margin-top: 3rem;
+  margin-left: 57rem;
+}
+.my-history-item {
+  background-color: #f5f5f7;
+  border: solid 0.1rem rgba(0, 0, 0, 0.2);
+  border-radius: 1.4rem;
+  box-sizing: border-box;
+  height: 33rem;
+  left: 0;
+  top: 0;
+  margin-top: 1rem;
+  width: 70rem;
+}
