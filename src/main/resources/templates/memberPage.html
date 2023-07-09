@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/memberPage.css" />
+    <link rel="stylesheet" href="/css/memberPage.css" />
     <title>memberPage</title>
   </head>
   <body>
@@ -14,32 +14,38 @@
       <div class="my-page-item">
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">ID : qrt365</div>
+            <label class="item-2" for="id">ID :</label>
+            <input class="item-3-1" type="text" id="id" th:value="${member.loginId}" />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">PW : 1234</div>
+            <label class="item-2" for="pw">PW :</label>
+            <input class="item-3-2" type="text" id="pw" th:text="${password}" />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">Name : 박유진</div>
+            <label class="item-2" for="name">Name :</label>
+            <input class="item-3-3" type="text" id="name" th:text="${name}" />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">Nickname : Fresh토마토</div>
+            <label class="item-2" for="nickname">Nickname :</label>
+            <input class="item-3-4" type="text" id="nickname" th:text="${nickname}" />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">Phone : 010-7274-1970</div>
+            <label class="item-2" for="phone">Phone :</label>
+            <input class="item-3-5" type="text" id="phone" th:text="${phoneNumber}" />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <div class="item-2">Department : 컴퓨터공학과</div>
+            <label class="item-2" for="department">Department :</label>
+            <input class="item-3-6" type="text" id="department" th:text="${department}" />
           </div>
         </div>
         <button class="item-btn">Edit Profile</button>
