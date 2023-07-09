@@ -10,102 +10,19 @@
     <title>qaList</title>
   </head>
   <body>
-    <!--<script type="module">
-      import header from '/js/board/header.js';
-      import footer from '/js/board/footer.js';
-      document.getElementById('header-container').innerHTML = header;
-      document.getElementById('footer-container').innerHTML = footer;
-    </script>
-    <div id="header-container"></div>-->
-
     <script>
       $(function () {
-        $('#header').load('header.html');
-        $('#footer').load('footer.html');
+        $('#header').load('./header.html');
+        $('#footer').load('./footer.html');
       });
     </script>
 
     <div id="header"></div>
 
-    <!-- <div class="item--oeX" id="33203:113">
-      <div class="item--Nr3" id="33262:12">
-        <div class="header-Y1m" id="33203:146">Q&A</div>
-        <div class="item--hYs" id="33203:114">
-          <div class="auto-group-b9fd-1pT" id="QaY9nsxPk7KRdreFrbb9Fd">
-            <div class="item--KaF" id="33289:519">드롭다운 검색</div>
-            <div class="item--XgK" id="33325:30">드롭다운 정렬</div>
-            <p class="all-qa-yHR" id="33203:145">All Q&A</p>
-            <div class="item--EUF" id="33203:140">Register</div>
-          </div>
-          <div class="qa-1-f3m" id="33203:135">
-            <p class="q-how-to-learn-computer-security--AWK" id="33203:139">
-              Q . how to learn computer security ??
-            </p>
-            <div class="auto-group-mmpj-fxs" id="QaYAiSFVDAuN9KTYTTmmpj">
-              <p class="a--oZH" id="33203:138">A. 답변 예정</p>
-              <p class="item-2023-12-01-TnF" id="33203:137">질문 일자 : 2023/12/01</p>
-            </div>
-          </div>
-          <div class="qa-2-jUs" id="33203:130">
-            <p class="q-how-to-learn-computer-security--SPH" id="33203:134">
-              Q . how to learn computer security ??
-            </p>
-            <div class="auto-group-14vk-mAf" id="QaYAZXLfr55Kf9K8gF14vK">
-              <p class="a--Huh" id="33203:133">A. 답변 예정</p>
-              <p class="item-2023-12-01-p8w" id="33203:132">
-                질문 일자 : 2023/12/01
-                <br />
-              </p>
-            </div>
-          </div>
-          <div class="qa-3-HoD" id="33203:125">
-            <p class="q-how-to-learn-computer-security--QN3" id="33203:129">
-              Q . how to learn computer security ??
-            </p>
-            <div class="auto-group-cmgk-vrB" id="QaYAPrx6vqi8qFfHb8CmgK">
-              <p class="a--sFd" id="33203:128">A. 답변 예정</p>
-              <p class="item-2023-12-01-ntP" id="33203:127">
-                질문 일자 : 2023/12/01
-                <br />
-              </p>
-            </div>
-          </div>
-          <div class="qa-4-VH1" id="33203:120">
-            <p class="q-how-to-learn-computer-security--Cx7" id="33203:124">
-              Q . how to learn computer security ??
-            </p>
-            <div class="auto-group-ufxs-7JP" id="QaYAFcgqqQoZ6P5VCFuFxs">
-              <p class="a--F9h" id="33203:123">A. 답변 예정</p>
-              <p class="item-2023-12-01-mdq" id="33203:122">
-                질문 일자 : 2023/12/01
-                <br />
-              </p>
-            </div>
-          </div>
-          <div class="qa-5-ehd" id="33203:115">
-            <p class="q-how-to-learn-computer-security--xyD" id="33203:119">
-              Q . how to learn computer security ??
-            </p>
-            <div class="auto-group-rmh1-JGP" id="QaYA5hoh4obKVFbALWRmH1">
-              <p class="a--S7h" id="33203:118">A. 답변 완료</p>
-              <p class="item-2023-12-01-ZTD" id="33203:117">
-                질문 일자 : 2023/12/01
-                <br />
-              </p>
-            </div>
-          </div>
-          <div class="item--THh" id="33289:520">페이징</div>
-        </div>
-      </div>
-    </div> -->
-
     <div class="qa-container" id="question-answer-container">
       <div class="qa-item" id="question-1">
         <div class="qa-header" id="question-header-1">Q&A</div>
         <div class="qa-list" id="question-list-1">
-          <!-- <div class="qa-search-dropdown" id="search-dropdown-1">드롭다운 검색</div>
-          <div class="qa-sort-dropdown" id="sort-dropdown-1">드롭다운 정렬</div> -->
-
           <div class="dropdown">
             <button class="dropbtn">정렬</button>
             <div class="dropdown-content">

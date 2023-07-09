@@ -45,6 +45,7 @@ public class MemberController {
      */
     @GetMapping("/login-guest")
     public String guestLogin() {
+        model.addAttribute("member","guest");
         return "redirect:/posts";
     }
 

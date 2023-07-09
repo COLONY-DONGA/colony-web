@@ -22,11 +22,10 @@
           <img class="mini-logo" src="../static/img/colony.jpg" />
       
           <!-- 이름님 안녕하세요 타임리프!!-->
-          <div class="welcome-box" th:text="${name}">name 님 안녕하세요</div>
+          <div class="welcome-box" th:text="${username}">name 님 안녕하세요</div>
           <div class="mypage-box">
             <a href="mypage.html">마이페이지</a>
           </div>
-      
             <div class="login-box">
               <a href="login.html">로그인</a>
             </div>
@@ -36,6 +35,10 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javaScript">
+
+
+
+
       function login() {
         const eventSource = new EventSource('/subscribe');
 
@@ -48,7 +51,7 @@
           (async () => {
             // 브라우저 알림
             const showNotification = () => {
-              toastr.options = {
+              toastr.options = {    
                 closeButton: true,
                 timeOut: 3000, // 3 seconds
                 extendedTimeOut: 1000, // additional 1 second after mouse hover
@@ -83,3 +86,5 @@
     </script>
   </body>
 </html>
+
+
