@@ -20,7 +20,7 @@
         height: 3.5rem;
         justify-content: center;
         margin: 0rem 30rem 1rem 30rem;
-        width: calc(100% - 70rem);
+        width: 30rem;
       }
       .text_box {
         background-color: #f5f5f7;
@@ -47,7 +47,6 @@
         font-family: Baloo Bhai, 'Source Sans Pro';
         font-size: 1.2rem;
         font-weight: 400;
-        height: calc(100% - 0.1rem);
         margin: 0rem 13rem 0rem 1.5rem;
         padding: 0.8rem 1.8rem;
         width: 50rem;
@@ -81,9 +80,6 @@
         justify-content: center;
         width: 12rem;
       }
-    }
-    #file-list-box li {
-      border: 1px solid black;
     }
     #file-list {
       list-style: none;
