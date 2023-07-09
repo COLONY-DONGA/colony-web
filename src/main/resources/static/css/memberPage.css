@@ -32,7 +32,7 @@
   border: solid 0.1rem rgba(0, 0, 0, 0.2);
   border-radius: 1.4rem;
   box-sizing: border-box;
-  height: 33rem;
+  height: 35rem;
   left: 0;
   top: 0;
   margin-top: 1rem;
@@ -43,7 +43,7 @@
   flex-shrink: 0;
   height: 3rem;
   position: relative;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .item-1 {
   background-color: #d9d9d9;
@@ -53,7 +53,7 @@
   height: 2rem;
   left: 2.8rem;
   line-height: 1.2;
-  padding: 1.6rem 3.7rem 1.6rem 3.7rem;
+  padding: 2rem 3.7rem 2rem 3.7rem;
   margin-top: 1rem;
   position: absolute;
   white-space: nowrap;
@@ -72,6 +72,54 @@
   top: 1.1rem;
   white-space: nowrap;
   width: 10rem;
+}
+.item-3-1 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 0.8rem;
+  position: absolute;
+  bottom: 0.8rem;
+}
+.item-3-2 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 1.5rem;
+  position: absolute;
+  bottom: 0.8rem;
+}
+.item-3-3 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 3rem;
+  position: absolute;
+  bottom: 0.8rem;
+}
+.item-3-4 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 5.5rem;
+  position: absolute;
+  bottom: 0.8rem;
+}
+.item-3-5 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 3.3rem;
+  position: absolute;
+  bottom: 0.8rem;
+}
+.item-3-6 {
+  border: none;
+  outline: none;
+  height: 2rem;
+  margin-left: 6.8rem;
+  position: absolute;
+  bottom: 0.8rem;
 }
 .item-btn {
   align-items: center;
