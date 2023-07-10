@@ -89,7 +89,7 @@ public class CommentService {
     /**
      * 댓글 삭제
      */
-    public void deleteComment(Long commentId, CommentFormDto commentFormDto, String loginId) {
+    public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
 

@@ -26,7 +26,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthenticationManager authenticationManager;
 
     /**
      * 로그인 페이지
@@ -48,6 +47,7 @@ public class MemberController {
     public String guestLogin(Model model) {
         return "redirect:/posts";
     }
+
 
     /**
      * 회원가입 폼
