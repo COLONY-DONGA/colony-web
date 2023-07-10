@@ -46,7 +46,7 @@ public class MyPageController {
     /**
      * 마이페이지 수정 시 패스워드 확인
      */
-    @GetMapping("/my-page/validation-password")
+    @PostMapping("/my-page/validation-password")
     public ResponseEntity<?> validationPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody String password) {
         String loginId = principalDetails.getLoginId();
         // 패스워드 검사 시행
