@@ -121,26 +121,40 @@
   position: absolute;
   bottom: 0.8rem;
 }
-.item-4-3 {
+.item-4-4 {
   font-size: 0.8em;
   color: red;
   position: absolute;
   left: 17.5rem;
   bottom: 1.5rem;
 }
-.item-4-5 {
+.item-4-6 {
   font-size: 0.8em;
   color: red;
   position: absolute;
   left: 18rem;
   bottom: 1.5rem;
 }
-.item-4-6 {
+.item-4-7 {
   font-size: 0.8em;
   color: red;
   position: absolute;
   left: 21.5rem;
   bottom: 1.5rem;
+}
+.item-4-2 {
+  font-size: 0.8em;
+  color: red;
+  /* position: absolute;
+  left: 21.5rem;
+  bottom: 1.5rem; */
+}
+.item-4-3 {
+  font-size: 0.8em;
+  color: red;
+  /* position: absolute;
+  left: 21.5rem;
+  bottom: 1.5rem; */
 }
 .item-btn-1 {
   align-items: center;

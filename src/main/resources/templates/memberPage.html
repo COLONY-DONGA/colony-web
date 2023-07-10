@@ -12,7 +12,6 @@
 
     <div class="my-page">
       <div class="title">My Page</div>
-      <!-- <form> -->
       <div class="my-page-item">
         <div class="item-box">
           <div class="item-1">
@@ -24,7 +23,7 @@
           <div class="item-1">
             <label class="item-2" for="name">Name :</label>
             <input class="item-3-3" type="text" id="name" th:value="${member.name}" />
-            <div class="item-4-3"></div>
+            <div class="item-4-4"></div>
           </div>
         </div>
         <div class="item-box">
@@ -43,45 +42,38 @@
           <div class="item-1">
             <label class="item-2" for="phone">Phone :</label>
             <input class="item-3-5" type="text" id="phone" th:value="${member.phoneNumber}" />
-            <div class="item-4-5"></div>
+            <div class="item-4-6"></div>
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
             <label class="item-2" for="department">Department :</label>
             <input class="item-3-6" type="text" id="department" th:value="${member.department}" />
-            <div class="item-4-6"></div>
+            <div class="item-4-7"></div>
           </div>
         </div>
         <button class="item-btn-1">Edit Profile</button>
         <button class="item-btn-2">Edit Password</button>
       </div>
-      <!-- </form> -->
 
       <div id="modal-overlay-1"></div>
       <div id="modal-1">
         <h2>비밀번호 확인</h2>
-        <form>
-          <input type="password" id="current-password" placeholder="현재 비밀번호" required />
-          <button class="pw-check" type="submit">확인</button>
-        </form>
+        <input type="password" id="current-password" placeholder="현재 비밀번호" required />
+        <button class="pw-check" type="submit">확인</button>
         <button class="item-btn-3-1">닫기</button>
       </div>
 
       <div id="modal-overlay-2"></div>
       <div id="modal-2">
         <h2>비밀번호 변경</h2>
-        <form>
-          <input type="password" id="cur-password" placeholder="현재 비밀번호" required />
-          <input type="password" id="new-password" placeholder="새로운 비밀번호" required />
-          <input
-            type="password"
-            id="confirm-password"
-            placeholder="새로운 비밀번호 확인"
-            required
-          />
-          <button class="pw-change" type="submit">변경</button>
-        </form>
+        <input type="password" id="cur-password" placeholder="현재 비밀번호" required />
+        <input type="password" id="new-password" placeholder="새로운 비밀번호" required />
+        <div class="item-4-2"></div>
+        <input type="password" id="confirm-password" placeholder="새로운 비밀번호 확인" required />
+        <div class="item-4-3"></div>
+
+        <button class="pw-change" type="submit">변경</button>
         <button class="item-btn-3-2">닫기</button>
       </div>
 
@@ -132,16 +124,17 @@
           headers: { 'Content-Type': 'application/json' }, // JSON 데이터로 지정
           data: JSON.stringify({ password: pw.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
-            alert('암호가 같습니다 !!');
-            // validation(event);
+            document.getElementById('modal-overlay-1').style.display = 'none';
+            document.getElementById('modal-1').style.display = 'none';
+            validation1(event);
           },
           error: function () {
-            alert('암호가 다릅니다 ..');
+            alert('암호가 틀립니다 ..');
           },
         });
       };
 
-      function validation(event) {
+      function validation1(event) {
         // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
         let na_reg = /^[가-힣]{2,}$/;
         // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
@@ -151,9 +144,9 @@
         let ph = document.getElementById('phone');
         let de = document.getElementById('department');
 
-        let na_result = document.querySelector('.item-4-3');
-        let ph_result = document.querySelector('.item-4-5');
-        let de_result = document.querySelector('.item-4-6');
+        let na_result = document.querySelector('.item-4-4');
+        let ph_result = document.querySelector('.item-4-6');
+        let de_result = document.querySelector('.item-4-7');
 
         na_result.innerText = '';
         ph_result.innerText = '';
@@ -192,17 +185,83 @@
           event.preventDefault();
           return false;
         }
+
+        alert('암호가 맞습니다 !!');
       }
+
+      closeModal1.onclick = function () {
+        document.getElementById('modal-overlay-1').style.display = 'none';
+        document.getElementById('modal-1').style.display = 'none';
+      };
 
       editPassword.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'block';
         document.getElementById('modal-2').style.display = 'block';
       };
 
-      closeModal1.onclick = function () {
-        document.getElementById('modal-overlay-1').style.display = 'none';
-        document.getElementById('modal-1').style.display = 'none';
+      pw_change.onclick = function () {
+        let pw_cur = document.getElementById('cur-password');
+
+        $.ajax({
+          type: 'POST',
+          url: '?', // 최근에 이렇게 하기로 해서, 아직 만들지 않은 URL
+          headers: { 'Content-Type': 'application/json' }, // JSON 데이터로 지정
+          data: JSON.stringify({ password: pw_cur.value }), // JSON 형식으로 데이터 전송
+          success: function (result) {
+            document.getElementById('modal-overlay-2').style.display = 'none';
+            document.getElementById('modal-2').style.display = 'none';
+            validation2(event);
+          },
+          error: function () {
+            alert('암호가 틀립니다 ..');
+          },
+        });
       };
+
+      function validation2(event) {
+        // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
+        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        let pw_new = document.getElementById('new-password');
+        let pw_confirm = document.getElementById('confirm_password');
+
+        let pw_new_result = document.getElementById('item-4-2');
+        let pw_confirm_result = document.getElementById('item-4-3');
+
+        pw_new_result.innerText = '';
+        pw_confirm_result.innerText = '';
+
+        if (pw.value.trim() === '') {
+          pw_result.innerText = '패스워드를 입력해주세요.';
+          pw.focus();
+          event.preventDefault();
+          return false;
+        }
+        if (pw_check.value.trim() === '') {
+          pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
+          pw_check.focus();
+          event.preventDefault();
+          return false;
+        }
+
+        if (!pw_reg.test(pw.value)) {
+          pw_result.innerText =
+            '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
+          pw.value = '';
+          pw.focus();
+          event.preventDefault();
+          return false;
+        }
+        if (pw.value !== pw_check.value) {
+          pw_check_result.innerText = '패스워드를 확인해주세요.';
+          pw_check.value = '';
+          pw_check.focus();
+          event.preventDefault();
+          return false;
+        }
+
+        alert('암호가 변경되었습니다 !!');
+      }
 
       closeModal2.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'none';
