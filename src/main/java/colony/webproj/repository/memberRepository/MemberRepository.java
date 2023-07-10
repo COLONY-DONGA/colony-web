@@ -14,12 +14,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     Optional<Member> findByLoginId(String loginId);
     Optional<Member> findByNickname(String nickname);
     @Query("select Member(m.password) from Member m where m.loginId= :loginId")
-    String findPasswordByLoginId(String loginId);
+    String findPasswordByLoginId(@Param("loginId") String loginId);
 
     @Query("select count(l) from Likes l where l.answer.id in (select a.id from Answer a where a.member.loginId = :memberId)")
     long countAllAnswerLikes(@Param("memberId") String memberId);
 
-    @Query("select count(l) from Likes l where l.answer.id= :answerId")
-    int countAnswerLikes(String answerId);
 
 }
