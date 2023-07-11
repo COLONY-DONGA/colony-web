@@ -49,12 +49,14 @@ public class MyPageController {
     @PostMapping("/my-page/validation-password")
     public ResponseEntity<?> validationPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody String password) {
         String loginId = principalDetails.getLoginId();
-        // 패스워드 검사 시행
-        if (memberService.validationPassword(loginId, password)) { // 이 때 패스워드는 사용자 입력값임
-            return ResponseEntity.ok(true); // 200
-        } else {
-            return ResponseEntity.ok(false); // 200
+
+        Boolean isValid =memberService.validationPassword(loginId, password);
+        log.info("isValid:"+isValid);
+        if(!isValid) {
+            log.info("isValid: if 조건 함수 내부 진입");
+            return ResponseEntity.badRequest().build();
         }
+        return ResponseEntity.ok(true);
     }
 
 

@@ -80,9 +80,14 @@ public class MemberService {
     public Boolean validationPassword(String loginID,String inputPassword){
         // 실제 데이터베이스의 패스워드
         String password = memberRepository.findPasswordByLoginId(loginID);
+        Boolean test = encoder.matches(inputPassword,encoder.encode(inputPassword));
+        log.info("test: "+ test);
 
+//        log.info("password: "+password);
         if (password != null) {
-            return encoder.matches(inputPassword, password);
+            Boolean value = encoder.matches(inputPassword, password);
+            log.info("value:" + value);
+            return value;
         }
 
         return false;
