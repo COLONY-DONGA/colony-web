@@ -5,7 +5,7 @@ import colony.webproj.dto.MyPageDto;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,13 +47,12 @@ public class MyPageController {
      * 마이페이지 수정 시 패스워드 확인
      */
     @PostMapping("/my-page/validation-password")
-    public ResponseEntity<?> validationPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody String password) {
+    public ResponseEntity<?> validationPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody PasswordRequest passwordRequest) {
         String loginId = principalDetails.getLoginId();
+        String password = passwordRequest.getPassword();
 
         Boolean isValid =memberService.validationPassword(loginId, password);
-        log.info("isValid:"+isValid);
         if(!isValid) {
-            log.info("isValid: if 조건 함수 내부 진입");
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(true);
@@ -66,6 +65,7 @@ public class MyPageController {
     @PutMapping("/edit-mypage")
     public String editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid MemberFormDto MemberFormDto,
                              BindingResult bindingResult, Model model) throws IOException {
+        log.info("마이페이지 저장 url 호출");
         String loginId = principalDetails.getLoginId();
         if (bindingResult.hasErrors()) {
             model.addAttribute("memberFormDto", MemberFormDto);
@@ -74,5 +74,15 @@ public class MyPageController {
         memberService.updateMember(loginId, MemberFormDto);
         return "/my-page";
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PasswordRequest {
+        private String password;
+
+    }
+
 
 }

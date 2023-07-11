@@ -81,12 +81,9 @@ public class MemberService {
         // 실제 데이터베이스의 패스워드
         String password = memberRepository.findPasswordByLoginId(loginID);
         Boolean test = encoder.matches(inputPassword,encoder.encode(inputPassword));
-        log.info("test: "+ test);
 
-//        log.info("password: "+password);
         if (password != null) {
             Boolean value = encoder.matches(inputPassword, password);
-            log.info("value:" + value);
             return value;
         }
 
