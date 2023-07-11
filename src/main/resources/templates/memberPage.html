@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/memberPage.css" />
+    <link rel="stylesheet" href="/css/memberPage.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>memberPage</title>
   </head>
@@ -121,23 +121,21 @@
         $.ajax({
           type: 'POST',
           url: '/my-page/validation-password',
-          headers: { 'Content-Type': 'application/json' }, // JSON 데이터로 지정
-          data: JSON.stringify({ password: pw.value }), // JSON 형식으로 데이터 전송
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({ password: pw.value }),
           success: function (result) {
             document.getElementById('modal-overlay-1').style.display = 'none';
             document.getElementById('modal-1').style.display = 'none';
             validation1(event);
           },
           error: function () {
-            alert('암호가 틀립니다 ..');
+            alert('올바르지 않은 암호입니다. 다시 입력해주세요.');
           },
         });
       };
 
       function validation1(event) {
-        // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
         let na_reg = /^[가-힣]{2,}$/;
-        // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
         let ph_reg = /^\d{11}$/;
 
         let na = document.getElementById('name');
@@ -186,7 +184,7 @@
           return false;
         }
 
-        alert('암호가 맞습니다 !!');
+        alert('정보가 정상적으로 변경되었습니다.');
       }
 
       closeModal1.onclick = function () {
@@ -205,21 +203,20 @@
         $.ajax({
           type: 'POST',
           url: '?', // 최근에 이렇게 하기로 해서, 아직 만들지 않은 URL
-          headers: { 'Content-Type': 'application/json' }, // JSON 데이터로 지정
-          data: JSON.stringify({ password: pw_cur.value }), // JSON 형식으로 데이터 전송
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({ password: pw_cur.value }),
           success: function (result) {
             document.getElementById('modal-overlay-2').style.display = 'none';
             document.getElementById('modal-2').style.display = 'none';
             validation2(event);
           },
           error: function () {
-            alert('암호가 틀립니다 ..');
+            alert('올바르지 않은 암호입니다. 다시 입력해주세요.');
           },
         });
       };
 
       function validation2(event) {
-        // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
         let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         let pw_new = document.getElementById('new-password');
@@ -231,36 +228,36 @@
         pw_new_result.innerText = '';
         pw_confirm_result.innerText = '';
 
-        if (pw.value.trim() === '') {
-          pw_result.innerText = '패스워드를 입력해주세요.';
-          pw.focus();
+        if (pw_new.value.trim() === '') {
+          pw_new_result.innerText = '패스워드를 입력해주세요.';
+          pw_new.focus();
           event.preventDefault();
           return false;
         }
-        if (pw_check.value.trim() === '') {
-          pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
-          pw_check.focus();
+        if (pw_confirm.value.trim() === '') {
+          pw_confirm_result.innerText = '패스워드를 한 번 더 입력해주세요.';
+          pw_confirm.focus();
           event.preventDefault();
           return false;
         }
 
-        if (!pw_reg.test(pw.value)) {
-          pw_result.innerText =
+        if (!pw_reg.test(pw_new.value)) {
+          pw_new_result.innerText =
             '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
-          pw.value = '';
-          pw.focus();
+          pw_new.value = '';
+          pw_new.focus();
           event.preventDefault();
           return false;
         }
-        if (pw.value !== pw_check.value) {
-          pw_check_result.innerText = '패스워드를 확인해주세요.';
-          pw_check.value = '';
-          pw_check.focus();
+        if (pw.value !== pw_confirm.value) {
+          pw_confirm_result.innerText = '패스워드를 확인해주세요.';
+          pw_confirm.value = '';
+          pw_confirm.focus();
           event.preventDefault();
           return false;
         }
 
-        alert('암호가 변경되었습니다 !!');
+        alert('암호가 정상적으로 변경되었습니다.');
       }
 
       closeModal2.onclick = function () {
