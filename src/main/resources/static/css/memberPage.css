@@ -196,17 +196,6 @@
   margin-top: 1rem;
   margin-left: 57rem;
 }
-.my-history-item {
-  background-color: #f5f5f7;
-  border: solid 0.1rem rgba(0, 0, 0, 0.2);
-  border-radius: 1.4rem;
-  box-sizing: border-box;
-  height: 33rem;
-  left: 0;
-  top: 0;
-  margin-top: 1rem;
-  width: 70rem;
-}
 #modal-overlay-1,
 #modal-overlay-2 {
   position: fixed;
@@ -240,5 +229,133 @@
 .item-btn-3-1,
 .item-btn-3-2 {
   display: block;
+  margin-top: 1rem;
+}
+.my-history-item {
+  background-color: #f5f5f7;
+  border: solid 0.1rem rgba(0, 0, 0, 0.2);
+  border-radius: 1.4rem;
+  box-sizing: border-box;
+  height: 47rem;
+  left: 0;
+  top: 0;
+  margin-top: 1rem;
+  width: 70rem;
+}
+.item-q {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  box-sizing: border-box;
+  color: rgba(12, 11, 11, 0.7599999905);
+  display: flex;
+  align-items: center;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.6rem;
+  font-weight: 400;
+  height: 3.5rem;
+  line-height: 1.2;
+  margin-top: 1rem;
+  margin-left: 3rem;
+  padding: 2rem 3.7rem 2rem 1.5rem;
+  position: absolute;
+  white-space: nowrap;
+  width: 50rem;
+}
+.item-q-1 {
+  position: absolute;
+  margin-top: 5rem;
+}
+.item-q-2 {
+  box-sizing: border-box;
+  color: #0c0b0b;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 2.5rem;
+  line-height: 1.2;
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.item-q-2:first-child {
+  margin-top: 1rem;
+}
+.item-a {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  box-sizing: border-box;
+  color: rgba(12, 11, 11, 0.7599999905);
+  display: flex;
+  align-items: center;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.6rem;
+  font-weight: 400;
+  height: 3.5rem;
+  line-height: 1.2;
+  margin-top: 16rem;
+  margin-left: 3rem;
+  padding: 2rem 3.7rem 2rem 1.5rem;
+  position: absolute;
+  white-space: nowrap;
+  width: 50rem;
+}
+.item-a-1 {
+  position: absolute;
+  margin-top: 20rem;
+}
+.item-a-2 {
+  box-sizing: border-box;
+  color: #0c0b0b;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 2.5rem;
+  line-height: 1.2;
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.item-a-2:first-child {
+  margin-top: 1rem;
+}
+.item-c {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  box-sizing: border-box;
+  color: rgba(12, 11, 11, 0.7599999905);
+  display: flex;
+  align-items: center;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.6rem;
+  font-weight: 400;
+  height: 3.5rem;
+  line-height: 1.2;
+  margin-top: 31rem;
+  margin-left: 3rem;
+  padding: 2rem 3.7rem 2rem 1.5rem;
+  position: absolute;
+  white-space: nowrap;
+  width: 50rem;
+}
+.item-c-1 {
+  position: absolute;
+  margin-top: 35rem;
+}
+.item-c-2 {
+  box-sizing: border-box;
+  color: #0c0b0b;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 2.5rem;
+  line-height: 1.2;
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.item-c-2:first-child {
   margin-top: 1rem;
 }
