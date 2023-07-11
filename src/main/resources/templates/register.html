@@ -1,111 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/register.css" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <title>Register</title>
-</head>
-<body>
-<div class="register-header">Sign Up</div>
-<form action="/join" method="post" class="login__register" id="register-form">
-  <div class="all-signup">
-    <div class="all-input">
-      <div class="id-box">
-        <p class="input-title">ID</p>
-        <input
-                type="text"
-                name="loginId"
-                class="input-frame"
-                id="id"
-                placeholder="사용하실 아이디를 입력하세요"
-        />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/register.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Register</title>
+  </head>
+  <body>
+    <div class="register-header">Sign Up</div>
+    <form action="/join" method="post" class="login__register" id="register-form">
+      <div class="all-signup">
+        <div class="all-input">
+          <div class="id-box">
+            <p class="input-title">ID</p>
+            <input
+              type="text"
+              name="loginId"
+              class="input-frame"
+              id="id"
+              placeholder="사용하실 아이디를 입력하세요"
+            />
+          </div>
+          <button class="chk_btn" id="id_check">중복 체크</button>
+          <div id="id_result"></div>
+
+          <div class="pw-box">
+            <p class="input-title">PW</p>
+            <input
+              type="password"
+              name="password"
+              class="input-frame"
+              id="pw"
+              placeholder="사용하실 패스워드를 입력하세요"
+            />
+          </div>
+          <div id="pw_result"></div>
+
+          <div class="pwcheck-box">
+            <p class="input-title">PW CHECK</p>
+            <input
+              type="password"
+              name="pw_check"
+              class="input-frame"
+              id="pw_check"
+              placeholder="사용하실 패스워드를 확인하세요"
+            />
+          </div>
+          <div id="pw_check_result"></div>
+
+          <div class="name-box">
+            <p class="input-title">Name</p>
+            <input
+              type="text"
+              name="name"
+              class="input-frame"
+              id="name"
+              placeholder="본인의 이름을 입력하세요"
+            />
+          </div>
+          <div id="name_result"></div>
+
+          <div class="Nickname-box">
+            <p class="input-title">Nickname</p>
+            <input
+              type="text"
+              name="nickname"
+              class="input-frame"
+              id="nickname"
+              placeholder="사용하실 닉네임을 입력하세요"
+            />
+          </div>
+          <button class="chk_btn" id="nickname_check">중복 체크</button>
+          <div id="nickname_result"></div>
+
+          <div class="Phone-box">
+            <p class="input-title">Phone</p>
+            <input
+              type="tel"
+              name="phoneNumber"
+              class="input-frame"
+              id="phone"
+              placeholder="본인의 전화번호를 입력하세요"
+            />
+          </div>
+          <div id="phone_result"></div>
+
+          <div class="Department-box">
+            <p class="input-title">Department</p>
+            <input
+              type="text"
+              name="department"
+              class="input-frame"
+              id="department"
+              placeholder="본인의 소속을 입력하세요"
+            />
+          </div>
+          <div id="department_result"></div>
+        </div>
+
+        <button class="joincancel-btn" id="join-btn">Join</button>
+        <button class="joincancel-btn" id="cancel-btn">Cancel</button>
       </div>
-      <button class="chk_btn" id="id_check">중복 체크</button>
-      <div id="id_result"></div>
+    </form>
 
-      <div class="pw-box">
-        <p class="input-title">PW</p>
-        <input
-                type="password"
-                name="password"
-                class="input-frame"
-                id="pw"
-                placeholder="사용하실 패스워드를 입력하세요"
-        />
-      </div>
-      <div id="pw_result"></div>
-
-      <div class="pwcheck-box">
-        <p class="input-title">PW CHECK</p>
-        <input
-                type="password"
-                name="pw_check"
-                class="input-frame"
-                id="pw_check"
-                placeholder="사용하실 패스워드를 확인하세요"
-        />
-      </div>
-      <div id="pw_check_result"></div>
-
-      <div class="name-box">
-        <p class="input-title">Name</p>
-        <input
-                type="text"
-                name="name"
-                class="input-frame"
-                id="name"
-                placeholder="본인의 이름을 입력하세요"
-        />
-      </div>
-      <div id="name_result"></div>
-
-      <div class="Nickname-box">
-        <p class="input-title">Nickname</p>
-        <input
-                type="text"
-                name="nickname"
-                class="input-frame"
-                id="nickname"
-                placeholder="사용하실 닉네임을 입력하세요"
-        />
-      </div>
-      <button class="chk_btn" id="nickname_check">중복 체크</button>
-      <div id="nickname_result"></div>
-
-      <div class="Phone-box">
-        <p class="input-title">Phone</p>
-        <input
-                type="tel"
-                name="phoneNumber"
-                class="input-frame"
-                id="phone"
-                placeholder="본인의 전화번호를 입력하세요"
-        />
-      </div>
-      <div id="phone_result"></div>
-
-      <div class="Department-box">
-        <p class="input-title">Department</p>
-        <input
-                type="text"
-                name="department"
-                class="input-frame"
-                id="department"
-                placeholder="본인의 소속을 입력하세요"
-        />
-      </div>
-      <div id="department_result"></div>
-    </div>
-
-    <button class="joincancel-btn" id="join-btn">Join</button>
-    <button class="joincancel-btn" id="cancel-btn">Cancel</button>
-  </div>
-</form>
-
-<script>
+    <script>
       let join_btn = document.getElementById('join-btn');
       let cancel_btn = document.getElementById('cancel-btn');
       let id_check = document.getElementById('id_check');
@@ -257,7 +257,7 @@
         });
       };
 
-      nickname_check.onclick = function () {
+      nickname_check.onclick = function (event) {
         event.preventDefault(); // 폼 제출 방지
         let nickname = document.getElementById('nickname');
         // AJAX 요청
@@ -279,5 +279,5 @@
         });
       };
     </script>
-</body>
+  </body>
 </html>
