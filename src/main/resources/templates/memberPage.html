@@ -189,16 +189,20 @@
 
       function editer1() {
         let name = document.getElementById('name').value;
-        let phone = document.getElementById('phone').value;
+        let phoneNumber = document.getElementById('phone').value;
         let department = document.getElementById('department').value;
 
         $.ajax({
           type: 'POST',
           url: '/edit-mypage',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ name, phone, department }),
+          data: JSON.stringify({
+            name: name,
+            phoneNumber: phoneNumber,
+            department: department
+          }),
           success: function (result) {
-            if (result.success) {
+            if (result.success(true)) {
               // 프로필 업데이트 성공
               alert('프로필이 성공적으로 업데이트되었습니다.');
             } else {

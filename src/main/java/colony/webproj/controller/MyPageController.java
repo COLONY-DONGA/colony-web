@@ -63,9 +63,8 @@ public class MyPageController {
      * 마이페이지 수정
      */
     @PostMapping("/edit-mypage")
-    public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid MemberFormDto MemberFormDto,
+    public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody @Valid MemberFormDto MemberFormDto,
                              BindingResult bindingResult) throws IOException {
-        log.info("마이페이지 저장 url 호출");
         String loginId = principalDetails.getLoginId();
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
