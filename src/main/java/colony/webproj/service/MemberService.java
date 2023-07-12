@@ -3,6 +3,7 @@ package colony.webproj.service;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.MemberFormDto;
 import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.PasswordFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.repository.memberRepository.MemberRepository;
@@ -80,7 +81,6 @@ public class MemberService {
     public Boolean validationPassword(String loginID,String inputPassword){
         // 실제 데이터베이스의 패스워드
         String password = memberRepository.findPasswordByLoginId(loginID);
-        Boolean test = encoder.matches(inputPassword,encoder.encode(inputPassword));
 
         if (password != null) {
             Boolean value = encoder.matches(inputPassword, password);
@@ -111,10 +111,14 @@ public class MemberService {
      * 마이페이지 사용자 패스워드 수정
      * 현재 패스워드가 맞는 지 확인하고 새로운 패스워드로 전환한다.
      */
-    public Long updateMemberPassword(String loginId, MemberFormDto memberFormDto) throws IOException{
+    public Long updateMemberPassword(String loginId, PasswordFormDto passwordFormDto) throws IOException{
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
 
-        return 1L;
+        if(validationPassword(member.getLoginId(), passwordFormDto.getExisting_password())){
+            member.setPassword(encoder.encode(passwordFormDto.getNewPassword()));
+        }
+
+        return member.getId();
     }
 }

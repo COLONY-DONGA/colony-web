@@ -2,6 +2,7 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.MemberFormDto;
 import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.PasswordFormDto;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
 import jakarta.validation.Valid;
@@ -62,7 +63,7 @@ public class MyPageController {
     /**
      * 마이페이지 수정
      */
-    @PostMapping("/edit-mypage")
+    @PutMapping("/edit-mypage")
     public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody @Valid MemberFormDto MemberFormDto,
                              BindingResult bindingResult) throws IOException {
         String loginId = principalDetails.getLoginId();
@@ -70,6 +71,18 @@ public class MyPageController {
             return ResponseEntity.badRequest().build();
         }
         memberService.updateMember(loginId, MemberFormDto);
+        return ResponseEntity.ok(true);
+    }
+
+    @PutMapping("/edit-password")
+    public ResponseEntity<?> editPassword(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody @Valid PasswordFormDto passwordFormDto, BindingResult bindingResult) throws IOException{
+        String loginId = principalDetails.getLoginId();
+        if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
+
+        if(!passwordFormDto.getNewPassword().equals(passwordFormDto.getNewPasswordConfirm()))
+            return ResponseEntity.badRequest().body("신규 패스워드가 일치하지 않습니다.");
+
+        memberService.updateMemberPassword(loginId,passwordFormDto);
         return ResponseEntity.ok(true);
     }
 
