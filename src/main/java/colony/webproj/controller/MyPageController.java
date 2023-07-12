@@ -62,7 +62,7 @@ public class MyPageController {
     /**
      * 마이페이지 수정
      */
-    @PutMapping("/edit-mypage")
+    @PostMapping("/edit-mypage")
     public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid MemberFormDto MemberFormDto,
                              BindingResult bindingResult) throws IOException {
         log.info("마이페이지 저장 url 호출");
