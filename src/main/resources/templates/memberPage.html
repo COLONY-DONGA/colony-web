@@ -184,7 +184,32 @@
           return false;
         }
 
-        alert('정보가 정상적으로 변경되었습니다.');
+        editer1();
+      }
+
+      function editer1() {
+        let name = document.getElementById('name').value;
+        let phone = document.getElementById('phone').value;
+        let department = document.getElementById('department').value;
+
+        $.ajax({
+          type: 'POST',
+          url: '/edit-mypage',
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({ name, phone, department }),
+          success: function (result) {
+            if (result.success) {
+              // 프로필 업데이트 성공
+              alert('프로필이 성공적으로 업데이트되었습니다.');
+            } else {
+              // 프로필 업데이트 실패
+              alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
+            }
+          },
+          error: function () {
+            alert('서버와의 통신 중에 오류가 발생했습니다.');
+          },
+        });
       }
 
       closeModal1.onclick = function () {
@@ -257,8 +282,33 @@
           return false;
         }
 
-        alert('암호가 정상적으로 변경되었습니다.');
+        editer2();
       }
+
+      // function editer2() {
+      //   let name = document.getElementById('name').value;
+      //   let phone = document.getElementById('phone').value;
+      //   let department = document.getElementById('department').value;
+
+      //   $.ajax({
+      //     type: 'POST',
+      //     url: '/edit-mypage',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     data: JSON.stringify({ name, phone, department }),
+      //     success: function (result) {
+      //       if (result.success) {
+      //         // 프로필 업데이트 성공
+      //         alert('프로필이 성공적으로 업데이트되었습니다.');
+      //       } else {
+      //         // 프로필 업데이트 실패
+      //         alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
+      //       }
+      //     },
+      //     error: function () {
+      //       alert('서버와의 통신 중에 오류가 발생했습니다.');
+      //     },
+      //   });
+      // }
 
       closeModal2.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'none';
