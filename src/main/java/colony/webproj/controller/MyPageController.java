@@ -63,16 +63,15 @@ public class MyPageController {
      * 마이페이지 수정
      */
     @PutMapping("/edit-mypage")
-    public String editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid MemberFormDto MemberFormDto,
-                             BindingResult bindingResult, Model model) throws IOException {
+    public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails, @Valid MemberFormDto MemberFormDto,
+                             BindingResult bindingResult) throws IOException {
         log.info("마이페이지 저장 url 호출");
         String loginId = principalDetails.getLoginId();
         if (bindingResult.hasErrors()) {
-            model.addAttribute("memberFormDto", MemberFormDto);
-            return "redirect:/my-page";
+            return ResponseEntity.badRequest().build();
         }
         memberService.updateMember(loginId, MemberFormDto);
-        return "/my-page";
+        return ResponseEntity.ok(true);
     }
 
     @Getter
