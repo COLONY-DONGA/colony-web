@@ -63,7 +63,7 @@ public class MyPageController {
     /**
      * 마이페이지 수정
      */
-    @PostMapping("/edit-mypage")
+    @PutMapping("/edit-mypage")
     public ResponseEntity<?> editMyPage(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestBody @Valid MemberFormDto MemberFormDto,
                              BindingResult bindingResult) throws IOException {
         String loginId = principalDetails.getLoginId();
