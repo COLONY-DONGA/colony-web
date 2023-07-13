@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../static/css/qaDetail.css" />
     <link rel="stylesheet" href="../static/css/headerfooter.css" />
-    <title>qaDetail</title>
+    <title>질문 세부 페이지</title>
   </head>
+
   <body>
     <script>
       $(function () {
@@ -16,136 +16,317 @@
         $('#footer').load('footer.html');
       });
     </script>
-    <div id="header"></div>
-    {% comment %}
-    <div class="item--2ij" id="33203:154">
-      <div class="item--1Km" id="33262:13">
-        <div class="auto-group-4gnb-s2X" id="6gdevgpTByMHqMmV4W4GnB">
-          <div class="item--WbH" id="33203:169">
-            <div class="rectangle-19-nYo" id="33203:157"></div>
-            <div class="item--UAj" id="33203:166">질문 세부 내용</div>
-          </div>
-          <div class="auto-group-ccp7-gXh" id="6gdeNCkaX1R4SM7F2JCcp7">
-            <div class="item--BDZ" id="33203:174">
-              <div class="rectangle-20-77D" id="33203:159"></div>
-              <div class="item--EDm" id="33203:170">제목</div>
-            </div>
-            <div class="item--i8w" id="33217:2">
-              <div class="rectangle-24-dmh" id="33203:163"></div>
-              <div class="item--yKm" id="33203:172">작성자 이름</div>
-            </div>
-          </div>
-          <div class="item--dv7" id="33217:3">질문 세부 내용</div>
-          <div class="item--oCK" id="33217:15">
-            <div class="item--hHh" id="33217:17">
-              내용이 없으면 답변 등록 버튼
-              <br />
-              <br />
-              <br />
-              나영이 있으면 답변이 표시
-            </div>
-          </div>
-          <div class="auto-group-t7ks-gQX" id="6gdeXhUksKYt5QsSGKt7ks">
-            <div class="auto-group-ws2t-R7D" id="6gdefhFS7NcR33cktZWS2T">
-              <div class="item--Jwh" id="33217:18">
-                <div class="rectangle-22-qAw" id="33217:19"></div>
-                <div class="item--9Bd" id="33217:20">답변 등록</div>
-              </div>
-              <div class="item--ETy" id="33217:10">
-                <div class="rectangle-22-a23" id="33203:161"></div>
-                <div class="item--4xo" id="33217:9">목록가기</div>
-              </div>
-            </div>
-            <div class="item--kqd" id="33217:7">
-              <div class="rectangle-25-JMM" id="33203:164"></div>
-              <div class="item--2o9" id="33217:4">수정</div>
-            </div>
-            <div class="item--uM9" id="33217:6">
-              <div class="rectangle-26-4E3" id="33203:165"></div>
-              <div class="item--aCP" id="33217:5">삭제</div>
-            </div>
-          </div>
-        </div>
-        <div class="item--Enj" id="33217:23">
-          <div class="item--N8F" id="33314:2">유진</div>
-          <div class="item--2Co" id="33314:3">댓글입니다.</div>
-          <div class="item--uXV" id="33314:10">유진</div>
-          <div class="item--PhZ" id="33314:11">대댓글입니다.</div>
-          <img
-            class="item--4oh"
-            src="/api/try-prod-ap-southeast-1-first-cluster/project..."
-            id="33314:9"
-          />
-          <div class="line-3-oFV" id="33314:12"></div>
-        </div>
-      </div>
-    </div>
-    {% endcomment %}
 
-    <div class="question-container" id="question-container-154">
-      <div class="question-wrapper" id="question-wrapper-13">
-        <div class="question-group-container" id="question-group-container-6gdevgpTByMHqMmV4W4GnB">
-          <div class="question-group-header" id="question-group-header-169">
-            <div class="question-icon-rectangle" id="question-icon-157"></div>
-            <div class="question-group-title" id="question-group-title-166">질문 세부 내용</div>
-          </div>
-          <div class="question-group-wrapper" id="question-group-wrapper-6gdeNCkaX1R4SM7F2JCcp7">
-            <div class="question-info-container" id="question-info-container-174">
-              <div class="question-info-rectangle" id="question-info-rectangle-159"></div>
-              <div class="question-info-text" id="question-info-title-170">제목</div>
-            </div>
-            <div class="question-author" id="question-author-2">
-              <div class="question-author-rectangle" id="question-author-163"></div>
-              <div class="question-author-name" id="question-author-name-172">작성자 이름</div>
-            </div>
-          </div>
-          <div class="question-details" id="question-details-3">질문 세부 내용</div>
-          <div class="answer-container" id="answer-container-15">
-            <div class="answer-content" id="answer-content-17">
-              내용이 없으면 답변 등록 버튼
-              <br />
-              <br />
-              <br />
-              나영이 있으면 답변이 표시
-            </div>
-          </div>
-          <div
-            class="action-buttons-container"
-            id="action-buttons-container-6gdeXhUksKYt5QsSGKt7ks"
-          >
-            <div class="answer-submit-button" id="answer-submit-button-18">
-              <div class="answer-submit-rectangle" id="answer-submit-rectangle-19"></div>
-              <div class="answer-submit-text" id="answer-submit-text-20">답변 등록</div>
-            </div>
-            <div class="back-to-list-button" id="back-to-list-button-10">
-              <div class="back-to-list-rectangle" id="back-to-list-rectangle-22"></div>
-              <div class="back-to-list-text" id="back-to-list-text-9">목록가기</div>
-            </div>
-          </div>
-          <div class="edit-button" id="edit-button-7">
-            <div class="edit-rectangle" id="edit-rectangle-25"></div>
-            <div class="edit-text" id="edit-text-4">수정</div>
-          </div>
-          <div class="delete-button" id="delete-button-6">
-            <div class="delete-rectangle" id="delete-rectangle-26"></div>
-            <div class="delete-text" id="delete-text-5">삭제</div>
-          </div>
-        </div>
-        <div class="comment-container" id="comment-container-23">
-          <div class="comment-author" id="comment-author-2">유진</div>
-          <div class="comment-text" id="comment-text-3">댓글입니다.</div>
-          <div class="sub-comment-author" id="sub-comment-author-10">유진</div>
-          <div class="sub-comment-text" id="sub-comment-text-11">대댓글입니다.</div>
-          <img
-            class="comment-image"
-            src="/api/try-prod-ap-southeast-1-first-cluster/project..."
-            id="comment-image-9"
-          />
-          <div class="comment-divider" id="comment-divider-12"></div>
-        </div>
+    <div id="header"></div>
+    <br />
+
+    <div class="qadetail-frame">
+      <section class="article-detail table-common con row">
+        <table class="cell" border="1">
+          <colgroup>
+            <col width="100px" />
+          </colgroup>
+          <tbody>
+            <tr class="article-title">
+              <th>제목</th>
+              <td class="question-title" th:text="Q. : ${title}">title</td>
+              <th>작성자</th>
+              <td class="question-title" th:text="Q. : ${name}">name</td>
+            </tr>
+            <tr class="article-info">
+              <th>날짜</th>
+              <td th:text="qadate">date</td>
+              <th>좋아요</th>
+              <td th:text="qagood">qagood</td>
+            </tr>
+            <tr class="article-body">
+              <td colspan="4" th:text="A. : ${question.detail}">
+                내용이 와다다다다 들어갈 것입니당
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <br />
+
+      <div class="answer-text-box">
+        <!--답변이 있으면 답변 띄우기
+            답변이 없으면 display 숨기기
+             넴모넴모 텍스트가 들어갈 박스 만들기, js display 처리하기 -->
+        <textarea class="answer-text" th:text="${answerdata!!!!}">
+        <!--답변데이터가 타임리프로 이곳에 들어갈 예정입니다 뭐지 주석인데 왜보이지-->
+      </textarea
+        >
+      </div>
+
+      <div class="btn">
+        <button class="qabtn">답변 등록</button>
+        <button class="listbtn">목록</button>
+        <button class="editbtn">수정</button>
+        <button class="deletebtn">삭제</button>
+        <!--<a href="#" class="btn green rounded">Button</a>-->
       </div>
     </div>
+
+    <br />
+
+    <div class="comment-text-box">
+      <div class="comment-text">
+        <div id="comments"></div>
+      </div>
+    </div>
+    <button class="new-comment-btn" id="add-comment-button">새 댓글 추가</button>
 
     <div id="footer"></div>
+
+    <script>
+      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
+      // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
+      function addReply(event) {
+        var comment = event.target.parentElement;
+        var reply = document.createElement('div');
+        reply.classList.add('reply');
+
+        // 대댓글 작성자와 내용 표시
+        var replyAuthorSpan = document.createElement('span');
+        replyAuthorSpan.classList.add('name');
+        replyAuthorSpan.innerText = '↳(' + userName + ') ';
+        var replyContentInput = document.createElement('input');
+        replyContentInput.placeholder = '대댓글 내용';
+
+        // 대댓글 작성 버튼 추가
+        var replySubmitButton = document.createElement('button');
+        replySubmitButton.innerText = '작성';
+        replySubmitButton.addEventListener('click', function () {
+          var name = replyAuthorSpan.innerText; // 대댓글 작성자를 가져옴
+          var text = replyContentInput.value;
+
+          // 대댓글 생성 및 추가
+          var replyContent = document.createElement('span');
+          replyContent.classList.add('text');
+          replyContent.innerText = text;
+          var replyAuthor = document.createElement('span');
+          replyAuthor.classList.add('name');
+          replyAuthor.innerText = name;
+          reply.appendChild(replyAuthor);
+          reply.appendChild(replyContent);
+          comment.getElementsByClassName('replies')[0].appendChild(reply);
+
+          // 입력 폼 삭제
+          reply.removeChild(replyAuthorSpan);
+          reply.removeChild(replyContentInput);
+          reply.removeChild(replySubmitButton);
+
+          // 대댓글을 서버로 전송하여 저장
+          var commentId = comment.dataset.commentId;
+          saveReply(commentId, name, text);
+        });
+
+        // 대댓글 작성 폼 추가
+        reply.appendChild(replyAuthorSpan);
+        reply.appendChild(replyContentInput);
+        reply.appendChild(replySubmitButton);
+        comment.getElementsByClassName('replies')[0].appendChild(reply);
+      }
+
+      function saveComment(name, text) {
+        // 새 댓글을 서버로 전송하여 저장
+        $.ajax({
+          type: 'POST',
+          url: '/save-comment',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            name: name, //오른쪽이 js변수 새댓글 작성자 name
+            text: text, //오른쪽이 js변수 새댓글 댓글텍스트
+          }),
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (xhr, status, error) {
+            console.error(error);
+          },
+        });
+      }
+
+      function saveReply(commentId, name, text) {
+        // 대댓글을 서버로 전송하여 저장
+        $.ajax({
+          type: 'POST',
+          url: '/save-reply',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            commentId: commentId, //오른쪽 부모댓글!!! name,text가 속해있는 댓글의 식별자
+            name: name, //오른쪽이 js변수 대댓글 작성자 name
+            text: text, //오른쪽이 js변수 대댓글 텍스트
+          }),
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (xhr, status, error) {
+            console.error(error);
+          },
+        });
+      }
+
+      // 대댓글 버튼 클릭 이벤트 처리
+      function addReplyButtonListeners() {
+        var replyButtons = document.getElementsByClassName('reply-button');
+        for (var i = 0; i < replyButtons.length; i++) {
+          replyButtons[i].addEventListener('click', addReply);
+        }
+      }
+
+      // 새 댓글 추가 버튼 클릭 이벤트 처리
+      var addCommentButton = document.getElementById('add-comment-button');
+      addCommentButton.addEventListener('click', function () {
+        var commentsDiv = document.getElementById('comments');
+        var newComment = document.createElement('div');
+        newComment.classList.add('comment');
+
+        // 댓글 작성자와 내용 표시
+        var commentAuthorSpan = document.createElement('span');
+        commentAuthorSpan.classList.add('name');
+        commentAuthorSpan.innerText = userName + ' : ';
+        var commentContentInput = document.createElement('input');
+        commentContentInput.placeholder = '댓글 내용';
+
+        // 입력 버튼 추가
+        var commentSubmitButton = document.createElement('button');
+        commentSubmitButton.innerText = '입력';
+
+        // 대댓글 버튼 추가
+        var replyButton = document.createElement('button');
+        replyButton.classList.add('reply-button');
+        replyButton.innerText = '대댓글';
+
+        // 대댓글 목록 추가
+        var repliesDiv = document.createElement('div');
+        repliesDiv.classList.add('replies');
+
+        newComment.appendChild(commentAuthorSpan);
+        newComment.appendChild(commentContentInput);
+        newComment.appendChild(commentSubmitButton);
+        newComment.appendChild(replyButton);
+        newComment.appendChild(repliesDiv);
+
+        commentsDiv.appendChild(newComment);
+
+        // 입력 버튼 클릭 이벤트 처리
+        commentSubmitButton.addEventListener('click', function () {
+          var name = commentAuthorSpan.innerText; // 댓글 작성자를 가져옴
+          var text = commentContentInput.value;
+
+          // 댓글 생성 및 추가
+          var commentContent = document.createElement('span');
+          commentContent.classList.add('text');
+          commentContent.innerText = text;
+          var commentAuthor = document.createElement('span');
+          commentAuthor.classList.add('name');
+          commentAuthor.innerText = name;
+          newComment.insertBefore(commentAuthor, commentContentInput);
+          newComment.insertBefore(commentContent, commentContentInput);
+
+          // 입력 폼 삭제
+          newComment.removeChild(commentAuthorSpan);
+          newComment.removeChild(commentContentInput);
+          newComment.removeChild(commentSubmitButton);
+
+          // 댓글을 서버로 전송하여 저장
+          saveComment(name, text);
+
+          // 대댓글 버튼 활성화
+          replyButton.disabled = false;
+        });
+
+        // 대댓글 버튼 클릭 이벤트 처리
+        replyButton.addEventListener('click', addReply);
+
+        // 댓글이 추가되었으므로 대댓글 버튼을 비활성화
+        replyButton.disabled = true;
+      });
+
+      // 페이지 로드 시에 댓글이 없으므로 대댓글 버튼 비활성화
+      var replyButtons = document.getElementsByClassName('reply-button');
+      for (var i = 0; i < replyButtons.length; i++) {
+        replyButtons[i].disabled = true;
+      }
+
+      // 페이지 로드 시에 기존 댓글과 대댓글을 가져와서 표시하는 함수
+      function loadComments() {
+        // 서버에서 댓글 데이터를 가져오는 Ajax 요청
+        $.ajax({
+          type: 'GET',
+          url: '/get-comments',
+          success: function (response) {
+            // 가져온 댓글 데이터를 반복하여 표시
+            for (var i = 0; i < response.comments.length; i++) {
+              var commentData = response.comments[i];
+
+              // 댓글 요소 생성
+              var newComment = document.createElement('div');
+              newComment.classList.add('comment');
+
+              // 댓글 작성자와 내용 표시
+              var commentAuthor = document.createElement('span');
+              commentAuthor.classList.add('name');
+              commentAuthor.innerText = commentData.name + ' : ';
+              var commentContent = document.createElement('span');
+              commentContent.classList.add('text');
+              commentContent.innerText = commentData.text;
+
+              newComment.appendChild(commentAuthor);
+              newComment.appendChild(commentContent);
+
+              // 대댓글 목록 추가
+              var repliesDiv = document.createElement('div');
+              repliesDiv.classList.add('replies');
+              newComment.appendChild(repliesDiv);
+
+              // 대댓글 작성 버튼 추가
+              var replyButton = document.createElement('button');
+              replyButton.classList.add('reply-button');
+              replyButton.innerText = '대댓글';
+              newComment.appendChild(replyButton);
+
+              // 댓글에 대댓글 버튼 클릭 이벤트 처리
+              replyButton.addEventListener('click', addReply);
+
+              // 댓글을 댓글 목록에 추가
+              var commentsDiv = document.getElementById('comments');
+              commentsDiv.appendChild(newComment);
+
+              // 해당 댓글의 대댓글 가져와서 표시
+              for (var j = 0; j < commentData.replies.length; j++) {
+                var replyData = commentData.replies[j];
+                var reply = document.createElement('div');
+                reply.classList.add('reply');
+
+                // 대댓글 작성자와 내용 표시
+                var replyAuthor = document.createElement('span');
+                replyAuthor.classList.add('name');
+                replyAuthor.innerText = '↳(' + replyData.name + ') ';
+                var replyContent = document.createElement('span');
+                replyContent.classList.add('text');
+                replyContent.innerText = replyData.text;
+
+                reply.appendChild(replyAuthor);
+                reply.appendChild(replyContent);
+                repliesDiv.appendChild(reply);
+              }
+            }
+
+            // 대댓글 버튼 활성화
+            addReplyButtonListeners();
+          },
+          error: function (xhr, status, error) {
+            console.error(error);
+          },
+        });
+      }
+
+      // 페이지 로드 시에 기존 댓글 가져오기
+      loadComments();
+    </script>
   </body>
 </html>

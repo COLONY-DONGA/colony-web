@@ -10,29 +10,14 @@
   </head>
 
   <body>
-<<<<<<< HEAD
-    <script>
-      $(function () {
-        $('#header').load('./header.html');
-        $('#footer').load('./footer.html');
-      });
-    </script>
-
-    <div id="header"></div>
-=======
     <div th:replace="~{layouts/header :: header}"></div>
->>>>>>> main
 
     <div class="qa-container" id="question-answer-container">
       <div class="qa-item" id="question-1">
         <div class="qa-header" id="question-header-1">Q&A</div>
         <div class="qa-list" id="question-list-1">
           <div class="dropdown">
-<<<<<<< HEAD
-            <button class="dropbtn">정렬</button>
-=======
             <button class="drop-btn">검색</button>
->>>>>>> main
             <div class="dropdown-content">
               <a href="#">최신순</a>
               <a href="#">오래된순</a>
