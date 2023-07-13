@@ -69,10 +69,7 @@
         <h2>비밀번호 변경</h2>
         <input type="password" id="cur-password" placeholder="현재 비밀번호" required />
         <input type="password" id="new-password" placeholder="새로운 비밀번호" required />
-        <div class="item-4-2"></div>
         <input type="password" id="confirm-password" placeholder="새로운 비밀번호 확인" required />
-        <div class="item-4-3"></div>
-
         <button class="pw-change" type="submit">변경</button>
         <button class="item-btn-3-2">닫기</button>
       </div>
@@ -116,20 +113,20 @@
       };
 
       pw_check.onclick = function () {
-        let pw = document.getElementById('current-password');
+        let password = document.getElementById('current-password').value;
 
         $.ajax({
           type: 'POST',
           url: '/my-page/validation-password',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ password: pw.value }),
+          data: JSON.stringify({ password }),
           success: function (result) {
             document.getElementById('modal-overlay-1').style.display = 'none';
             document.getElementById('modal-1').style.display = 'none';
             validation1(event);
           },
           error: function () {
-            alert('올바르지 않은 암호입니다. 다시 입력해주세요.');
+            alert('올바르지 않은 패스워드입니다. 다시 입력해주세요.');
           },
         });
       };
@@ -193,25 +190,15 @@
         let department = document.getElementById('department').value;
 
         $.ajax({
-          type: 'POST',
+          type: 'PUT',
           url: '/edit-mypage',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({
-            name: name,
-            phoneNumber: phoneNumber,
-            department: department
-          }),
+          data: JSON.stringify({ name, phoneNumber, department }),
           success: function (result) {
-            if (result.success(true)) {
-              // 프로필 업데이트 성공
-              alert('프로필이 성공적으로 업데이트되었습니다.');
-            } else {
-              // 프로필 업데이트 실패
-              alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
-            }
+            alert('프로필이 성공적으로 업데이트되었습니다.');
           },
           error: function () {
-            alert('서버와의 통신 중에 오류가 발생했습니다.');
+            alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
           },
         });
       }
@@ -227,20 +214,18 @@
       };
 
       pw_change.onclick = function () {
-        let pw_cur = document.getElementById('cur-password');
+        let password = document.getElementById('cur-password').value;
 
         $.ajax({
           type: 'POST',
-          url: '?', // 최근에 이렇게 하기로 해서, 아직 만들지 않은 URL
+          url: '/my-page/validation-password',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ password: pw_cur.value }),
+          data: JSON.stringify({ password }),
           success: function (result) {
-            document.getElementById('modal-overlay-2').style.display = 'none';
-            document.getElementById('modal-2').style.display = 'none';
             validation2(event);
           },
           error: function () {
-            alert('올바르지 않은 암호입니다. 다시 입력해주세요.');
+            alert('올바르지 않은 패스워드입니다. 다시 입력해주세요.');
           },
         });
       };
@@ -248,40 +233,33 @@
       function validation2(event) {
         let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        let pw_new = document.getElementById('new-password');
-        let pw_confirm = document.getElementById('confirm_password');
+        let newPassword = document.getElementById('new-password');
+        let newPasswordConfirm = document.getElementById('confirm-password');
 
-        let pw_new_result = document.getElementById('item-4-2');
-        let pw_confirm_result = document.getElementById('item-4-3');
-
-        pw_new_result.innerText = '';
-        pw_confirm_result.innerText = '';
-
-        if (pw_new.value.trim() === '') {
-          pw_new_result.innerText = '패스워드를 입력해주세요.';
-          pw_new.focus();
+        if (newPassword.value.trim() === '') {
+          alert('패스워드를 입력해주세요.');
+          newPassword.focus();
           event.preventDefault();
           return false;
         }
-        if (pw_confirm.value.trim() === '') {
-          pw_confirm_result.innerText = '패스워드를 한 번 더 입력해주세요.';
-          pw_confirm.focus();
+        if (newPasswordConfirm.value.trim() === '') {
+          alert('패스워드를 한 번 더 입력해주세요.');
+          newPasswordConfirm.focus();
           event.preventDefault();
           return false;
         }
 
-        if (!pw_reg.test(pw_new.value)) {
-          pw_new_result.innerText =
-            '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
-          pw_new.value = '';
-          pw_new.focus();
+        if (!pw_reg.test(newPassword.value)) {
+          alert('패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.');
+          newPassword.value = '';
+          newPassword.focus();
           event.preventDefault();
           return false;
         }
-        if (pw.value !== pw_confirm.value) {
-          pw_confirm_result.innerText = '패스워드를 확인해주세요.';
-          pw_confirm.value = '';
-          pw_confirm.focus();
+        if (newPassword.value !== newPasswordConfirm.value) {
+          alert('패스워드를 확인해주세요.');
+          newPasswordConfirm.value = '';
+          newPasswordConfirm.focus();
           event.preventDefault();
           return false;
         }
@@ -289,30 +267,26 @@
         editer2();
       }
 
-      // function editer2() {
-      //   let name = document.getElementById('name').value;
-      //   let phone = document.getElementById('phone').value;
-      //   let department = document.getElementById('department').value;
+      function editer2() {
+        let existing_password = document.getElementById('cur-password').value;
+        let newPassword = document.getElementById('new-password').value;
+        let newPasswordConfirm = document.getElementById('confirm-password').value;
 
-      //   $.ajax({
-      //     type: 'POST',
-      //     url: '/edit-mypage',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     data: JSON.stringify({ name, phone, department }),
-      //     success: function (result) {
-      //       if (result.success) {
-      //         // 프로필 업데이트 성공
-      //         alert('프로필이 성공적으로 업데이트되었습니다.');
-      //       } else {
-      //         // 프로필 업데이트 실패
-      //         alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
-      //       }
-      //     },
-      //     error: function () {
-      //       alert('서버와의 통신 중에 오류가 발생했습니다.');
-      //     },
-      //   });
-      // }
+        $.ajax({
+          type: 'PUT',
+          url: '/edit-password',
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({ existing_password, newPassword, newPasswordConfirm }),
+          success: function (result) {
+            document.getElementById('modal-overlay-2').style.display = 'none';
+            document.getElementById('modal-2').style.display = 'none';
+            alert('패스워드가 성공적으로 업데이트되었습니다.');
+          },
+          error: function () {
+            alert('패스워드 업데이트에 실패했습니다. 다시 시도해주세요.');
+          },
+        });
+      }
 
       closeModal2.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'none';

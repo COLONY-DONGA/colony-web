@@ -142,20 +142,6 @@
   left: 21.5rem;
   bottom: 1.5rem;
 }
-.item-4-2 {
-  font-size: 0.8em;
-  color: red;
-  /* position: absolute;
-  left: 21.5rem;
-  bottom: 1.5rem; */
-}
-.item-4-3 {
-  font-size: 0.8em;
-  color: red;
-  /* position: absolute;
-  left: 21.5rem;
-  bottom: 1.5rem; */
-}
 .item-btn-1 {
   align-items: center;
   background-color: rgba(111, 225, 92, 0.9);
@@ -220,10 +206,6 @@
 }
 #modal-1 h2,
 #modal-2 h2 {
-  margin-bottom: 1rem;
-}
-#modal-1 form,
-#modal-2 form {
   margin-bottom: 1rem;
 }
 .item-btn-3-1,
