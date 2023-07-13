@@ -69,10 +69,7 @@
         <h2>비밀번호 변경</h2>
         <input type="password" id="cur-password" placeholder="현재 비밀번호" required />
         <input type="password" id="new-password" placeholder="새로운 비밀번호" required />
-        <div class="item-4-2"></div>
         <input type="password" id="confirm-password" placeholder="새로운 비밀번호 확인" required />
-        <div class="item-4-3"></div>
-
         <button class="pw-change" type="submit">변경</button>
         <button class="item-btn-3-2">닫기</button>
       </div>
@@ -193,14 +190,10 @@
         let department = document.getElementById('department').value;
 
         $.ajax({
-          type: 'POST', // 곧 PUT으로 바꿀 예정
+          type: 'PUT',
           url: '/edit-mypage',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({
-            name,
-            phoneNumber,
-            department,
-          }),
+          data: JSON.stringify({ name, phoneNumber, department }),
           success: function (result) {
             alert('프로필이 성공적으로 업데이트되었습니다.');
           },
@@ -219,18 +212,16 @@
         document.getElementById('modal-overlay-2').style.display = 'block';
         document.getElementById('modal-2').style.display = 'block';
       };
-      // ㅁㄴㅇㄹ 1/2
+
       pw_change.onclick = function () {
-        let existing_password = document.getElementById('cur-password').value;
+        let password = document.getElementById('cur-password').value;
 
         $.ajax({
           type: 'POST',
-          url: '?', // 최근에 이렇게 하기로 해서, 아직 만들지 않은 URL
+          url: '/my-page/validation-password',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ existing_password }),
+          data: JSON.stringify({ password }),
           success: function (result) {
-            document.getElementById('modal-overlay-2').style.display = 'none';
-            document.getElementById('modal-2').style.display = 'none';
             validation2(event);
           },
           error: function () {
@@ -242,56 +233,53 @@
       function validation2(event) {
         let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        let pw_new = document.getElementById('new-password');
-        let pw_confirm = document.getElementById('confirm_password');
+        let newPassword = document.getElementById('new-password');
+        let newPasswordConfirm = document.getElementById('confirm-password');
 
-        let pw_new_result = document.getElementById('item-4-2');
-        let pw_confirm_result = document.getElementById('item-4-3');
-
-        pw_new_result.innerText = '';
-        pw_confirm_result.innerText = '';
-
-        if (pw_new.value.trim() === '') {
-          pw_new_result.innerText = '패스워드를 입력해주세요.';
-          pw_new.focus();
+        if (newPassword.value.trim() === '') {
+          alert('패스워드를 입력해주세요.');
+          newPassword.focus();
           event.preventDefault();
           return false;
         }
-        if (pw_confirm.value.trim() === '') {
-          pw_confirm_result.innerText = '패스워드를 한 번 더 입력해주세요.';
-          pw_confirm.focus();
+        if (newPasswordConfirm.value.trim() === '') {
+          alert('패스워드를 한 번 더 입력해주세요.');
+          newPasswordConfirm.focus();
           event.preventDefault();
           return false;
         }
 
-        if (!pw_reg.test(pw_new.value)) {
-          pw_new_result.innerText =
-            '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
-          pw_new.value = '';
-          pw_new.focus();
+        if (!pw_reg.test(newPassword.value)) {
+          alert('패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.');
+          newPassword.value = '';
+          newPassword.focus();
           event.preventDefault();
           return false;
         }
-        if (pw.value !== pw_confirm.value) {
-          pw_confirm_result.innerText = '패스워드를 확인해주세요.';
-          pw_confirm.value = '';
-          pw_confirm.focus();
+        if (newPassword.value !== newPasswordConfirm.value) {
+          alert('패스워드를 확인해주세요.');
+          newPasswordConfirm.value = '';
+          newPasswordConfirm.focus();
           event.preventDefault();
           return false;
         }
 
         editer2();
       }
-      // ㅁㄴㅇㄹ 2/2
+
       function editer2() {
+        let existing_password = document.getElementById('cur-password').value;
         let newPassword = document.getElementById('new-password').value;
+        let newPasswordConfirm = document.getElementById('confirm-password').value;
 
         $.ajax({
-          type: 'POST', // 곧 PUT으로 바꿀 예정
-          url: '?', // 최근에 이렇게 하기로 해서, 아직 만들지 않은 URL
+          type: 'PUT',
+          url: '/edit-password',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ newPassword }),
+          data: JSON.stringify({ existing_password, newPassword, newPasswordConfirm }),
           success: function (result) {
+            document.getElementById('modal-overlay-2').style.display = 'none';
+            document.getElementById('modal-2').style.display = 'none';
             alert('패스워드가 성공적으로 업데이트되었습니다.');
           },
           error: function () {
