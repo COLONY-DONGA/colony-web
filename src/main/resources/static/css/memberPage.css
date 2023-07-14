@@ -1,4 +1,4 @@
-.my-page {
+.my-profile {
   align-items: center;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -27,7 +27,7 @@
   width: 25rem;
   margin-top: 1rem;
 }
-.my-page-item {
+.my-profile-item {
   background-color: #f5f5f7;
   border: solid 0.1rem rgba(0, 0, 0, 0.2);
   border-radius: 1.4rem;
@@ -218,7 +218,7 @@
   border: solid 0.1rem rgba(0, 0, 0, 0.2);
   border-radius: 1.4rem;
   box-sizing: border-box;
-  height: 47rem;
+  height: 62rem;
   left: 0;
   top: 0;
   margin-top: 1rem;
@@ -339,5 +339,44 @@
   text-decoration: none;
 }
 .item-c-2:first-child {
+  margin-top: 1rem;
+}
+.item-l {
+  background-color: #d9d9d9;
+  border-radius: 1.3rem;
+  box-sizing: border-box;
+  color: rgba(12, 11, 11, 0.7599999905);
+  display: flex;
+  align-items: center;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.6rem;
+  font-weight: 400;
+  height: 3.5rem;
+  line-height: 1.2;
+  margin-top: 46rem;
+  margin-left: 3rem;
+  padding: 2rem 3.7rem 2rem 1.5rem;
+  position: absolute;
+  white-space: nowrap;
+  width: 50rem;
+}
+.item-l-1 {
+  position: absolute;
+  margin-top: 50rem;
+}
+.item-l-2 {
+  box-sizing: border-box;
+  color: #0c0b0b;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1.4rem;
+  font-weight: 400;
+  height: 2.5rem;
+  line-height: 1.2;
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.item-l-2:first-child {
   margin-top: 1rem;
 }
