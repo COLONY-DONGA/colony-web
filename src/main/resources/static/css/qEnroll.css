@@ -4,8 +4,8 @@
 
   .container {
     .item1 {
-      align-items: center;
       display: flex;
+      align-items: center;
       flex-direction: column;
       padding-bottom: 1.2rem;
 
@@ -44,13 +44,13 @@
         font-family: Baloo Bhai, 'Source Sans Pro';
         font-size: 1.2rem;
         font-weight: 400;
-        margin-right: 0.05rem;
         padding: 0.8rem 1.8rem;
         resize: none;
       }
     }
     .item2 {
       display: flex;
+      justify-content: center;
 
       .add_file {
         background-color: #c8c8c8;
@@ -60,7 +60,7 @@
         font-family: Baloo Bhai, 'Source Sans Pro';
         font-size: 1.2rem;
         font-weight: 400;
-        margin: 0rem 13rem 0rem 1.5rem;
+        margin: 0rem 13rem 0rem 0rem;
         padding: 0.8rem 1.8rem;
         width: 50rem;
       }
