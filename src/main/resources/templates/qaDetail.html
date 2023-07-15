@@ -38,6 +38,8 @@
               <td th:text="qadate">date</td>
               <th>좋아요</th>
               <td th:text="qagood">qagood</td>
+              <button id="qlikeBtn" class="likeButton">좋아요</button>
+              <span id="qlikeCount">0</span>
             </tr>
             <tr class="article-body">
               <td colspan="4" th:text="A. : ${question.detail}">
@@ -60,10 +62,10 @@
       </div>
 
       <div class="btn">
-        <button class="qabtn">답변 등록</button>
-        <button class="listbtn">목록</button>
-        <button class="editbtn">수정</button>
-        <button class="deletebtn">삭제</button>
+        <button class="qabtn" id="qabtn">답변 등록</button>
+        <button class="listbtn" id="listbtn">목록</button>
+        <button class="editbtn" id="editbtn">수정</button>
+        <button class="deletebtn" id="deletebtn">삭제</button>
         <!--<a href="#" class="btn green rounded">Button</a>-->
       </div>
     </div>
@@ -80,6 +82,62 @@
     <div id="footer"></div>
 
     <script>
+      //버튼들 기능구현
+      var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+      qabtn.addEventListener('click', function () {
+        window.location.href = 'aEnroll.html'; // 이동하고자 하는 페이지의 주소
+      });
+
+      var listbtn = document.getElementById('listbtn'); //목록 버튼
+      listbtn.addEventListener('click', function () {
+        window.location.href = 'qalist.html';
+      });
+
+      var editbtn = document.getElementById('editbtn'); //수정 버튼
+      editbtn.addEventListener('click', function () {
+        window.location.href = '#'; //
+      });
+
+      var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
+      deletebtn.addEventListener('click', function () {
+        window.location.href = '삭제btn';
+      });
+
+      //좋아요 기능 구현(질문글 좋아요)
+
+      var qlikeCount = 0;
+
+      // qlikeBtn 클릭 이벤트 처리
+      $('#qlikeBtn').on('click', function () {
+        // class 변경
+        if ($(this).hasClass('likeButton')) {
+          $(this).removeClass('likeButton').addClass('likeButton-use');
+          // qlikeCount 증가
+          qlikeCount++;
+        } else {
+          $(this).removeClass('likeButton-use').addClass('likeButton');
+          // qlikeCount 감소
+          qlikeCount--;
+        }
+        $('#qlikeCount').text(qlikeCount);
+
+        // 서버로 ajax 요청
+        $.ajax({
+          url: 'your_server_url',
+          type: 'POST',
+          dataType: 'json',
+          data: { qlikeCount: qlikeCount },
+          success: function (response) {
+            // 서버 응답 처리
+            console.log(response);
+          },
+          error: function (error) {
+            // 에러 처리
+            console.error(error);
+          },
+        });
+      });
+
       var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
       function addReply(event) {
