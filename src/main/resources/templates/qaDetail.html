@@ -35,11 +35,10 @@
             </tr>
             <tr class="article-info">
               <th>날짜</th>
-              <td th:text="qadate">date</td>
+              <td th:text="${qadate}">date</td>
               <th>좋아요</th>
-              <td th:text="qagood">qagood</td>
+              <td id="qlikeCount">0</td>
               <button id="qlikeBtn" class="likeButton">좋아요</button>
-              <span id="qlikeCount">0</span>
             </tr>
             <tr class="article-body">
               <td colspan="4" th:text="A. : ${question.detail}">
@@ -60,6 +59,9 @@
       </textarea
         >
       </div>
+
+      --------------------------------
+      <!--파일첨부 기능은 뉴진이랑 같이하기-->
 
       <div class="btn">
         <button class="qabtn" id="qabtn">답변 등록</button>
@@ -83,6 +85,11 @@
 
     <script>
       //버튼들 기능구현
+      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
+      // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
+      var name = 'hyeon'; // 질문 작성자 이름!!!!
+      // [[${name}]] 이런식으로 타임리프 식으로 사용 가능
+
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
         window.location.href = 'aEnroll.html'; // 이동하고자 하는 페이지의 주소
@@ -95,13 +102,18 @@
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
-        window.location.href = '#'; //
+        window.location.href = 'qEnroll.html'; //
       });
 
       var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
       deletebtn.addEventListener('click', function () {
-        window.location.href = '삭제btn';
+        window.location.href = 'qEnroll.html';
       });
+
+      if (userName != name) {
+        editbtn.style.display = 'none';
+        deletebtn.style.display = 'none';
+      }
 
       //좋아요 기능 구현(질문글 좋아요)
 
@@ -111,8 +123,8 @@
       $('#qlikeBtn').on('click', function () {
         // class 변경
         if ($(this).hasClass('likeButton')) {
-          $(this).removeClass('likeButton').addClass('likeButton-use');
-          // qlikeCount 증가
+          $(this).removeClass('likeButton').addClass('likeButton-use'); // 색상 변경
+          // qlikeCount 증가 (이 친구가 나중에 ajax통신으로 질문에 대한 좋아요로 들어갈 것임)
           qlikeCount++;
         } else {
           $(this).removeClass('likeButton-use').addClass('likeButton');
@@ -138,8 +150,6 @@
         });
       });
 
-      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
-      // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
       function addReply(event) {
         var comment = event.target.parentElement;
         var reply = document.createElement('div');
@@ -385,6 +395,56 @@
 
       // 페이지 로드 시에 기존 댓글 가져오기
       loadComments();
+
+      //첨부파일 부분
+      let fileInput = document.getElementById('file-input');
+      let fileList = document.getElementById('file-list');
+
+      // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
+      fileInput.addEventListener('change', () => {
+        // 선택된 파일들을 배열로 변환하여 변수에 저장
+        let selectedFiles = Array.from(fileInput.files);
+
+        // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
+        selectedFiles.forEach((file) => {
+          // 새로운 리스트 아이템인 <li> 요소를 생성
+          let listItem = document.createElement('li');
+
+          // 파일 미리보기 이미지를 위한 <img> 요소를 생성
+          let filePreview = document.createElement('img');
+          filePreview.classList.add('file-preview');
+          let reader = new FileReader();
+
+          // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
+          reader.onload = function (e) {
+            resizeImage(e.target.result, 300, 300, (resizedImage) => {
+              filePreview.src = resizedImage;
+            });
+          };
+
+          // 파일을 데이터 URL로 읽음
+          reader.readAsDataURL(file);
+          listItem.appendChild(filePreview);
+
+          // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
+          let fileInfo = document.createElement('span');
+          // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
+          fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+          listItem.appendChild(fileInfo);
+
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-btn');
+
+          // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
+          deleteButton.addEventListener('click', () => {
+            listItem.remove();
+          });
+
+          listItem.appendChild(deleteButton);
+          fileList.appendChild(listItem);
+        });
+      });
     </script>
   </body>
 </html>
