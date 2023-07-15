@@ -52,6 +52,15 @@ public class MemberController {
 >>>>>>> main
 
     /**
+     * 비회원 로그인
+     */
+    @GetMapping("/login-guest")
+    public String guestLogin(Model model) {
+        return "redirect:/posts";
+    }
+
+
+    /**
      * 회원가입 폼
      */
     @GetMapping("/join")

@@ -17,7 +17,7 @@ public class MyPageDto {
     private String nickname; //닉네임
     private String phoneNumber; //전화번호
     private String department; //학과
-    private int likesCount; // 본인의 모든 Answer에 대한 좋아요 합계
+    private long likesCount; // 본인의 모든 Answer에 대한 좋아요 합계
 
     private List<AnswerDtoForMemberPage> answerDto;
     private List<PostDtoForMemberPage> postDto;

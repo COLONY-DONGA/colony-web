@@ -3,6 +3,7 @@ package colony.webproj.service;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.dto.MemberFormDto;
 import colony.webproj.dto.MyPageDto;
+import colony.webproj.dto.PasswordFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.repository.memberRepository.MemberRepository;
@@ -82,7 +83,8 @@ public class MemberService {
         String password = memberRepository.findPasswordByLoginId(loginID);
 
         if (password != null) {
-            return encoder.matches(inputPassword, password);
+            Boolean value = encoder.matches(inputPassword, password);
+            return value;
         }
 
         return false;
@@ -95,12 +97,28 @@ public class MemberService {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
 
-        member.setPassword(encoder.encode(memberFormDto.getPassword()));
         member.setName(memberFormDto.getName());
-        member.setNickname(memberFormDto.getNickname());
+//        member.setNickname(memberFormDto.getNickname());
         member.setPhoneNumber(memberFormDto.getPhoneNumber());
         member.setDepartment(memberFormDto.getDepartment());
 
+        memberRepository.save(member);
+
          return member.getId();
+    }
+
+    /**
+     * 마이페이지 사용자 패스워드 수정
+     * 현재 패스워드가 맞는 지 확인하고 새로운 패스워드로 전환한다.
+     */
+    public Long updateMemberPassword(String loginId, PasswordFormDto passwordFormDto) throws IOException{
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+
+        if(validationPassword(member.getLoginId(), passwordFormDto.getExisting_password())){
+            member.setPassword(encoder.encode(passwordFormDto.getNewPassword()));
+        }
+
+        return member.getId();
     }
 }

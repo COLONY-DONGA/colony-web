@@ -92,22 +92,42 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
      */
     @Override
     public MyPageDto findMemberWithLikeCount(String loginId) {
-        String query = "SELECT m FROM Member m "
-                + "LEFT JOIN FETCH m.posts "
-                + "LEFT JOIN FETCH m.comments "
-                + "LEFT JOIN m.answers a "
-                + "WHERE m.loginId = :loginId "
-                + "GROUP BY m";
-
-
-        Member member = (Member) em.createQuery(query, Object.class)
+        // First, find the member
+        String memberQuery = "SELECT m FROM Member m WHERE m.loginId = :loginId";
+        Member member = (Member) em.createQuery(memberQuery, Member.class)
                 .setParameter("loginId", loginId)
                 .getSingleResult();
 
+        // Then fetch the posts
+        List<Post> posts = em.createQuery(
+                        "SELECT p FROM Post p WHERE p.member = :member", Post.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        member.setPosts(posts);
+
+        // Then fetch the comments
+        List<Comment> comments = em.createQuery(
+                        "SELECT c FROM Comment c WHERE c.member = :member", Comment.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        member.setComments(comments);
+
+        // Then fetch the answers
+        List<Answer> answers = em.createQuery(
+                        "SELECT a FROM Answer a WHERE a.member = :member", Answer.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        member.setAnswers(answers);
+
+        // Now you can create the MyPageDto with the fully fetched Member
         MyPageDto myPageDto = new MyPageDto(member);
 
         return myPageDto;
     }
+
 
 
 }
