@@ -67,16 +67,14 @@ public class PostController {
      * 게시글 상세
      */
     @GetMapping("/post/{postId}")
-    @ResponseBody
-    public Response postDetail(@PathVariable("postId") Long postId,
+    public String postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-//        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
-//        model.addAttribute("commentDtoList", commentDtoList);
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
-        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변 데이터 가져오기
+
+        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return new Response(postDto, answerDtoList);
+        return "qaDetail";
     }
 
 
@@ -93,17 +91,15 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
-    @ResponseBody
     public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
-            return "postForm";
+            return "qEnroll";
         }
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
-//        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
-        return "게시글 상세";
+        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
 
     /**
