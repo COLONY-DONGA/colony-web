@@ -82,9 +82,8 @@ public class PostController {
      * 게시글 생성 폼
      */
     @GetMapping("/post-form")
-    @ResponseBody
     public String postForm() {
-        return "게시글 폼";
+        return "qEnroll";
     }
 
     /**
