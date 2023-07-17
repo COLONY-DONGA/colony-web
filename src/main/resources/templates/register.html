@@ -236,6 +236,13 @@
       };
 
       cancel_btn.onclick = function () {
+        document.getElementById('id').value = '';
+        document.getElementById('pw').value = '';
+        document.getElementById('pw_check').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('nickname').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('department').value = '';
         history.back();
       };
 

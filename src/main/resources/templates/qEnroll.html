@@ -13,22 +13,24 @@
 
     <div class="frame">
       <div class="container">
-        <div class="item1">
-          <div class="question_enroll">질문 등록</div>
-          <input class="title" type="text" placeholder="제목을 입력하세요" />
-          <textarea
-            class="text_box"
-            rows="10"
-            cols="156"
-            placeholder="질문을 입력하세요"
-          ></textarea>
-        </div>
-        <div class="item2">
-          <input type="file" id="file-input" style="display: none" multiple />
-          <label for="file-input" class="add_file">📁Add file</label>
-          <button class="submit_btn">등록</button>
-          <button class="cancel_btn">취소</button>
-        </div>
+        <form action="/post" method="post">
+          <div class="item1">
+            <div class="question_enroll">질문 등록</div>
+            <input class="title" type="text" placeholder="제목을 입력하세요" />
+            <textarea
+              class="text_box"
+              rows="10"
+              cols="156"
+              placeholder="질문을 입력하세요"
+            ></textarea>
+          </div>
+          <div class="item2">
+            <input type="file" id="file-input" style="display: none" multiple />
+            <label for="file-input" class="add_file">📁Add file</label>
+            <button type="submit" class="submit_btn">등록</button>
+            <button type="button" class="cancel_btn">취소</button>
+          </div>
+        </form>
         <div id="file-list-box">
           <ul id="file-list"></ul>
         </div>
@@ -40,7 +42,6 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
-      let submitBtn = document.querySelector('.submit_btn');
       let cancelBtn = document.querySelector('.cancel_btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
@@ -130,35 +131,10 @@
         img.src = src;
       }
 
-      submitBtn.addEventListener('click', function () {
-        $('.submit_btn').click(function () {
-          let title = $('.title').val();
-          let content = $('.text_box').val();
-          let files = $('#file-input')[0].files;
-
-          let formData = new FormData();
-          formData.append('title', title);
-          formData.append('content', content);
-          for (let i = 0; i < files.length; i++) {
-            formData.append('imageList', files[i]);
-          }
-
-          $.ajax({
-            type: 'POST',
-            url: '/post',
-            headers: { 'Content-Type': 'application/json' },
-            data: JSON.stringify({ formData }),
-            // data: formData,
-            // processData: false,
-            // contentType: false,
-            success: function (result) {
-              alert('질문이 정상적으로 등록되었습니다.');
-            },
-            error: function () {
-              alert('질문이 등록되지 않았습니다.');
-            },
-          });
-        });
+      cancelBtn.addEventListener('click', () => {
+        document.querySelector('.title').value = '';
+        document.querySelector('.text_box').value = '';
+        history.back();
       });
     </script>
   </body>
