@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+  </head>
+
+  <style>
+    .notification-popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      display: none;
+    }
+    .notification-content {
+      display: flex;
+      align-items: center;
+    }
+    .notification-message {
+      margin: 0;
+      flex-grow: 1;
+    }
+    .notification-link {
+      color: #007bff;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+  </style>
+
+  <body>
+    <div class="notification-popup">
+      <div class="notification-content">
+        <p class="notification-message"></p>
+        <a class="notification-link" href=""></a>
+      </div>
+    </div>
+
+    <script>
+      // SSE 연결을 설정
+      const eventSource = new EventSource('/subscribe');
+
+      // SSE 메시지 수신 시 동작할 콜백 함수
+      eventSource.onmessage = function (event) {
+        // 수신된 알림 데이터를 파싱
+        const notification = JSON.parse(event.data);
+
+        // 알림 팝업 요소 선택
+        const notificationPopup = document.querySelector('.notification-popup');
+        const notificationMessage = notificationPopup.querySelector('.notification-message');
+        const notificationLink = notificationPopup.querySelector('.notification-link');
+
+        // 알림 내용과 링크 설정
+        notificationMessage.textContent = notification.content;
+        notificationLink.href = notification.url;
+
+        // 알림 팝업 표시
+        notificationPopup.style.display = 'block';
+      };
+
+      // SSE 연결 오류 시 동작할 콜백 함수
+      eventSource.onerror = function (error) {
+        console.error('Error occurred in SSE connection', error);
+      };
+    </script>
+  </body>
+</html>

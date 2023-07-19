@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  th:fragment="header"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,23 +19,18 @@
 
   <body>
     <div class="header">
-      <!-- 전체박스 -->
       <div class="header-box">
-        <!-- 메뉴박스 -->
         <div class="menu-box">
-          <!-- 그림자 -->
           <div class="shadow"></div>
-          <!-- 본체박스 -->
           <div class="big-box"></div>
-          <!-- 이미지 -->
           <img class="mini-logo" src="/img/colony.jpg" />
-
-          <!-- 이름님 안녕하세요 타임리프!!-->
-          <div class="welcome-box" th:text="${nickname}">닉네임 님, 안녕하세요 !</div>
+          <div class="welcome-box">
+            <span sec:authentication="principal.nickname" style="font-weight: bold">닉넴</span
+            >&nbsp;님, 안녕하세요 !
+          </div>
           <div class="mypage-box">
             <a href="my-page">마이페이지</a>
           </div>
-
           <div class="login-box">
             <a href="login">로그인</a>
           </div>
