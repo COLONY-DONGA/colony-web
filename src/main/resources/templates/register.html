@@ -274,14 +274,10 @@
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
-            if (result) {
-              alert('사용 가능한 닉네임입니다.');
-            } else {
-              alert('이미 사용 중인 닉네임입니다.');
-            }
+            alert('사용 가능한 닉네임입니다.');
           },
           error: function () {
-            alert('서버 오류가 발생했습니다.');
+            alert('이미 사용 중인 닉네임입니다.');
           },
         });
       };

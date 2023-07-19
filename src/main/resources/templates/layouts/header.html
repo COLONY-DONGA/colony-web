@@ -24,15 +24,21 @@
           <div class="shadow"></div>
           <div class="big-box"></div>
           <img class="mini-logo" src="/img/colony.jpg" />
-          <div class="welcome-box">
-            <span sec:authentication="principal.nickname" style="font-weight: bold">닉넴</span
-            >&nbsp;님, 안녕하세요 !
+          <div class="welcome-box" sec:authorize="isAuthenticated()">
+            <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
+            >&nbsp;님, 환영합니다 !
           </div>
-          <div class="mypage-box">
+          <div class="welcome-box" sec:authorize="isAnonymous()">
+            <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
+          </div>
+          <div class="mypage-box" sec:authorize="isAuthenticated()">
             <a href="my-page">My Page</a>
           </div>
-          <div class="login-box">
+          <div class="logout-box" sec:authorize="isAuthenticated()">
             <a href="login">Logout</a>
+          </div>
+          <div class="login-box" sec:authorize="isAnonymous()">
+            <a href="login">Login</a>
           </div>
         </div>
       </div>

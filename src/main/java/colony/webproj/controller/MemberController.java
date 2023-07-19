@@ -45,7 +45,7 @@ public class MemberController {
      */
     @GetMapping("/login-guest")
     public String guestLogin(Model model) {
-        return "redirect:/posts";
+        return "redirect:/post-list";
     }
 
 
