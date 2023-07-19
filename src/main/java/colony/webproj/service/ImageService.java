@@ -36,6 +36,7 @@ public class ImageService {
         List<Image> fileList = new ArrayList<>();
         /* 비었는지 체크 */
         if (!CollectionUtils.isEmpty(multipartFiles)) {
+
             for (MultipartFile multipartFile : multipartFiles) {
                 String extension; //확장자명
                 String contentType = multipartFile.getContentType();
