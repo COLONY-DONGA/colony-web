@@ -1,3 +1,4 @@
+/* 헤더 */
 .header-box {
   background-color: #ffffff;
   height: 7rem;
@@ -5,13 +6,11 @@
   position: relative;
   width: 100%;
 }
-
 .menu-box {
   height: 7rem;
   position: relative;
   width: 100%;
 }
-
 .shadow {
   background-color: rgba(12, 11, 11, 0.6999999881);
   filter: blur(3rem);
@@ -22,7 +21,6 @@
   top: 0.8728rem;
   width: 128rem;
 }
-
 .big-box {
   background-color: #0c0b0b;
   height: 10rem;
@@ -31,7 +29,6 @@
   top: 0;
   width: 143.9999rem;
 }
-
 .mini-logo {
   border-radius: 1.25rem;
   height: 5rem;
@@ -42,7 +39,6 @@
   top: 1rem;
   vertical-align: top;
 }
-
 .welcome-box {
   align-items: center;
   background-color: #d9d9d9;
@@ -58,9 +54,8 @@
   position: absolute;
   top: 2.3rem;
   white-space: nowrap;
-  width: 13rem;
+  width: 20rem;
 }
-
 .mypage-box {
   align-items: center;
   background-color: #d9d9d9;
@@ -71,14 +66,30 @@
   font-weight: 4;
   height: 2.5rem;
   justify-content: center;
-  left: 30rem;
+  right: 0.7rem;
   line-height: 1.2575;
   position: absolute;
-  top: 1rem;
+  top: 0.7rem;
   white-space: nowrap;
   width: 13rem;
 }
-
+.logout-box {
+  align-items: center;
+  background-color: #d9d9d9;
+  color: #000000;
+  display: flex;
+  font-family: Baloo Bhai, 'Source Sans Pro';
+  font-size: 1rem;
+  font-weight: 4;
+  height: 2.5rem;
+  justify-content: center;
+  right: 0.7rem;
+  line-height: 1.2575;
+  position: absolute;
+  bottom: 0.7rem;
+  white-space: nowrap;
+  width: 13rem;
+}
 .login-box {
   align-items: center;
   background-color: #d9d9d9;
@@ -89,10 +100,20 @@
   font-weight: 4;
   height: 2.5rem;
   justify-content: center;
-  left: 30rem;
+  right: 0.7rem;
   line-height: 1.2575;
   position: absolute;
-  top: 4rem;
+  top: 2.25rem;
   white-space: nowrap;
   width: 13rem;
+}
+a {
+  text-decoration: none;
+}
+/* 푸터 */
+footer {
+  text-align: center;
+}
+footer li {
+  list-style: none;
 }

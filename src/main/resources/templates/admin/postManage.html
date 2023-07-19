@@ -1,248 +1,275 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f0f0f0;
+      }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
 
-        .search-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+      .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-        #search-option,
-        #search-input {
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-        }
+      #search-option,
+      #search-input {
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+      }
 
-        #search-option {
-            margin-right: 10px;
-        }
+      #search-option {
+        margin-right: 10px;
+      }
 
-        #search-button {
-            padding: 10px 16px;
-            background-color: black;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            cursor: pointer;
-        }
+      #search-button {
+        padding: 10px 16px;
+        background-color: black;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+      }
 
-        #search-button:hover {
-            background-color: #45a049;
-        }
+      #search-button:hover {
+        background-color: #45a049;
+      }
 
-        #post-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-        }
+      #post-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+      }
 
-        th,
-        td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
+      th,
+      td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
 
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
+      th {
+        background-color: #f2f2f2;
+        color: #333;
+      }
 
-        tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+      tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
 
-        tbody tr:hover {
-            background-color: #e6e6e6;
-        }
+      tbody tr:hover {
+        background-color: #e6e6e6;
+      }
 
-        tbody td:last-child {
-            text-transform: capitalize;
-        }
+      tbody td:last-child {
+        text-transform: capitalize;
+      }
 
-        #search-button {
-            padding: 10px 16px;
-            background-color: #777474;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+      #search-button {
+        padding: 10px 16px;
+        background-color: #777474;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
 
-        #search-button:hover {
-            background-color: #777474;
-        }
+      #search-button:hover {
+        background-color: #777474;
+      }
 
-        #search-button:active {
-            background-color: #777474;
-        }
+      #search-button:active {
+        background-color: #777474;
+      }
 
-        .pagination-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+      .pagination-container {
+        text-align: center;
+        margin-top: 20px;
+      }
 
-        .pagination {
-            display: inline-block;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+      .pagination {
+        display: inline-block;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .pagination li {
-            display: inline;
-        }
+      .pagination li {
+        display: inline;
+      }
 
-        .pagination li a {
-            color: #333;
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            margin: 0 4px;
-        }
+      .pagination li a {
+        color: #333;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+      }
 
-        .pagination li a:hover {
-            background-color: gray;
-        }
+      .pagination li a:hover {
+        background-color: gray;
+      }
 
-        .pagination li.active a {
-            background-color: black;
-            color: white;
-            border: 1px solid black;
-        }
+      .pagination li.active a {
+        background-color: black;
+        color: white;
+        border: 1px solid black;
+      }
 
-        .pagination li.disabled a {
-            pointer-events: none;
-            color: #aaa;
-        }
+      .pagination li.disabled a {
+        pointer-events: none;
+        color: #aaa;
+      }
 
-        .pagination li i {
-            margin-top: -1px;
-        }
+      .pagination li i {
+        margin-top: -1px;
+      }
 
-        .post-button {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: black;
-            color: #fff;
-            border-radius: 4px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
+      .post-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: black;
+        color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
 
-        .post-button:hover {
-            background-color: gray;
-        }
-
+      .post-button:hover {
+        background-color: gray;
+      }
     </style>
-</head>
-<body>
-<h1>관리자 페이지</h1>
-<div class="search-container">
-    <select id="search-option">
+  </head>
+  <body>
+    <h1>관리자 페이지</h1>
+    <div class="search-container">
+      <select id="search-option">
         <option value="TITLE">제목</option>
         <option value="NICKNAME">닉네임</option>
-    </select>
-    <input type="text" id="search-input" placeholder="검색어를 입력하세요"/>
-    <button id="search-button">검색</button>
-</div>
+      </select>
+      <input type="text" id="search-input" placeholder="검색어를 입력하세요" />
+      <button id="search-button">검색</button>
+    </div>
 
-<table id="post-table">
-    <thead>
-    <tr>
-        <th>제목</th>
-        <th>이름</th>
-        <th>학과</th>
-        <th>닉네임</th>
-        <th>작성일</th>
-        <th>답변 여부</th>
-        <th>게시글로 이동</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="postDto, i : ${postDtoList.content}">
-        <td th:text="${postDto.title.length() > 20 ? postDto.title.substring(0, 20) + '...' : postDto.title}"></td>
-        <td th:text="${postDto.name}"></td>
-        <td th:text="${postDto.department}"></td>
-        <td th:text="${postDto.nickname}"></td>
-        <td th:text="${#temporals.format(postDto.createdAt, 'yyyy년 MM월 dd일')}"></td>
-        <td th:text="${postDto.answered ? '답변 완료' : '미답변'}"></td>
-        <td>
+    <table id="post-table">
+      <thead>
+        <tr>
+          <th>제목</th>
+          <th>이름</th>
+          <th>학과</th>
+          <th>닉네임</th>
+          <th>작성일</th>
+          <th>답변 여부</th>
+          <th>게시글로 이동</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="postDto, i : ${postDtoList.content}">
+          <td
+            th:text="${postDto.title.length() > 20 ? postDto.title.substring(0, 20) + '...' : postDto.title}"
+          ></td>
+          <td th:text="${postDto.name}"></td>
+          <td th:text="${postDto.department}"></td>
+          <td th:text="${postDto.nickname}"></td>
+          <td th:text="${#temporals.format(postDto.createdAt, 'yyyy년 MM월 dd일')}"></td>
+          <td th:text="${postDto.answered ? '답변 완료' : '미답변'}"></td>
+          <td>
             <a th:href="@{'/post/' + ${postDto.postId}}" class="post-button">게시글로 이동</a>
-        </td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    </tr>
-    </tbody>
-</table>
-
-<!--페이징 처리-->
-<div class="pagination-container">
-    <ul class="pagination"
-        th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}">
+    <!--페이징 처리-->
+    <div class="pagination-container">
+      <ul
+        class="pagination"
+        th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}"
+      >
         <li th:if="${start > 1}">
-            <a th:if="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
-               th:text="'<<'"></a>
-            <a th:href="@{/admin/posts(page=0)}" th:text="'<<'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
+            th:text="'<<'"
+          ></a>
+          <a th:href="@{/admin/posts(page=0)}" th:text="'<<'"></a>
         </li>
         <li th:if="${start > 1}">
-            <a th:if="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
-               th:text="'<'"></a>
-            <a th:unless="${searchType} != null and ${searchValue} != null" th:href="@{/admin/posts(page=${prev})}"
-               th:text="'<'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
+            th:text="'<'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${prev})}"
+            th:text="'<'"
+          ></a>
         </li>
 
-        <li th:each="page: ${#numbers.sequence(start, end)}" th:class="${page == (pageNum + 1)} ? 'active' : ''">
-            <a th:if="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue})}"
-               th:text="${page}"></a>
-            <a th:unless="${searchType} != null and ${searchValue} != null" th:text="${page}"
-               th:href="@{/admin/posts(page=${page - 1})}"></a>
+        <li
+          th:each="page: ${#numbers.sequence(start, end)}"
+          th:class="${page == (pageNum + 1)} ? 'active' : ''"
+        >
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue})}"
+            th:text="${page}"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:text="${page}"
+            th:href="@{/admin/posts(page=${page - 1})}"
+          ></a>
         </li>
 
         <li th:if="${end < totalPages}">
-            <a th:if="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${next}, searchType=${searchType}, searchValue=${searchValue})}"
-               th:text="'>'"></a>
-            <a th:unless="${searchType} != null and ${searchValue} != null" th:href="@{/admin/posts(page=${next})}"
-               th:text="'>'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${next}, searchType=${searchType}, searchValue=${searchValue})}"
+            th:text="'>'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${next})}"
+            th:text="'>'"
+          ></a>
         </li>
         <li th:if="${end < totalPages}">
-            <a th:if="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue})}"
-               th:text="'>>'"></a>
-            <a th:unless="${searchType} != null and ${searchValue} != null"
-               th:href="@{/admin/posts(page=${totalPages - 1})}" th:text="'>>'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue})}"
+            th:text="'>>'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/admin/posts(page=${totalPages - 1})}"
+            th:text="'>>'"
+          ></a>
         </li>
-    </ul>
-</div>
-<script>
-    document.getElementById('search-button').addEventListener('click', function () {
+      </ul>
+    </div>
+    <script>
+      document.getElementById('search-button').addEventListener('click', function () {
         var searchType = document.getElementById('search-option').value;
         var input = document.getElementById('search-input').value;
-        var url = "/admin/posts?searchType=" + searchType + "&searchValue=" + input;
+        var url = '/admin/posts?searchType=' + searchType + '&searchValue=' + input;
         location.href = url;
-    });
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>

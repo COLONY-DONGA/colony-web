@@ -118,8 +118,8 @@
         let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
         let na_reg = /^[가-힣]{2,}$/;
-        // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~16글자
-        let ni_reg = /^[A-Za-z가-힣0-9]{2,16}$/;
+        // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~8글자
+        let ni_reg = /^[A-Za-z가-힣0-9]{2,8}$/;
         // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
         let ph_reg = /^\d{11}$/;
 
@@ -220,7 +220,7 @@
           return false;
         }
         if (!ni_reg.test(ni.value)) {
-          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~16글자여야 합니다.';
+          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~8글자여야 합니다.';
           ni.value = '';
           ni.focus();
           event.preventDefault();
@@ -236,6 +236,13 @@
       };
 
       cancel_btn.onclick = function () {
+        document.getElementById('id').value = '';
+        document.getElementById('pw').value = '';
+        document.getElementById('pw_check').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('nickname').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('department').value = '';
         history.back();
       };
 
@@ -267,14 +274,10 @@
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
-            if (result) {
-              alert('사용 가능한 닉네임입니다.');
-            } else {
-              alert('이미 사용 중인 닉네임입니다.');
-            }
+            alert('사용 가능한 닉네임입니다.');
           },
           error: function () {
-            alert('서버 오류가 발생했습니다.');
+            alert('이미 사용 중인 닉네임입니다.');
           },
         });
       };
