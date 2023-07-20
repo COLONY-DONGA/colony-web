@@ -24,8 +24,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +64,7 @@ public class PostController {
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
-        return "qaList";
+        return "/qaList";
     }
 
     /**
@@ -76,7 +78,7 @@ public class PostController {
 
         List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return "qaDetail";
+        return "/qaDetail";
     }
 
 
@@ -85,32 +87,38 @@ public class PostController {
      */
     @GetMapping("/post-form")
     public String postForm() {
-        return "qEnroll";
+        return "/qEnroll";
     }
 
     /**
      * 게시글 생성
      */
     @PostMapping("/post")
-    @ResponseBody
-    public String savePost( @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model
-            , HttpServletRequest request) throws IOException {
+    public String savePost(@RequestParam("title") String title,
+                           @RequestParam("content") String content,
+                           @RequestPart("imageList") List<MultipartFile> imageList,
+//                           BindingResult bindingResult,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           Model model) throws IOException {
 
-//        String requestBody = request.getReader().lines()
-//                .collect(Collectors.joining(System.lineSeparator()));
-//        System.out.println("Request Body: " + requestBody);
+//        if (bindingResult.hasErrors()) {
+//            /* 글작성 실패시 입력 데이터 값 유지 */
+//            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
+//            return "qEnroll";
+//        }
 
-        log.info("postForm: ", postFormDto.getTitle());
 
-        if (bindingResult.hasErrors()) {
-            /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("postFormDto", postFormDto);
+
+        if(title == null || title.isEmpty()){
+            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
             return "qEnroll";
         }
+
+        PostFormDto postFormDto = new PostFormDto(title, content, imageList);
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
         return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
+
 
     /**
      * 게시글 수정 폼

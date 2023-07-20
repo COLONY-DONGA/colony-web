@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler
-{
+public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
@@ -37,7 +37,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
         }
         log.info(errorMessage);
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); //한글 안 됨 //인코딩 처리
-        setDefaultFailureUrl("/login?error=true&exception="+errorMessage);
-        super.onAuthenticationFailure(request,response,exception);
+        setDefaultFailureUrl("/login?error=true&exception=" + errorMessage);
+        super.onAuthenticationFailure(request, response, exception);
     }
 }

@@ -13,19 +13,20 @@
 
     <div class="frame">
       <div class="container">
-        <form action="/post" method="post">
+        <form action="/post" method="post" enctype="multipart/form-data">
           <div class="item1">
             <div class="question_enroll">질문 등록</div>
-            <input class="title" type="text" placeholder="제목을 입력하세요" />
+            <input class="title" type="text" name="title" placeholder="제목을 입력하세요" />
             <textarea
               class="text_box"
               rows="10"
               cols="156"
+              name="content"
               placeholder="질문을 입력하세요"
             ></textarea>
           </div>
           <div class="item2">
-            <input type="file" id="file-input" style="display: none" multiple />
+            <input type="file" id="file-input" name="imageList" style="display: none" multiple />
             <label for="file-input" class="add_file">📁Add file</label>
             <button type="submit" class="submit_btn">등록</button>
             <button type="button" class="cancel_btn">취소</button>
