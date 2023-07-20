@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/qEnroll.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>qModify</title>
+  </head>
+  <body>
+    <div th:replace="~{layouts/header :: header}"></div>
+
+    <div class="frame">
+      <div class="container">
+        <form th:action="@{/edit-post/{postId}(postId=${postId})}" method="put">
+          <div class="item1">
+            <div class="question_enroll">질문 수정</div>
+            <input class="title" type="text" th:field="*{title}" placeholder="제목을 입력하세요" />
+            <textarea
+              class="text_box"
+              rows="10"
+              cols="156"
+              th:field="*{content}"
+              placeholder="질문을 입력하세요"
+            ></textarea>
+          </div>
+          <div class="item2">
+            <input type="file" id="file-input" style="display: none" multiple />
+            <label for="file-input" class="add_file">📁Add file</label>
+            <button type="submit" class="submit_btn">수정</button>
+            <button type="button" class="cancel_btn">취소</button>
+          </div>
+        </form>
+        <div id="file-list-box">
+          <ul id="file-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div th:replace="~{layouts/footer :: footer}"></div>
+
+    <script>
+      let fileInput = document.getElementById('file-input');
+      let fileList = document.getElementById('file-list');
+      let cancelBtn = document.querySelector('.cancel_btn');
+
+      // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
+      fileInput.addEventListener('change', () => {
+        // 선택된 파일들을 배열로 변환하여 변수에 저장
+        let selectedFiles = Array.from(fileInput.files);
+
+        // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
+        selectedFiles.forEach((file) => {
+          // 새로운 리스트 아이템인 <li> 요소를 생성
+          let listItem = document.createElement('li');
+
+          // 파일 미리보기 이미지를 위한 <img> 요소를 생성
+          let filePreview = document.createElement('img');
+          filePreview.classList.add('file-preview');
+          let reader = new FileReader();
+
+          // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
+          reader.onload = function (e) {
+            resizeImage(e.target.result, 300, 300, (resizedImage) => {
+              filePreview.src = resizedImage;
+            });
+          };
+
+          // 파일을 데이터 URL로 읽음
+          reader.readAsDataURL(file);
+          listItem.appendChild(filePreview);
+
+          // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
+          let fileInfo = document.createElement('span');
+          // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
+          fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+          listItem.appendChild(fileInfo);
+
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-btn');
+
+          // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
+          deleteButton.addEventListener('click', () => {
+            listItem.remove();
+          });
+
+          listItem.appendChild(deleteButton);
+          fileList.appendChild(listItem);
+        });
+      });
+
+      // 파일 크기를 사람이 읽기 쉬운 형식으로 변환하는 함수
+      function formatFileSize(size) {
+        // 기존 코드를 그대로 사용
+      }
+
+      // 이미지 크기를 조정하는 함수
+      function resizeImage(src, maxWidth, maxHeight, callback) {
+        // 기존 코드를 그대로 사용
+      }
+
+      cancelBtn.addEventListener('click', () => {
+        document.querySelector('.title').value = '';
+        document.querySelector('.text_box').value = '';
+        history.back();
+      });
+    </script>
+  </body>
+</html>
