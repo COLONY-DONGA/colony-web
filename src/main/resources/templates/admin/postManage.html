@@ -4,156 +4,132 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f0f0f0;
-      }
-
-      h1 {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #333;
-      }
-
-      .search-container {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      #search-option,
-      #search-input {
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-      }
-
-      #search-option {
-        margin-right: 10px;
-      }
-
-      #search-button {
-        padding: 10px 16px;
-        background-color: black;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      #search-button:hover {
-        background-color: #45a049;
-      }
-
-      #post-table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #fff;
-      }
-
-      th,
-      td {
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #ddd;
-      }
-
-      th {
-        background-color: #f2f2f2;
-        color: #333;
-      }
-
-      tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-
-      tbody tr:hover {
-        background-color: #e6e6e6;
-      }
-
-      tbody td:last-child {
-        text-transform: capitalize;
-      }
-
-      #search-button {
-        padding: 10px 16px;
-        background-color: #777474;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      #search-button:hover {
-        background-color: #777474;
-      }
-
-      #search-button:active {
-        background-color: #777474;
-      }
-
-      .pagination-container {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .pagination {
-        display: inline-block;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .pagination li {
-        display: inline;
-      }
-
-      .pagination li a {
-        color: #333;
-        padding: 8px 16px;
-        text-decoration: none;
-        border: 1px solid #ddd;
-        margin: 0 4px;
-      }
-
-      .pagination li a:hover {
-        background-color: gray;
-      }
-
-      .pagination li.active a {
-        background-color: black;
-        color: white;
-        border: 1px solid black;
-      }
-
-      .pagination li.disabled a {
-        pointer-events: none;
-        color: #aaa;
-      }
-
-      .pagination li i {
-        margin-top: -1px;
-      }
-
-      .post-button {
-        display: inline-block;
-        padding: 8px 16px;
-        background-color: black;
-        color: #fff;
-        border-radius: 4px;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-      }
-
-      .post-button:hover {
-        background-color: gray;
-      }
-    </style>
+    <title>Manager Page (Post)</title>
   </head>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #search-option,
+    #search-input {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+    }
+    #search-option {
+      margin-right: 10px;
+    }
+    #search-button {
+      padding: 10px 16px;
+      background-color: black;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+    }
+    #search-button:hover {
+      background-color: #45a049;
+    }
+    #post-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+    th,
+    td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tbody tr:hover {
+      background-color: #e6e6e6;
+    }
+    tbody td:last-child {
+      text-transform: capitalize;
+    }
+    #search-button {
+      padding: 10px 16px;
+      background-color: #777474;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #search-button:hover {
+      background-color: #777474;
+    }
+    #search-button:active {
+      background-color: #777474;
+    }
+    .pagination-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .pagination {
+      display: inline-block;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .pagination li {
+      display: inline;
+    }
+    .pagination li a {
+      color: #333;
+      padding: 8px 16px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      margin: 0 4px;
+    }
+    .pagination li a:hover {
+      background-color: gray;
+    }
+    .pagination li.active a {
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+    }
+    .pagination li.disabled a {
+      pointer-events: none;
+      color: #aaa;
+    }
+    .pagination li i {
+      margin-top: -1px;
+    }
+    .post-button {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: black;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .post-button:hover {
+      background-color: gray;
+    }
+  </style>
+
   <body>
     <h1>관리자 페이지</h1>
     <div class="search-container">
@@ -164,7 +140,6 @@
       <input type="text" id="search-input" placeholder="검색어를 입력하세요" />
       <button id="search-button">검색</button>
     </div>
-
     <table id="post-table">
       <thead>
         <tr>
@@ -193,7 +168,6 @@
         </tr>
       </tbody>
     </table>
-
     <!--페이징 처리-->
     <div class="pagination-container">
       <ul
@@ -263,6 +237,7 @@
         </li>
       </ul>
     </div>
+
     <script>
       document.getElementById('search-button').addEventListener('click', function () {
         var searchType = document.getElementById('search-option').value;
