@@ -67,15 +67,15 @@ public class AnswerService {
             }
         }
 
-        //알림 로직
-        Notification notification = Notification.builder()
-                .receiver(post.getMember())
-                .content(post.getTitle() + " 게시글에 답변이 달렸습니다.")
-                .url("/post/" + post.getId())
-                .isRead(false)
-                .build();
-        notificationRepository.save(notification);
-        notificationService.send(post.getMember(), post.getId(), notification.getContent());
+//        //알림 로직
+//        Notification notification = Notification.builder()
+//                .receiver(post.getMember())
+//                .content(post.getTitle() + " 게시글에 답변이 달렸습니다.")
+//                .url("/post/" + post.getId())
+//                .isRead(false)
+//                .build();
+//        notificationRepository.save(notification);
+//        notificationService.send(post.getMember(), post.getId(), notification.getContent());
         return savedAnswer;
     }
 
