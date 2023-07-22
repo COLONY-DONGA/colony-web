@@ -29,5 +29,4 @@ spring:
 
 #파일 저장 경로 설정
 file:
-  dir: ~/Desktop/😁/colony-web
-
+  dir: C:/Users/김진수/colony/
