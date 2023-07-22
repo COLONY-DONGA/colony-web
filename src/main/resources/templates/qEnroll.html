@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/qEnroll.css" />
+    <link rel="stylesheet" href="/css/qEnroll.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>qEnroll</title>
   </head>
 
@@ -12,7 +13,7 @@
 
     <div class="frame">
       <div class="container">
-        <form action="#">
+        <form action="/post" method="post">
           <div class="item1">
             <div class="question_enroll">질문 등록</div>
             <input class="title" type="text" placeholder="제목을 입력하세요" />
@@ -26,8 +27,8 @@
           <div class="item2">
             <input type="file" id="file-input" style="display: none" multiple />
             <label for="file-input" class="add_file">📁Add file</label>
-            <button class="submit_btn">등록</button>
-            <button class="cancel_btn">취소</button>
+            <button type="submit" class="submit_btn">등록</button>
+            <button type="button" class="cancel_btn">취소</button>
           </div>
         </form>
         <div id="file-list-box">
@@ -41,6 +42,7 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
+      let cancelBtn = document.querySelector('.cancel_btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -128,6 +130,12 @@
 
         img.src = src;
       }
+
+      cancelBtn.addEventListener('click', () => {
+        document.querySelector('.title').value = '';
+        document.querySelector('.text_box').value = '';
+        history.back();
+      });
     </script>
   </body>
 </html>

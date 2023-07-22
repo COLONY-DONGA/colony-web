@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  th:fragment="header"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,35 +19,26 @@
 
   <body>
     <div class="header">
-      <!-- 전체박스 -->
       <div class="header-box">
-        <!-- 메뉴박스 -->
         <div class="menu-box">
-          <!-- 그림자 -->
           <div class="shadow"></div>
-          <!-- 본체박스 -->
           <div class="big-box"></div>
-          <!-- 이미지 -->
           <img class="mini-logo" src="/img/colony.jpg" />
-
-          <!-- 이름님 안녕하세요 타임리프!!-->
-          <<<<<<< HEAD:src/main/resources/templates/header.html
-          <div class="welcome-box" th:text="${username}">name 님 안녕하세요</div>
-          <div class="mypage-box">
-            <a href="mypage.html">마이페이지</a>
+          <div class="welcome-box" sec:authorize="isAuthenticated()">
+            <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
+            >&nbsp;님, 환영합니다 !
           </div>
-          <div class="login-box">
-            <a href="login.html">로그인</a>
+          <div class="welcome-box" sec:authorize="isAnonymous()">
+            <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
           </div>
-          =======
-          <div class="welcome-box" th:text="${nickname}">닉네임 님, 안녕하세요 !</div>
-          <div class="mypage-box">
-            <a href="my-page">마이페이지</a>
+          <div class="mypage-box" sec:authorize="isAuthenticated()">
+            <a href="my-page">My Page</a>
           </div>
-
-          <div class="login-box">
-            <a href="login.html">로그인</a>
-            >>>>>>> main:src/main/resources/templates/layouts/header.html
+          <div class="logout-box" sec:authorize="isAuthenticated()">
+            <a href="login">Logout</a>
+          </div>
+          <div class="login-box" sec:authorize="isAnonymous()">
+            <a href="login">Login</a>
           </div>
         </div>
       </div>

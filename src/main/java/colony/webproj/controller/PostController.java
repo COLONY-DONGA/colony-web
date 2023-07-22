@@ -10,6 +10,7 @@ import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
 import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,16 +69,14 @@ public class PostController {
      * 게시글 상세
      */
     @GetMapping("/post/{postId}")
-    @ResponseBody
-    public Response postDetail(@PathVariable("postId") Long postId,
+    public String postDetail(@PathVariable("postId") Long postId,
                              Model model) {
-//        List<CommentDto> commentDtoList = commentService.convertNestedStructure(postId); //댓글 가져오기
-//        model.addAttribute("commentDtoList", commentDtoList);
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
-        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변 데이터 가져오기
+
+        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return new Response(postDto, answerDtoList);
+        return "qaDetail";
     }
 
 
@@ -84,9 +84,8 @@ public class PostController {
      * 게시글 생성 폼
      */
     @GetMapping("/post-form")
-    @ResponseBody
     public String postForm() {
-        return "게시글 폼";
+        return "qEnroll";
     }
 
     /**
@@ -94,16 +93,23 @@ public class PostController {
      */
     @PostMapping("/post")
     @ResponseBody
-    public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model) throws IOException {
+    public String savePost( @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model
+            , HttpServletRequest request) throws IOException {
+
+//        String requestBody = request.getReader().lines()
+//                .collect(Collectors.joining(System.lineSeparator()));
+//        System.out.println("Request Body: " + requestBody);
+
+        log.info("postForm: ", postFormDto.getTitle());
+
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
-            return "postForm";
+            return "qEnroll";
         }
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
-//        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
-        return "게시글 상세";
+        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
 
     /**
@@ -130,7 +136,7 @@ public class PostController {
     @PutMapping("/edit-post/{postId}")
     @ResponseBody
     public String editPost(@PathVariable("postId") Long postId,
-                           @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
         //로그인 유저가 작성자와 다를 때

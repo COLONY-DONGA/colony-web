@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/aEnroll.css" />
+    <link rel="stylesheet" href="/css/aEnroll.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>aEnroll</title>
   </head>
 
@@ -12,7 +13,7 @@
 
     <div class="frame">
       <div class="container">
-        <form action="#">
+        <form action="/answer/{postId}" method="post">
           <div class="item1">
             <div class="answer_enroll">답변 등록</div>
             <textarea
@@ -40,6 +41,7 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
+      let cancelBtn = document.querySelector('.cancel_btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -127,6 +129,11 @@
 
         img.src = src;
       }
+
+      cancelBtn.addEventListener('click', () => {
+        document.querySelector('.text_box').value = '';
+        history.back();
+      });
     </script>
   </body>
 </html>

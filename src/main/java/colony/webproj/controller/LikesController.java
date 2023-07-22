@@ -33,7 +33,7 @@ public class LikesController {
     /**
      * 좋아요 취소
      */
-    @DeleteMapping("/heart{answerId}")
+    @DeleteMapping("/heart/{answerId}")
     public ResponseEntity<?> decreaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
         likesService.removeLikes(answerId, principalDetails.getLoginId());
