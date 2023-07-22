@@ -10,14 +10,7 @@
   </head>
 
   <body>
-    <script>
-      $(function () {
-        $('#header').load('header.html');
-        $('#footer').load('footer.html');
-      });
-    </script>
-
-    <div id="header"></div>
+    <div th:replace="~{layouts/header :: header}"></div>
     <br />
 
     <div class="qadetail-frame">
@@ -32,36 +25,50 @@
               <td class="question-title" th:text="Q. : ${title}">title</td>
               <th>작성자</th>
               <td class="question-title" th:text="Q. : ${name}">name</td>
+              <!--시큐리티 변수-->
             </tr>
             <tr class="article-info">
               <th>날짜</th>
-              <td th:text="${qadate}">date</td>
+              <td th:text="${updatdAt}">date</td>
+              <!--수정~-->
               <th>좋아요</th>
               <td id="qlikeCount">0</td>
               <button id="qlikeBtn" class="likeButton">좋아요</button>
             </tr>
             <tr class="article-body">
-              <td colspan="4" th:text="A. : ${question.detail}">
-                내용이 와다다다다 들어갈 것입니당
-              </td>
+              <!--내용칸-->
+              <td colspan="4" th:text="A. : ${question.detail}">Q. question area</td>
             </tr>
           </tbody>
         </table>
       </section>
-      <br />
+      ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
+      <div class="file-box">
+        <!-- Loop through the file list -->
+        <div th:each="file : ${files}">
+          <div class="file-img">
+            <!-- 이미지 파일의 URL을 직접 지정 -->
+            <img src="../static/img/colony.jpg" alt="파일 이미지" />
+          </div>
+          <!-- 파일명 표시 -->
+          <span th:text="${file.fileName}"></span>
+
+          <!-- 각 파일에 대한 다운로드 링크 추가 -->
+          <a th:href="@{'/download/' + ${file.fileName}}" download>다운로드</a>
+        </div>
+      </div>
 
       <div class="answer-text-box">
         <!--답변이 있으면 답변 띄우기
             답변이 없으면 display 숨기기
-             넴모넴모 텍스트가 들어갈 박스 만들기, js display 처리하기 -->
-        <textarea class="answer-text" th:text="${answerdata!!!!}">
-        <!--답변데이터가 타임리프로 이곳에 들어갈 예정입니다 뭐지 주석인데 왜보이지-->
-      </textarea
-        >
+             js display 처리하기 -->
+        <div class="answer-text" th:text="${answerdata!!!!}">
+          <!--답변데이터가 타임리프로 이곳에 들어갈 예정입니다-->
+        </div>
       </div>
 
       --------------------------------
-      <!--파일첨부 기능은 뉴진이랑 같이하기-->
+      <!--파일-->
 
       <div class="btn">
         <button class="qabtn" id="qabtn">답변 등록</button>
@@ -116,7 +123,6 @@
       }
 
       //좋아요 기능 구현(질문글 좋아요)
-
       var qlikeCount = 0;
 
       // qlikeBtn 클릭 이벤트 처리
@@ -135,10 +141,10 @@
 
         // 서버로 ajax 요청
         $.ajax({
-          url: 'your_server_url',
+          url: 'localhost:8080/~~~/',
           type: 'POST',
           dataType: 'json',
-          data: { qlikeCount: qlikeCount },
+          data: { questionId: questionId, qlikeCount: qlikeCount },
           success: function (response) {
             // 서버 응답 처리
             console.log(response);
@@ -446,5 +452,6 @@
         });
       });
     </script>
+    <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>

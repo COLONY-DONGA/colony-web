@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/headerfooter.css" />
-    <link rel="stylesheet" href="/css/qaList.css" />
+    <link rel="stylesheet" href="../static/css/qaList.css" />
     <title>qaList</title>
   </head>
 
@@ -16,15 +16,6 @@
       <div class="qa-item" id="question-1">
         <div class="qa-header" id="question-header-1">Q&A</div>
         <div class="qa-list" id="question-list-1">
-          <div class="dropdown">
-            <button class="drop-btn">검색</button>
-            <div class="dropdown-content">
-              <a href="#">최신순</a>
-              <a href="#">오래된순</a>
-              <a href="#">좋아요순</a>
-            </div>
-          </div>
-
           <select class="select1" name="option">
             <option value="01" selected="selected">제목</option>
             <option value="02">내용</option>
@@ -40,45 +31,44 @@
           />
           <button class="btn btn-primary" id="button-search" type="submit" name="#">검색</button>
 
+          <div class="dropdown">
+            <button class="dropbtn">정렬 옵션</button>
+            <div class="dropdown-content">
+              <a href="#" onclick="sortByNewest()">최신순</a>
+              <a href="#" onclick="sortByOldest()">오래된순</a>
+              <a href="#" onclick="sortByLikes()">좋아요순</a>
+            </div>
+          </div>
+
           <button class="qa-all" id="all-questions" name="#">전체내용보기</button>
           <div class="qa-register" id="register">Register</div>
         </div>
 
-        <div class="qa-item-content" id="question-content-1">
-          <p class="qa-question" id="question-1-1">Q. how to learn computer security ??</p>
-          <div class="qa-answer-group" id="answer-group-1-1">
-            <p class="qa-answer" id="answer-1-1">A. 답변 예정</p>
-            <p class="qa-date" id="question-date-1-1">질문 일자 : 2023/12/01</p>
+        <!-- 여기서부터 서버에서 가져온 데이터를 사용하여 동적으로 생성 -->
+        <div
+          th:each="question : ${questions}"
+          class="qa-item-content"
+          th:id="'question-content-' + ${question.id}"
+        >
+          <p class="qa-question" th:id="'question-' + ${question.id} + '-1'">
+            Q. ${question.title}
+          </p>
+          <div class="qa-answer-group" th:id="'answer-group-' + ${question.id} + '-1'">
+            <p class="qa-answer" th:id="'answer-' + ${question.id} + '-1'">A. ${question.answer}</p>
+            <p class="qa-date" th:id="'question-date-' + ${question.id} + '-1'">
+              질문 일자 : ${question.date}
+            </p>
           </div>
         </div>
+        <!-- 동적 생성 끝 -->
 
-        <div class="qa-item-content" id="question-content-2">
-          <p class="qa-question" id="question-1-2">Q. how to learn computer security ??</p>
-          <div class="qa-answer-group" id="answer-group-1-2">
-            <p class="qa-answer" id="answer-1-2">A. 답변 예정</p>
-            <p class="qa-date" id="question-date-1-2">질문 일자 : 2023/12/01</p>
-          </div>
-        </div>
-
-        <div class="qa-item-content" id="question-content-3">
-          <p class="qa-question" id="question-1-3">Q. how to learn computer security ??</p>
-          <div class="qa-answer-group" id="answer-group-1-3">
-            <p class="qa-answer" id="answer-1-3">A. 답변 예정</p>
-            <p class="qa-date" id="question-date-1-3">질문 일자 : 2023/12/01</p>
-          </div>
-        </div>
-
-        <div class="qa-item-content" id="question-content-4">
-          <p class="qa-question" id="question-1-4">Q. how to learn computer security ??</p>
-          <div class="qa-answer-group" id="answer-group-1-4">
-            <p class="qa-answer" id="answer-1-4">A. 답변 예정</p>
-            <p class="qa-date" id="question-date-1-4">질문 일자 : 2023/12/01</p>
-          </div>
-        </div>
         <div class="qa-paging" id="paging">페이징</div>
       </div>
     </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
+  <script>
+    // 자바스크립트 함수나 이벤트 핸들러는 잠시 오류때문에, 따로 빼놓았어요
+  </script>
 </html>
