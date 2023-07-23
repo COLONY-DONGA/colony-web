@@ -59,8 +59,6 @@ public class PostController {
             model.addAttribute("username", principalDetails.getNickname());
             log.info("회원 로그인");
         }
-        //승지방식
-        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
@@ -108,7 +106,6 @@ public class PostController {
 //        }
 
 
-
         if(title == null || title.isEmpty()){
             model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
             return "qEnroll";
@@ -130,7 +127,7 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return null;
+            return "redirect:/post/" + postId;
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);

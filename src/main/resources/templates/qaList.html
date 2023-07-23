@@ -1,74 +1,192 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/headerfooter.css" />
-    <link rel="stylesheet" href="../static/css/qaList.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/headerfooter.css"/>
+    <link rel="stylesheet" href="../static/css/qaList.css"/>
     <title>qaList</title>
-  </head>
+    <style>
+        /* 기존 스타일들 */
 
-  <body>
-    <div th:replace="~{layouts/header :: header}"></div>
+        /* 추가된 스타일들 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
 
-    <div class="qa-container" id="question-answer-container">
-      <div class="qa-item" id="question-1">
-        <div class="qa-header" id="question-header-1">Q&A</div>
-        <div class="qa-list" id="question-list-1">
-          <select class="select1" name="option">
-            <option value="01" selected="selected">제목</option>
-            <option value="02">내용</option>
-          </select>
-          <input
-            class="form-control"
-            type="text"
-            id="searchWord"
-            name="searchWord"
-            placeholder="검색어를 입력하세요"
-            aria-label="Enter search term..."
-            aria-describedby="button-search"
-          />
-          <button class="btn btn-primary" id="button-search" type="submit" name="#">검색</button>
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
 
-          <div class="dropdown">
-            <button class="dropbtn">정렬 옵션</button>
-            <div class="dropdown-content">
-              <a href="#" onclick="sortByNewest()">최신순</a>
-              <a href="#" onclick="sortByOldest()">오래된순</a>
-              <a href="#" onclick="sortByLikes()">좋아요순</a>
-            </div>
-          </div>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 20px;
+            padding: 20px;
+        }
 
-          <button class="qa-all" id="all-questions" name="#">전체내용보기</button>
-          <div class="qa-register" id="register">Register</div>
+        .card {
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            cursor: pointer;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-content {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+            max-height: 60px;
+            overflow: hidden;
+        }
+
+        .card-author, .card-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .card-date {
+            margin-bottom: 10px;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 */
+        .search-container, .sort-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container label,
+        .search-container select,
+        .search-container input[type="text"],
+        .search-container button,
+        .sort-container label,
+        .sort-container select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-container button,
+        .sort-container select {
+            font-size: 14px;
+            background-color: rgba(7, 7, 7, 0.61);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover,
+        .sort-container select:hover {
+            background-color: rgba(7, 7, 7, 0.61);
+        }
+
+        /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 수정 - 화면 크기 작을 때 */
+        @media (max-width: 768px) {
+            .search-container, .sort-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-container label,
+            .search-container select,
+            .search-container input[type="text"],
+            .search-container button,
+            .sort-container label,
+            .sort-container select {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{layouts/header :: header}"></div>
+
+<h1>질문 리스트</h1>
+<div class="search-container fade-in">
+    <form th:action="@{/post-list}" method="get">
+        <label for="searchType">검색 종류:</label>
+        <select id="searchType" name="searchType">
+            <option value="NICKNAME">이름으로 검색</option>
+            <option value="CONTENT">제목으로 검색</option>
+        </select>
+        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+        <button type="submit">검색</button>
+    </form>
+</div>
+
+<div class="sort-container fade-in">
+    <label for="sortSelect">정렬 기준:</label>
+    <select id="sortSelect" name="sort" onchange="this.form.submit()">
+        <option value="">선택하세요</option>
+        <option value="createdAt">작성일 기준</option>
+        <option value="title">제목 기준</option>
+    </select>
+</div>
+
+<!-- 카드 형식으로 변경된 내용 -->
+<div class="card-container fade-in">
+    <!-- PostDtoList를 반복하여 각각의 PostDto를 카드 형식으로 출력합니다. -->
+    <div th:each="postDto : ${postDtoList}" class="card" th:onclick="'window.location.href=\'/post/' + ${postDto.postId}\'">
+        <h2 class="card-title" th:text="${postDto.title}"></h2>
+        <p class="card-content" th:text="${postDto.content}"></p>
+        <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
+        <p class="card-date">Created At: <span th:text="${postDto.createdAt}"></span></p>
+
+        <div th:if="${postDto.answered}">
+            <span>답변 완료</span>
         </div>
-
-        <!-- 여기서부터 서버에서 가져온 데이터를 사용하여 동적으로 생성 -->
-        <div
-          th:each="question : ${questions}"
-          class="qa-item-content"
-          th:id="'question-content-' + ${question.id}"
-        >
-          <p class="qa-question" th:id="'question-' + ${question.id} + '-1'">
-            Q. ${question.title}
-          </p>
-          <div class="qa-answer-group" th:id="'answer-group-' + ${question.id} + '-1'">
-            <p class="qa-answer" th:id="'answer-' + ${question.id} + '-1'">A. ${question.answer}</p>
-            <p class="qa-date" th:id="'question-date-' + ${question.id} + '-1'">
-              질문 일자 : ${question.date}
-            </p>
-          </div>
+        <div th:unless="${postDto.answered}">
+            <span>답변 대기 중</span>
         </div>
-        <!-- 동적 생성 끝 -->
-
-        <div class="qa-paging" id="paging">페이징</div>
-      </div>
     </div>
+</div>
 
-    <div th:replace="~{layouts/footer :: footer}"></div>
-  </body>
-  <script>
+<div th:replace="~{layouts/footer :: footer}"></div>
+</body>
+
+<!-- 자바스크립트 코드 추가 -->
+<script>
     // 자바스크립트 함수나 이벤트 핸들러는 잠시 오류때문에, 따로 빼놓았어요
-  </script>
+</script>
 </html>

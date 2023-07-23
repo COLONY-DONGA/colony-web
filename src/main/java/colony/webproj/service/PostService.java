@@ -35,27 +35,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageService imageService;
 
-    /**
-     * 게시글리스트 조회
-     */
-    public Page<PostDto> searchPosts(SearchType searchType, String searchKeyword, Pageable pageable) {
-        // 검색어가 없으면 전체 조회
-        if (searchKeyword == null || searchKeyword.isBlank()) {
-            return postRepository.findAll(pageable).map(PostDto::from);
-        }
-        // 검색어가 있으면 타입별로 조회
-        // Repository가 반환하는 기본값은 Post이므로 이를 .map(PostDto::from) 이용해서 DTO객체로 만들어준다.
-        return switch (searchType) {
-            case TITLE ->
-                    postRepository.findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case CONTENT ->
-                    postRepository.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case NICKNAME ->
-                    postRepository.findByMember_NicknameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case LOGIN_ID -> postRepository.findByMember_LoginIdContainingOrderByCreatedAtDesc(searchKeyword,pageable).map(PostDto::from);
-            case NAME -> postRepository.findByMember_NameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-        };
-    }
 
     /**
      * queryDsl 게시글 리스트 조회
