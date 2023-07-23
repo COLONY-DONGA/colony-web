@@ -166,11 +166,12 @@
 <!-- 카드 형식으로 변경된 내용 -->
 <div class="card-container fade-in">
     <!-- PostDtoList를 반복하여 각각의 PostDto를 카드 형식으로 출력합니다. -->
-    <div th:each="postDto : ${postDtoList}" class="card" th:onclick="'window.location.href=\'/post/' + ${postDto.postId}\'">
+    <div th:each="postDto : ${postDtoList}" class="card" th:onclick="'redirectToPost(' + ${postDto.postId} + ')'">
         <h2 class="card-title" th:text="${postDto.title}"></h2>
         <p class="card-content" th:text="${postDto.content}"></p>
         <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
-        <p class="card-date">Created At: <span th:text="${postDto.createdAt}"></span></p>
+        <p class="card-date">Created At: <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span></p>
+
 
         <div th:if="${postDto.answered}">
             <span>답변 완료</span>
@@ -187,5 +188,8 @@
 <!-- 자바스크립트 코드 추가 -->
 <script>
     // 자바스크립트 함수나 이벤트 핸들러는 잠시 오류때문에, 따로 빼놓았어요
+    function redirectToPost(postId) {
+        window.location.href = '/post/' + postId;
+    }
 </script>
 </html>

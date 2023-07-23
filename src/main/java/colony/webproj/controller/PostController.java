@@ -97,9 +97,7 @@ public class PostController {
                            Model model) throws IOException {
 
         log.info("답변생성 코드 진입 : " + postFormDto.getTitle().toString());
-
         log.info("답변생성 코드 진입 : " + postFormDto.getImageList().get(0).getOriginalFilename().toString());
-
 
 
         if (bindingResult.hasErrors()) {
