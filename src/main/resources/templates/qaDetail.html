@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/qaDetail.css" />
-    <link rel="stylesheet" href="/css/headerfooter.css" />
     <title>질문 세부 페이지</title>
   </head>
 
   <body>
-<!--  로그인 유저 닉네임-->
-  <span id="member-nickname" sec:authentication="principal.nickname" style="display: none"></span>
+    <!--  로그인 유저 닉네임-->
+    <span id="member-nickname" sec:authentication="principal.nickname" style="display: none"></span>
 
     <div th:replace="~{layouts/header :: header}"></div>
     <br />
@@ -26,7 +28,7 @@
           <tbody>
             <tr class="article-title">
               <th>제목</th>
-               <td class="question-title" th:text="${postDto.title}">title</td>
+              <td class="question-title" th:text="${postDto.title}">title</td>
               <th>작성자</th>
               <td id="post-writer" class="question-title" th:text="${postDto.createdBy}">name</td>
               <!--시큐리티 변수-->
@@ -45,31 +47,27 @@
             </tr>
           </tbody>
         </table>
-        <input id="postId" type="hidden" th:value="${postDto.postId}">
+        <input id="postId" type="hidden" th:value="${postDto.postId}" />
       </section>
       ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
       <div class="file-box">
         <!-- Loop through the file list -->
         <div th:each="file : ${postDto.imageDtoList}">
           <div class="file-img">
-            <img th:src="|/images/${file.storeImageName}|" alt="이미지">
+            <img th:src="|/images/${file.storeImageName}|" alt="이미지" />
           </div>
         </div>
       </div>
 
-
-
-
       <div class="answer-text-box">
-        <div class="answer-text" th:text="테스트">
-        </div>
+        <div class="answer-text" th:text="테스트"></div>
       </div>
 
       --------------------------------
       <!--파일-->
 
       <div class="btn">
-        <button class="qabtn" id="qabtn">답변 등록</button>
+        <button type="button" class="qabtn" id="qabtn">답변 등록</button>
         <button class="listbtn" id="listbtn">목록</button>
         <button class="editbtn" id="editbtn">수정</button>
         <button class="deletebtn" id="deletebtn">삭제</button>
@@ -90,18 +88,18 @@
 
     <script>
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
-      let userName = $('#member-nickname').val() // 로그인 유저
+      let userName = $('#member-nickname').val(); // 로그인 유저
       let name = $('#post-writer').val(); // post 작성자
       let postId = $('#postId').val();
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
-        location.href="/answer/" + postId
+        window.open('/answer/' + postId, 'aEnroll');
       });
 
       var listbtn = document.getElementById('listbtn'); //목록 버튼
       listbtn.addEventListener('click', function () {
-        location.href="/post-list"
+        location.href = '/post-list';
       });
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
