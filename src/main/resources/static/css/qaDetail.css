@@ -705,7 +705,7 @@ body {
 }
 
 .table-common > table {
-  width: 100%;
+  width: 10rem;
   border-collapse: collapse;
 }
 
@@ -716,7 +716,7 @@ body {
 .table-common > table th,
 .table-common > table td {
   border: 1px solid black;
-  padding: 10px;
+  padding: 13px;
 }
 
 .article-list table {
@@ -846,16 +846,30 @@ body {
 
 .btn {
   text-align: right;
-  margin-right: 16rem;
-  margin-top: 1rem;
+  margin-right: 2rem;
+  outline: none;
 }
 
 .qabtn {
-  background-color: #f1ecec99;
-  border-radius: 0.5rem;
-  height: 2rem;
-  left: 1rem;
-  width: 5rem;
+  width: 80px;
+  height: 40px;
+  border: 1px solid #000000;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: 520;
+  font-size: 1em;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  align-items: center; /* 수직 중앙 정렬 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-left: 35rem;
+}
+
+.qabtn:hover {
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .listbtn {
@@ -864,24 +878,76 @@ body {
   height: 2rem;
   left: 1rem;
   width: 4rem;
-  margin-left: 1rem;
+  margin-left: 10rem;
 }
 
 .editbtn {
-  background-color: #a7ff1999;
+  /* background-color: #a7ff1999;
   border-radius: 0.5rem;
   height: 2rem;
   left: 1rem;
   width: 4rem;
   margin-left: 2rem;
+   */
+  width: 80px;
+  height: 40px;
+  border: 1px solid #000000;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: 520;
+  font-size: 1em;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  align-items: center; /* 수직 중앙 정렬 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-right: 100;
+}
+
+.editbtn:hover {
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .deletebtn {
-  background-color: #ff5e5e99;
-  border-radius: 0.5rem;
-  height: 2rem;
-  left: 1rem;
-  width: 4rem;
+  width: 80px;
+  height: 40px;
+  border: 1px solid #000000;
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: 520;
+  font-size: 1em;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  align-items: center; /* 수직 중앙 정렬 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-right: 100;
+}
+
+.deletebtn:hover {
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+.tool-box {
+  background-color: #fffefec0;
+  height: 4rem;
+  margin: 1rem auto;
+  width: 54rem;
+  border-radius: 1rem;
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: flex-start; /* 변경: 가로로 오른쪽 정렬 */
+  align-items: center; /* 세로로 중앙 정렬 */
+}
+
+/* 버튼들을 가로로 나열 */
+.tool-box button {
+  display: inline-block;
+  margin-right: 5px; /* 버튼들 사이의 간격을 조정할 수 있습니다. */
 }
 
 .answer-text-box {
@@ -889,8 +955,11 @@ body {
   height: 10rem;
   margin: 1rem auto;
   top: 0;
-  width: 59.7rem;
-  border: 1px solid rgba(179, 159, 159, 0.608);
+  width: 54rem;
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
 .answer-text {
@@ -933,9 +1002,10 @@ body {
 .new-comment-btn {
   background-color: #f1ecec99;
   border-radius: 0.5rem;
-  height: 2rem;
-  margin-left: 70rem;
-  width: 5rem;
+  height: 1.5rem;
+  width: 3rem;
+  margin-left: 43rem;
+  margin-bottom: rem;
 }
 
 .likeButton {
@@ -1230,4 +1300,20 @@ body {
   .reply-list .comment-box {
     width: 320px;
   }
+}
+
+.input-box {
+  background-color: #ffffffc0;
+  height: 5rem;
+  margin: 1rem auto;
+  top: 0;
+  width: 48rem;
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.input-text {
+  width: 36rem;
 }

@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../static/css/qaDetail.css" />
-    <link rel="stylesheet" href="../static/css/headerfooter.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    <!--고칠부분-->
     <title>질문 세부 페이지</title>
   </head>
 
   <body>
+    <!--  로그인 유저 닉네임-->
+    <div sec:authorize="isAuthenticated()">
+      <span
+        class="member-nickname"
+        sec:authentication="principal.nickname"
+        style="display: none"
+      ></span>
+    </div>
+    <div sec:authorize="isAnonymous()">
+      <span class="member-nickname" value="" style="display: none"></span>
+    </div>
+
     <div th:replace="~{layouts/header :: header}"></div>
     <br />
 
@@ -26,75 +39,46 @@
           <tbody>
             <tr class="article-title">
               <th>제목</th>
-              <td class="question-title" th:text="Q. : ${title}">title</td>
+              <td class="question-title" th:text="${postDto.title}">title</td>
               <th>작성자</th>
-              <td class="question-title" th:text="Q. : ${nickname}">name</td>
+              <td id="post-writer" class="question-title" th:text="${postDto.createdBy}">name</td>
               <!--시큐리티 변수-->
             </tr>
             <tr class="article-info">
               <th>날짜</th>
-              <td th:text="${updatdAt}">date</td>
+              <td th:text="${postDto.updatedAt}">date</td>
               <!--수정~-->
               <th>좋아요</th>
-              <!--
               <td id="qlikeCount">0</td>
-              <button id="qlikeBtn" class="likeButton">좋아요</button>일단 주석처리-->
+              <button id="qlikeBtn" class="likeButton">좋아요</button>
             </tr>
             <tr class="article-body">
               <!--내용칸-->
-              <td colspan="4" th:text="A. : ${question.detail}">Q. question area</td>
+              <td colspan="4" th:text="${postDto.content}">Q. question area</td>
             </tr>
           </tbody>
         </table>
+        <input id="postId" type="hidden" th:value="${postDto.postId}" />
       </section>
       ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
       <div class="file-box">
         <!-- Loop through the file list -->
-        <div th:each="file : ${files}">
+        <div th:each="file : ${postDto.imageDtoList}">
           <div class="file-img">
-            <!-- 이미지 파일의 URL을 직접 지정 -->
-            <img src="../static/img/colony.jp" alt="파일 이미지" />
-          </div>
-          <!-- 파일명 표시 -->
-          <span th:text="${file.fileName}"></span>
-
-          <!-- 각 파일에 대한 다운로드 링크 추가 -->
-          <a th:href="@{'/download/' + ${file.fileName}}" download>다운로드</a>
-        </div>
-      </div>
-
-      <div class="answer-text-box" id="answer-text-box">
-        <button class="like-btn" data-answer-id="${answerId}">
-          <i class="far fa-thumbs-up"></i>
-          <br />
-        </button>
-        <!-- 답변이 있으면 답변 띄우기
-              답변이 없으면 display 숨기기
-              js display 처리하기 -->
-        <!-- 각 답변마다 answer-text-box를 생성 -->
-        <div
-          th:each="answer : ${answerList}"
-          class="answer-text"
-          id="answer-text-box-[[${answer.id}]]"
-        >
-          <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <span th:text="${'A. : ' + answer.content}"></span>
-        </div>
-      </div>
-      <!--댓글 박스-->
-      <div id="comment">
-        <div class="comment-text-box">
-          <div class="comment-text">
-            <div id="comments"></div>
+            <img th:src="|/images/${file.storeImageName}|" alt="이미지" />
           </div>
         </div>
-        <button class="new-comment-btn" id="add-comment-button">새 댓글 추가</button>
       </div>
 
+      <div class="answer-text-box">
+        <div class="answer-text" th:text="테스트"></div>
+      </div>
+
+      --------------------------------
       <!--파일-->
 
       <div class="btn">
-        <button class="qabtn" id="qabtn">답변 등록</button>
+        <button type="button" class="qabtn" id="qabtn">답변 등록</button>
         <button class="listbtn" id="listbtn">목록</button>
         <button class="editbtn" id="editbtn">수정</button>
         <button class="deletebtn" id="deletebtn">삭제</button>
@@ -104,114 +88,80 @@
 
     <br />
 
+    <div class="comment-text-box">
+      <div class="comment-text">
+        <div id="comments"></div>
+      </div>
+    </div>
+    <button class="new-comment-btn" id="add-comment-button">새 댓글 추가</button>
+
     <div id="footer"></div>
 
     <script>
-      var questionId = 1;
-      //버튼들 기능구현
-      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
-      var name = 'hyeon'; // 질문 작성자 이름!!!!
-      // [[${name}]] 이런식으로 타임리프 식으로 사용 가능
-
-      // 서버로부터 questionID를 가져오는 API를 호출
-      function fetchQuestionIdFromServer() {
-        // Ajax를 사용하여 서버로 질문 ID를 요청합니다.
-
-        $.ajax({
-          type: 'GET',
-          url: '/api/posts',
-          success: function (response) {
-            questionId = response.questionId;
-          },
-          error: function (xhr, status, error) {
-            console.error(error);
-          },
-        });
-      }
-
-      // 페이지 로드 시에 질문 ID를 서버로부터 가져옵니다.
-      fetchQuestionIdFromServer();
+      let userName = $('#member-nickname').val(); // 로그인 유저
+      let name = $('#post-writer').val(); // post 작성자
+      let postId = $('#postId').val();
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
-        window.location.href = 'aEnroll.html'; // 이동하고자 하는 페이지의 주소
+        window.open('/answer/' + postId, 'aEnroll');
       });
 
       var listbtn = document.getElementById('listbtn'); //목록 버튼
       listbtn.addEventListener('click', function () {
-        window.location.href = 'qalist.html';
+        location.href = '/post-list';
       });
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
-        window.location.href = 'qEnroll.html'; //
+        location.href = 'edit-post/' + postId;
       });
 
       var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
       deletebtn.addEventListener('click', function () {
-        window.location.href = 'qEnroll.html';
+        location.href = '/delete-post/' + postId;
       });
 
-      if (userName != name) {
+      if (userName != name || userName === '') {
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
       }
 
       //좋아요 기능 구현(질문글 좋아요)
-      $(document).ready(function () {
-        // ...
+      var qlikeCount = 0;
 
-        // 질문 좋아요 버튼 클릭 시 이벤트(답변좋아요로 수정필요)
-        $('.like-btn').click(function () {
-          var answerId = $(this).data('answer-id');
+      // qlikeBtn 클릭 이벤트 처리
+      $('#qlikeBtn').on('click', function () {
+        // class 변경
+        if ($(this).hasClass('likeButton')) {
+          $(this).removeClass('likeButton').addClass('likeButton-use'); // 색상 변경
+          // qlikeCount 증가 (이 친구가 나중에 ajax통신으로 질문에 대한 좋아요로 들어갈 것임)
+          qlikeCount++;
+        } else {
+          $(this).removeClass('likeButton-use').addClass('likeButton');
+          // qlikeCount 감소
+          qlikeCount--;
+        }
+        $('#qlikeCount').text(qlikeCount);
 
-          $.ajax({
-            url: '/add-likes',
-            type: 'POST',
-            dataType: 'json',
-            data: { answerId: answerId }, // answerId만 포함하여 전송
-            success: function (response) {
-              // 서버 응답 처리
-              console.log(response);
-            },
-            error: function (error) {
-              // 에러 처리
-              console.error(error);
-            },
-          });
-        });
-      });
-
-      // 답변 데이터 가져와서 각 답변마다 answer-text-box를 생성하고 내용을 채웁니다
-      function loadAnswers() {
+        // 서버로 ajax 요청
         $.ajax({
-          type: 'GET',
-          url: '/api/get-answers/' + questionId, // 질문 ID
+          url: 'localhost:8080/~~~/',
+          type: 'POST',
           dataType: 'json',
+          data: { questionId: questionId, qlikeCount: qlikeCount },
           success: function (response) {
-            // 가져온 답변 데이터를 반복하여 answer-text-box를 생성하고 내용을 채웁니다
-            response.answers.forEach((answer) => {
-              var answerTextBox = document.createElement('div');
-              answerTextBox.classList.add('answer-text');
-              answerTextBox.id = 'answer-text-box-' + answer.id;
-
-              var answerContent = document.createElement('span');
-              answerContent.innerText = 'A. : ' + answer.content;
-              answerTextBox.appendChild(answerContent);
-
-              document.getElementById('answer-text-box').appendChild(answerTextBox);
-            });
+            // 서버 응답 처리
+            console.log(response);
           },
-          error: function (xhr, status, error) {
+          error: function (error) {
+            // 에러 처리
             console.error(error);
           },
         });
-      }
-      // 페이지 로드 시에 기존 답변 가져오기
-      loadAnswers();
+      });
 
-      //댓글부분!!!!!!!!
       function addReply(event) {
         var comment = event.target.parentElement;
         var reply = document.createElement('div');
@@ -307,6 +257,7 @@
         }
       }
 
+      // 새 댓글 추가 버튼 클릭 이벤트 처리
       var addCommentButton = document.getElementById('add-comment-button');
       addCommentButton.addEventListener('click', function () {
         var commentsDiv = document.getElementById('comments');
@@ -343,33 +294,29 @@
 
         // 입력 버튼 클릭 이벤트 처리
         commentSubmitButton.addEventListener('click', function () {
-          var name = commentAuthorSpan.innerText.trim(); // 댓글 작성자를 가져옴
-          var text = commentContentInput.value.trim(); // 댓글 내용을 가져옴
+          var name = commentAuthorSpan.innerText; // 댓글 작성자를 가져옴
+          var text = commentContentInput.value;
 
-          if (name && text) {
-            // 댓글 생성 및 추가
-            var commentContent = document.createElement('span');
-            commentContent.classList.add('text');
-            commentContent.innerText = text;
-            var commentAuthor = document.createElement('span');
-            commentAuthor.classList.add('name');
-            commentAuthor.innerText = name;
-            newComment.insertBefore(commentAuthor, commentContentInput);
-            newComment.insertBefore(commentContent, commentContentInput);
+          // 댓글 생성 및 추가
+          var commentContent = document.createElement('span');
+          commentContent.classList.add('text');
+          commentContent.innerText = text;
+          var commentAuthor = document.createElement('span');
+          commentAuthor.classList.add('name');
+          commentAuthor.innerText = name;
+          newComment.insertBefore(commentAuthor, commentContentInput);
+          newComment.insertBefore(commentContent, commentContentInput);
 
-            // 입력 폼 삭제
-            newComment.removeChild(commentAuthorSpan);
-            newComment.removeChild(commentContentInput);
-            newComment.removeChild(commentSubmitButton);
+          // 입력 폼 삭제
+          newComment.removeChild(commentAuthorSpan);
+          newComment.removeChild(commentContentInput);
+          newComment.removeChild(commentSubmitButton);
 
-            // 댓글을 서버로 전송하여 저장
-            saveComment(name, text);
+          // 댓글을 서버로 전송하여 저장
+          saveComment(name, text);
 
-            // 대댓글 버튼 활성화
-            replyButton.disabled = false;
-          } else {
-            alert('댓글 작성자와 내용을 모두 입력해주세요.');
-          }
+          // 대댓글 버튼 활성화
+          replyButton.disabled = false;
         });
 
         // 대댓글 버튼 클릭 이벤트 처리
@@ -385,7 +332,7 @@
         replyButtons[i].disabled = true;
       }
 
-      // 페이지 로드 시에 기존 댓글 가져와서 표시하는 함수
+      // 페이지 로드 시에 기존 댓글과 대댓글을 가져와서 표시하는 함수
       function loadComments() {
         // 서버에서 댓글 데이터를 가져오는 Ajax 요청
         $.ajax({
