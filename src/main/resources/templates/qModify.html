@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/qEnroll.css" />
+    <link rel="stylesheet" href="/css/qEnrollModify.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>qModify</title>
   </head>
@@ -19,7 +19,7 @@
           enctype="multipart/form-data"
         >
           <div class="item1">
-            <div class="question_enroll">질문 수정</div>
+            <div class="question_modify">질문 수정</div>
             <input
               class="title"
               type="text"
@@ -65,6 +65,8 @@
         selectedFiles.forEach((file) => {
           // 새로운 리스트 아이템인 <li> 요소를 생성
           let listItem = document.createElement('li');
+          // 파일 리스트 항목에 해당하는 클래스 이름 추가
+          listItem.classList.add('file-list-item');
 
           // 파일 미리보기 이미지를 위한 <img> 요소를 생성
           let filePreview = document.createElement('img');
@@ -95,6 +97,19 @@
           // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
           deleteButton.addEventListener('click', () => {
             listItem.remove();
+
+            // 파일 input에서 해당 파일을 삭제
+            let fileIndex = selectedFiles.indexOf(file);
+            if (fileIndex !== -1) {
+              selectedFiles.splice(fileIndex, 1);
+
+              // 파일 input의 값을 업데이트
+              const newFileList = new DataTransfer();
+              selectedFiles.forEach((file) => {
+                newFileList.items.add(file);
+              });
+              fileInput.files = newFileList.files;
+            }
           });
 
           listItem.appendChild(deleteButton);
@@ -149,5 +164,6 @@
         history.back();
       });
     </script>
+    v
   </body>
 </html>

@@ -59,7 +59,7 @@
         </table>
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
       </section>
-      ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
+      <!--질문 첨부파일 이미지+이미지명 출력파트-->
       <div class="file-box">
         <!-- Loop through the file list -->
         <div th:each="file : ${postDto.imageDtoList}">
@@ -73,7 +73,6 @@
         <div class="answer-text" th:text="테스트"></div>
       </div>
 
-      --------------------------------
       <!--파일-->
 
       <div class="btn">
