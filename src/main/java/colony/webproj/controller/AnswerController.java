@@ -92,7 +92,7 @@ public class AnswerController {
      * 답변 수정 요청
      * 게시글 상세로 리다이렉트
      */
-    @PutMapping("/edit-answer/{postId}/{answerId}")
+    @PostMapping("/edit-answer/{postId}/{answerId}")
     public String editAnswer(@PathVariable("answerId") Long answerId,
                              @PathVariable("postId") Long postId,
                              @Valid AnswerFormDto answerFormDto,

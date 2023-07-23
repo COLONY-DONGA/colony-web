@@ -13,8 +13,9 @@
     <div class="frame">
       <div class="container">
         <form
-          th:action="@{/edit-answer/{postId}/{answerId}(postId=${answerFormDto.postId},answerId=${answerFormDto.answerId})}"
-          method="put"
+          th:action="@{/edit-answer/{postId}/{answerId}(postId=${postId},answerId=${answerId})}"
+          method="post"
+          enctype="multipart/form-data"
         >
           <div class="item1">
             <div class="answer_enroll">답변 수정</div>
@@ -23,7 +24,7 @@
               rows="10"
               cols="156"
               name="content"
-              th:text="${answerFormDto.content}"
+              th:text="${answerDto.content}"
               placeholder="답변을 입력하세요"
             ></textarea>
           </div>

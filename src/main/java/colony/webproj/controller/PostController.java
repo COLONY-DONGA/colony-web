@@ -131,7 +131,7 @@ public class PostController {
     /**
      * 게시글 수정
      */
-    @PutMapping("/edit-post/{postId}")
+    @PostMapping("/edit-post/{postId}")
     public String editPost(@PathVariable("postId") Long postId,
                            @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -150,7 +150,7 @@ public class PostController {
             return "/qEnroll";
         }
         postService.updatePost(postId, postFormDto);
-        return "/qaDetail";
+        return "redirect:/post/" + postId;
     }
 
     /**
