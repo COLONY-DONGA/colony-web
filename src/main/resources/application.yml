@@ -28,5 +28,9 @@ spring:
       ddl-auto: create
 
 #파일 저장 경로 설정
+#file:
+#  dir: C:/Users/김진수/colony/
+
 file:
-  dir: C:/Users/김진수/colony/
+  dir: /Users/yuhyeon/Desktop/😁
+

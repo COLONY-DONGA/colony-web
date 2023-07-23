@@ -35,10 +35,6 @@
               <th>날짜</th>
               <td th:text="${updatdAt}">date</td>
               <!--수정~-->
-              <th>좋아요</th>
-              <!--
-              <td id="qlikeCount">0</td>
-              <button id="qlikeBtn" class="likeButton">좋아요</button>일단 주석처리-->
             </tr>
             <tr class="article-body">
               <!--내용칸-->
@@ -47,31 +43,8 @@
           </tbody>
         </table>
       </section>
-      ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
-      <div class="file-box">
-        <!-- Loop through the file list -->
-        <div th:each="file : ${files}">
-          <div class="file-img">
-            <!-- 이미지 파일의 URL을 직접 지정 -->
-            <img src="../static/img/colony.jp" alt="파일 이미지" />
-          </div>
-          <!-- 파일명 표시 -->
-          <span th:text="${file.fileName}"></span>
-
-          <!-- 각 파일에 대한 다운로드 링크 추가 -->
-          <a th:href="@{'/download/' + ${file.fileName}}" download>다운로드</a>
-        </div>
-      </div>
 
       <div class="answer-text-box" id="answer-text-box">
-        <button class="like-btn" data-answer-id="${answerId}">
-          <i class="far fa-thumbs-up"></i>
-          <br />
-        </button>
-        <!-- 답변이 있으면 답변 띄우기
-              답변이 없으면 display 숨기기
-              js display 처리하기 -->
-        <!-- 각 답변마다 answer-text-box를 생성 -->
         <div
           th:each="answer : ${answerList}"
           class="answer-text"
@@ -90,7 +63,6 @@
         </div>
         <button class="new-comment-btn" id="add-comment-button">새 댓글 추가</button>
       </div>
-
       <!--파일-->
 
       <div class="btn">
@@ -104,7 +76,74 @@
 
     <br />
 
-    <div id="footer"></div>
+    댓글 2차 구현
+    <div class="comments-container">
+      <ul id="comments-list" class="comments-list">
+        <li>
+          <div class="comment-main-level">
+            <!-- 왼쪽 아이콘 파트 -->
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+            <!--댓글 부분 파트-->
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name" id="name!!!">최유현</h6>
+                <i class="fa fa-reply"></i>
+                <i class="fa fa-heart"></i>
+              </div>
+              <div class="comment-content" id="text!!!!!!!">안녕하세요</div>
+            </div>
+          </div>
+
+          <ul class="comments-list reply-list">
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">바규진</h6>
+                </div>
+                <div class="comment-content">중복되는 댓글내용 부분입니다</div>
+              </div>
+            </li>
+
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">김진짜</h6>
+                </div>
+                <div class="comment-content">대댓글 2차부분</div>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <div class="comment-main-level">
+            <!-- Avatar -->
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">승쥐</h6>
+                <i class="fa fa-reply"></i>
+                <i class="fa fa-heart"></i>
+              </div>
+              <div class="comment-content">두번째 댓글 입니다.</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <script>
       var questionId = 1;
@@ -113,25 +152,6 @@
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
       var name = 'hyeon'; // 질문 작성자 이름!!!!
       // [[${name}]] 이런식으로 타임리프 식으로 사용 가능
-
-      // 서버로부터 questionID를 가져오는 API를 호출
-      function fetchQuestionIdFromServer() {
-        // Ajax를 사용하여 서버로 질문 ID를 요청합니다.
-
-        $.ajax({
-          type: 'GET',
-          url: '/api/posts',
-          success: function (response) {
-            questionId = response.questionId;
-          },
-          error: function (xhr, status, error) {
-            console.error(error);
-          },
-        });
-      }
-
-      // 페이지 로드 시에 질문 ID를 서버로부터 가져옵니다.
-      fetchQuestionIdFromServer();
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
@@ -153,35 +173,10 @@
         window.location.href = 'qEnroll.html';
       });
 
-      if (userName != name) {
+      if (userName !== name) {
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
       }
-
-      //좋아요 기능 구현(질문글 좋아요)
-      $(document).ready(function () {
-        // ...
-
-        // 질문 좋아요 버튼 클릭 시 이벤트(답변좋아요로 수정필요)
-        $('.like-btn').click(function () {
-          var answerId = $(this).data('answer-id');
-
-          $.ajax({
-            url: '/add-likes',
-            type: 'POST',
-            dataType: 'json',
-            data: { answerId: answerId }, // answerId만 포함하여 전송
-            success: function (response) {
-              // 서버 응답 처리
-              console.log(response);
-            },
-            error: function (error) {
-              // 에러 처리
-              console.error(error);
-            },
-          });
-        });
-      });
 
       // 답변 데이터 가져와서 각 답변마다 answer-text-box를 생성하고 내용을 채웁니다
       function loadAnswers() {
@@ -208,6 +203,7 @@
           },
         });
       }
+
       // 페이지 로드 시에 기존 답변 가져오기
       loadAnswers();
 
@@ -460,56 +456,6 @@
 
       // 페이지 로드 시에 기존 댓글 가져오기
       loadComments();
-
-      //첨부파일 부분
-      let fileInput = document.getElementById('file-input');
-      let fileList = document.getElementById('file-list');
-
-      // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
-      fileInput.addEventListener('change', () => {
-        // 선택된 파일들을 배열로 변환하여 변수에 저장
-        let selectedFiles = Array.from(fileInput.files);
-
-        // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
-        selectedFiles.forEach((file) => {
-          // 새로운 리스트 아이템인 <li> 요소를 생성
-          let listItem = document.createElement('li');
-
-          // 파일 미리보기 이미지를 위한 <img> 요소를 생성
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          let reader = new FileReader();
-
-          // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
-          reader.onload = function (e) {
-            resizeImage(e.target.result, 300, 300, (resizedImage) => {
-              filePreview.src = resizedImage;
-            });
-          };
-
-          // 파일을 데이터 URL로 읽음
-          reader.readAsDataURL(file);
-          listItem.appendChild(filePreview);
-
-          // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
-          let fileInfo = document.createElement('span');
-          // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
-          fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
-          listItem.appendChild(fileInfo);
-
-          let deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-btn');
-
-          // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
-          deleteButton.addEventListener('click', () => {
-            listItem.remove();
-          });
-
-          listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
-        });
-      });
     </script>
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
