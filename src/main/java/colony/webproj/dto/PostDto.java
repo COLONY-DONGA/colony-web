@@ -40,9 +40,10 @@ public class PostDto {
      * postList 에 사용
      */
     @QueryProjection
-    public PostDto(Long id, String title, String createdBy, LocalDateTime createdAt, Boolean answered) {
+    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered) {
         this.postId = id;
         this.title = title;
+        this.content = content;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.Answered = answered;

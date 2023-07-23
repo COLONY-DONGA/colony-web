@@ -54,10 +54,13 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .defaultSuccessUrl("/post-list", true) //메인페이지로 갈듯
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
-
-
                 )
-                .logout(withDefaults());
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // The URL to trigger the logout process
+                        .logoutSuccessUrl("/login") // Redirect to login page after successful logout
+                        .invalidateHttpSession(true) // Invalidate the HttpSession
+                        .deleteCookies("JSESSIONID") // Delete the JSESSIONID cookie
+                );
 
         return http.build();
     }

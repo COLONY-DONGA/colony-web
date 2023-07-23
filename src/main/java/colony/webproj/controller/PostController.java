@@ -59,8 +59,6 @@ public class PostController {
             model.addAttribute("username", principalDetails.getNickname());
             log.info("회원 로그인");
         }
-        //승지방식
-        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
@@ -78,7 +76,7 @@ public class PostController {
 
         List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return "/qaDetail";
+        return "qaDetail";
     }
 
 
@@ -99,9 +97,7 @@ public class PostController {
                            Model model) throws IOException {
 
         log.info("답변생성 코드 진입 : " + postFormDto.getTitle().toString());
-
         log.info("답변생성 코드 진입 : " + postFormDto.getImageList().get(0).getOriginalFilename().toString());
-
 
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
@@ -124,7 +120,7 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return null;
+            return "redirect:/post/" + postId;
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);

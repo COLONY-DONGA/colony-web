@@ -31,7 +31,7 @@ public class InitDB {
         private final BCryptPasswordEncoder encoder;
 
         public void initMember() {
-            Member member1 = Member.builder().loginId("abcde1").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+            Member member1 = Member.builder().loginId("a").password(encoder.encode("a")).role(Role.ROLE_MEMBER)
                     .name("김진수").department("컴퓨터공학과").nickname("김진짜").phoneNumber("01012345678").build();
             Member member2 = Member.builder().loginId("abcde2").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
                     .name("채승지").department("컴퓨터공학과").nickname("채똘복").phoneNumber("01012345678").build();
@@ -44,18 +44,18 @@ public class InitDB {
 
             em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 
-            for(int i = 1; i<=50; i++) {
+            for(int i = 1; i<=25; i++) {
                 Post post = new Post();
-                if (i <= 10) {
+                if (i <= 5) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
-                } else if(i<=20) {
-                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member2).answered(false).build();
-                } else if(i<=30) {
+                } else if(i<=10) {
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
+                } else if(i<=15) {
                     post = Post.builder().title("제목제목제목제목" + i).content("내용" + i).member(member3).answered(false).build();
-                } else if(i<=40) {
+                } else if(i<=20) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
-                } else if(i<=50) {
-                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용" + i).member(member5).answered(true).build();
+                } else if(i<=25) {
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }

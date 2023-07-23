@@ -36,9 +36,7 @@ public class AnswerController {
      */
     @GetMapping("/answer/{postId}")
     public String answerForm(@PathVariable("postId") Long postId, Model model) {
-        //질문 정보
-        PostDto postDto = postService.findPostDetail(postId);
-        model.addAttribute("postDto", postDto);
+        model.addAttribute("postId", postId);
         return "/aEnroll";
     }
 
