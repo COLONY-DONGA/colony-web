@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../static/css/qaDetail.css" />
-    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link rel="stylesheet" href="/css/headerfooter.css" />
     <title>질문 세부 페이지</title>
   </head>
 
@@ -22,14 +22,14 @@
           <tbody>
             <tr class="article-title">
               <th>제목</th>
-              <td class="question-title" th:text="Q. : ${title}">title</td>
+               <td class="question-title" th:text="'Q. : ' + ${postDto.title}">title</td>
               <th>작성자</th>
-              <td class="question-title" th:text="Q. : ${name}">name</td>
+              <td class="question-title" th:text="'Q. : ' + ${postDto.createdBy}">name</td>
               <!--시큐리티 변수-->
             </tr>
             <tr class="article-info">
               <th>날짜</th>
-              <td th:text="${updatdAt}">date</td>
+              <td th:text="${postDto.updatedAt}">date</td>
               <!--수정~-->
               <th>좋아요</th>
               <td id="qlikeCount">0</td>
@@ -37,7 +37,7 @@
             </tr>
             <tr class="article-body">
               <!--내용칸-->
-              <td colspan="4" th:text="A. : ${question.detail}">Q. question area</td>
+              <td colspan="4" th:text="'A. : ' + ${question.detail}">Q. question area</td>
             </tr>
           </tbody>
         </table>
@@ -45,10 +45,10 @@
       ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
       <div class="file-box">
         <!-- Loop through the file list -->
-        <div th:each="file : ${files}">
+        <div th:each="'file : ' + ${postDto.imageDtoList}">
           <div class="file-img">
             <!-- 이미지 파일의 URL을 직접 지정 -->
-            <img src="../static/img/colony.jpg" alt="파일 이미지" />
+            <img th:src="${file.storeImageName}" alt="파일 이미지" />
           </div>
           <!-- 파일명 표시 -->
           <span th:text="${file.fileName}"></span>
