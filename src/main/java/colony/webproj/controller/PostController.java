@@ -92,26 +92,19 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
-    public String savePost(@RequestParam("title") String title,
-                           @RequestParam("content") String content,
-                           @RequestPart("imageList") List<MultipartFile> imageList,
-//                           BindingResult bindingResult,
+    public String savePost( @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
 
-//        if (bindingResult.hasErrors()) {
-//            /* 글작성 실패시 입력 데이터 값 유지 */
-//            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
-//            return "qEnroll";
-//        }
+        log.info("답변생성 코드 진입 : " + postFormDto.getTitle().toString());
+        log.info("답변생성 코드 진입 : " + postFormDto.getImageList().get(0).getOriginalFilename().toString());
 
-
-        if(title == null || title.isEmpty()){
-            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
+        if (bindingResult.hasErrors()) {
+            /* 글작성 실패시 입력 데이터 값 유지 */
+            model.addAttribute("postFormDto", postFormDto);
             return "qEnroll";
         }
 
-        PostFormDto postFormDto = new PostFormDto(title, content, imageList);
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
         return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
@@ -139,11 +132,10 @@ public class PostController {
      */
     @PutMapping("/edit-post/{postId}")
     public String editPost(@PathVariable("postId") Long postId,
-                           @RequestParam("title") String title,
-                           @RequestParam("content") String content,
-                           @RequestPart("imageList") List<MultipartFile> imageList,
+                           @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
+
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
@@ -152,12 +144,11 @@ public class PostController {
             return "/qaDetail";
         }
         /* 수정 실패시 입력 데이터 값 유지 */
-        if (title.isEmpty()) {
-            model.addAttribute("postFormDto",new PostFormDto(postId,title,content,imageList,null) );
-            model.addAttribute("error","제목을 입력해주세요.");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("postFormDto", postFormDto);
             return "/qEnroll";
         }
-        postService.updatePost(postId, new PostFormDto(postId,title,content,imageList,null));
+        postService.updatePost(postId, postFormDto);
         return "/qaDetail";
     }
 
