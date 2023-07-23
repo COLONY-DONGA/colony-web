@@ -143,25 +143,26 @@
 
 <h1>질문 리스트</h1>
 <div class="search-container fade-in">
-    <form th:action="@{/post-list}" method="get">
+    <form th:action="@{/post-list}" method="get" autocomplete="on">
         <label for="searchType">검색 종류:</label>
-        <select id="searchType" name="searchType">
-            <option value="NICKNAME">이름으로 검색</option>
-            <option value="TITLE">제목으로 검색</option>
+        <select id="searchType" name="searchType" th:value="${searchType}">
+            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">이름으로 검색</option>
+            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">제목으로 검색</option>
         </select>
-        <input type="text" name="searchValue" placeholder="검색어를 입력하세요">
+        <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력하세요" th:value="${searchValue}">
         <button type="submit">검색</button>
     </form>
 </div>
 
 <div class="sort-container fade-in">
     <label for="sortSelect">정렬 기준:</label>
-    <select id="sortSelect" name="sort">
-        <option value="">선택하세요</option>
-        <option value="createdAt">작성일 기준</option>
-        <option value="title">제목 기준</option>
+    <select id="sortSelect" name="sort" th:value="${sortBy}">
+        <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">작성일 기준</option>
+        <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 기준</option>
     </select>
 </div>
+
+<div th:text="${#strings.equals(sortBy, 'title')}"></div>
 
 <!-- 카드 형식으로 변경된 내용 -->
 <div class="card-container fade-in">
@@ -194,7 +195,9 @@
     // 정렬 기준 선택 시 서버로 요청 보내기
     document.getElementById('sortSelect').addEventListener('change', function() {
         var selectedValue = this.value;
-        window.location.href = '/post-list?sort=' + selectedValue;
+        var searchValue = document.getElementById('searchValue').value; // 검색어 입력 값을 가져옴
+        var searchType = document.getElementById('searchType').value; // 검색어 입력 값을 가져옴
+        window.location.href = '/post-list?sortBy=' + selectedValue + '&searchType=' + searchType + '&searchValue=' + searchValue;
     });
 </script>
 </html>
