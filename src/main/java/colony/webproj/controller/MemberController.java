@@ -39,17 +39,7 @@ public class MemberController {
 
         return "login";
     }
-<<<<<<< HEAD
-    /**
-     * 비회원 로그인
-     */
-    @GetMapping("/login-guest")
-    public String guestLogin() {
-        model.addAttribute("member","guest");
-        return "redirect:/posts";
-    }
-=======
->>>>>>> main
+
 
     /**
      * 비회원 로그인
