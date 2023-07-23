@@ -45,16 +45,20 @@ public class AnswerController {
      */
     @PostMapping("/answer/{postId}")
     public String saveAnswer(@PathVariable("postId") Long postId,
-                             @RequestParam("content") String content,
-                             @RequestPart("imageList") List<MultipartFile> imageList,
+                             @Valid AnswerFormDto answerFormDto,
+                             BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
-        if (content.isEmpty()) {
+        log.info("답변생성 코드 진입 : " + postId.toString());
+        log.info("답변생성 코드 진입 : " + answerFormDto.getContent().toString());
+        log.info("답변생성 코드 진입 : " + answerFormDto.getImageList().get(0).getOriginalFilename().toString());
+
+        if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", new AnswerFormDto(content, imageList));
+            model.addAttribute("answerFormDto", answerFormDto);
             return "/aEnroll";
         }
-        answerService.saveAnswer(postId, principalDetails.getLoginId(), new AnswerFormDto(content, imageList));
+        answerService.saveAnswer(postId, principalDetails.getLoginId(), answerFormDto);
 
         return "redirect:/post/" + postId;
     }
@@ -91,16 +95,17 @@ public class AnswerController {
     @PutMapping("/edit-answer/{postId}/{answerId}")
     public String editAnswer(@PathVariable("answerId") Long answerId,
                              @PathVariable("postId") Long postId,
-                             @RequestParam("content") String content,
-                             @RequestPart("imageList") List<MultipartFile> imageList,
+                             @Valid AnswerFormDto answerFormDto,
+                             BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
-        if (content.isEmpty()) {
+        if (bindingResult.hasErrors()) {
+
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", new AnswerFormDto(answerId, content, imageList, null));
+            model.addAttribute("answerFormDto", answerFormDto);
             return "/aEnroll";
         }
-        answerService.updateAnswer(answerId, new AnswerFormDto(answerId, content, imageList, null));
+        answerService.updateAnswer(answerId, answerFormDto);
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
     }
 
