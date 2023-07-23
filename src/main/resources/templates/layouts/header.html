@@ -32,13 +32,13 @@
                 <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
             </div>
             <div class="mypage-box" sec:authorize="isAuthenticated()">
-                <a href="my-page">My Page</a>
+                <a href="/my-page">My Page</a>
             </div>
             <div class="logout-box" sec:authorize="isAuthenticated()">
-                <a href="login">Logout</a>
+                <a href="/login">Logout</a>
             </div>
             <div class="login-box" sec:authorize="isAnonymous()">
-                <a href="login">Login</a>
+                <a href="/login">Login</a>
             </div>
         </div>
     </div>

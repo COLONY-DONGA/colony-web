@@ -27,6 +27,10 @@ spring:
     hibernate:
       ddl-auto: create
 
-#파일 저장 경로 설정
+#진수 파일 저장 경로 설정
 file:
   dir: C:/Users/김진수/colony/
+
+##유진 파일 저장 경로 설정
+#file:
+#  dir: D:/colony
