@@ -78,7 +78,7 @@ public class PostController {
 
         List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return "/qaDetail";
+        return "qaDetail";
     }
 
 
