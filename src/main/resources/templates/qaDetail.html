@@ -22,9 +22,9 @@
           <tbody>
             <tr class="article-title">
               <th>제목</th>
-               <td class="question-title" th:text="'Q. : ' + ${postDto.title}">title</td>
+               <td class="question-title" th:text="${postDto.title}">title</td>
               <th>작성자</th>
-              <td class="question-title" th:text="'Q. : ' + ${postDto.createdBy}">name</td>
+              <td class="question-title" th:text="${postDto.createdBy}">name</td>
               <!--시큐리티 변수-->
             </tr>
             <tr class="article-info">
@@ -37,33 +37,31 @@
             </tr>
             <tr class="article-body">
               <!--내용칸-->
-              <td colspan="4" th:text="'A. : ' + ${question.detail}">Q. question area</td>
+              <td colspan="4" th:text="${postDto.content}">Q. question area</td>
             </tr>
           </tbody>
         </table>
+        <input id="postId" type="hidden" th:value="${postDto.postId}">
       </section>
       ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
       <div class="file-box">
         <!-- Loop through the file list -->
-        <div th:each="'file : ' + ${postDto.imageDtoList}">
+        <div th:each="file : ${postDto.imageDtoList}">
           <div class="file-img">
             <!-- 이미지 파일의 URL을 직접 지정 -->
             <img th:src="${file.storeImageName}" alt="파일 이미지" />
           </div>
           <!-- 파일명 표시 -->
-          <span th:text="${file.fileName}"></span>
+          <span th:text="${file.originImageName}"></span>
 
-          <!-- 각 파일에 대한 다운로드 링크 추가 -->
-          <a th:href="@{'/download/' + ${file.fileName}}" download>다운로드</a>
+<!--          사진 다운 기능 백엔드 미개발-->
+<!--          &lt;!&ndash; 각 파일에 대한 다운로드 링크 추가 &ndash;&gt;-->
+<!--          <a th:href="@{'/download/' + ${file.fileName}}" download>다운로드</a>-->
         </div>
       </div>
 
       <div class="answer-text-box">
-        <!--답변이 있으면 답변 띄우기
-            답변이 없으면 display 숨기기
-             js display 처리하기 -->
-        <div class="answer-text" th:text="${answerdata!!!!}">
-          <!--답변데이터가 타임리프로 이곳에 들어갈 예정입니다-->
+        <div class="answer-text" th:text="테스트">
         </div>
       </div>
 
@@ -91,30 +89,30 @@
     <div id="footer"></div>
 
     <script>
-      //버튼들 기능구현
-      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
+
+      var userName = 'hyeon'; // 유저네임!!!(백에서 던져주는 유저네임 변수
       var name = 'hyeon'; // 질문 작성자 이름!!!!
-      // [[${name}]] 이런식으로 타임리프 식으로 사용 가능
+      let postId = $('#postId').val();
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
-        window.location.href = 'aEnroll.html'; // 이동하고자 하는 페이지의 주소
+        location.href="/answer/" + postId
       });
 
       var listbtn = document.getElementById('listbtn'); //목록 버튼
       listbtn.addEventListener('click', function () {
-        window.location.href = 'qalist.html';
+        location.href="/post-list"
       });
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
-        window.location.href = 'qEnroll.html'; //
+        location.href = 'edit-post/' + postId;
       });
 
       var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
       deletebtn.addEventListener('click', function () {
-        window.location.href = 'qEnroll.html';
+        location.href = '/delete-post/' + postId;
       });
 
       if (userName != name) {

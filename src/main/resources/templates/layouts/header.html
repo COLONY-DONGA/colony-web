@@ -1,103 +1,97 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-  th:fragment="header"
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        th:fragment="header"
 >
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css"/>
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
     />
     <title>Header</title>
-  </head>
+</head>
 
-  <body>
-    <div class="header">
-      <div class="header-box">
+<body>
+<div class="header">
+    <div class="header-box">
         <div class="menu-box">
-          <div class="shadow"></div>
-          <div class="big-box"></div>
-          <img class="mini-logo" src="/img/colony.jpg" />
-          <div class="welcome-box" sec:authorize="isAuthenticated()">
+            <div class="shadow"></div>
+            <div class="big-box"></div>
+            <img class="mini-logo" src="/img/colony.jpg"/>
+            <div class="welcome-box" sec:authorize="isAuthenticated()">
             <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
             >&nbsp;님, 환영합니다 !
-          </div>
-          <div class="welcome-box" sec:authorize="isAnonymous()">
-            <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
-          </div>
-          <div class="mypage-box" sec:authorize="isAuthenticated()">
-            <a href="my-page">My Page</a>
-          </div>
-          <div class="logout-box" sec:authorize="isAuthenticated()">
-            <a href="login">Logout</a>
-          </div>
-          <div class="login-box" sec:authorize="isAnonymous()">
-            <a href="login">Login</a>
-          </div>
+            </div>
+            <div class="welcome-box" sec:authorize="isAnonymous()">
+                <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
+            </div>
+            <div class="mypage-box" sec:authorize="isAuthenticated()">
+                <a href="my-page">My Page</a>
+            </div>
+            <div class="logout-box" sec:authorize="isAuthenticated()">
+                <a href="login">Logout</a>
+            </div>
+            <div class="login-box" sec:authorize="isAnonymous()">
+                <a href="login">Login</a>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script type="text/javaScript">
-      <<<<<<< HEAD:src/main/resources/templates/header.html
-
-
-
-
-            function login() {
-      =======
-            $(window).ready(function() {
-      >>>>>>> main:src/main/resources/templates/layouts/header.html
-              const eventSource = new EventSource('/subscribe');
-
-              //sse 이벤트 수신 핸들러
-              eventSource.addEventListener("sse", function (event) {
-                console.log(event.data);
-
-                const data = JSON.parse(event.data);
-
-                (async () => {
-                  // 브라우저 알림
-                  const showNotification = () => {
-                    toastr.options = {
-                      closeButton: true,
-                      timeOut: 3000, // 3 seconds
-                      extendedTimeOut: 1000, // additional 1 second after mouse hover
-                      progressBar: true,
-                      preventDuplicates: true
-                    };
-
-                    toastr.info(data.content, '코드 봐줘', {
-                      onclick: function() {
-                        window.open(data.url, '_blank'); // 알림을 누를 경우 경로로 이동
-                      }
-                    });
-                  };
-
-                  // 브라우저 알림 허용 권한
-                  let granted = false;
-
-                  if (Notification.permission === 'granted') {
-                    granted = true;
-                  } else if (Notification.permission !== 'denied') {
-                    let permission = await Notification.requestPermission();
-                    granted = permission === 'granted';
-                  }
-
-                  // 알림 보여주기
-                  if (granted) {
-                    showNotification();
-                  }
-                })();
-              })
-            });
-    </script>
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javaScript">
+    // function login() {
+    //     $(window).ready(function () {
+    //         const eventSource = new EventSource('/subscribe');
+    //
+    //         //sse 이벤트 수신 핸들러
+    //         eventSource.addEventListener("sse", function (event) {
+    //             console.log(event.data);
+    //
+    //             const data = JSON.parse(event.data);
+    //
+    //             (async () => {
+    //                 // 브라우저 알림
+    //                 const showNotification = () => {
+    //                     toastr.options = {
+    //                         closeButton: true,
+    //                         timeOut: 3000, // 3 seconds
+    //                         extendedTimeOut: 1000, // additional 1 second after mouse hover
+    //                         progressBar: true,
+    //                         preventDuplicates: true
+    //                     };
+    //
+    //                     toastr.info(data.content, '코드 봐줘', {
+    //                         onclick: function () {
+    //                             window.open(data.url, '_blank'); // 알림을 누를 경우 경로로 이동
+    //                         }
+    //                     });
+    //                 };
+    //
+    //                 // 브라우저 알림 허용 권한
+    //                 let granted = false;
+    //
+    //                 if (Notification.permission === 'granted') {
+    //                     granted = true;
+    //                 } else if (Notification.permission !== 'denied') {
+    //                     let permission = await Notification.requestPermission();
+    //                     granted = permission === 'granted';
+    //                 }
+    //
+    //                 // 알림 보여주기
+    //                 if (granted) {
+    //                     showNotification();
+    //                 }
+    //             })();
+    //         })
+    //     });
+    // }
+</script>
+</body>
 </html>
