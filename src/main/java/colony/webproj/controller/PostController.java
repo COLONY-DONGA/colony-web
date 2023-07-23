@@ -24,8 +24,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +64,7 @@ public class PostController {
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
-        return "qaList";
+        return "/qaList";
     }
 
     /**
@@ -76,7 +78,7 @@ public class PostController {
 
         List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
-        return "qaDetail";
+        return "/qaDetail";
     }
 
 
@@ -85,39 +87,44 @@ public class PostController {
      */
     @GetMapping("/post-form")
     public String postForm() {
-        return "qEnroll";
+        return "/qEnroll";
     }
 
     /**
      * 게시글 생성
      */
     @PostMapping("/post")
-    @ResponseBody
-    public String savePost( @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model
-            , HttpServletRequest request) throws IOException {
+    public String savePost(@RequestParam("title") String title,
+                           @RequestParam("content") String content,
+                           @RequestPart("imageList") List<MultipartFile> imageList,
+//                           BindingResult bindingResult,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           Model model) throws IOException {
 
-//        String requestBody = request.getReader().lines()
-//                .collect(Collectors.joining(System.lineSeparator()));
-//        System.out.println("Request Body: " + requestBody);
+//        if (bindingResult.hasErrors()) {
+//            /* 글작성 실패시 입력 데이터 값 유지 */
+//            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
+//            return "qEnroll";
+//        }
 
-        log.info("postForm: ", postFormDto.getTitle());
 
-        if (bindingResult.hasErrors()) {
-            /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("postFormDto", postFormDto);
+
+        if(title == null || title.isEmpty()){
+            model.addAttribute("postFormDto", new PostFormDto(title, content, imageList));
             return "qEnroll";
         }
+
+        PostFormDto postFormDto = new PostFormDto(title, content, imageList);
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
         return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
+
 
     /**
      * 게시글 수정 폼
      */
     @GetMapping("/edit-post/{postId}")
-    @ResponseBody
-    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model,
+    public String editFrom(@PathVariable("postId") Long postId, Model model,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
@@ -127,31 +134,34 @@ public class PostController {
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
-        return postFormDto;
+        return "/qModify";
     }
 
     /**
      * 게시글 수정
      */
     @PutMapping("/edit-post/{postId}")
-    @ResponseBody
     public String editPost(@PathVariable("postId") Long postId,
-                           @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @RequestParam("title") String title,
+                           @RequestParam("content") String content,
+                           @RequestPart("imageList") List<MultipartFile> imageList,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
-            return "에러";
+            model.addAttribute("error","수정 권한이 없습니다.");
+            return "/qaDetail";
         }
         /* 수정 실패시 입력 데이터 값 유지 */
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("postFormDto", postFormDto);
-            return "게시글 폼";
+        if (title.isEmpty()) {
+            model.addAttribute("postFormDto",new PostFormDto(postId,title,content,imageList,null) );
+            model.addAttribute("error","제목을 입력해주세요.");
+            return "/qEnroll";
         }
-        postService.updatePost(postId, postFormDto);
-        return "게시글 상세";
+        postService.updatePost(postId, new PostFormDto(postId,title,content,imageList,null));
+        return "/qaDetail";
     }
 
     /**
@@ -161,9 +171,9 @@ public class PostController {
      * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
     @DeleteMapping("/delete-post/{postId}")
-    @ResponseBody
     public String deletePost(@PathVariable("postId") Long postId,
-                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                             @AuthenticationPrincipal PrincipalDetails principalDetails,
+                             Model model) {
         if (principalDetails == null) {
             return "redirect:/login";
         }
@@ -171,10 +181,11 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return "에러";
+            model.addAttribute("error","삭제 권한이 없습니다.");
+            return "/qaDetail";
         }
         postService.deletePost(postId);
-        return "게시글 리스트";
+        return "/qaList";
     }
 
     /**

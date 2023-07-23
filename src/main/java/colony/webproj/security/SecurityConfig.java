@@ -3,6 +3,7 @@ package colony.webproj.security;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig { // 정적 자원에 대해서는 Security 설정을 적용하지 않음.
     //스프링 3.0부터 많이 바뀜
     //https://nahwasa.com/entry/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8-30%EC%9D%B4%EC%83%81-Spring-Security-%EA%B8%B0%EB%B3%B8-%EC%84%B8%ED%8C%85-%EC%8A%A4%ED%94%84%EB%A7%81-%EC%8B%9C%ED%81%90%EB%A6%AC%ED%8B%B0
@@ -33,6 +35,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
 
         http.csrf().disable().cors().disable() //csrf 비활성화
                 .authorizeHttpRequests(request ->
@@ -51,6 +54,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .defaultSuccessUrl("/post-list", true) //메인페이지로 갈듯
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
+
 
                 )
                 .logout(withDefaults());
