@@ -147,16 +147,16 @@
         <label for="searchType">검색 종류:</label>
         <select id="searchType" name="searchType">
             <option value="NICKNAME">이름으로 검색</option>
-            <option value="CONTENT">제목으로 검색</option>
+            <option value="TITLE">제목으로 검색</option>
         </select>
-        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+        <input type="text" name="searchValue" placeholder="검색어를 입력하세요">
         <button type="submit">검색</button>
     </form>
 </div>
 
 <div class="sort-container fade-in">
     <label for="sortSelect">정렬 기준:</label>
-    <select id="sortSelect" name="sort" onchange="this.form.submit()">
+    <select id="sortSelect" name="sort">
         <option value="">선택하세요</option>
         <option value="createdAt">작성일 기준</option>
         <option value="title">제목 기준</option>
@@ -187,9 +187,14 @@
 
 <!-- 자바스크립트 코드 추가 -->
 <script>
-    // 자바스크립트 함수나 이벤트 핸들러는 잠시 오류때문에, 따로 빼놓았어요
     function redirectToPost(postId) {
         window.location.href = '/post/' + postId;
     }
+
+    // 정렬 기준 선택 시 서버로 요청 보내기
+    document.getElementById('sortSelect').addEventListener('change', function() {
+        var selectedValue = this.value;
+        window.location.href = '/post-list?sort=' + selectedValue;
+    });
 </script>
 </html>
