@@ -7,195 +7,221 @@
     <link rel="stylesheet" href="/css/qaList.css" />
     <title>qaList</title>
     <style>
-        /* 기존 스타일들 */
+      /* 기존 스타일들 */
 
-        /* 추가된 스타일들 */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
+      /* 추가된 스타일들 */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 1;
+        padding: 1;
+      }
+
+      h1 {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .card {
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 10px;
+        transition: transform 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .card-content {
+        font-size: 14px;
+        color: #666;
+        margin-top: 10px;
+        max-height: 60px;
+        overflow: hidden;
+      }
+
+      .card-author,
+      .card-date {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+      }
+
+      .card-date {
+        margin-bottom: 10px;
+      }
+
+      /* 애니메이션 */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-
-        h1 {
-            text-align: center;
-            margin: 20px 0;
+        to {
+          opacity: 1;
         }
+      }
 
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            gap: 20px;
-            padding: 20px;
-        }
+      .fade-in {
+        animation: fadeIn 1s ease-in-out;
+      }
 
-        .card {
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            padding: 10px;
-            transition: transform 0.3s;
-        }
+      /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 */
+      .search-container,
+      .sort-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-        .card:hover {
-            transform: translateY(-5px);
-            cursor: pointer;
-        }
+      .search-container label,
+      .search-container select,
+      .search-container input[type='text'],
+      .search-container button,
+      .sort-container label,
+      .sort-container select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
 
-        .card-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+      .search-container button,
+      .sort-container select {
+        font-size: 14px;
+        background-color: rgba(7, 7, 7, 0.61);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
 
-        .card-content {
-            font-size: 14px;
-            color: #666;
-            margin-top: 10px;
-            max-height: 60px;
-            overflow: hidden;
-        }
+      .search-container button:hover,
+      .sort-container select:hover {
+        background-color: rgba(7, 7, 7, 0.61);
+      }
 
-        .card-author, .card-date {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        .card-date {
-            margin-bottom: 10px;
-        }
-
-        /* 애니메이션 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 */
-        .search-container, .sort-container {
-            text-align: center;
-            margin-bottom: 20px;
+      /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 수정 - 화면 크기 작을 때 */
+      @media (max-width: 768px) {
+        .search-container,
+        .sort-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
         .search-container label,
         .search-container select,
-        .search-container input[type="text"],
+        .search-container input[type='text'],
         .search-container button,
         .sort-container label,
         .sort-container select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 10px;
+          margin-bottom: 10px;
+          width: 100%;
         }
-
-        .search-container button,
-        .sort-container select {
-            font-size: 14px;
-            background-color: rgba(7, 7, 7, 0.61);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .search-container button:hover,
-        .sort-container select:hover {
-            background-color: rgba(7, 7, 7, 0.61);
-        }
-
-        /* 추가된 스타일 - 검색 및 정렬 컨테이너 스타일 수정 - 화면 크기 작을 때 */
-        @media (max-width: 768px) {
-            .search-container, .sort-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .search-container label,
-            .search-container select,
-            .search-container input[type="text"],
-            .search-container button,
-            .sort-container label,
-            .sort-container select {
-                margin-bottom: 10px;
-                width: 100%;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-<div th:replace="~{layouts/header :: header}"></div>
+  </head>
+  <body>
+    <div th:replace="~{layouts/header :: header}"></div>
 
-<h1>질문 리스트</h1>
-<div class="search-container fade-in">
-    <form th:action="@{/post-list}" method="get" autocomplete="on">
+    <h1>질문 리스트</h1>
+    <div class="search-container fade-in">
+      <form th:action="@{/post-list}" method="get" autocomplete="on">
         <label for="searchType">검색 종류:</label>
         <select id="searchType" name="searchType" th:value="${searchType}">
-            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">이름으로 검색</option>
-            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">제목으로 검색</option>
+          <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+            이름으로 검색
+          </option>
+          <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+            제목으로 검색
+          </option>
         </select>
-        <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력하세요" th:value="${searchValue}">
+        <input
+          type="text"
+          id="searchValue"
+          name="searchValue"
+          placeholder="검색어를 입력하세요"
+          th:value="${searchValue}"
+        />
         <button type="submit">검색</button>
-    </form>
-</div>
+      </form>
+    </div>
 
-<div class="sort-container fade-in">
-    <label for="sortSelect">정렬 기준:</label>
-    <select id="sortSelect" name="sort" th:value="${sortBy}">
-        <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">작성일 기준</option>
+    <div class="sort-container fade-in">
+      <label for="sortSelect">정렬 기준:</label>
+      <select id="sortSelect" name="sort" th:value="${sortBy}">
+        <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
+          작성일 기준
+        </option>
         <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 기준</option>
-    </select>
-</div>
+      </select>
+    </div>
 
-<!-- 카드 형식으로 변경된 내용 -->
-<div class="card-container fade-in">
-    <!-- PostDtoList를 반복하여 각각의 PostDto를 카드 형식으로 출력합니다. -->
-    <div th:each="postDto : ${postDtoList}" class="card" th:onclick="'redirectToPost(' + ${postDto.postId} + ')'">
+    <!-- 카드 형식으로 변경된 내용 -->
+    <div class="card-container fade-in">
+      <!-- PostDtoList를 반복하여 각각의 PostDto를 카드 형식으로 출력합니다. -->
+      <div
+        th:each="postDto : ${postDtoList}"
+        class="card"
+        th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+      >
         <h2 class="card-title" th:text="${postDto.title}"></h2>
         <p class="card-content" th:text="${postDto.content}"></p>
         <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
-        <p class="card-date">Created At: <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span></p>
-
+        <p class="card-date">
+          Created At: <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span>
+        </p>
 
         <div th:if="${postDto.answered}">
-            <span>답변 완료</span>
+          <span>답변 완료</span>
         </div>
         <div th:unless="${postDto.answered}">
-            <span>답변 대기 중</span>
+          <span>답변 대기 중</span>
         </div>
+      </div>
     </div>
-</div>
 
-<div th:replace="~{layouts/footer :: footer}"></div>
-</body>
+    <div th:replace="~{layouts/footer :: footer}"></div>
+  </body>
 
-<!-- 자바스크립트 코드 추가 -->
-<script>
+  <!-- 자바스크립트 코드 추가 -->
+  <script>
     function redirectToPost(postId) {
-        window.location.href = '/post/' + postId;
+      window.location.href = '/post/' + postId;
     }
 
     // 정렬 기준 선택 시 서버로 요청 보내기
-    document.getElementById('sortSelect').addEventListener('change', function() {
-        var selectedValue = this.value;
-        var searchValue = document.getElementById('searchValue').value; // 검색어 입력 값을 가져옴
-        var searchType = document.getElementById('searchType').value; // 검색어 입력 값을 가져옴
-        window.location.href = '/post-list?sortBy=' + selectedValue + '&searchType=' + searchType + '&searchValue=' + searchValue;
+    document.getElementById('sortSelect').addEventListener('change', function () {
+      var selectedValue = this.value;
+      var searchValue = document.getElementById('searchValue').value; // 검색어 입력 값을 가져옴
+      var searchType = document.getElementById('searchType').value; // 검색어 입력 값을 가져옴
+      window.location.href =
+        '/post-list?sortBy=' +
+        selectedValue +
+        '&searchType=' +
+        searchType +
+        '&searchValue=' +
+        searchValue;
     });
-</script>
+  </script>
 </html>

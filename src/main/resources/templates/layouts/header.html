@@ -45,7 +45,15 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script type="text/javaScript">
+    <script>
+      let gotoListBtn = document.querySelector('.mini-logo');
+
+      gotoListBtn.addEventListener('click', () => {
+        location.href = '/post-list';
+      });
+
+      gotoListBtn.style.cursor = 'pointer';
+
       // function login() {
       //     $(window).ready(function () {
       //         const eventSource = new EventSource('/subscribe');
