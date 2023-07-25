@@ -1,4 +1,14 @@
 /* 헤더 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+body {
+  padding-top: 100px;
+}
 .header-box {
   background-color: #ffffff;
   height: 7rem;
