@@ -66,7 +66,11 @@
       </div>
 
       <!--버튼바들-->
-      <div class="tool-box" id="answer-text-box">
+      <div class="tool-box" id="question-tool-box">
+        <h6>
+          &nbsp 작성일자 :
+          <td th:text="${postDto.updatedAt}">date</td>
+        </h6>
         <div class="btn">
           <button class="qabtn" id="qabtn">답변하기</button>
           <!--<button class="listbtn" id="listbtn">목록</button>-->
@@ -88,24 +92,32 @@
           id="answer-text-box-[[${answer.id}]]"
         >
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <span th:text="${'A. : ' + answer.content}">Q.답변박스</span>
+          <span th:text="${'A. : ' + answer.content}">Q.답변데이터</span>
         </div>
       </div>
       <div class="answer-box"></div>
     </div>
 
     <!--파일-->
+    --파일,이미지 기능
 
-    <div class="tool-box" id="answer-text-box">
-      <div class="btn">
-        <button class="editbtn" id="editbtn123">수정</button>
-        <button class="deletebtn" id="deletebtn123">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
-      </div>
+    <div class="tool-box" id="answer-tool-box">
+      <tr class="article-info">
+        좋아요수~
+        <i class="fa fa-heart" id="answer-like"></i>
+        <i class="fa fa-trash" id="answer-deletebtn"></i>
+        <div class="btn">
+          <button class="editbtn" id="editbtn">수정</button>
+          <button class="deletebtn" id="deletebtn">삭제</button>
+          <!--<a href="#" class="btn green rounded">Button</a>-->
+        </div>
+      </tr>
     </div>
-    <div class="comments-container">
-      <ul id="comments-list" class="comments-list"></ul>
 
+    <div class="comments-container">
+      <ul id="comments-list" class="comments-list">
+        <!-- 댓글이 여기에 추가될 예정 -->
+      </ul>
       <!--새댓글 작성부분-->
       <div class="input-box">
         <div class="inputframe">
@@ -118,74 +130,135 @@
     </div>
 
     <script>
-      // 서버에서 데이터를 받아와서 댓글과 대댓글 HTML 요소를 생성하는 함수
-      function createCommentElements(comments) {
-        var commentsList = $('#comments-list');
+      let userName = $('#member-nickname').val(); // 로그인 유저
+      let name = $('#post-writer').val(); // post 작성자
+      let postId = $('#postId').val();
 
-        comments.forEach(function (comment) {
-          var commentElement = `
-      <li>
-        <div class="${comment.isReply ? 'comments-list reply-list' : 'comment-main-level'}">
-          <div class="comment-avatar">
-            <img src="../static/img/colony.jpg" alt="" />
-          </div>
-          <div class="comment-box">
-            <div class="comment-head">
-              <h6 class="comment-name">${comment.name}</h6>
-              <i class="fa fa-reply" id="replyComment"></i>
-              ${comment.isReply ? '' : '<i class="fa fa-heart" id="like"></i>'}
-            </div>
-            <div class="comment-content">${comment.content}</div>
-          </div>
-        </div>
-      </li>
-    `;
+      //버튼 구현
+      var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+      qabtn.addEventListener('click', function () {
+        window.open('/answer/' + postId, 'aEnroll');
+      });
 
-          commentsList.append(commentElement);
+      /*var listbtn = document.getElementById('listbtn'); //목록 버튼
+      listbtn.addEventListener('click', function () {
+        location.href = '/post-list';
+      }); */ //오류땜시 잠깐 주석처리
+
+      var editbtn = document.getElementById('editbtn'); //수정 버튼
+      editbtn.addEventListener('click', function () {
+        location.href = 'edit-post/' + postId;
+      });
+
+      var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
+      deletebtn.addEventListener('click', function () {
+        location.href = '/delete-post/' + postId;
+      });
+
+      /*if (userName != name || userName === '')
+        //비회원이거나, 글쓴이가 아닐때
+        editbtn.style.display = 'none';
+      deletebtn.style.display = 'none';*/
+
+      // weqdwqd,qwpdmqwkldmkqlwdklwqmdklmqwkldmklqwdmklwqmwdlk
+
+      // "작성" 버튼 클릭 시 실행되는 함수
+      function onWriteButtonClick() {
+        const newCommentInput = document.getElementById('newComment');
+        const newCommentText = newCommentInput.value;
+
+        // 입력된 값을 commentsData에 추가
+        commentsData.push({
+          name: '사용자', // 댓글을 작성한 사용자 이름 (원하는 이름으로 변경)
+          content: newCommentText,
+          replies: [], // 대댓글은 빈 배열로 초기화
         });
+
+        // 추가된 댓글을 UI에 반영하는 로직을 호출
+        addComments();
+
+        // 입력 필드 초기화
+        newCommentInput.value = '';
       }
 
-      /*$.ajax({
-        url: '서버의_데이터_요청_주소',
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          // 받아온 데이터로 댓글과 대댓글 HTML 요소를 생성합니다.
-          createCommentElements(response.comments);
-        },
-        error: function (error) {
-          console.error('댓글 데이터를 불러오는데 실패했습니다:', error);
-        },
-      });*/
+      // "작성" 버튼에 클릭 이벤트 리스너 등록
+      const writeButton = document.getElementById('add-comment-button');
+      writeButton.addEventListener('click', onWriteButtonClick);
 
-      // 테스트를 위한 더미 데이터 (서버에서 받아온 것으로 가정)
-      var dummyData = {
-        comments: [
-          {
-            name: '최유현',
-            content: '댓글텍스트입니다. 첫 번째 댓글입니다.',
-            isReply: false,
-          },
-          {
-            name: '바규진',
-            content: '댓글텍스트입니다. 첫 번째 댓글에 대한 첫 번째 대댓글입니다.',
-            isReply: true,
-          },
-          {
-            name: '김영웅',
-            content: '댓글텍스트입니다. 두 번째 댓글입니다.',
-            isReply: false,
-          },
-          {
-            name: '박수호',
-            content: '댓글텍스트입니다. 두 번째 댓글에 대한 첫 번째 대댓글입니다.',
-            isReply: true,
-          },
-        ],
-      };
+      const commentsData = [
+        {
+          name: '최유현',
+          content: '첫번째 댓글~~~.',
+          replies: [
+            { name: '최쌤 대댓글1', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+            { name: '최쌤 대댓글2', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+          ],
+        },
+        {
+          name: '김진짜',
+          content: '두번쨰 댓글~~~',
+          replies: [{ name: '김진수', content: 'blalbalbalbalba' }],
+        },
+      ];
+      // 함수를 호출하여 댓글과 대댓글을 추가하는 로직
+      function addComments() {
+        const commentsList = document.getElementById('comments-list');
 
-      // 테스트용 더미 데이터로 댓글과 대댓글 HTML 요소를 생성합니다.
-      createCommentElements(dummyData.comments);
+        // 댓글 추가 전에 기존 댓글 및 대댓글을 초기화
+        commentsList.innerHTML = '';
+
+        // 댓글 추가
+        commentsData.forEach((comment) => {
+          const commentElement = `
+        <li>
+          <div class="comment-main-level">
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">${comment.name}</h6>
+                <i class="fa fa-reply" id="add-reply-button"></i>
+              </div>
+              <div class="comment-content">${comment.content}</div>
+            </div>
+          </div>
+        </li>
+      `;
+          commentsList.innerHTML += commentElement;
+
+          // 대댓글 추가
+          if (comment.replies && comment.replies.length > 0) {
+            const repliesList = `
+          <ul class="comments-list reply-list">
+            <!-- 대댓글이 여기에 추가될 예정 -->
+          </ul>
+        `;
+            const commentItem = commentsList.lastElementChild;
+            commentItem.querySelector('.comment-box').innerHTML += repliesList;
+
+            const replyList = commentItem.querySelector('.reply-list');
+            comment.replies.forEach((reply) => {
+              const replyElement = `
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">${reply.name}</h6>
+                </div>
+                <div class="comment-content">${reply.content}</div>
+              </div>
+            </li>
+          `;
+              replyList.innerHTML += replyElement;
+            });
+          }
+        });
+      }
+      // 로직 실행
+      addComments();
     </script>
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>

@@ -736,7 +736,7 @@ body {
 
 .article-list > table thead {
   border-bottom: 2px solid lightgray;
-  background-color: #f5f5f5;
+  background-color: #251e1e;
 }
 
 .article-detail {
@@ -818,6 +818,9 @@ body {
 .reply-form > form > div:not(:last-child) {
   margin-bottom: 5px;
 }
+.reply-list-container {
+  width: 600px; /* 늘리고자 하는 너비 값으로 조정 */
+}
 
 .reply-list > table {
   border: none;
@@ -864,7 +867,7 @@ body {
   align-items: center; /* 수직 중앙 정렬 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
-  margin-left: 35rem;
+  margin-left: 30rem;
 }
 
 .qabtn:hover {
@@ -1114,12 +1117,12 @@ body {
 }
 .reply-list li:before {
   content: '';
-  width: 60px;
-  height: 2px;
-  background: #c7cacb;
+  width: 0px;
+  height: 0px;
+
   position: absolute;
   top: 25px;
-  left: -55px;
+  left: -100px;
 }
 
 .comments-list li {
@@ -1168,6 +1171,7 @@ body {
 .reply-list .comment-avatar {
   width: 50px;
   height: 50px;
+  right: 2rem;
 }
 
 .comment-main-level:after {
@@ -1181,7 +1185,7 @@ body {
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-  width: 680px;
+  width: 660px;
   float: right;
   position: relative;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
@@ -1206,11 +1210,10 @@ body {
 .comments-list .comment-box:before {
   border-width: 11px 13px 11px 0;
   border-color: transparent rgba(0, 0, 0, 0.05);
-  left: -12px;
 }
 
 .reply-list .comment-box {
-  width: 610px;
+  width: 520px;
 }
 .comment-box .comment-head {
   background: #fcfcfc;
@@ -1316,4 +1319,12 @@ body {
 
 .input-text {
   width: 36rem;
+}
+#like {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+#like:hover {
+  color: red; /* 바뀔 색상 */
 }
