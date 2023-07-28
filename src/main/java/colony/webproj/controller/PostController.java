@@ -51,6 +51,8 @@ public class PostController {
                            @PageableDefault(size = 10) Pageable pageable,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {
+        System.out.println("============");
+        System.out.println(searchValue);
         if(principalDetails == null) {
             model.addAttribute("username", "게스트");
             log.info("비회원 로그인");
