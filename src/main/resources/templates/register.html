@@ -118,8 +118,8 @@
         let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
         let na_reg = /^[가-힣]{2,}$/;
-        // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~8글자
-        let ni_reg = /^[A-Za-z가-힣0-9]{2,8}$/;
+        // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~6글자
+        let ni_reg = /^[A-Za-z가-힣0-9]{2,6}$/;
         // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
         let ph_reg = /^\d{11}$/;
 
@@ -220,7 +220,7 @@
           return false;
         }
         if (!ni_reg.test(ni.value)) {
-          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~8글자여야 합니다.';
+          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
           ni.value = '';
           ni.focus();
           event.preventDefault();
@@ -265,7 +265,7 @@
       };
 
       nickname_check.onclick = function (event) {
-        console.log("==========");
+        console.log('==========');
         event.preventDefault(); // 폼 제출 방지
         let nickname = document.getElementById('nickname');
         // AJAX 요청

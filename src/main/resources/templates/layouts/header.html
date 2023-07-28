@@ -18,41 +18,40 @@
   </head>
 
   <body>
-    <div class="header">
-      <div class="header-box">
-        <div class="menu-box">
-          <div class="shadow"></div>
-          <div class="big-box"></div>
-          <img class="mini-logo" src="/img/colony.jpg" />
-          <div class="welcome-box" sec:authorize="isAuthenticated()">
-            <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
-            >&nbsp;님, 환영합니다 !
-          </div>
-          <div class="welcome-box" sec:authorize="isAnonymous()">
-            <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
-          </div>
-          <div class="mypage-box" sec:authorize="isAuthenticated()">
-            <a href="/my-page">My Page</a>
-          </div>
-          <div class="logout-box" sec:authorize="isAuthenticated()">
-            <a href="/logout">Logout</a>
-          </div>
-          <div class="login-box" sec:authorize="isAnonymous()">
-            <a href="/login">Login</a>
-          </div>
+    <header>
+      <div class="header">
+        <img class="logo" src="/img/colony.jpg" />
+        <div class="colony">COLONY_DAU</div>
+        <div class="welcome" sec:authorize="isAuthenticated()">
+          <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
+          >&nbsp;님, 환영합니다 !
         </div>
+        <div class="welcome" sec:authorize="isAnonymous()">
+          <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
+        </div>
+        <nav>
+          <ul>
+            <div class="mypage" sec:authorize="isAuthenticated()">
+              <li><a href="/my-page">My Page</a></li>
+            </div>
+            <div class="logout" sec:authorize="isAuthenticated()">
+              <li><a href="/logout">Logout</a></li>
+            </div>
+            <div class="login" sec:authorize="isAnonymous()">
+              <li><a href="/login">Login</a></li>
+            </div>
+          </ul>
+        </nav>
       </div>
-    </div>
+    </header>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-      let gotoListBtn = document.querySelector('.mini-logo');
+      let gotoListBtn = document.querySelector('.logo');
 
       gotoListBtn.addEventListener('click', () => {
         location.href = '/post-list';
       });
-
-      gotoListBtn.style.cursor = 'pointer';
 
       // function login() {
       //     $(window).ready(function () {
