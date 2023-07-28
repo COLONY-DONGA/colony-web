@@ -55,7 +55,7 @@ public class InitDB {
                 } else if(i<=9) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
                 } else if(i<=12) {
-                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(true).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(true).build();
                 }
                 em.persist(post);
             }
