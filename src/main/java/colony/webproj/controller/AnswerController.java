@@ -49,10 +49,6 @@ public class AnswerController {
                              BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
-        log.info("답변생성 코드 진입 : " + postId.toString());
-        log.info("답변생성 코드 진입 : " + answerFormDto.getContent().toString());
-        log.info("답변생성 코드 진입 : " + answerFormDto.getImageList().get(0).getOriginalFilename().toString());
-
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
