@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>알림 목록</title>
+</head>
+<style>
+    body, h1, h2, p, a {
+        margin: 0;
+        padding: 0;
+        font-size: 100%;
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+    }
+
+    /* Global styles */
+    body {
+        background-color: #f0f0f0;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Header styles (if not already defined in the included header) */
+    .notification-box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Notification item styles */
+    .notification-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .notification-item {
+        width: 45%;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .notification-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .notification-item a {
+        color: #007bff;
+        display: block;
+        text-align: center;
+    }
+
+    /* Animation styles */
+    .notification-item {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+</style>
+<body>
+<!--<div th:replace="~{layouts/header :: header}"></div>-->
+<div class="notification-box">
+    <h2>알림 목록</h2>
+    <div class="notification-list">
+        <!-- 타임리프를 사용하여 알림 목록 데이터를 동적으로 표시합니다. -->
+        <div th:each="notification, iterStat : ${notificationDtoList}"
+             class="notification-item" th:style="'--animation-order: ' + ${iterStat.count}">
+            <a th:href="${notification.url}">
+                <p th:text="${notification.content}"></p>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

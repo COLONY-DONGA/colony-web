@@ -63,8 +63,6 @@ public class PostController {
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
 
-        System.out.println(searchType);
-        System.out.println(sortBy);
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
