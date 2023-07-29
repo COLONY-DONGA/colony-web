@@ -14,11 +14,8 @@ public class NotificationDto {
 
 
     private Long id;
-
     private String content;
-
     private String url;
-
     private Boolean status;
 
     public static NotificationDto create(Notification notification) {

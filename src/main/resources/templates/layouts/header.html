@@ -62,6 +62,23 @@
         location.href = '/post-list';
       });
 
+      // 페이지 로드 시 알림 개수를 가져와 뱃지로 표시하는 함수
+      function updateNotificationBadge() {
+        $.ajax({
+          type: "GET",
+          url: "/notifications/count",
+          dataType: "json",
+          success: function (data) {
+            const notificationCount = parseInt(data.count);
+            console.log(notificationCount);
+            $('.notification-badge').text(notificationCount);
+          },
+          error: function (error) {
+            console.error("Error fetching notification count: " + error);
+          },
+        });
+      }
+
       /**
        * 알람 구독 로직
        */
@@ -69,6 +86,8 @@
         console.log('알람 구독 로직 시작');
         // 알림을 위해 SSE 연결을 수립합니다.
         const source = new EventSource('/subscribe');
+
+        updateNotificationBadge();
 
         // SSE 이벤트를 처리합니다. (새로운 알림이 도착했을 때)
         source.onmessage = function (event) {
@@ -87,18 +106,10 @@
             };
             console.log(data.content);
             toastr.success('새로운 알림이 도착했습니다.'); // Display the notification message as a success toast
-            // 알림 카운트를 증가시키고 뱃지를 업데이트합니다.
-            $('.notification-badge')
-              .text(notificationCount + 1)
-              .addClass('show-badge');
+
+            // 알림 개수를 가져와 뱃지를 업데이트합니다.
           }
         };
-
-        // 알림 아이콘을 클릭하는 경우를 처리합니다.
-        $('#notification-icon').on('click', function () {
-          $('.notification-badge').removeClass('show-badge').text('0'); // 뱃지 카운트를 초기화합니다.
-          location.href = '/notifications';
-        });
       });
     </script>
   </body>
