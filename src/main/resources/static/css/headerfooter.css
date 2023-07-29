@@ -32,13 +32,13 @@ header img {
   width: 5rem;
   height: 5rem;
   cursor: pointer;
-  margin-left: 0.5rem;
+  margin-left: 13rem;
 }
 header .colony {
   font-weight: bold;
   font-size: 1.3rem;
   position: absolute;
-  left: 6rem;
+  left: 18rem;
 }
 header .welcome {
   position: absolute;
@@ -51,6 +51,12 @@ header > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+header span {
+  font-weight: bold;
+}
+header .nav {
+  margin-right: 10rem;
 }
 header nav ul {
   display: flex;
@@ -93,10 +99,10 @@ header a:active {
   color: var(--baseColor);
   text-decoration: none;
 }
-.header nav ul li {
+header nav ul li {
   position: relative;
 }
-.header nav ul li::before {
+header nav ul li::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -104,9 +110,17 @@ header a:active {
   width: 1.5px;
   height: 50px;
   background-color: #ccc;
-}
-.header nav ul li::before {
   left: 0;
+}
+header nav ul li:last-child::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5px;
+  height: 50px;
+  background-color: #ccc;
+  right: 0;
 }
 body {
   padding-top: 100px;
