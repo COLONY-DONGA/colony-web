@@ -117,3 +117,60 @@ footer {
 footer li {
   list-style: none;
 }
+
+
+
+
+
+.notification-box {
+  /* 오른쪽 상단에 배치하도록 조정합니다. */
+  position: absolute;
+  top: 1.5rem;
+  right: 3rem;
+  transform: translateY(-50%);
+}
+
+#notification-icon {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem;
+  color: #333;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background-color: #dc2017;
+  color: #c73737;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  border-radius: 50%;
+  display: none;
+}
+
+#notification-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #d71010;
+  box-shadow: 0 4px 8px rgba(224, 44, 44, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-width: 200px;
+}
+
+.notification-item {
+  margin-bottom: 0.5rem;
+}
+
+.notification-item a {
+  color: #333;
+  text-decoration: none;
+}
+
+.notification-item a:hover {
+  text-decoration: underline;
+}
