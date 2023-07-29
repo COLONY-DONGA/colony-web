@@ -72,25 +72,26 @@
 
         // SSE 이벤트를 처리합니다. (새로운 알림이 도착했을 때)
         source.onmessage = function (event) {
-            const data = event.data;
-            console.log(data);
-            const notificationCount = parseInt($('.notification-badge').text());
+          const data = event.data;
+          console.log(data);
+          const notificationCount = parseInt($('.notification-badge').text());
 
-            if(data === "연결완료") {
-                return;
-            }
-            else {
-                // Show the notification message as a toast using Toastr
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    timeOut: 3000, // Set the duration for how long the toast should be displayed (in milliseconds)
-                };
-                console.log(data.content);
-                toastr.success("새로운 알림이 도착했습니다."); // Display the notification message as a success toast
-                // 알림 카운트를 증가시키고 뱃지를 업데이트합니다.
-                $('.notification-badge').text(notificationCount + 1).addClass('show-badge');
-            }
+          if (data === '연결완료') {
+            return;
+          } else {
+            // Show the notification message as a toast using Toastr
+            toastr.options = {
+              closeButton: true,
+              progressBar: true,
+              timeOut: 3000, // Set the duration for how long the toast should be displayed (in milliseconds)
+            };
+            console.log(data.content);
+            toastr.success('새로운 알림이 도착했습니다.'); // Display the notification message as a success toast
+            // 알림 카운트를 증가시키고 뱃지를 업데이트합니다.
+            $('.notification-badge')
+              .text(notificationCount + 1)
+              .addClass('show-badge');
+          }
         };
 
         // 알림 아이콘을 클릭하는 경우를 처리합니다.
