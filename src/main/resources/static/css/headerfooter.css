@@ -32,13 +32,13 @@ header img {
   width: 5rem;
   height: 5rem;
   cursor: pointer;
-  margin-left: 13rem;
+  margin-left: 11rem;
 }
 header .colony {
   font-weight: bold;
   font-size: 1.3rem;
   position: absolute;
-  left: 18rem;
+  left: 16rem;
 }
 header .welcome {
   position: absolute;
