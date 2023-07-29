@@ -23,25 +23,22 @@
         <img class="logo" src="/img/colony.jpg" />
         <div class="colony">COLONY_DAU</div>
         <div class="welcome" sec:authorize="isAuthenticated()">
-          <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
-          >&nbsp;님, 환영합니다 !
+          <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님, 환영합니다 !
         </div>
         <div class="welcome" sec:authorize="isAnonymous()">
-          <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
+          <span>Guest</span>&nbsp;님, 환영합니다 !
         </div>
-        <nav>
-          <ul>
-            <div class="mypage" sec:authorize="isAuthenticated()">
-              <li><a href="/my-page">My Page</a></li>
-            </div>
-            <div class="logout" sec:authorize="isAuthenticated()">
-              <li><a href="/logout">Logout</a></li>
-            </div>
-            <div class="login" sec:authorize="isAnonymous()">
-              <li><a href="/login">Login</a></li>
-            </div>
-          </ul>
-        </nav>
+        <div class="nav">
+          <nav>
+            <ul>
+              <li class="mypage" sec:authorize="isAuthenticated()">
+                <a href="/my-page">My Page</a>
+              </li>
+              <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+              <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
 
