@@ -1,117 +1,107 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-        th:fragment="header"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  th:fragment="header"
 >
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!--    토스트-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="../static/css/headerfooter.css" />
     <title>Header</title>
-</head>
+  </head>
 
-<body>
-<div class="header">
-    <div class="header-box">
-        <div class="menu-box">
-            <div class="shadow"></div>
-            <div class="big-box"></div>
-            <img class="mini-logo" src="/img/colony.jpg"/>
-            <div class="welcome-box" sec:authorize="isAuthenticated()">
-            <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
-            >&nbsp;님, 환영합니다 !
-            </div>
-            <div class="welcome-box" sec:authorize="isAnonymous()">
-                <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
-            </div>
-            <div class="mypage-box" sec:authorize="isAuthenticated()">
-                <a href="/my-page">My Page</a>
-            </div>
-            <div class="logout-box" sec:authorize="isAuthenticated()">
-                <a href="/logout">Logout</a>
-            </div>
-            <div class="login-box" sec:authorize="isAnonymous()">
-                <a href="/login">Login</a>
-            </div>
-
-            <!-- 알림 -->
-            <div class="notification-box">
-                <!-- 알림 아이콘을 오른쪽 상단에 배치합니다. -->
-                <a href="#" id="notification-icon">
-                    <i class="fa fa-bell"></i>
-                    <span class="notification-badge">0</span>
-                    알림
-                </a>
-                <!-- 알림 목록을 표시할 공간을 생성합니다. -->
-                <div id="notification-list"></div>
-            </div>
+  <body>
+    <header>
+      <div class="header">
+        <img class="logo" src="/img/colony.jpg" />
+        <div class="colony">COLONY_DAU</div>
+        <div class="welcome" sec:authorize="isAuthenticated()">
+          <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님, 환영합니다 !
         </div>
-    </div>
-</div>
+        <div class="welcome" sec:authorize="isAnonymous()">
+          <span>Guest</span>&nbsp;님, 환영합니다 !
+        </div>
+        <div class="nav">
+          <nav>
+            <ul>
+              <li class="mypage" sec:authorize="isAuthenticated()">
+                <a href="/my-page">My Page</a>
+              </li>
+              <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+              <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
+            </ul>
+            <!-- 알림 (자, 나중에 위치 수정) -->
+            <div class="notification-box">
+              <!-- 알림 아이콘을 오른쪽 상단에 배치합니다. -->
+              <a href="#" id="notification-icon">
+                <i class="fa fa-bell"></i>
+                <span class="notification-badge">0</span>
+                알림
+              </a>
+              <!-- 알림 목록을 표시할 공간을 생성합니다. -->
+              <div id="notification-list"></div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-<script>
-    let gotoListBtn = document.querySelector('.mini-logo');
-
-    gotoListBtn.addEventListener('click', () => {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+      document.querySelector('.logo').addEventListener('click', () => {
         location.href = '/post-list';
-    });
+      });
 
-    gotoListBtn.style.cursor = 'pointer';
-
-    /**
-     * 알람 구독 로직
-     */
-    $(document).ready(function () {
-        console.log("알람 구독 로직 시작");
+      /**
+       * 알람 구독 로직
+       */
+      $(document).ready(function () {
+        console.log('알람 구독 로직 시작');
         // 알림을 위해 SSE 연결을 수립합니다.
         const source = new EventSource('/subscribe');
 
         // SSE 이벤트를 처리합니다. (새로운 알림이 도착했을 때)
         source.onmessage = function (event) {
-            const data = event.data;
-            console.log(data);
-            const notificationCount = parseInt($('.notification-badge').text());
+          const data = event.data;
+          console.log(data);
+          const notificationCount = parseInt($('.notification-badge').text());
 
-            if(data === "연결완료") {
-                return;
-            }
-            else {
-                // Show the notification message as a toast using Toastr
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    timeOut: 3000, // Set the duration for how long the toast should be displayed (in milliseconds)
-                };
-                console.log(data.content);
-                toastr.success("새로운 알림이 도착했습니다."); // Display the notification message as a success toast
-                // 알림 카운트를 증가시키고 뱃지를 업데이트합니다.
-                $('.notification-badge').text(notificationCount + 1).addClass('show-badge');
-            }
-
-
-
-
+          if (data === '연결완료') {
+            return;
+          } else {
+            // Show the notification message as a toast using Toastr
+            toastr.options = {
+              closeButton: true,
+              progressBar: true,
+              timeOut: 3000, // Set the duration for how long the toast should be displayed (in milliseconds)
+            };
+            console.log(data.content);
+            toastr.success('새로운 알림이 도착했습니다.'); // Display the notification message as a success toast
+            // 알림 카운트를 증가시키고 뱃지를 업데이트합니다.
+            $('.notification-badge')
+              .text(notificationCount + 1)
+              .addClass('show-badge');
+          }
         };
 
         // 알림 아이콘을 클릭하는 경우를 처리합니다.
         $('#notification-icon').on('click', function () {
-            $('.notification-badge').removeClass('show-badge').text('0'); // 뱃지 카운트를 초기화합니다.
-            location.href = '/notifications';
+          $('.notification-badge').removeClass('show-badge').text('0'); // 뱃지 카운트를 초기화합니다.
+          location.href = '/notifications';
         });
-    })
-</script>
-</body>
+      });
+    </script>
+  </body>
 </html>
