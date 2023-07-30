@@ -1,6 +1,5 @@
 /* 헤더 */
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
-
 :root {
   --baseColor: #333;
   --blueColor: #22aee5;
@@ -139,9 +138,21 @@ body {
   cursor: pointer;
   font-weight: bold;
   font-size: 1.2rem;
-  transition: color 0.3s;
 }
-#notification-icon:hover {
+.notification-button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  outline: none;
+}
+#notification-icon:hover,
+.notification-button:hover .fa-bell {
   color: #7367f0;
 }
 .notification-badge {
@@ -186,40 +197,32 @@ body {
   }
 }
 .header-notification-dropdown {
-  display: none;
   position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 0.5rem;
-  width: 250px;
-  background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  overflow: hidden;
+  top: 60px;
+  right: 10px;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 9999;
 }
-.header-notification-item {
-  border-bottom: 1px solid #ddd;
-  padding: 0.75rem;
-  font-size: 0.9rem;
+.notification-item {
+  padding: 8px 0;
+  border-bottom: 2px solid #f1f1f1;
 }
-.header-notification-item:last-child {
+.notification-item:last-child {
   border-bottom: none;
 }
-.notification-button {
-  border: none;
-  background-color: transparent;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0;
-  line-height: inherit;
-  display: inline-flex;
-  align-items: center;
-  outline: none;
+.notification-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
 }
-.notification-button:hover .fa-bell {
-  color: #7367f0;
+.notification-item a:hover {
+  color: #007bff;
 }
 /* 푸터 */
 footer {
