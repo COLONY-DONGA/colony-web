@@ -59,6 +59,7 @@ public class NotificationController {
         return notificationService.countUnReadNotifications(principalDetails.getId());
     }
 
+
     //단일 알림 삭제
 //    @DeleteMapping(value = "/notifications/delete/{notificationId}")
 //    public ResponseEntity<Object> deleteNotification(@PathVariable Long notificationId){

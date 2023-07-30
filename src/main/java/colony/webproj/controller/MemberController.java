@@ -1,19 +1,10 @@
 package colony.webproj.controller;
 
 import colony.webproj.dto.JoinFormDto;
-import colony.webproj.dto.LoginFormDto;
-import colony.webproj.entity.Member;
-import colony.webproj.entity.Role;
 import colony.webproj.service.MemberService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -87,11 +78,22 @@ public class MemberController {
         return ResponseEntity.ok(true);
     }
 
+    /**
+     * 이메일 중복 체크
+     */
+    @PostMapping("validation-email")
+    public ResponseEntity<?> validationEmail(@RequestBody Validation validation) {
+        Boolean isValid = memberService.validateEmail(validation.getEmail());
+        if(!isValid) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(true);
+    }
+
     @Getter @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Validation {
         String loginId;
         String nickname;
+        String email;
     }
 }

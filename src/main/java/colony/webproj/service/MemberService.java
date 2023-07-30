@@ -61,6 +61,14 @@ public class MemberService {
         return memberEntity.isPresent() ? false : true;
     }
 
+    /**
+     * 이메일 중복 체크
+     */
+    public Boolean validateEmail(String email) {
+        Optional<Member> memberEntity = memberRepository.findByEmail(email);
+        return memberEntity.isPresent() ? false : true;
+    }
+
     public List<Member> findAllMember() {
         List<Member> all = memberRepository.findAll();
         return all;
@@ -121,4 +129,6 @@ public class MemberService {
 
         return member.getId();
     }
+
+
 }
