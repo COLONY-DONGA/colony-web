@@ -136,6 +136,7 @@ public class NotificationService {
         checkNotification.read(); // 읽음처리
     }
 
+    @Transactional(readOnly = true)
     public NotificationCountDto countUnReadNotifications(Long memberId) {
         //유저의 알람리스트에서 ->isRead(false)인 갯수를 측정 ,
         Long count = notificationRepository.countUnReadNotifications(memberId);

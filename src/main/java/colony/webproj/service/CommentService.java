@@ -60,7 +60,9 @@ public class CommentService {
                     notificationService.createNotification(answer.getMember(), NotificationType.ANSWER, content, url)
             );
             notificationService.send(notification);
-            emailService.sendMail(answer.getMember(), content, url);
+            if(answer.getMember().getEmailAlarm()) {
+                emailService.sendMail(answer.getMember(), content, url);
+            }
         }
 
         return commentRepository.save(comment).getId();
@@ -94,7 +96,9 @@ public class CommentService {
                     notificationService.createNotification(answer.getMember(), NotificationType.ANSWER, content, url)
             );
             notificationService.send(notification);
-            emailService.sendMail(answer.getMember(), content, url);
+            if(answer.getMember().getEmailAlarm()) {
+                emailService.sendMail(answer.getMember(), content, url);
+            }
         }
         return commentRepository.save(childComment).getId();
     }
