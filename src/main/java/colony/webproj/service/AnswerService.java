@@ -85,9 +85,10 @@ public class AnswerService {
             Notification notification = notificationRepository.save(
                     notificationService.createNotification(post.getMember(), NotificationType.ANSWER, content, url)
             );
-
             notificationService.send(notification);
-            emailService.sendMail(post.getMember(), content, url);
+            if(post.getMember().getEmailAlarm()) {
+                emailService.sendMail(post.getMember(), content, url);
+            }
         }
 
         return savedAnswer;

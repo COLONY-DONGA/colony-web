@@ -29,7 +29,7 @@ public class EmailService {
             mimeMessageHelper.setSubject("콜로니 웹 사이트에 새로운 알림이 있습니다."); // 메일 제목
 
             //todo: 배포 시 경로 변경
-            mimeMessageHelper.setText(content + "<br>" + "localhost:8080/" + url, true); // 메일 본문 내용, HTML 여부
+            mimeMessageHelper.setText(content + "<br>" + "localhost:8080" + url, true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
             log.info("Success");
