@@ -848,29 +848,33 @@ body {
 }
 
 .btn {
-  text-align: right;
   margin-right: 2rem;
   outline: none;
+  text-align: center;
 }
 
 .qabtn {
-  width: 80px;
+  width: 115px;
   height: 40px;
-  border: 1px solid #000000;
+  /* border: 1px solid #000000; */
   /* font-family: 'Courier New', Courier, monospace; */
   font-weight: 520;
   font-size: 1em;
-  background: transparent;
+  background-color: #89e888; /* Change the background color */
+  color: white; /* Set the text color to white */
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  align-items: center; /* 수직 중앙 정렬 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
-  margin-left: 30rem;
+  margin-left: 5px; /* Add a margin value as needed */
+  border-radius: 4px;
+  border-style: none;
+  gap: 4px;
 }
 
 .qabtn:hover {
+  /* Hover effect remains unchanged */
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
     4px 4px 5px 0px #0001;
 }
@@ -894,10 +898,11 @@ body {
    */
   width: 80px;
   height: 40px;
-  border: 1px solid #000000;
+  border: 0.8px solid #c3c3c3;
   /* font-family: 'Courier New', Courier, monospace; */
   font-weight: 520;
   font-size: 1em;
+  color: #555555;
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -916,7 +921,7 @@ body {
 .deletebtn {
   width: 80px;
   height: 40px;
-  border: 1px solid #000000;
+  border: 0.8px solid #c3c3c3;
   /* font-family: 'Courier New', Courier, monospace; */
   font-weight: 520;
   font-size: 1em;
@@ -928,6 +933,7 @@ body {
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   margin-right: 100;
+  color: #555555;
 }
 
 .deletebtn:hover {
@@ -936,14 +942,14 @@ body {
 }
 .tool-box {
   background-color: #fffefec0;
-  height: 4rem;
+  height: 5rem;
   margin: 1rem auto;
   width: 54rem;
-  border-radius: 1rem;
-  border: 0px solid rgba(179, 159, 159, 0.608);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 0.2rem;
+  border: 1px solid #89e888;
+
   display: flex;
-  justify-content: flex-start; /* 변경: 가로로 오른쪽 정렬 */
+
   align-items: center; /* 세로로 중앙 정렬 */
 }
 
@@ -953,27 +959,6 @@ body {
   margin-right: 5px; /* 버튼들 사이의 간격을 조정할 수 있습니다. */
 }
 
-.answer-text-box {
-  background-color: #ffffffc0;
-  height: 10rem;
-  margin: 1rem auto;
-  top: 0;
-  width: 54rem;
-  border: 0px solid rgba(179, 159, 159, 0.608);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-}
-
-.answer-text {
-  width: 100%;
-  height: 100%; /* 박스의 100% 높이를 사용합니다 */
-  resize: none; /* 크기 조정을 막습니다 */
-  box-sizing: border-box; /* 테두리와 패딩이 박스 크기에 포함되도록 box-sizing을 설정합니다 */
-  padding: 10px; /* 내용과 테두리 사이의 간격을 지정합니다 */
-  font-size: 1.3em; /* 텍스트의 크기를 1.2배로 늘립니다 */
-  white-space: pre-wrap; /* 문단 구분을 위한 줄 바꿈을 적용합니다 */
-}
 .comment-text-box {
   background-color: #ffffffc0;
   margin: 1rem auto;
@@ -1000,15 +985,6 @@ body {
   background-color: #c3c3c36a; /* 새롭게 달리는 댓글들의 배경색을 회색으로 변경합니다 */
   border-color: #ffffff6a;
   padding: 0px;
-}
-
-.new-comment-btn {
-  background-color: #f1ecec99;
-  border-radius: 0.5rem;
-  height: 1.5rem;
-  width: 3rem;
-  margin-left: 43rem;
-  margin-bottom: rem;
 }
 
 .likeButton {
@@ -1053,11 +1029,6 @@ a {
 
 ul {
   list-style-type: none;
-}
-
-body {
-  font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
-  background: #dee1e3;
 }
 
 /** ====================
@@ -1327,4 +1298,228 @@ body {
 
 #like:hover {
   color: red; /* 바뀔 색상 */
+}
+
+/* 0728 css 재조정 */
+
+.body {
+  --c-primary: #ed234b;
+  --c-primary-rgb: 237, 35, 75;
+  --c-primary-darken: #b50f30;
+  --c-secondary: #ff7450;
+  --c-secondary-rgb: 255, 116, 80;
+  --c-secondary-darken: #ff6037;
+  --font-base: 'Pretendard Variable', pretendard, -apple-system, blinkmacsystemfont, system-ui,
+    roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+.qaDetail-frame {
+  font-size: 1.4rem;
+  line-height: 1.5714285714;
+}
+
+.q-box {
+  background-color: #ffffffc0;
+  max-height: 100%; /* 최대 높이를 100%로 설정 */
+  overflow: hidden; /* 스크롤바 숨김 */
+  margin: 1rem auto;
+  top: 0;
+  width: 54rem;
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  border-color: #000000;
+  box-sizing: border-box; /* border와 padding을 포함하여 크기를 계산합니다 */
+}
+
+.answer-text {
+  width: 100%;
+  height: 100%; /* 박스의 100% 높이를 사용합니다 */
+  resize: none; /* 크기 조정을 막습니다 */
+  box-sizing: border-box; /* 테두리와 패딩이 박스 크기에 포함되도록 box-sizing을 설정합니다 */
+  padding: 10px; /* 내용과 테두리 사이의 간격을 지정합니다 */
+  font-size: 1.3em; /* 텍스트의 크기를 1.2배로 늘립니다 */
+  white-space: pre-wrap; /* 문단 구분을 위한 줄 바꿈을 적용합니다 */
+}
+
+.question-title {
+  font-size: 2em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.question-info {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.question-info-writer {
+  font-weight: 200;
+  font-size: 0.8rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+}
+
+.question-info-date {
+  font-weight: 200;
+  font-size: 0.8rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+}
+
+.small-line {
+  font-weight: 200;
+  font-size: 0.8rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+  margin-left: 5px;
+  margin-right: 5px;
+  display: inline; /* display 속성을 inline으로 설정 */
+}
+
+.question-area {
+  font-weight: 150;
+  font-size: 1rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+  margin-top: 2rem;
+}
+/* This class will be added to the answer-text-box when you want to show its content */
+.answer-text-box.expanded {
+  max-height: none;
+}
+
+.answer-box {
+  background-color: #ffffffc0;
+  height: auto; /* Change to auto */
+  margin: 1rem auto;
+  top: 0;
+  width: 54rem;
+  position: relative;
+
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  max-height: none; /* Adjust this value as needed */
+  overflow: hidden;
+  transition: max-height 0.3s ease; /* Add smooth transition */
+}
+
+.answer-text {
+  height: auto; /* Change to auto */
+  white-space: pre-wrap; /* 문단 구분을 위한 줄 바꿈을 적용합니다 */
+  font-weight: 150;
+  color: rgb(36, 35, 35); /* Corrected the font-style property */
+}
+
+.answer-area {
+  font-size: 1rem; /* Change to your desired value */
+  color: rgb(43, 42, 42); /* Corrected the font-style property */
+
+  /* 요소가 컨텐츠에 맞게 늘어나도록 설정 */
+  height: auto;
+  max-height: none; /* 기본값인 none으로 설정 */
+  overflow-y: auto; /* 세로 스크롤바를 감춤 */
+}
+
+.answer-title {
+  font-size: 2em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.answer-info {
+  width: 100%;
+  display: flex;
+  margin-left: 0rem;
+}
+
+.answer-info-writer {
+  font-weight: 200;
+  font-size: 0.8rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+}
+
+.answer-info-date {
+  font-weight: 200;
+  font-size: 0.8rem;
+  font-style: rgb(120, 116, 116) (36, 35, 35);
+}
+
+.answer-number {
+  color: red;
+}
+
+.-box {
+  background-color: #fffefec0;
+  height: 4rem;
+  margin: 1rem auto;
+  width: 54rem;
+  border-radius: 1rem;
+  border: 0px solid rgba(179, 159, 159, 0.608);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: flex-start; /* 변경: 가로로 오른쪽 정렬 */
+  align-items: center; /* 세로로 중앙 정렬 */
+}
+
+.heart-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  transition: color 0.3s ease;
+  color: rgb(176, 175, 175);
+}
+
+.heart-button:hover {
+  color: red;
+}
+
+.heart-button-use {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  transition: color 0.3s ease;
+  color: red;
+}
+
+.horizontal-line {
+  width: 100%;
+  height: 3px;
+  background-color: #aeebae;
+}
+
+.new-comment-btn {
+  width: 115px;
+  height: 40px;
+  /* border: 1px solid #000000; */
+  /* font-family: 'Courier New', Courier, monospace; */
+  font-weight: 520;
+  font-size: 1em;
+  background-color: #f89494; /* Change the background color */
+  color: white; /* Set the text color to white */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  margin-left: 5px; /* Add a margin value as needed */
+  border-radius: 4px;
+  border-style: none;
+  gap: 4px;
+  align-items: center;
+}
+
+.new-comment-btn:hover {
+  /* Hover effect remains unchanged */
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+}
+
+.likecount {
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+  font-size: 0.8rem;
+  line-height: 0.5rem;
 }

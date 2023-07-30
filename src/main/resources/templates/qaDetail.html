@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../static/css/qaDetail.css" />
-    <!--고칠부분-->
+    <link rel="stylesheet" href="../static/css/headerfooter.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <title>질문 세부 페이지</title>
+    <!--test2에서 임시 작업 중입니다!-->
   </head>
 
   <body>
@@ -44,14 +44,10 @@
               <td id="post-writer" class="question-title" th:text="${postDto.createdBy}">name</td>
               <!--시큐리티 변수-->
             </tr>
-            <tr class="article-info">
+            <!--<tr class="article-info">
               <th>날짜</th>
               <td th:text="${postDto.updatedAt}">date</td>
-              <!--수정~-->
-              <th>좋아요</th>
-              <td id="qlikeCount">0</td>
-              <button id="qlikeBtn" class="likeButton">좋아요</button>
-            </tr>
+            </tr> -->
             <tr class="article-body">
               <!--내용칸-->
               <td colspan="4" th:text="${postDto.content}">Q. question area</td>
@@ -70,20 +66,53 @@
         </div>
       </div>
 
-      <div class="answer-text-box">
-        <div class="answer-text" th:text="테스트"></div>
+      <!--버튼바들-->
+      <div class="tool-box" id="question-tool-box">
+        <h6>
+          &nbsp 작성일자 :
+          <td th:text="${postDto.updatedAt}">date</td>
+        </h6>
+        <div class="btn">
+          <button class="qabtn" id="qabtn">답변하기</button>
+          <!--<button class="listbtn" id="listbtn">목록</button>-->
+          <button class="editbtn" id="editbtn">수정</button>
+          <button class="deletebtn" id="deletebtn">삭제</button>
+          <!--<a href="#" class="btn green rounded">Button</a>-->
+        </div>
       </div>
 
-      --------------------------------
-      <!--파일-->
+      <br />
+      <br />
 
-      <div class="btn">
-        <button type="button" class="qabtn" id="qabtn">답변 등록</button>
-        <button class="listbtn" id="listbtn">목록</button>
-        <button class="editbtn" id="editbtn">수정</button>
-        <button class="deletebtn" id="deletebtn">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
+      <br />
+
+      <div class="answer-text-box" id="answer-text-box">
+        <div
+          th:each="answer : ${answerList}"
+          class="answer-text"
+          id="answer-text-box-[[${answer.id}]]"
+        >
+          <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
+          <span th:text="${'A. : ' + answer.content}">Q.답변데이터</span>
+        </div>
       </div>
+      <div class="answer-box"></div>
+    </div>
+
+    <!--파일-->
+    --파일,이미지 기능
+
+    <div class="tool-box" id="answer-tool-box">
+      <tr class="article-info">
+        좋아요수~
+        <i class="fa fa-heart" id="answer-like"></i>
+        <i class="fa fa-trash" id="answer-deletebtn"></i>
+        <div class="btn">
+          <button class="editbtn" id="editbtn">수정</button>
+          <button class="deletebtn" id="deletebtn">삭제</button>
+          <!--<a href="#" class="btn green rounded">Button</a>-->
+        </div>
+      </tr>
     </div>
 
     <br />
@@ -108,10 +137,10 @@
         window.open('/answer/' + postId, 'aEnroll');
       });
 
-      var listbtn = document.getElementById('listbtn'); //목록 버튼
+      /*var listbtn = document.getElementById('listbtn'); //목록 버튼
       listbtn.addEventListener('click', function () {
         location.href = '/post-list';
-      });
+      });*/
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
@@ -127,6 +156,7 @@
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
       }
+      //관리자일때도 권한 추가해야함
 
       //좋아요 기능 구현(질문글 좋아요)
       var qlikeCount = 0;
