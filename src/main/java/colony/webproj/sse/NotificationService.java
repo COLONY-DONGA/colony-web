@@ -1,6 +1,7 @@
 package colony.webproj.sse;
 
 import colony.webproj.entity.Member;
+import colony.webproj.sse.dto.NotificationCountDto;
 import colony.webproj.sse.dto.NotificationDto;
 import colony.webproj.sse.model.Notification;
 import colony.webproj.sse.model.NotificationContent;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
     private final EmitterRepository emitterRepository = new EmitterRepositoryImpl();
     private final NotificationRepository notificationRepository;
@@ -137,6 +139,13 @@ public class NotificationService {
         checkNotification.read(); // 읽음처리
     }
 
+    public NotificationCountDto countUnReadNotifications(Long memberId) {
+        //유저의 알람리스트에서 ->isRead(false)인 갯수를 측정 ,
+        Long count = notificationRepository.countUnReadNotifications(memberId);
+        return NotificationCountDto.builder()
+                .count(count)
+                .build();
+    }
 
     @Transactional
     public void deleteByNotifications(Long notificationId) {

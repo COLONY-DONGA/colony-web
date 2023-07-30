@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/loginRegister.css" />
+    <title>Login & Register</title>
+  </head>
+
+  <body>
+    <div id="container" class="container">
+      <!-- FORM SECTION -->
+      <div class="row">
+        <!-- SIGN UP -->
+        <div class="col align-items-center flex-col sign-up">
+          <div class="form-wrapper align-items-center">
+            <form action="/join" method="post">
+              <div class="form sign-up">
+                <div class="input-group">
+                  <i class="bx bx-mail-send"></i>
+                  <input name="loginId" type="text" placeholder="loginId" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-lock-alt"></i>
+                  <input name="password" type="password" placeholder="password" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="nickname" type="text" placeholder="nickname" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="nickname" type="text" placeholder="nickname" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="nickname" type="text" placeholder="nickname" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="nickname" type="text" placeholder="nickname" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="nickname" type="text" placeholder="nickname" />
+                </div>
+                <button type="submit">Sign up</button>
+                <p>
+                  <b onclick="toggle()" class="pointer"> Sign in here </b>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- END SIGN UP -->
+        <!-- SIGN IN -->
+        <div class="col align-items-center flex-col sign-in">
+          <div class="form-wrapper align-items-center">
+            <form action="/login" method="post">
+              <div class="form sign-in">
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="loginId" type="text" placeholder="Username" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-lock-alt"></i>
+                  <input name="password" type="password" placeholder="Password" />
+                </div>
+                <button type="submit">Sign in</button>
+                <p>
+                  <b onclick="toggle()" class="pointer"> Sign up here </b>
+                </p>
+              </div>
+            </form>
+          </div>
+          <div class="form-wrapper"></div>
+        </div>
+        <!-- END SIGN IN -->
+      </div>
+      <!-- END FORM SECTION -->
+      <!-- CONTENT SECTION -->
+      <div class="row content-row">
+        <!-- SIGN IN CONTENT -->
+        <div class="col align-items-center flex-col">
+          <div class="text sign-in">
+            <h2>Welcome</h2>
+          </div>
+          <div class="img sign-in"></div>
+        </div>
+        <!-- END SIGN IN CONTENT -->
+        <!-- SIGN UP CONTENT -->
+        <div class="col align-items-center flex-col">
+          <div class="img sign-up"></div>
+          <div class="text sign-up">
+            <h2>Join with us</h2>
+          </div>
+        </div>
+        <!-- END SIGN UP CONTENT -->
+      </div>
+      <!-- END CONTENT SECTION -->
+    </div>
+
+    <script th:inline="javascript">
+      var errorMessage = /*[[${errorMessage}]]*/ '';
+    </script>
+
+    <script>
+      let container = document.getElementById('container');
+
+      toggle = () => {
+        container.classList.toggle('sign-in');
+        container.classList.toggle('sign-up');
+      };
+
+      setTimeout(() => {
+        container.classList.add('sign-in');
+      }, 200);
+
+      $(function () {
+        function displayErrorMessage(errorMessage) {
+          alert(errorMessage);
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('exception');
+        console.log(errorMessage);
+        if (errorMessage) {
+          const decodedErrorMessage = decodeURIComponent(errorMessage);
+          displayErrorMessage(decodedErrorMessage);
+        }
+      });
+
+      $(function () {
+        if (errorMessage === '이미 가입된 회원입니다.') {
+          alert(errorMessage);
+        }
+      });
+    </script>
+  </body>
+</html>

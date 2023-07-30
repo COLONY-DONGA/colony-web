@@ -1,6 +1,7 @@
 package colony.webproj.sse;
 
 import colony.webproj.security.PrincipalDetails;
+import colony.webproj.sse.dto.NotificationCountDto;
 import colony.webproj.sse.dto.NotificationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,12 @@ public class NotificationController {
         notificationService.readNotification(notificationId);
     }
 
+    //알림 조회 - 구독자가 현재 읽지않은 알림 갯수
+    @GetMapping(value = "/notifications/count")
+    @ResponseBody
+    public NotificationCountDto countUnReadNotifications(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return notificationService.countUnReadNotifications(principalDetails.getId());
+    }
 
     //단일 알림 삭제
 //    @DeleteMapping(value = "/notifications/delete/{notificationId}")

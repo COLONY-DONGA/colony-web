@@ -9,13 +9,13 @@
         margin: 0;
         padding: 0;
         font-size: 100%;
-        font-family: Arial, sans-serif;
+        font-family: 'Roboto', Arial, sans-serif;
         text-decoration: none;
     }
 
     /* Global styles */
     body {
-        background-color: #f0f0f0;
+        background-color: #fafafa;
         color: #333;
         line-height: 1.6;
     }
@@ -30,6 +30,8 @@
     .notification-box h2 {
         text-align: center;
         margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: bold;
     }
 
     /* Notification item styles */
@@ -42,12 +44,12 @@
     .notification-item {
         width: 45%;
         margin-bottom: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
+        background-color: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s ease;
+        transition: 0.3s;
     }
 
     .notification-item:hover {
@@ -59,6 +61,7 @@
         color: #007bff;
         display: block;
         text-align: center;
+        font-weight: 500;
     }
 
     /* Animation styles */
@@ -85,8 +88,8 @@
     <h2>알림 목록</h2>
     <div class="notification-list">
         <!-- 타임리프를 사용하여 알림 목록 데이터를 동적으로 표시합니다. -->
-        <div th:each="notification, iterStat : ${notificationDtoList}"
-             class="notification-item" th:style="'--animation-order: ' + ${iterStat.count}">
+        <div th:each="notification : ${notificationDtoList}"
+             class="notification-item">
             <a th:href="${notification.url}">
                 <p th:text="${notification.content}"></p>
             </a>

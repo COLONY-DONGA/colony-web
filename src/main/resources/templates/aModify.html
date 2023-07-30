@@ -29,14 +29,23 @@
             ></textarea>
           </div>
           <div class="item2">
-            <input type="file" id="file-input" name="imageList" style="display: none" multiple />
+            <input
+              type="file"
+              id="file-input"
+              name="imageList"
+              accept="image/*"
+              style="display: none"
+              multiple
+            />
             <label for="file-input" class="add_file">📁Add file</label>
             <button type="button" class="submit_btn">수정</button>
             <button type="button" class="cancel_btn">취소</button>
           </div>
         </form>
         <div id="file-list-box">
-          <ul id="file-list"></ul>
+          <ul id="file-list">
+            <!-- 여기에 질문 등록 페이지에서 등록했었던 이미지를 추가할 예정 -->
+          </ul>
         </div>
       </div>
     </div>
@@ -150,6 +159,36 @@
 
         img.src = src;
       }
+
+      // 이전에 업로드한 이미지를 표시하는 함수
+      function displayUploadedImages() {
+        // 일단 이미지 하드 코딩
+        let uploadedImages = ['/img/colony.jpg', '/img/colony.jpg', '/img/colony.jpg'];
+
+        uploadedImages.forEach((imageUrl) => {
+          let listItem = document.createElement('li');
+          listItem.classList.add('file-list-item');
+
+          let filePreview = document.createElement('img');
+          filePreview.classList.add('file-preview');
+          filePreview.src = imageUrl;
+          listItem.appendChild(filePreview);
+
+          let deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Delete';
+          deleteButton.classList.add('delete-btn');
+
+          deleteButton.addEventListener('click', () => {
+            listItem.remove();
+            // 해당 이미지를 서버에서 삭제하는 로직을 추가할 예정
+          });
+
+          listItem.appendChild(deleteButton);
+          fileList.appendChild(listItem);
+        });
+      }
+
+      displayUploadedImages();
 
       submitBtn.addEventListener('click', () => {
         let formData = new FormData(document.querySelector('form'));
