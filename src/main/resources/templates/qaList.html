@@ -150,7 +150,7 @@
         <label for="searchType">검색 종류:</label>
         <select id="searchType" name="searchType" th:value="${searchType}">
           <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
-            이름으로 검색
+            닉네임으로 검색
           </option>
           <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
             제목으로 검색

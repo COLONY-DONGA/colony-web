@@ -32,13 +32,13 @@ header img {
   width: 5rem;
   height: 5rem;
   cursor: pointer;
-  margin-left: 11rem;
+  margin-left: 3rem;
 }
 header .colony {
   font-weight: bold;
   font-size: 1.3rem;
   position: absolute;
-  left: 16rem;
+  left: 8rem;
 }
 header .welcome {
   position: absolute;
@@ -125,29 +125,106 @@ header nav ul li:last-child::after {
 body {
   padding-top: 100px;
 }
+.notification-container {
+  position: absolute;
+  top: 1.5rem;
+  right: 3rem;
+  transform: translateY(-50%);
+}
+#notification-icon {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+#notification-icon:hover {
+  color: #7367f0;
+}
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  width: 18px;
+  height: 18px;
+  background-color: #ff4136;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+.show-badge {
+  display: flex;
+}
+.header .welcome {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -45%);
+  text-align: center;
+}
+.notification-container {
+  position: absolute;
+  top: 50%;
+  right: 3rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .header .welcome {
+    left: 45%;
+  }
+  .notification-container {
+    right: 2.5rem;
+  }
+}
+.header-notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 250px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 9999;
+}
+.header-notification-item {
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+.header-notification-item:last-child {
+  border-bottom: none;
+}
+.notification-button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  outline: none;
+}
+.notification-button:hover .fa-bell {
+  color: #7367f0;
+}
 /* 푸터 */
 footer {
   text-align: center;
 }
 footer li {
   list-style: none;
-}
-
-
-
-
-
-.notification-box {
-  /* 오른쪽 상단에 배치하도록 조정합니다. */
-  position: absolute;
-  top: 1.5rem;
-  right: 3rem;
-  transform: translateY(-50%);
-}
-
-#notification-icon {
-  position: relative;
-  display: inline-block;
-  padding: 0.5rem;
-  color: #333;
 }

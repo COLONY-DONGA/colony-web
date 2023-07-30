@@ -9,6 +9,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
@@ -40,23 +42,25 @@
               </li>
               <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
               <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
+
+              <div class="notification-container">
+                <button type="button" id="notification-icon" class="notification-button">
+                  <i class="fa fa-bell"></i>
+                  <span class="notification-badge">0</span>
+                  Notice
+                </button>
+                <div
+                  id="notification-dropdown"
+                  class="header-notification-dropdown"
+                  style="display: none"
+                ></div>
+              </div>
             </ul>
-            <!-- 알림 (자, 나중에 위치 수정) -->
-            <div class="notification-box">
-              <!-- 알림 아이콘을 오른쪽 상단에 배치합니다. -->
-              <a href="#" id="notification-icon">
-                <i class="fa fa-bell"></i>
-                <span class="notification-badge">0</span>
-                알림
-              </a>
-            </div>
           </nav>
         </div>
       </div>
     </header>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
       document.querySelector('.logo').addEventListener('click', () => {
         location.href = '/post-list';
@@ -94,11 +98,50 @@
           }
         };
 
-        // 알림 아이콘을 클릭하는 경우를 처리합니다.
-        $('#notification-icon').on('click', function () {
-          $('.notification-badge').removeClass('show-badge').text('0'); // 뱃지 카운트를 초기화합니다.
-          location.href = '/notifications';
+        // // 알림 아이콘을 클릭하는 경우를 처리합니다.
+        // $('#notification-icon').on('click', function () {
+        //   $('.notification-badge').removeClass('show-badge').text('0'); // 뱃지 카운트를 초기화합니다.
+        //   location.href = '/notifications';
+        // });
+
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        // 알림 아이콘 클릭 이벤트 핸들러
+        notificationIcon.addEventListener('click', function (e) {
+          if (notificationDropdown.style.display === 'none') {
+            notificationDropdown.style.display = 'block';
+            fetchNotifications();
+          } else {
+            notificationDropdown.style.display = 'none';
+          }
         });
+
+        // 알림 데이터를 가져와 알림 드롭다운에 로드
+        async function fetchNotifications() {
+          try {
+            const res = await fetch('/notifications');
+            const data = await res.json();
+
+            // 알림 드롭다운 초기화
+            notificationDropdown.innerHTML = '';
+
+            data.forEach((notification) => {
+              // 알림 항목 생성
+              const notificationItem = document.createElement('div');
+              notificationItem.className = 'notification-item';
+
+              const link = document.createElement('a');
+              link.href = notification.url;
+              link.textContent = notification.content;
+
+              notificationItem.appendChild(link);
+              notificationDropdown.appendChild(notificationItem);
+            });
+          } catch (error) {
+            console.error('Error fetching notifications:', error);
+          }
+        }
       });
     </script>
   </body>
