@@ -39,10 +39,11 @@ public class NotificationController {
 
     //알림조회
     @GetMapping("/notifications")
-    public String findAllNotifications(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+    @ResponseBody
+    public List<NotificationDto> findAllNotifications(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         List<NotificationDto> notificationDtoList = notificationService.findAllNotifications(principalDetails.getId());
         model.addAttribute("notificationDtoList", notificationDtoList);
-        return "alarmList";
+        return notificationDtoList;
     }
 
     //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
