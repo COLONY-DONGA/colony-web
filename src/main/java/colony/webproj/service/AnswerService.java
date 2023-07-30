@@ -10,7 +10,11 @@ import colony.webproj.repository.imageRepository.ImageRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
 import colony.webproj.sse.NotificationService;
+import colony.webproj.sse.model.Notification;
+import colony.webproj.sse.model.NotificationContent;
 import colony.webproj.sse.model.NotificationType;
+import colony.webproj.sse.model.RelatedURL;
+import colony.webproj.sse.repository.NotificationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +43,9 @@ public class AnswerService {
     private final CommentRepository commentRepository;
 
     private final NotificationService notificationService;
+    private final EmailService emailService;
+    private final NotificationRepository notificationRepository;
+
 
     /**
      * 답변 저장
@@ -75,7 +82,12 @@ public class AnswerService {
 
         //본인의 게시글에 답변할 땐 알림 x
         if(!Objects.equals(member.getId(), post.getMember().getId())) {
-            notificationService.send(post.getMember(), NotificationType.ANSWER, content, url);
+            Notification notification = notificationRepository.save(
+                    notificationService.createNotification(post.getMember(), NotificationType.ANSWER, content, url)
+            );
+
+            notificationService.send(notification);
+            emailService.sendMail(post.getMember(), content, url);
         }
 
         return savedAnswer;

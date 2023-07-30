@@ -27,11 +27,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class NotificationService {
     private final EmitterRepository emitterRepository = new EmitterRepositoryImpl();
     private final NotificationRepository notificationRepository;
-    private final EmailService emailService;
 
     public SseEmitter subscribe(Long userId, String lastEventId) {
         //emitter 하나하나 에 고유의 값을 주기 위해
@@ -97,19 +95,13 @@ public class NotificationService {
      */
 
     @Async
-    public void send(Member receiver, NotificationType notificationType, String content, String url) {
-
+    public void send(Notification notification) {
         //알림 저장
-        Notification notification = notificationRepository.save(createNotification(receiver, notificationType, content, url));
-
-        String receiverId = String.valueOf(receiver.getId());
+        String receiverId = String.valueOf(notification.getReceiver().getId());
         String eventId = receiverId + "_" + System.currentTimeMillis();
 
         //에미터가 있다 -> 현재 접속중이고 알림을 받을 수 있다.
         Map<String, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserId(receiverId);
-        if(emitters.size() == 0 && receiver.getEmailAlarm()) {
-            emailService.sendMail(receiver, notification);
-        }
         emitters.forEach(
                 (key, emitter) -> {
                     emitterRepository.saveEventCache(key, notification);
@@ -117,7 +109,7 @@ public class NotificationService {
                 }
         );
     }
-    private Notification createNotification(Member receiver, NotificationType notificationType, String content, String url) {
+    public Notification createNotification(Member receiver, NotificationType notificationType, String content, String url) {
         return Notification.builder()
                 .receiver(receiver)
                 .notificationType(notificationType)
