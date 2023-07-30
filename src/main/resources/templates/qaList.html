@@ -29,7 +29,6 @@
         border-bottom: 1px solid rgba(58, 58, 58, 0.1);
       }
 
-
       form > div {
         display: flex;
         align-items: center;
@@ -41,7 +40,9 @@
         font-weight: 500;
       }
 
-      select, input, button {
+      select,
+      input,
+      button {
         font-size: 16px;
         padding: 8px 12px;
         border: none;
@@ -51,7 +52,9 @@
         outline: none;
       }
 
-      select:hover, input:hover, button:hover {
+      select:hover,
+      input:hover,
+      button:hover {
         background-color: #d1d1d1;
       }
 
@@ -114,23 +117,24 @@
       }
 
       .search-sort-container {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-          padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 20px 0;
       }
 
       /* Responsive styles */
       @media (max-width: 768px) {
-          form {
-              flex-direction: column;
-              gap: 10px;
-          }
+        form {
+          flex-direction: column;
+          gap: 10px;
+        }
 
-          select, input {
-              width: 100%;
-          }
+        select,
+        input {
+          width: 100%;
+        }
       }
     </style>
   </head>
@@ -143,10 +147,10 @@
         <label for="searchType">검색 종류:</label>
         <select id="searchType" name="searchType" th:value="${searchType}">
           <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
-            이름
+            닉네임으로 검색
           </option>
           <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
-            제목
+            제목으로 검색
           </option>
         </select>
         <input

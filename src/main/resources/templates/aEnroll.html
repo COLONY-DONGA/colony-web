@@ -154,16 +154,15 @@
       submitBtn.addEventListener('click', () => {
         let formData = new FormData(document.querySelector('form'));
         document.querySelector('form').submit();
-
         setTimeout(() => {
           window.opener.location.reload();
           window.close();
-        }, 100);
+        }, 50);
       });
 
       cancelBtn.addEventListener('click', () => {
         document.querySelector('.text_box').value = '';
-        history.back();
+        window.close();
       });
     </script>
   </body>
