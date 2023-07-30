@@ -36,14 +36,6 @@ public class NotificationController {
         return notificationService.subscribe(principalDetails.getId(), lastEventId);
     }
 
-    // //알림조회
-    // @GetMapping("/notifications")
-    // public String findAllNotifications(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
-    //     List<NotificationDto> notificationDtoList = notificationService.findAllNotifications(principalDetails.getId());
-    //     model.addAttribute("notificationDtoList", notificationDtoList);
-    //     return "alarmList";
-    // }
-
     //알림조회
     @GetMapping("/notifications")
     @ResponseBody
