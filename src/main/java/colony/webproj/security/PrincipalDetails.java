@@ -1,6 +1,5 @@
 package colony.webproj.security;
 
-import colony.webproj.dto.MemberDto;
 import colony.webproj.entity.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

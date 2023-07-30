@@ -54,6 +54,10 @@ dependencies {
 	implementation 'org.springframework:spring-messaging:6.0.3'
 	implementation 'org.springframework.security:spring-security-messaging:6.0.2'
 
+	//email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'

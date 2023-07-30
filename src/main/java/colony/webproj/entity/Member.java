@@ -21,6 +21,9 @@ public class Member extends BaseEntity {
     private String nickname; //닉네임
     private String phoneNumber; //전화번호
     private String department; //학과
+    private String email; //이메일
+    @Builder.Default
+    private Boolean emailAlarm = false; // 이메일 수신 동의 여부
 
     @Enumerated(value = EnumType.STRING)
     private Role role; //권한

@@ -1,6 +1,7 @@
 package colony.webproj.sse;
 
 import colony.webproj.entity.Member;
+import colony.webproj.service.EmailService;
 import colony.webproj.sse.dto.NotificationCountDto;
 import colony.webproj.sse.dto.NotificationDto;
 import colony.webproj.sse.model.Notification;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class NotificationService {
     private final EmitterRepository emitterRepository = new EmitterRepositoryImpl();
     private final NotificationRepository notificationRepository;
+    private final EmailService emailService;
 
     public SseEmitter subscribe(Long userId, String lastEventId) {
         //emitter 하나하나 에 고유의 값을 주기 위해
@@ -105,6 +107,9 @@ public class NotificationService {
 
         //에미터가 있다 -> 현재 접속중이고 알림을 받을 수 있다.
         Map<String, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserId(receiverId);
+        if(emitters.size() == 0 && receiver.getEmailAlarm()) {
+            emailService.sendMail(receiver, notification);
+        }
         emitters.forEach(
                 (key, emitter) -> {
                     emitterRepository.saveEventCache(key, notification);
