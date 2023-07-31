@@ -42,7 +42,7 @@
               </li>
               <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
               <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
-              <div class="notification-container">
+              <div class="notification-container" sec:authorize="isAuthenticated()">
                 <button type="button" id="notification-icon" class="notification-button">
                   <i class="fa fa-bell"></i>
                   <span class="notification-badge">0</span>
