@@ -146,7 +146,17 @@ public class NotificationService {
     }
 
     @Transactional
-    public void deleteByNotifications(Long notificationId) {
+    public void deleteNotificationById(Long notificationId) {
         notificationRepository.deleteById(notificationId);
+    }
+
+    @Transactional
+    public void deleteNotificationAll(Long memberId) {
+        notificationRepository.deleteAllByMemberId(memberId);
+    }
+
+    @Transactional
+    public void readNotificationAll(Long memberId) {
+        notificationRepository.updateReadAllNotification(memberId);
     }
 }

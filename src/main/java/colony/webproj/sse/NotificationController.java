@@ -48,23 +48,40 @@ public class NotificationController {
 
     //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
     @PostMapping("/notification/read/{notificationId}")
-    public void readNotification(@PathVariable Long notificationId) {
+    @ResponseBody
+    public ResponseEntity<?> readNotification(@PathVariable Long notificationId) {
         notificationService.readNotification(notificationId);
+        return ResponseEntity.ok(true);
+    }
+
+    //회원의 모든 알림 읽음 처리
+    @PostMapping("/notification/readAll")
+    @ResponseBody
+    public ResponseEntity<?> readNotificationAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        notificationService.readNotificationAll(principalDetails.getId());
+        return ResponseEntity.ok(true);
     }
 
     //알림 조회 - 구독자가 현재 읽지않은 알림 갯수
-    @GetMapping(value = "/notifications/count")
+    @GetMapping(value = "/notification/count")
     @ResponseBody
     public NotificationCountDto countUnReadNotifications(@AuthenticationPrincipal PrincipalDetails principalDetails) {
         return notificationService.countUnReadNotifications(principalDetails.getId());
     }
 
-
     //단일 알림 삭제
-//    @DeleteMapping(value = "/notifications/delete/{notificationId}")
-//    public ResponseEntity<Object> deleteNotification(@PathVariable Long notificationId){
-//
-//        notificationService.deleteByNotifications(notificationId);
-//        return new ResponseEntity<>(new StatusResponseDto("알림 목록 삭제 성공",""), HttpStatus.OK);
-//    }
+    @PostMapping(value = "/notification/delete/{notificationId}")
+    @ResponseBody
+    public ResponseEntity<?> deleteNotification(@PathVariable Long notificationId){
+        notificationService.deleteNotificationById(notificationId);
+        return ResponseEntity.ok(true);
+    }
+
+    //모든 알림 삭제
+    @PostMapping(value = "/notification/deleteAll")
+    @ResponseBody
+    public ResponseEntity<?> deleteNotificationAll(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        notificationService.deleteNotificationAll(principalDetails.getId());
+        return ResponseEntity.ok(true);
+    }
 }
