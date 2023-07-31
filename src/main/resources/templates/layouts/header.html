@@ -59,7 +59,7 @@
         </div>
       </div>
     </header>
-    <!--    로그인했는지 확인하기 위한 div 태그-->
+    <!-- 로그인을 했는지 확인하기 위한 div 태그-->
     <div class="welcome" th:attr="data-isloggedin=true" sec:authorize="isAuthenticated()"></div>
 
     <script>
@@ -69,26 +69,24 @@
         location.href = '/post-list';
       });
 
-      // 페이지 로드 시 알림 개수를 가져와 뱃지로 표시하는 함수
       function updateNotificationBadge() {
         $.ajax({
-          type: "GET",
-          url: "/notifications/count",
-          dataType: "json",
+          type: 'GET',
+          url: '/notifications/count',
+          dataType: 'json',
           success: function (data) {
             const notificationCount = parseInt(data.count);
             console.log(notificationCount);
             $('.notification-badge').text(notificationCount);
           },
           error: function (error) {
-            console.error("Error fetching notification count: " + error);
+            console.error('Error fetching notification count: ' + error);
           },
         });
       }
 
-
       $(document).ready(function () {
-        if(isLoggedIn) {
+        if (isLoggedIn) {
           console.log('알람 구독 로직 시작');
           updateNotificationBadge();
 
@@ -112,12 +110,11 @@
               toastr.success('새로운 알림이 도착했습니다.');
 
               $('.notification-badge')
-                      .text(notificationCount + 1)
-                      .addClass('show-badge');
+                .text(notificationCount + 1)
+                .addClass('show-badge');
             }
           };
         }
-
 
         const notificationIcon = document.getElementById('notification-icon');
         const notificationDropdown = document.getElementById('notification-dropdown');
@@ -142,9 +139,32 @@
               const notificationItem = document.createElement('div');
               notificationItem.className = 'notification-item';
 
+              if (notification.status) {
+                notificationItem.classList.add('read-notification');
+              } else {
+                notificationItem.classList.add('unread-notification');
+              }
+
               const link = document.createElement('a');
               link.href = notification.url;
               link.textContent = notification.content;
+
+              link.onclick = async function () {
+                try {
+                  const readRes = await fetch(`/notification/read/${notification.id}`, {
+                    mode: 'cors',
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                  if (!readRes.ok) {
+                    throw new Error('Error marking the notification as read');
+                  }
+                } catch (error) {
+                  console.error('Error marking notification as read:', error);
+                }
+              };
 
               notificationItem.appendChild(link);
               notificationDropdown.appendChild(notificationItem);

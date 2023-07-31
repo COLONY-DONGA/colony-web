@@ -206,11 +206,13 @@ body {
   padding: 10px;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-height: 300px;
+  overflow-y: auto;
   z-index: 9999;
 }
 .notification-item {
   padding: 8px 0;
-  border-bottom: 2px solid #f1f1f1;
+  border-bottom: 2px solid #d3d3d3;
 }
 .notification-item:last-child {
   border-bottom: none;
@@ -221,8 +223,11 @@ body {
   font-weight: 500;
   transition: color 0.3s;
 }
-.notification-item a:hover {
-  color: #007bff;
+.read-notification {
+  background-color: #f1f1f1;
+}
+.unread-notification {
+  background-color: #ffffff;
 }
 /* 푸터 */
 footer {
