@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostService postService;
-    private final CommentService commentService;
     private final AnswerService answerService;
 
     /**
@@ -187,7 +186,6 @@ public class PostController {
     @Data
     @AllArgsConstructor
     static class Response {
-//        private List<CommentDto> commentDtoList;
         private PostDto postDto;
         private List<AnswerDto> answerDtoList;
     }
