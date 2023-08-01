@@ -187,6 +187,17 @@
                       throw new Error('Error deleting the notification');
                     }
                     notificationItem.remove();
+
+                    const remainingNotifications =
+                      document.querySelectorAll('.notification-item').length;
+                    if (remainingNotifications === 0) {
+                      newNotificationActions.style.display = 'none';
+                      const emptyMessage = document.createElement('div');
+                      emptyMessage.className = 'empty-notification-message';
+                      emptyMessage.textContent = '현재 알림이 없습니다';
+                      notificationDropdown.appendChild(emptyMessage);
+                    }
+
                     updateNotificationBadge();
                   } catch (error) {
                     console.error('Error deleting notification:', error);
