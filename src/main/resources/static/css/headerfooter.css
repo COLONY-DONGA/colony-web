@@ -229,6 +229,29 @@ body {
 .unread-notification {
   background-color: #ffffff;
 }
+.delete-btn {
+  cursor: pointer;
+  color: #aaa;
+  float: right;
+  margin-top: 5px;
+}
+.notification-action-btn {
+  cursor: pointer;
+  padding: 7px 14px;
+  margin: 8px 4px;
+  font-size: 13px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  color: #333;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.notification-action-btn:hover {
+  background-color: #e5e5e5;
+  color: #555;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 /* 푸터 */
 footer {
   text-align: center;
