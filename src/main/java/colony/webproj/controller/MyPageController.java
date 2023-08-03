@@ -59,7 +59,6 @@ public class MyPageController {
         return ResponseEntity.ok(true);
     }
 
-
     /**
      * 마이페이지 수정
      */

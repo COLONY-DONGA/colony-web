@@ -48,6 +48,7 @@ public class ImageService {
                     else if (contentType.contains("image/png")) extension = ".png";
                     else {
                         log.info("사진이 아닌 파일입니다.");
+                        //todo: 예외 던지기
                         break; //다른 확장자일 경우 처리 x
                     }
                 }
