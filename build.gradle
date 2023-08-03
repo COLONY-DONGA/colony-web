@@ -35,8 +35,8 @@ dependencies {
 	//validation 적용
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	//mysql 추가
-//	runtimeOnly("com.mysql:mysql-connector-j")
+	//mariadb 추가
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	//devtools 적용
 	implementation 'org.springframework.boot:spring-boot-devtools'
