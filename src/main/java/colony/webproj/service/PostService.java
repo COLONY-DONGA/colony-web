@@ -148,11 +148,7 @@ public class PostService {
         Post post = postRepository.findPostDetail(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
 
-        List<Image> imageEntityList = imageRepository.findByPostId(postId);
-        for(Image image : imageEntityList) {
-            image.setS3Url(imageService.getImgPath(image.getStoreImageName()));
-        }
-        List<ImageDto> imageDtoList = imageEntityList.stream()
+        List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
 

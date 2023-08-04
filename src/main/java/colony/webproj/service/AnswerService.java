@@ -143,6 +143,7 @@ public class AnswerService {
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+
         List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());

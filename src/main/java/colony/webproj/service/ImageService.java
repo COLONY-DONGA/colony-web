@@ -68,7 +68,6 @@ public class ImageService {
                         .originImageName(multipartFile.getOriginalFilename())
                         .storeImageName(storeImageName)
                         .build();
-                fileList.add(image);
 
                 InputStream inputStream = multipartFile.getInputStream();
                 ObjectMetadata metadata = new ObjectMetadata();
@@ -78,9 +77,14 @@ public class ImageService {
                 PutObjectRequest request = new PutObjectRequest(bucket, storeImageName, inputStream, metadata);
                 amazonS3Client.putObject(request);
                 log.info("s3에 사진 저장");
+                String s3Url = getImgPath(storeImageName);
+                image.setS3Url(s3Url);
 
 //                multipartFile.transferTo(new File(getFullPath(storeImageName)));
 //                log.info("로컬에 사진 저장");
+
+                //s3Url 까지 세팅 후 list 에 저장
+                fileList.add(image);
             }
         }
         return fileList;
