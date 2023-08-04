@@ -2,6 +2,10 @@ package colony.webproj.service;
 
 import colony.webproj.entity.Image;
 import colony.webproj.repository.imageRepository.ImageRepository;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +30,14 @@ import java.util.UUID;
 public class ImageService {
 
     private final ImageRepository imageRepository;
+    private final AmazonS3Client amazonS3Client;
+
 
     @Value("${file.dir}")
     private String fileDir;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     /**
      * 이미지 업로드
@@ -60,11 +70,27 @@ public class ImageService {
                         .build();
                 fileList.add(image);
 
-                multipartFile.transferTo(new File(getFullPath(storeImageName)));
-                log.info("로컬에 사진 저장");
+                InputStream inputStream = multipartFile.getInputStream();
+                ObjectMetadata metadata = new ObjectMetadata();
+                metadata.setContentLength(multipartFile.getSize());
+                metadata.setContentType(multipartFile.getContentType());
+
+                PutObjectRequest request = new PutObjectRequest(bucket, storeImageName, inputStream, metadata);
+                amazonS3Client.putObject(request);
+                log.info("s3에 사진 저장");
+
+//                multipartFile.transferTo(new File(getFullPath(storeImageName)));
+//                log.info("로컬에 사진 저장");
             }
         }
         return fileList;
+    }
+
+    /**
+     * S3 이미지 반환
+     */
+    public String getImgPath(String fileName) {
+        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
     /**
@@ -72,11 +98,20 @@ public class ImageService {
      * 부모가 지워질 때 cascade 에서 사용
      */
     public void deleteFile(List<Image> imageList) {
+//        //로컬
+//        for (Image image : imageList) {
+//            File file = new File(getFullPath(image.getStoreImageName()));
+//            boolean delete = file.delete();
+//            if (delete) log.info("로컬 파일 삭제 완료");
+//            else log.info("로컬 파일 삭제 실패");
+//        }
+
+        //s3
         for (Image image : imageList) {
-            File file = new File(getFullPath(image.getStoreImageName()));
-            boolean delete = file.delete();
-            if (delete) log.info("로컬 파일 삭제 완료");
-            else log.info("로컬 파일 삭제 실패");
+            String storeImageName = image.getStoreImageName();
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
+            amazonS3Client.deleteObject(deleteObjectRequest);
+            log.info("S3 파일 삭제 완료");
         }
     }
 
@@ -87,10 +122,18 @@ public class ImageService {
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new EntityNotFoundException("이미지 파일이 없습니다."));
         imageRepository.deleteById(image.getId());
-        File file = new File(getFullPath(image.getStoreImageName()));
-        boolean delete = file.delete();
-        if (delete) log.info("로컬 파일 삭제 완료");
-        else log.info("로컬 파일 삭제 실패");
+
+//        //로컬
+//        File file = new File(getFullPath(image.getStoreImageName()));
+//        boolean delete = file.delete();
+//        if (delete) log.info("로컬 파일 삭제 완료");
+//        else log.info("로컬 파일 삭제 실패");
+
+        //s3
+        String storeImageName = image.getStoreImageName();
+        DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
+        amazonS3Client.deleteObject(deleteObjectRequest);
+        log.info("S3 파일 삭제 완료");
     }
 
     /**

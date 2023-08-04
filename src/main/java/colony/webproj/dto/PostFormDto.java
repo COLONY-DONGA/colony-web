@@ -22,7 +22,7 @@ public class PostFormDto {
     private List<MultipartFile> imageList = new ArrayList<>();
 
 
-    private List<ImageDto> imageDtoList = new ArrayList<>(); // 생성할 때는 안 쓰이는 거겠지?
+    private List<ImageDto> imageDtoList = new ArrayList<>();
 
     public PostFormDto(String title, String content, List<MultipartFile> imageList ){
         this.title = title;

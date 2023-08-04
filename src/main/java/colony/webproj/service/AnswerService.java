@@ -171,7 +171,6 @@ public class AnswerService {
         answer.setContent(answerFormDto.getContent());
         //수정하며 추가한 사진 파일 업로드
         List<Image> imageList = imageService.uploadFile(answerFormDto.getImageList());
-
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {

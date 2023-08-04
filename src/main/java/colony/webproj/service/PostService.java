@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +58,7 @@ public class PostService {
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
 
+        System.out.println("받아온 이미지 사이즈: " + postFormDto.getImageList().size());
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장
@@ -145,7 +147,12 @@ public class PostService {
     public PostDto findPostDetail(Long postId) {
         Post post = postRepository.findPostDetail(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
-        List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
+
+        List<Image> imageEntityList = imageRepository.findByPostId(postId);
+        for(Image image : imageEntityList) {
+            image.setS3Url(imageService.getImgPath(image.getStoreImageName()));
+        }
+        List<ImageDto> imageDtoList = imageEntityList.stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
 
