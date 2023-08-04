@@ -30,19 +30,18 @@ public class MyPageController {
      * 답변이랑 댓글 확정
      */
     @GetMapping("/my-page")
-    public ResponseEntity<?> myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+    public String myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         /**
          *  To do 비회원일 때 처리하는 법 나머지 메소드도.
          */
         String loginId = principalDetails.getLoginId();
         MyPageDto myPageDto = memberService.searchMember(loginId);
-//        model.addAttribute("member", myPageDto);    // 좋아요 개수 포함.
-//        model.addAttribute("posts", myPageDto.getPostDto());
-//        model.addAttribute("answers", myPageDto.getAnswerDto());
-//        model.addAttribute("comments", myPageDto.getCommentDto());
-//
-//        return "/memberPage";
-        return ResponseEntity.ok(myPageDto);
+        model.addAttribute("member", myPageDto);    // 좋아요 개수 포함.
+        model.addAttribute("posts", myPageDto.getPostDto());
+        model.addAttribute("answers", myPageDto.getAnswerDto());
+        model.addAttribute("comments", myPageDto.getCommentDto());
+
+        return "/memberPage";
 
     }
 
