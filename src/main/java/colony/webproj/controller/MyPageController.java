@@ -42,6 +42,7 @@ public class MyPageController {
         model.addAttribute("comments", myPageDto.getCommentDto());
 
         return "/memberPage";
+
     }
 
     /**

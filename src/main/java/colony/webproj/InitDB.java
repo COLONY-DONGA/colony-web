@@ -1,8 +1,6 @@
 package colony.webproj;
 
-import colony.webproj.entity.Member;
-import colony.webproj.entity.Post;
-import colony.webproj.entity.Role;
+import colony.webproj.entity.*;
 import colony.webproj.service.MemberService;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -12,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -44,6 +45,7 @@ public class InitDB {
 
             em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 
+            List<Post> posts = new ArrayList<Post>();
             for(int i = 1; i<=12; i++) {
                 Post post = new Post();
                 if (i <= 5) {
@@ -57,6 +59,7 @@ public class InitDB {
                 } else if(i<=12) {
                     post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(true).build();
                 }
+                posts.add(post);
                 em.persist(post);
             }
             for(int i = 1; i<=5; i++) {
@@ -64,6 +67,23 @@ public class InitDB {
                         .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
                 em.persist(member_);
             }
+
+            List<Answer> answers = new ArrayList<Answer>();
+            for(int i =1; i<=5; i++){
+                Answer answer= Answer.builder().content("test"+i).post(posts.get(i-1)).member(member1).build();
+                answers.add(answer);
+                em.persist(answer);
+            }
+
+
+            for(int i =1; i<=5; i++){
+                Comment comment= Comment.builder().content("test comment"+i).answer(answers.get(i-1)).member(member1).build();
+
+                em.persist(comment);
+            }
+
+
+
         }
     }
 }
