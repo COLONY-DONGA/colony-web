@@ -17,6 +17,7 @@ public class Post extends BaseEntity {
     private Long id;
 
     private String title;   // 게시글 제목
+    @Column(columnDefinition = "TEXT")
     private String content; // 본문 내용
     @Builder.Default
     private boolean answered = false; // 답변 완료시 true

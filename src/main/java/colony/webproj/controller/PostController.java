@@ -98,11 +98,6 @@ public class PostController {
     public String savePost( @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
-
-        log.info("답변생성 코드 진입 : " + postFormDto.getTitle().toString());
-        log.info("답변생성 코드 진입 : " + postFormDto.getImageList().get(0).getOriginalFilename().toString());
-
-
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
