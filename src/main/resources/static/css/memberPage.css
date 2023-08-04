@@ -215,18 +215,20 @@
 .history-list {
   max-height: 200px;
   overflow-y: auto;
+  overflow-x: auto;
   margin-bottom: 24px;
 }
 .history-list::-webkit-scrollbar {
-  width: 8px;
-}
-.history-list::-webkit-scrollbar-thumb {
-  height: 30%;
-  background-color: #4caf50;
-  border-radius: 10px;
+  width: 10px;
+  height: 10px;
 }
 .history-list::-webkit-scrollbar-track {
   background-color: #c8e6c9;
+  border-radius: 10px;
+}
+.history-list::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
 }
 .history-item {
   display: block;
@@ -235,6 +237,7 @@
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.3s, background-color 0.3s;
+  white-space: nowrap;
 }
 .history-item:hover {
   background-color: #8acb8d;

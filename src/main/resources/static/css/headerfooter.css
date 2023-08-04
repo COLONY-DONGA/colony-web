@@ -204,11 +204,22 @@ body {
   max-width: 350px;
   background-color: white;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   max-height: 300px;
   overflow-y: auto;
   z-index: 9999;
+}
+.header-notification-dropdown::-webkit-scrollbar {
+  width: 10px;
+}
+.header-notification-dropdown::-webkit-scrollbar-track {
+  background-color: #cccccc;
+  border-radius: 10px;
+}
+.header-notification-dropdown::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
 }
 .notification-item {
   padding: 8px 0;
