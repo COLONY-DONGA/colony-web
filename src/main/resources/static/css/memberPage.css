@@ -213,7 +213,20 @@
   border-bottom: 2px solid #6b9275;
 }
 .history-list {
+  max-height: 200px;
+  overflow-y: auto;
   margin-bottom: 24px;
+}
+.history-list::-webkit-scrollbar {
+  width: 8px;
+}
+.history-list::-webkit-scrollbar-thumb {
+  height: 30%;
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+.history-list::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
 }
 .history-item {
   display: block;
@@ -224,6 +237,6 @@
   transition: color 0.3s, background-color 0.3s;
 }
 .history-item:hover {
-  background-color: #4caf50;
+  background-color: #8acb8d;
   color: white;
 }
