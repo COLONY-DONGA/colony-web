@@ -32,6 +32,21 @@
   margin-right: 10px;
   font-weight: bold;
 }
+#id {
+  margin-left: 4.8rem;
+}
+#name {
+  margin-left: 3rem;
+}
+#nickname {
+  margin-left: 1.05rem;
+}
+#email {
+  margin-left: 2.7rem;
+}
+#phone {
+  margin-left: 2.7rem;
+}
 .my-profile input {
   padding: 6px 12px;
   border: 1px solid #93bfa9;
