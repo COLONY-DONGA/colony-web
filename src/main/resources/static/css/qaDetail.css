@@ -911,6 +911,7 @@ body {
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   margin-right: 100;
+  margin-left: 32rem;
 }
 
 .editbtn:hover {
@@ -1469,6 +1470,7 @@ ul {
   font-size: 24px;
   transition: color 0.3s ease;
   color: rgb(176, 175, 175);
+  margin-left: 1rem;
 }
 
 .heart-button:hover {
