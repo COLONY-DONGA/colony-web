@@ -124,9 +124,9 @@
         <div class="history-list">
           <a
             class="history-item"
-            th:each="post : ${member.postDto}"
+            th:each="post, status : ${member.postDto}"
             th:href="@{'/post/' + ${post.postId}}"
-            th:text="${'Q' + post.postId + '. ' + post.title}"
+            th:text="${'Q' + (status.index + 1) + '. ' + post.title}"
             >Questions</a
           >
         </div>
@@ -134,9 +134,9 @@
         <div class="history-list">
           <a
             class="history-item"
-            th:each="answer : ${member.answerDto}"
+            th:each="answer, status : ${member.answerDto}"
             th:href="@{'/post/' + ${answer.postId}}"
-            th:text="${'A' + answer.answerId + '. ' + answer.content}"
+            th:text="${'A' + (status.index + 1) + '. ' + answer.content}"
             >Answers</a
           >
         </div>
@@ -144,9 +144,9 @@
         <div class="history-list">
           <a
             class="history-item"
-            th:each="comment : ${member.commentDto}"
+            th:each="comment, status : ${member.commentDto}"
             th:href="@{'/post/' + ${comment.postId}}"
-            th:text="${'C' + comment.commentId + '. ' + comment.content}"
+            th:text="${'C' + (status.index + 1) + '. ' + comment.content}"
             >Comments</a
           >
         </div>

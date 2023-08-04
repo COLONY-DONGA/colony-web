@@ -36,11 +36,11 @@ public class InitDB {
                     .name("김진수").department("컴퓨터공학과").nickname("김진짜").phoneNumber("01012345678").email("kimjinsu3206@gmail.com").emailAlarm(true).build();
             Member member2 = Member.builder().loginId("b").password(encoder.encode("b")).role(Role.ROLE_MEMBER)
                     .name("채승지").department("컴퓨터공학과").nickname("채똘복").phoneNumber("01012345678").build();
-            Member member3 = Member.builder().loginId("abcde3").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+            Member member3 = Member.builder().loginId("c").password(encoder.encode("c")).role(Role.ROLE_MEMBER)
                     .name("박태민").department("컴퓨터공학과").nickname("카사노바").phoneNumber("01012345678").build();
-            Member member4 = Member.builder().loginId("abcde4").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+            Member member4 = Member.builder().loginId("d").password(encoder.encode("d")).role(Role.ROLE_MEMBER)
                     .name("박유진").department("컴퓨터공학과").nickname("야경맨").phoneNumber("01012345678").build();
-            Member member5 = Member.builder().loginId("abcde5").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
+            Member member5 = Member.builder().loginId("e").password(encoder.encode("e")).role(Role.ROLE_MEMBER)
                     .name("최유현").department("컴퓨터공학과").nickname("박유진이남친").phoneNumber("01012345678").build();
 
             List<Member> members = new ArrayList<Member>();
@@ -53,7 +53,7 @@ public class InitDB {
             em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 
             List<Post> posts = new ArrayList<Post>();
-            for(int i = 1; i<=12; i++) {
+            for(int i = 1; i<=15; i++) {
                 Post post = new Post();
                 if (i <= 5) {
                     post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
@@ -62,10 +62,13 @@ public class InitDB {
                 } else if(i<=6) {
                     post = Post.builder().title("제목제목제목제목" + i).content("내용" + i).member(member3).answered(false).build();
                 } else if(i<=9) {
-                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(true).build();
+                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(false).build();
                 } else if(i<=12) {
-                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(true).build();
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(false).build();
+                } else if(i<=15) {
+                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
                 }
+
                 posts.add(post);
                 em.persist(post);
             }
@@ -94,11 +97,6 @@ public class InitDB {
                 Likes likes = Likes.builder().answer(answers.get(0)).member(members.get(i)).build();
                 em.persist(likes);
             }
-
-
-
-
-
         }
     }
 }
