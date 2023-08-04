@@ -1,6 +1,5 @@
 /* 헤더 */
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css);
-
 :root {
   --baseColor: #333;
   --blueColor: #22aee5;
@@ -32,13 +31,13 @@ header img {
   width: 5rem;
   height: 5rem;
   cursor: pointer;
-  margin-left: 13rem;
+  margin-left: 3rem;
 }
 header .colony {
   font-weight: bold;
   font-size: 1.3rem;
   position: absolute;
-  left: 18rem;
+  left: 8rem;
 }
 header .welcome {
   position: absolute;
@@ -124,6 +123,134 @@ header nav ul li:last-child::after {
 }
 body {
   padding-top: 100px;
+}
+.notification-container {
+  position: absolute;
+  top: 1.5rem;
+  right: 3rem;
+  transform: translateY(-50%);
+}
+#notification-icon {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.notification-button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  outline: none;
+}
+#notification-icon:hover,
+.notification-button:hover .fa-bell {
+  color: #7367f0;
+}
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  width: 18px;
+  height: 18px;
+  background-color: #ff4136;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+.show-badge {
+  display: flex;
+}
+.header .welcome {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -45%);
+  text-align: center;
+}
+.notification-container {
+  position: absolute;
+  top: 50%;
+  right: 3rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .header .welcome {
+    left: 45%;
+  }
+  .notification-container {
+    right: 2.5rem;
+  }
+}
+.header-notification-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 9999;
+}
+.notification-item {
+  padding: 8px 0;
+  border-bottom: 2px solid #d3d3d3;
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+.notification-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.read-notification {
+  background-color: #f1f1f1;
+}
+.unread-notification {
+  background-color: #ffffff;
+}
+.delete-btn {
+  cursor: pointer;
+  color: #aaa;
+  float: right;
+  margin-top: 5px;
+}
+.notification-action-btn {
+  cursor: pointer;
+  padding: 7px 14px;
+  margin: 8px 4px;
+  font-size: 13px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  color: #333;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.notification-action-btn:hover {
+  background-color: #e5e5e5;
+  color: #555;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 /* 푸터 */
 footer {

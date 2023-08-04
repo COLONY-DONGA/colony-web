@@ -20,6 +20,8 @@ public class JoinFormDto {
     private String name; //이름
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
     private String nickname; //닉네임
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
+    private String email; //닉네임
     @NotBlank(message = "전화번호는 필수 입력 값입니다.")
     private String phoneNumber; //전화번호
     @NotBlank(message = "학과는 필수 입력 값입니다.")

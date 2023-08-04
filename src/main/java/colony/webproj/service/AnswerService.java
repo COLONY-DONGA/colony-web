@@ -9,12 +9,16 @@ import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.imageRepository.ImageRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
-import colony.webproj.sse.Notification;
-import colony.webproj.sse.NotificationRepository;
 import colony.webproj.sse.NotificationService;
+import colony.webproj.sse.model.Notification;
+import colony.webproj.sse.model.NotificationContent;
+import colony.webproj.sse.model.NotificationType;
+import colony.webproj.sse.model.RelatedURL;
+import colony.webproj.sse.repository.NotificationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +26,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +41,11 @@ public class AnswerService {
     private final ImageRepository imageRepository;
     private final CommentService commentService;
     private final CommentRepository commentRepository;
-    private final NotificationRepository notificationRepository;
+
     private final NotificationService notificationService;
+    private final EmailService emailService;
+    private final NotificationRepository notificationRepository;
+
 
     /**
      * 답변 저장
@@ -67,15 +75,22 @@ public class AnswerService {
             }
         }
 
-//        //알림 로직
-//        Notification notification = Notification.builder()
-//                .receiver(post.getMember())
-//                .content(post.getTitle() + " 게시글에 답변이 달렸습니다.")
-//                .url("/post/" + post.getId())
-//                .isRead(false)
-//                .build();
-//        notificationRepository.save(notification);
-//        notificationService.send(post.getMember(), post.getId(), notification.getContent());
+        //todo: 배포하면 url 바꿔야함
+        //알림 로직
+        String url = "/post/" + post.getId();
+        String content = post.getMember().getNickname() + "님! 작성하신 [" + post.getTitle() + "] 질문에 답변이 달렸어요!";
+
+        //본인의 게시글에 답변할 땐 알림 x
+        if(!Objects.equals(member.getId(), post.getMember().getId())) {
+            Notification notification = notificationRepository.save(
+                    notificationService.createNotification(post.getMember(), NotificationType.ANSWER, content, url)
+            );
+            notificationService.send(notification);
+            if(post.getMember().getEmailAlarm()) {
+                emailService.sendMail(post.getMember(), content, url);
+            }
+        }
+
         return savedAnswer;
     }
 

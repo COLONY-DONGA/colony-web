@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostService postService;
-    private final CommentService commentService;
     private final AnswerService answerService;
 
     /**
@@ -51,8 +50,6 @@ public class PostController {
                            @PageableDefault(size = 10) Pageable pageable,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {
-        System.out.println("============");
-        System.out.println(searchValue);
         if(principalDetails == null) {
             model.addAttribute("username", "게스트");
             log.info("비회원 로그인");
@@ -65,8 +62,6 @@ public class PostController {
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
 
-        System.out.println(searchType);
-        System.out.println(sortBy);
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
@@ -191,7 +186,6 @@ public class PostController {
     @Data
     @AllArgsConstructor
     static class Response {
-//        private List<CommentDto> commentDtoList;
         private PostDto postDto;
         private List<AnswerDto> answerDtoList;
     }
