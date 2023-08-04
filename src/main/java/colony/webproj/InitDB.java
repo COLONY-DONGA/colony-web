@@ -43,6 +43,13 @@ public class InitDB {
             Member member5 = Member.builder().loginId("abcde5").password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
                     .name("최유현").department("컴퓨터공학과").nickname("박유진이남친").phoneNumber("01012345678").build();
 
+            List<Member> members = new ArrayList<Member>();
+            members.add(member1);
+            members.add(member2);
+            members.add(member3);
+            members.add(member4);
+            members.add(member5);
+
             em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 
             List<Post> posts = new ArrayList<Post>();
@@ -81,6 +88,14 @@ public class InitDB {
 
                 em.persist(comment);
             }
+
+
+            for (int i =0;i<5;i++){
+                Likes likes = Likes.builder().answer(answers.get(0)).member(members.get(i)).build();
+                em.persist(likes);
+            }
+
+
 
 
 
