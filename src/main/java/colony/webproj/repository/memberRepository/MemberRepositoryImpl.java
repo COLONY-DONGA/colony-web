@@ -94,29 +94,13 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Override
     public MyPageDto findMemberWithLikeCount(String loginId) {
 
-//        Member memberEntity = queryFactory.selectFrom(member)
-//                .leftJoin(member.posts, post)
-//                .leftJoin(member.comments, comment)
-//                .leftJoin(member.answers, answer)
-//                .where(member.loginId.eq(loginId))
-//                .fetchOne();
-        String sql = "SELECT " +
-                "    m.*, " +
-                "    p.*, " +
-                "    c.*, " +
-                "    a.*" +
-                "FROM " +
-                "    member m" +
-                "    LEFT JOIN post p ON m.member_id = p.member_id" +
-                "    LEFT JOIN comment c ON m.member_id = c.member_id" +
-                "    LEFT JOIN answer a ON m.member_id = a.member_id" +
-                "WHERE " +
-                "    m.login_id = :loginId;";
+        Member memberEntity = queryFactory.selectFrom(member)
+                .leftJoin(member.posts, post)
+                .leftJoin(member.comments, comment)
+                .leftJoin(member.answers, answer)
+                .where(member.loginId.eq(loginId))
+                .fetchOne();
 
-
-
-        Member memberEntity =
-                (Member) em.createNativeQuery(sql).setParameter("loginId",loginId).getSingleResult();
 
 
         MyPageDto myPageDto = new MyPageDto(memberEntity);
