@@ -122,43 +122,40 @@
       <div class="my-history-item">
         <div class="history-category">My Questions</div>
         <div class="history-list">
-          <a class="history-item" href="?">Q1. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q2. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
-          <a class="history-item" href="?">Q3. how to learn computer security ??</a>
+          <a
+            class="history-item"
+            th:each="post : ${member.postDto}"
+            th:href="@{'/post/' + ${post.postId}}"
+            th:text="${'Q' + post.postId + '. ' + post.title}"
+            >Questions</a
+          >
         </div>
         <div class="history-category">My Answers</div>
         <div class="history-list">
-          <a class="history-item" href="?">A1. how to learn computer security ??</a>
-          <a class="history-item" href="?">A2. how to learn computer security ??</a>
-          <a class="history-item" href="?">A3. how to learn computer security ??</a>
+          <a
+            class="history-item"
+            th:each="answer : ${member.answerDto}"
+            th:href="@{'/post/' + ${answer.postId}}"
+            th:text="${'A' + answer.answerId + '. ' + answer.content}"
+            >Answers</a
+          >
         </div>
         <div class="history-category">My Comments</div>
         <div class="history-list">
-          <a class="history-item" href="?">C1. how to learn computer security ??</a>
-          <a class="history-item" href="?">C2. how to learn computer security ??</a>
-          <a class="history-item" href="?">C3. how to learn computer security ??</a>
+          <a
+            class="history-item"
+            th:each="comment : ${member.commentDto}"
+            th:href="@{'/post/' + ${comment.postId}}"
+            th:text="${'C' + comment.commentId + '. ' + comment.content}"
+            >Comments</a
+          >
         </div>
         <div class="history-category">My Likes</div>
         <div class="history-list">
-          <a class="history-item" href="?">L1. how to learn computer security ??</a>
-          <a class="history-item" href="?">L2. how to learn computer security ??</a>
-          <a class="history-item" href="?">L3. how to learn computer security ??</a>
+          <div class="like-item">
+            <i class="fa-solid fa-heart" style="color: #ff0000"></i>&nbsp;
+            <div class="like-count" th:text="${member.likesCount}"></div>
+          </div>
         </div>
       </div>
     </div>

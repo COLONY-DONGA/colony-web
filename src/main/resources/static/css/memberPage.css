@@ -240,3 +240,10 @@
   background-color: #8acb8d;
   color: white;
 }
+.like-item {
+  display: flex;
+  align-items: center;
+}
+.like-count {
+  font-size: 14px;
+}
