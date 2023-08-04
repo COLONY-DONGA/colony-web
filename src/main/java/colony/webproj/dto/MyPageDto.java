@@ -2,6 +2,7 @@ package colony.webproj.dto;
 
 import colony.webproj.entity.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Builder
+@Slf4j
 public class MyPageDto {
     private String loginId;
     private String password;
@@ -35,8 +37,12 @@ public class MyPageDto {
         this.department = entity.getDepartment();
         this.likesCount = 0;
 
+        log.info("포스트 작업 1");
+
         // 본인의 게시글(고유아이디, 제목)만 가져옴
         if (entity.getPosts().size() != 0) {
+            log.info("포스트 작업 2");
+
             List<PostDtoForMemberPage> postDtoList = new ArrayList<>();
             for (Post post : entity.getPosts()) {
                 PostDtoForMemberPage postDto = new PostDtoForMemberPage(post.getId(), post.getTitle());
@@ -44,6 +50,7 @@ public class MyPageDto {
             }
             this.postDto = postDtoList;
         }
+        log.info("포스트 작업 끝");
 
         // 본인의 답변(고유아이디, 게시글아이디, 내용)만 가져옴
         if (entity.getAnswers().size() != 0) {
@@ -54,17 +61,21 @@ public class MyPageDto {
             }
             this.answerDto = answerDtoList;
         }
+        log.info("답변 작업 끝");
+
 
         // 본인의 댓글(고유아이디, 답변아이디, 내용)만 가져옴
         if (entity.getComments().size() != 0) {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
 
             for (Comment comment : entity.getComments()) {
-                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getId(), comment.getContent());
+                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getPost().getId() ,comment.getAnswer().getId(), comment.getContent());
                 commentDtoList.add(commentDto);
             }
             this.commentDto = commentDtoList;
         }
+        log.info("댓글 작업 끝");
+
     }
 
     @Getter
@@ -86,6 +97,7 @@ public class MyPageDto {
     @AllArgsConstructor
     public class CommentDtoForMemberPage {
         private Long commentId;
+        private Long postId;
         private Long answerId;
         private String content;
     }

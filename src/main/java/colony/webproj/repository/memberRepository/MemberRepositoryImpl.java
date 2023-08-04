@@ -10,6 +10,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -92,38 +93,33 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
      */
     @Override
     public MyPageDto findMemberWithLikeCount(String loginId) {
-        // First, find the member
-        String memberQuery = "SELECT m FROM Member m WHERE m.loginId = :loginId";
-        Member member = (Member) em.createQuery(memberQuery, Member.class)
-                .setParameter("loginId", loginId)
-                .getSingleResult();
 
-        // Then fetch the posts
-        List<Post> posts = em.createQuery(
-                        "SELECT p FROM Post p WHERE p.member = :member", Post.class)
-                .setParameter("member", member)
-                .getResultList();
+//        Member memberEntity = queryFactory.selectFrom(member)
+//                .leftJoin(member.posts, post)
+//                .leftJoin(member.comments, comment)
+//                .leftJoin(member.answers, answer)
+//                .where(member.loginId.eq(loginId))
+//                .fetchOne();
+        String sql = "SELECT " +
+                "    m.*, " +
+                "    p.*, " +
+                "    c.*, " +
+                "    a.*" +
+                "FROM " +
+                "    member m" +
+                "    LEFT JOIN post p ON m.member_id = p.member_id" +
+                "    LEFT JOIN comment c ON m.member_id = c.member_id" +
+                "    LEFT JOIN answer a ON m.member_id = a.member_id" +
+                "WHERE " +
+                "    m.login_id = :loginId;";
 
-        member.setPosts(posts);
 
-        // Then fetch the comments
-        List<Comment> comments = em.createQuery(
-                        "SELECT c FROM Comment c WHERE c.member = :member", Comment.class)
-                .setParameter("member", member)
-                .getResultList();
 
-        member.setComments(comments);
+        Member memberEntity =
+                (Member) em.createNativeQuery(sql).setParameter("loginId",loginId).getSingleResult();
 
-        // Then fetch the answers
-        List<Answer> answers = em.createQuery(
-                        "SELECT a FROM Answer a WHERE a.member = :member", Answer.class)
-                .setParameter("member", member)
-                .getResultList();
 
-        member.setAnswers(answers);
-
-        // Now you can create the MyPageDto with the fully fetched Member
-        MyPageDto myPageDto = new MyPageDto(member);
+        MyPageDto myPageDto = new MyPageDto(memberEntity);
 
         return myPageDto;
     }
