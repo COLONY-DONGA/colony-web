@@ -39,7 +39,7 @@ public class AnswerController {
     @GetMapping("/answer/{postId}")
     public String answerForm(@PathVariable("postId") Long postId, Model model) {
         model.addAttribute("postId", postId);
-        return "/aEnroll";
+        return "aEnroll";
     }
 
     /**
@@ -54,7 +54,7 @@ public class AnswerController {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
-            return "/aEnroll";
+            return "aEnroll";
         }
         answerService.saveAnswer(postId, principalDetails.getLoginId(), answerFormDto);
 
@@ -83,7 +83,7 @@ public class AnswerController {
         AnswerDto answerDto = answerService.findAnswerDetail(answerId);
         model.addAttribute(answerDto);
 
-        return "/aModify";
+        return "aModify";
     }
 
     /**
@@ -100,7 +100,7 @@ public class AnswerController {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
-            return "/aEnroll";
+            return "aEnroll";
         }
         answerService.updateAnswer(answerId, answerFormDto);
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동

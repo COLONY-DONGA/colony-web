@@ -6,6 +6,8 @@ import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
 import colony.webproj.service.CommentService;
@@ -65,7 +67,7 @@ public class PostController {
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
-        return "/qaList";
+        return "qaList";
     }
 
     /**
@@ -88,7 +90,7 @@ public class PostController {
      */
     @GetMapping("/post-form")
     public String postForm() {
-        return "/qEnroll";
+        return "qEnroll";
     }
 
     /**
@@ -119,11 +121,11 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            //todo: 예외던지기
+            throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
-        return "/qModify";
+        return "qModify";
     }
 
     /**
@@ -139,13 +141,12 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
-            //todo: 예외던지기
-            return "/qaDetail";
+            throw new CustomException(ErrorCode.POST_UPDATE_WRONG_ACCESS);
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
             model.addAttribute("postFormDto", postFormDto);
-            return "/qEnroll";
+            return "qEnroll";
         }
         postService.updatePost(postId, postFormDto);
         return "redirect:/post/" + postId;
@@ -168,11 +169,10 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            //todo: 예외던지기
-            return "/qaDetail";
+            throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         postService.deletePost(postId);
-        return "/qaList";
+        return "qaList";
     }
 
     /**
