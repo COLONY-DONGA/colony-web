@@ -7,6 +7,8 @@ import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.imageRepository.ImageRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -50,7 +52,7 @@ public class PostService {
      */
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
@@ -78,7 +80,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public String findWriter(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         return post.getMember().getLoginId();
     }
 
@@ -87,7 +89,7 @@ public class PostService {
      */
     public Long updatePost(Long postId, PostFormDto postFormDto) throws IOException {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         post.setTitle(postFormDto.getTitle());
         post.setContent(postFormDto.getContent());
@@ -111,7 +113,7 @@ public class PostService {
      */
     public PostFormDto updateForm(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
@@ -145,8 +147,8 @@ public class PostService {
      * 게시글 상세보기
      */
     public PostDto findPostDetail(Long postId) {
-        Post post = postRepository.findPostDetail(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))

@@ -6,6 +6,8 @@ import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.PasswordFormDto;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -103,10 +105,9 @@ public class MemberService {
      */
     public Long updateMember(String loginId, MemberFormDto memberFormDto) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         member.setName(memberFormDto.getName());
-//        member.setNickname(memberFormDto.getNickname());
         member.setPhoneNumber(memberFormDto.getPhoneNumber());
         member.setDepartment(memberFormDto.getDepartment());
 
@@ -121,7 +122,7 @@ public class MemberService {
      */
     public Long updateMemberPassword(String loginId, PasswordFormDto passwordFormDto) throws IOException{
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         if(validationPassword(member.getLoginId(), passwordFormDto.getExisting_password())){
             member.setPassword(encoder.encode(passwordFormDto.getNewPassword()));

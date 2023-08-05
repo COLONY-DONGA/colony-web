@@ -38,17 +38,4 @@ public class Member extends BaseEntity {
     private List<Answer> answers;
 
 
-
-    public List<Post> getMyPosts(){
-        return this.getPosts();
-    }
-
-    public List<Comment> getMyComments(){
-        return this.getComments();
-    }
-
-    public List<Answer> getMyAnswers(){
-        return this.getAnswers();
-    }
-
 }

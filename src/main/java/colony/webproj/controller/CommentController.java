@@ -2,6 +2,8 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.CommentFormDto;
 import colony.webproj.entity.Role;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +55,7 @@ public class CommentController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            //에러메시지
-            return null;
+            throw new CustomException(ErrorCode.COMMENT_UPDATE_WRONG_ACCESS);
         }
         commentService.updateCommentOrRecomment(commentId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
@@ -69,42 +70,10 @@ public class CommentController {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId))) {
-            return null;
+            throw new CustomException(ErrorCode.COMMENT_DELETE_WRONG_ACCESS);
         }
         commentService.deleteComment(commentId);
         return ResponseEntity.ok(true);
     }
 
 }
-
-/*
-// AJAX 요청
-  var httpRequest = new XMLHttpRequest();
-  httpRequest.open("POST", "/comment/" + boardId);
-  httpRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  httpRequest.onreadystatechange = function () {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        var response = JSON.parse(httpRequest.responseText);
-        if (response === true) {
-          // 작업이 성공한 경우
-          // 처리할 로직 추가
-        } else {
-          // 작업이 실패한 경우
-          // 처리할 로직 추가
-        }
-      } else if (httpRequest.status === 400) {
-        // 로그인이 필요한 경우
-        var response = JSON.parse(httpRequest.responseText);
-        var message = response.message;
-        var loginUrl = response.loginUrl;
-        // 처리할 로직 추가
-      } else {
-        // 다른 상태 코드 처리
-        // 처리할 로직 추가
-      }
-    }
-  };
-  httpRequest.send(JSON.stringify(data));
-}
- */

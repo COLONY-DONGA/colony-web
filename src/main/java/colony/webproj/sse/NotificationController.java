@@ -1,5 +1,7 @@
 package colony.webproj.sse;
 
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.sse.dto.NotificationCountDto;
 import colony.webproj.sse.dto.NotificationDto;
@@ -49,7 +51,12 @@ public class NotificationController {
     //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
     @PostMapping("/notification/read/{notificationId}")
     @ResponseBody
-    public ResponseEntity<?> readNotification(@PathVariable Long notificationId) {
+    public ResponseEntity<?> readNotification(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                              @PathVariable Long notificationId) {
+        //로그인한 회원과 알람 주인이 일치하는지 검사
+        if(!notificationService.validateAlarmAndMember(principalDetails.getId(), notificationId)) {
+            throw new CustomException(ErrorCode.ALARM_READ_PROCESS_WRONG_ACCESS);
+        }
         notificationService.readNotification(notificationId);
         return ResponseEntity.ok(true);
     }
@@ -72,7 +79,12 @@ public class NotificationController {
     //단일 알림 삭제
     @PostMapping(value = "/notification/delete/{notificationId}")
     @ResponseBody
-    public ResponseEntity<?> deleteNotification(@PathVariable Long notificationId){
+    public ResponseEntity<?> deleteNotification(@AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                @PathVariable Long notificationId){
+        //로그인한 회원과 알람 주인이 일치하는지 검사
+        if(!notificationService.validateAlarmAndMember(principalDetails.getId(), notificationId)) {
+            throw new CustomException(ErrorCode.ALARM_READ_PROCESS_WRONG_ACCESS);
+        }
         notificationService.deleteNotificationById(notificationId);
         return ResponseEntity.ok(true);
     }

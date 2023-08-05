@@ -4,6 +4,8 @@ import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.entity.Role;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
 import colony.webproj.service.PostService;
@@ -71,7 +73,7 @@ public class AnswerController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return null;
+            throw new CustomException(ErrorCode.ANSWER_UPDATE_WRONG_ACCESS);
         }
         //질문 정보
         PostDto postDto = postService.findPostDetail(postId);
@@ -96,7 +98,6 @@ public class AnswerController {
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
         if (bindingResult.hasErrors()) {
-
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
             return "/aEnroll";
@@ -116,8 +117,7 @@ public class AnswerController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            //에러메시지
-            return null;
+            throw new CustomException(ErrorCode.ANSWER_DELETE_WRONG_ACCESS);
         }
 
         answerService.deleteAnswer(answerId, postId);

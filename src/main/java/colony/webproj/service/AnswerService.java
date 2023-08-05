@@ -4,6 +4,8 @@ import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.entity.*;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.imageRepository.ImageRepository;
@@ -52,9 +54,9 @@ public class AnswerService {
      */
     public Long saveAnswer(Long postId, String loginId, AnswerFormDto answerFormDto) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.setAnswered(true); //답변 등록됨 체크
         //answer 저장
         Answer answer = Answer.builder()
@@ -99,7 +101,7 @@ public class AnswerService {
      */
     public String findWriter(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
         return answer.getMember().getLoginId();
     }
 
@@ -142,7 +144,7 @@ public class AnswerService {
      */
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
         List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
                 .map(image -> new ImageDto(image))
@@ -166,7 +168,7 @@ public class AnswerService {
      */
     public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) throws IOException {
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
         //답변 업데이트
         answer.setContent(answerFormDto.getContent());
@@ -204,7 +206,7 @@ public class AnswerService {
      */
     public void deleteAnswer(Long answerId, Long postId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
         imageService.deleteFile(answer.getImageList()); //로컬에 있는 이미지 파일 삭제
         commentService.deleteCommentInAnswer(answerId);
@@ -218,7 +220,7 @@ public class AnswerService {
         List<Answer> answerList = answerRepository.findByPostId(postId);
         if (answerList.size() == 0) {
             Post post = postRepository.findById(postId)
-                    .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                    .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
             post.setAnswered(false);
         }
     }

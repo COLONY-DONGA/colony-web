@@ -32,10 +32,10 @@ public class EmailService {
             mimeMessageHelper.setText(content + "<br>" + "localhost:8080" + url, true); // 메일 본문 내용, HTML 여부
             javaMailSender.send(mimeMessage);
 
-            log.info("Success");
+            log.info("Email Send Success");
             return true;
         } catch (MessagingException e) {
-            log.info("fail");
+            log.info("Email Send fail");
             throw new RuntimeException(e);
         }
     }

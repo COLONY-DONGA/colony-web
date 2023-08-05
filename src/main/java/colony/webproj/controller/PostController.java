@@ -119,7 +119,7 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return "redirect:/post/" + postId;
+            //todo: 예외던지기
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
@@ -139,7 +139,7 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
-            model.addAttribute("error","수정 권한이 없습니다.");
+            //todo: 예외던지기
             return "/qaDetail";
         }
         /* 수정 실패시 입력 데이터 값 유지 */
@@ -168,7 +168,7 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            model.addAttribute("error","삭제 권한이 없습니다.");
+            //todo: 예외던지기
             return "/qaDetail";
         }
         postService.deletePost(postId);

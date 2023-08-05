@@ -159,4 +159,11 @@ public class NotificationService {
     public void readNotificationAll(Long memberId) {
         notificationRepository.updateReadAllNotification(memberId);
     }
+
+    //현재 로그인한 회원과 알람의 주인이 일치하는지 검사
+    @Transactional
+    public Boolean validateAlarmAndMember(Long memberId, Long notificationId) {
+        Optional<Notification> notification = notificationRepository.findByNotificationIdAndMemberId(memberId, notificationId);
+        return notification.isPresent() ? true : false;
+    }
 }

@@ -1,6 +1,8 @@
 package colony.webproj.service;
 
 import colony.webproj.entity.Image;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.imageRepository.ImageRepository;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -58,8 +61,7 @@ public class ImageService {
                     else if (contentType.contains("image/png")) extension = ".png";
                     else {
                         log.info("사진이 아닌 파일입니다.");
-                        //todo: 예외 던지기
-                        break; //다른 확장자일 경우 처리 x
+                        throw new CustomException(ErrorCode.IMAGE_NOT_SUPPORTED_EXTENSION);
                     }
                 }
                 String storeImageName = createStoreImageName(extension);
@@ -124,7 +126,7 @@ public class ImageService {
      */
     public void deleteFileOne(Long imageId) {
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new EntityNotFoundException("이미지 파일이 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
         imageRepository.deleteById(image.getId());
 
 //        //로컬
@@ -154,5 +156,11 @@ public class ImageService {
      */
     public String getFullPath(String filename) {
         return fileDir + filename;
+    }
+
+    public Boolean validateImageAndMember(Long memberId, Long imageId) {
+        Image image = imageRepository.findImageWithPost(imageId)
+                .orElseThrow(() -> new CustomException(ErrorCode.IMAGE_NOT_FOUND));
+        return (image.getPost().getMember().getId() == memberId) ? true : false;
     }
 }
