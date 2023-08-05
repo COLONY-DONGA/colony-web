@@ -21,7 +21,7 @@ public class AdminService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-
+ 
     /**
      * 회원 정보
      */
