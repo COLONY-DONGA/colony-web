@@ -15,15 +15,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      DB_ENDPOINT: ${{secrets.DB_ENDPOINT}}
-      DB_USERNAME: ${{secrets.DB_USERNAME}}
-      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-      MAIL_USERNAME: ${{secrets.MAIL_USERNAME}}
-      MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
-      S3_ACCESS_KEY: ${{secrets.S3_ACCESS_KEY}}
-      S3_SECRET_KEY: ${{secrets.S3_SECRET_KEY}}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
