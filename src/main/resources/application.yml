@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_ENDPOINT}:3306/colonydb
+    url: jdbc:mysql://colony-test-db.coz9al7ljo0h.ap-northeast-2.rds.amazonaws.com:3306/colonydb
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
