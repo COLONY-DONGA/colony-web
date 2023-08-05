@@ -35,8 +35,9 @@ dependencies {
 	//validation 적용
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	//mariadb 추가
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	//mysql 추가
+//	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 
 	//devtools 적용
 	implementation 'org.springframework.boot:spring-boot-devtools'
@@ -74,4 +75,9 @@ tasks.named('test') {
 
 clean {
 	delete file('src/main/generated')
+}
+
+//SNAPSHOT 생성 x
+jar {
+	enabled = false
 }
