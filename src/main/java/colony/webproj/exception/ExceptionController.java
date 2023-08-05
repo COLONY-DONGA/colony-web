@@ -9,13 +9,14 @@ public class ExceptionController {
 
     @ExceptionHandler(CustomException.class)
     public String handleCustomException(CustomException e, Model model) {
-        model.addAttribute("errorMessage", e);
+        model.addAttribute("errorMessage", e.getErrorMessage());
+        model.addAttribute("status", e.getStatus().toString());
         return "errorPage";
     }
 
     @ExceptionHandler(Exception.class)
     public String handleCustomException(Exception e, Model model) {
-        model.addAttribute("errorMessage", e);
+        model.addAttribute("errorMessage", e.getMessage());
         return "errorPage";
     }
 }

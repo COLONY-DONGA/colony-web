@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -126,8 +126,10 @@
     <div class="notfound">
         <div class="notfound-404">
             <h3>Oops! Page not found</h3>
-            <h1><span>4</span><span>0</span><span>4</span></h1>
+            <h1><span>E</span><span>R</span><span>R</span></h1>
         </div>
+        <h2 th:text="${errorMessage}"></h2>
+        <h3 th:text="${status}"></h3>
         <h2>에러가 발생했습니다. 관리자에게 문의해주세요</h2>
     </div>
 </div>
