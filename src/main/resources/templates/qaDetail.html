@@ -9,16 +9,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<<<<<<< HEAD
     <link rel="stylesheet" href="../static/css/qaDetail.css" />
     <link rel="stylesheet" href="../static/css/headerfooter.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-=======
-    <link rel="stylesheet" href="/css/qaDetail.css" />
->>>>>>> main
     <title>질문 세부 페이지</title>
   </head>
 
@@ -41,7 +37,6 @@
     <br />
 
     <div class="qadetail-frame">
-<<<<<<< HEAD
       <div class="q-box">
         <div class="horizontal-line"></div>
         <div class="q-head">
@@ -109,51 +104,11 @@
             </button>
             <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
-=======
-      <section class="article-detail table-common con row">
-        <table class="cell" border="1">
-          <colgroup>
-            <col width="100px" />
-          </colgroup>
-          <tbody>
-            <tr class="article-title">
-              <th>제목</th>
-              <td class="question-title" th:text="${postDto.title}">title</td>
-              <th>작성자</th>
-              <td id="post-writer" class="question-title" th:text="${postDto.createdBy}">name</td>
-              <!--시큐리티 변수-->
-            </tr>
-            <tr class="article-info">
-              <th>날짜</th>
-              <td th:text="${postDto.updatedAt}">date</td>
-              <!--수정~-->
-              <th>좋아요</th>
-              <td id="qlikeCount">0</td>
-              <button id="qlikeBtn" class="likeButton">좋아요</button>
-            </tr>
-            <tr class="article-body">
-              <!--내용칸-->
-              <td colspan="4" th:text="${postDto.content}">Q. question area</td>
-            </tr>
-          </tbody>
-        </table>
-        <input id="postId" type="hidden" th:value="${postDto.postId}" />
-      </section>
-      <!--질문 첨부파일 이미지+이미지명 출력파트-->
-      <div class="file-box">
-        <!-- Loop through the file list -->
-        <div th:each="file : ${postDto.imageDtoList}">
-          <div class="file-img">
-<!--            <img th:src="|/images/${file.storeImageName}|" alt="이미지" />-->
-            <img th:src="${file.s3Url}" alt="이미지" />
-          </div>
->>>>>>> main
         </div>
       </div>
       <br />
       <br />
 
-<<<<<<< HEAD
       <br />
 
       <div class="answer-box" id="answer-box">
@@ -217,21 +172,6 @@
           </div>
         </div>
       </div>
-=======
-      <div class="answer-text-box">
-        <div class="answer-text" th:text="테스트"></div>
-      </div>
-
-      <!--파일-->
-
-      <div class="btn">
-        <button type="button" class="qabtn" id="qabtn">답변 등록</button>
-        <button class="listbtn" id="listbtn">목록</button>
-        <button class="editbtn" id="editbtn">수정</button>
-        <button class="deletebtn" id="deletebtn">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
-      </div>
->>>>>>> main
     </div>
     <div id="footer"></div>
 
@@ -266,14 +206,11 @@
         location.href = '/delete-post/' + postId;
       });
 
-<<<<<<< HEAD
       var answerDeletebtn = document.getElementById('answer-deletebtn'); //답변글 삭제 버튼
       deletebtn.addEventListener('click', function () {
         location.href = '/delete-answer/' + answerId;
       });
 
-=======
->>>>>>> main
       if (userName != name || userName === '') {
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
