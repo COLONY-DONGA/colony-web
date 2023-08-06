@@ -10,13 +10,14 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 @Builder
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "comment_id")
     private Long id;
+    @Column(columnDefinition = "TEXT")
     private String content; // 내용
     @Builder.Default
     private boolean isRemoved = false; //삭제 됐는지 체크 //댓글에 대댓글이 달린 경우 댓글을 삭제해도 대댓글은 삭제 X

@@ -26,7 +26,7 @@ public class LikesController {
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
 
         return likesService.addLikes(answerId, principalDetails.getLoginId()) ?
-                ResponseEntity.ok(true) : ResponseEntity.badRequest().build();
+                ResponseEntity.ok(true) : ResponseEntity.badRequest().body("false");
 
     }
 

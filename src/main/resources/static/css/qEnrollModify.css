@@ -9,7 +9,8 @@
       flex-direction: column;
       padding-bottom: 1.2rem;
 
-      .question_enroll {
+      .question_enroll,
+      .question_modify {
         align-items: center;
         background-color: #b0b0b0;
         border-radius: 1.4rem;
@@ -98,4 +99,24 @@
       list-style: none;
     }
   }
+}
+.file-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+}
+.file-list-item img {
+  max-height: 100px;
+}
+.delete-btn {
+  font-size: 14px;
+  background-color: rgba(7, 7, 7, 0.61);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.delete-btn:hover {
+  background-color: rgba(7, 7, 7, 0.8);
 }

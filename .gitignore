@@ -1,4 +1,6 @@
 /src/main/generated/
+#application.yml
+
 HELP.md
 .gradle
 build/
@@ -36,3 +38,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+

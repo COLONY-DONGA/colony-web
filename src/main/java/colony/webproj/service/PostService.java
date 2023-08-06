@@ -7,6 +7,8 @@ import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.imageRepository.ImageRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -35,27 +38,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageService imageService;
 
-    /**
-     * 게시글리스트 조회
-     */
-    public Page<PostDto> searchPosts(SearchType searchType, String searchKeyword, Pageable pageable) {
-        // 검색어가 없으면 전체 조회
-        if (searchKeyword == null || searchKeyword.isBlank()) {
-            return postRepository.findAll(pageable).map(PostDto::from);
-        }
-        // 검색어가 있으면 타입별로 조회
-        // Repository가 반환하는 기본값은 Post이므로 이를 .map(PostDto::from) 이용해서 DTO객체로 만들어준다.
-        return switch (searchType) {
-            case TITLE ->
-                    postRepository.findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case CONTENT ->
-                    postRepository.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case NICKNAME ->
-                    postRepository.findByMember_NicknameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-            case LOGIN_ID -> postRepository.findByMember_LoginIdContainingOrderByCreatedAtDesc(searchKeyword,pageable).map(PostDto::from);
-            case NAME -> postRepository.findByMember_NameContainingOrderByCreatedAtDesc(searchKeyword, pageable).map(PostDto::from);
-        };
-    }
 
     /**
      * queryDsl 게시글 리스트 조회
@@ -70,7 +52,7 @@ public class PostService {
      */
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
@@ -78,6 +60,7 @@ public class PostService {
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
 
+        System.out.println("받아온 이미지 사이즈: " + postFormDto.getImageList().size());
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장
@@ -97,7 +80,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public String findWriter(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         return post.getMember().getLoginId();
     }
 
@@ -106,7 +89,7 @@ public class PostService {
      */
     public Long updatePost(Long postId, PostFormDto postFormDto) throws IOException {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         post.setTitle(postFormDto.getTitle());
         post.setContent(postFormDto.getContent());
@@ -130,7 +113,7 @@ public class PostService {
      */
     public PostFormDto updateForm(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
@@ -164,8 +147,9 @@ public class PostService {
      * 게시글 상세보기
      */
     public PostDto findPostDetail(Long postId) {
-        Post post = postRepository.findPostDetail(postId)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());

@@ -16,6 +16,7 @@ public class Image {
 
     private String storeImageName;   // 저장이름
     private String originImageName;  // 사용자가 올린 파일 이름
+    private String s3Url; // s3 url
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

@@ -6,19 +6,23 @@ import colony.webproj.dto.CommentFormDto;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import colony.webproj.entity.Member;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
+import colony.webproj.repository.PostRepository.PostRepository;
 import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
+import colony.webproj.sse.NotificationService;
+import colony.webproj.sse.model.Notification;
+import colony.webproj.sse.model.NotificationType;
+import colony.webproj.sse.repository.NotificationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,22 +31,41 @@ import java.util.Map;
 public class CommentService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-//    private final PostRepository postRepository;
     private final AnswerRepository answerRepository;
+    private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
+    private final EmailService emailService;
 
     /**
      * 댓글 생성
      */
     public Long saveComment(Long answerId, CommentFormDto commentFormDto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
         Comment comment = Comment.builder()
                 .content(commentFormDto.getContent())
                 .member(member)
                 .answer(answer)
                 .build();
+
+        //todo: 배포하면 url 바꿔야함
+        //알림 로직
+        String url = "/post/" + answer.getPost().getId();
+        String content = answer.getMember().getNickname() + "님! [" + answer.getPost().getTitle() + "] 질문에 남긴 답변에 댓글이 달렸어요!";
+
+        //본인의 게시글에 답변할 땐 알림 x
+        if(!Objects.equals(member.getId(), answer.getMember().getId())) {
+            Notification notification = notificationRepository.save(
+                    notificationService.createNotification(answer.getMember(), NotificationType.ANSWER, content, url)
+            );
+            notificationService.send(notification);
+            if(answer.getMember().getEmailAlarm()) {
+                emailService.sendMail(answer.getMember(), content, url);
+            }
+        }
+
         return commentRepository.save(comment).getId();
     }
 
@@ -51,17 +74,33 @@ public class CommentService {
      */
     public Long saveReComment(Long answerId, Long commentId, CommentFormDto commentFormDto, String loginId) {
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
         Comment parentComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_PARENT_NOT_FOUND));
         Comment childComment = Comment.builder()
                 .content(commentFormDto.getContent())
                 .member(member)
                 .answer(answer)
                 .parent(parentComment)
                 .build();
+
+        //todo: 배포하면 url 바꿔야함
+        //알림 로직
+        String url = "/post/" + answer.getPost().getId();
+        String content = answer.getMember().getNickname() + "님! [" + answer.getPost().getTitle() + "] 질문에 남긴 답변에 댓글이 달렸어요!";
+
+        //본인의 게시글에 답변할 땐 알림 x
+        if(!Objects.equals(member.getId(), answer.getMember().getId())) {
+            Notification notification = notificationRepository.save(
+                    notificationService.createNotification(answer.getMember(), NotificationType.ANSWER, content, url)
+            );
+            notificationService.send(notification);
+            if(answer.getMember().getEmailAlarm()) {
+                emailService.sendMail(answer.getMember(), content, url);
+            }
+        }
         return commentRepository.save(childComment).getId();
     }
 
@@ -71,7 +110,7 @@ public class CommentService {
     @Transactional(readOnly = true)
     public String findWriter(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         return comment.getMember().getLoginId();
     }
 
@@ -81,7 +120,7 @@ public class CommentService {
      */
     public Long updateCommentOrRecomment(Long commentId, CommentFormDto commentFormDto, String loginId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         comment.setContent(commentFormDto.getContent());
         return comment.getId();
     }
@@ -91,7 +130,7 @@ public class CommentService {
      */
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글이 존재하지 않습니다"));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         //자식이 있을 땐 삭제 체크만 하고 db 에선 지우지 않음
         if (!comment.getChildList().isEmpty()) {

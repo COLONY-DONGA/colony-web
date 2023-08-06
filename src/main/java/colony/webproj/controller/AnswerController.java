@@ -4,6 +4,8 @@ import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.entity.Role;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
 import colony.webproj.service.PostService;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,19 +37,15 @@ public class AnswerController {
      * 질문 상세 -> 답변하기 버튼 -> 질문 데이터랑 답변
      */
     @GetMapping("/answer/{postId}")
-    @ResponseBody
-    public PostDto answerForm(@PathVariable("postId") Long postId, Model model) {
-        //질문 정보
-        PostDto postDto = postService.findPostDetail(postId);
-        model.addAttribute("postDto", postDto);
-        return postDto;
+    public String answerForm(@PathVariable("postId") Long postId, Model model) {
+        model.addAttribute("postId", postId);
+        return "aEnroll";
     }
 
     /**
      * 답변 생성
      */
     @PostMapping("/answer/{postId}")
-    @ResponseBody
     public String saveAnswer(@PathVariable("postId") Long postId,
                              @Valid AnswerFormDto answerFormDto,
                              BindingResult bindingResult,
@@ -55,26 +54,26 @@ public class AnswerController {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
-            return "answerForm";
+            return "aEnroll";
         }
         answerService.saveAnswer(postId, principalDetails.getLoginId(), answerFormDto);
-        return "답변 생성";
+
+        return "redirect:/post/" + postId;
     }
 
     /**
      * 답변 수정 폼
      */
     @GetMapping("/edit-answer/{postId}/{answerId}")
-    @ResponseBody
-    public Response editAnswerForm(@PathVariable("postId") Long postId,
-                           @PathVariable("answerId") Long answerId,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails,
-                           Model model) {
+    public String editAnswerForm(@PathVariable("postId") Long postId,
+                                 @PathVariable("answerId") Long answerId,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                 Model model) {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return null;
+            throw new CustomException(ErrorCode.ANSWER_UPDATE_WRONG_ACCESS);
         }
         //질문 정보
         PostDto postDto = postService.findPostDetail(postId);
@@ -84,15 +83,14 @@ public class AnswerController {
         AnswerDto answerDto = answerService.findAnswerDetail(answerId);
         model.addAttribute(answerDto);
 
-        return new Response(answerDto, postDto);
+        return "aModify";
     }
 
     /**
      * 답변 수정 요청
      * 게시글 상세로 리다이렉트
      */
-    @ResponseBody
-    @PutMapping("/edit-answer/{postId}/{answerId}")
+    @PostMapping("/edit-answer/{postId}/{answerId}")
     public String editAnswer(@PathVariable("answerId") Long answerId,
                              @PathVariable("postId") Long postId,
                              @Valid AnswerFormDto answerFormDto,
@@ -102,7 +100,7 @@ public class AnswerController {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);
-            return "answerForm";
+            return "aEnroll";
         }
         answerService.updateAnswer(answerId, answerFormDto);
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
@@ -119,8 +117,7 @@ public class AnswerController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(answerService.findWriter(answerId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            //에러메시지
-            return null;
+            throw new CustomException(ErrorCode.ANSWER_DELETE_WRONG_ACCESS);
         }
 
         answerService.deleteAnswer(answerId, postId);

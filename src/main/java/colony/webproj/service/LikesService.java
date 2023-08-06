@@ -3,6 +3,8 @@ package colony.webproj.service;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Likes;
 import colony.webproj.entity.Member;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.likesRepository.LikesRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
@@ -37,9 +39,9 @@ public class LikesService {
         }
 
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
         Member member = memberRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         Likes likes = Likes.builder()
         .answer(answer)
@@ -56,10 +58,12 @@ public class LikesService {
     @Transactional
     public void removeLikes(Long answerId, String loginId) {
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() -> new EntityNotFoundException("답변이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        Likes likes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId)
-                .orElseThrow(() -> new IllegalStateException("좋아요를 누른 기록이 없습니다."));
+        Likes likes = likesRepository.findByAnswerIdAndMemberId(answer.getId(), member.getLoginId())
+                .orElseThrow(() -> new CustomException(ErrorCode.LIKE_NOT_FOUND));
 
         likesRepository.delete(likes);
     }

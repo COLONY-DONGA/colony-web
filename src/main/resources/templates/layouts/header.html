@@ -9,95 +9,275 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/css/headerfooter.css" />
     <title>Header</title>
   </head>
 
   <body>
-    <div class="header">
-      <div class="header-box">
-        <div class="menu-box">
-          <div class="shadow"></div>
-          <div class="big-box"></div>
-          <img class="mini-logo" src="/img/colony.jpg" />
-          <div class="welcome-box" sec:authorize="isAuthenticated()">
-            <span sec:authentication="principal.nickname" style="font-weight: bold">닉네임</span
-            >&nbsp;님, 환영합니다 !
-          </div>
-          <div class="welcome-box" sec:authorize="isAnonymous()">
-            <span style="font-weight: bold">Guest</span>&nbsp;님, 환영합니다 !
-          </div>
-          <div class="mypage-box" sec:authorize="isAuthenticated()">
-            <a href="my-page">My Page</a>
-          </div>
-          <div class="logout-box" sec:authorize="isAuthenticated()">
-            <a href="login">Logout</a>
-          </div>
-          <div class="login-box" sec:authorize="isAnonymous()">
-            <a href="login">Login</a>
-          </div>
+    <header>
+      <div class="header">
+        <img class="logo" src="/img/colony.jpg" />
+        <div class="colony">COLONY_DAU</div>
+        <div class="welcome" sec:authorize="isAuthenticated()">
+          <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님, 환영합니다 !
+        </div>
+        <div class="welcome" sec:authorize="isAnonymous()">
+          <span>Guest</span>&nbsp;님, 환영합니다 !
+        </div>
+        <div class="nav">
+          <nav>
+            <ul>
+              <li class="mypage" sec:authorize="isAuthenticated()">
+                <a href="/my-page">My Page</a>
+              </li>
+              <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+              <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
+              <div class="notification-container" sec:authorize="isAuthenticated()">
+                <button type="button" id="notification-icon" class="notification-button">
+                  <i class="fa fa-bell"></i>
+                  <span class="notification-badge">0</span>
+                  Notice
+                </button>
+                <div
+                  id="notification-dropdown"
+                  class="header-notification-dropdown"
+                  style="display: none"
+                ></div>
+              </div>
+            </ul>
+          </nav>
         </div>
       </div>
-    </div>
+    </header>
+    <div class="welcome" th:attr="data-isloggedin=true" sec:authorize="isAuthenticated()"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script type="text/javaScript">
-      <<<<<<< HEAD:src/main/resources/templates/header.html
+    <script>
+      const isLoggedIn = Boolean(document.querySelector('[data-isloggedin]'));
 
+      document.querySelector('.logo').addEventListener('click', () => {
+        location.href = '/post-list';
+      });
 
+      function updateNotificationBadge() {
+        $.ajax({
+          type: 'GET',
+          url: '/notification/count',
+          dataType: 'json',
+          success: function (data) {
+            const notificationCount = parseInt(data.count);
+            console.log(notificationCount);
+            $('.notification-badge').text(notificationCount);
+          },
+          error: function (error) {
+            console.error('Error fetching notification count: ' + error);
+          },
+        });
+      }
 
+      $(document).ready(function () {
+        if (isLoggedIn) {
+          console.log('알람 구독 로직 시작');
+          updateNotificationBadge();
 
-            function login() {
-      =======
-            $(window).ready(function() {
-      >>>>>>> main:src/main/resources/templates/layouts/header.html
-              const eventSource = new EventSource('/subscribe');
+          const source = new EventSource('/subscribe');
 
-              //sse 이벤트 수신 핸들러
-              eventSource.addEventListener("sse", function (event) {
-                console.log(event.data);
+          source.onmessage = function (event) {
+            const data = event.data;
+            console.log(data);
+            const notificationCount = parseInt($('.notification-badge').text());
 
-                const data = JSON.parse(event.data);
+            if (data === '연결완료') {
+              return;
+            } else {
+              toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 3000,
+              };
 
-                (async () => {
-                  // 브라우저 알림
-                  const showNotification = () => {
-                    toastr.options = {
-                      closeButton: true,
-                      timeOut: 3000, // 3 seconds
-                      extendedTimeOut: 1000, // additional 1 second after mouse hover
-                      progressBar: true,
-                      preventDuplicates: true
-                    };
+              console.log(data.content);
+              toastr.success('새로운 알림이 도착했습니다.');
 
-                    toastr.info(data.content, '코드 봐줘', {
-                      onclick: function() {
-                        window.open(data.url, '_blank'); // 알림을 누를 경우 경로로 이동
-                      }
+              $('.notification-badge')
+                .text(notificationCount + 1)
+                .addClass('show-badge');
+            }
+          };
+        }
+
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        notificationIcon.addEventListener('click', function (e) {
+          if (notificationDropdown.style.display === 'none') {
+            notificationDropdown.style.display = 'block';
+            fetchNotifications();
+          } else {
+            notificationDropdown.style.display = 'none';
+          }
+        });
+
+        async function fetchNotifications() {
+          try {
+            const res = await fetch('/notifications');
+            const data = await res.json();
+
+            notificationDropdown.innerHTML = '';
+
+            if (data.length === 0) {
+              const emptyMessage = document.createElement('div');
+              emptyMessage.className = 'empty-notification-message';
+              emptyMessage.textContent = '현재 알림이 없습니다';
+              notificationDropdown.appendChild(emptyMessage);
+            } else {
+              data.forEach((notification) => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+
+                if (notification.status) {
+                  notificationItem.classList.add('read-notification');
+                } else {
+                  notificationItem.classList.add('unread-notification');
+                }
+
+                const link = document.createElement('a');
+                link.href = notification.url;
+                link.textContent = notification.content;
+
+                link.onclick = async function () {
+                  try {
+                    const readRes = await fetch(`/notification/read/${notification.id}`, {
+                      mode: 'cors',
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
                     });
-                  };
-
-                  // 브라우저 알림 허용 권한
-                  let granted = false;
-
-                  if (Notification.permission === 'granted') {
-                    granted = true;
-                  } else if (Notification.permission !== 'denied') {
-                    let permission = await Notification.requestPermission();
-                    granted = permission === 'granted';
+                    if (!readRes.ok) {
+                      throw new Error('Error marking the notification as read');
+                    }
+                  } catch (error) {
+                    console.error('Error marking notification as read:', error);
                   }
+                };
 
-                  // 알림 보여주기
-                  if (granted) {
-                    showNotification();
+                const deleteButton = document.createElement('span');
+                deleteButton.classList.add('delete-btn');
+                deleteButton.innerHTML = '&times;';
+
+                deleteButton.onclick = async function () {
+                  try {
+                    const deleteRes = await fetch(`/notification/delete/${notification.id}`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                    });
+                    if (!deleteRes.ok) {
+                      throw new Error('Error deleting the notification');
+                    }
+                    notificationItem.remove();
+
+                    const remainingNotifications =
+                      document.querySelectorAll('.notification-item').length;
+                    if (remainingNotifications === 0) {
+                      newNotificationActions.style.display = 'none';
+                      const emptyMessage = document.createElement('div');
+                      emptyMessage.className = 'empty-notification-message';
+                      emptyMessage.textContent = '현재 알림이 없습니다';
+                      notificationDropdown.appendChild(emptyMessage);
+                    }
+
+                    updateNotificationBadge();
+                  } catch (error) {
+                    console.error('Error deleting notification:', error);
                   }
-                })();
-              })
-            });
+                };
+                notificationItem.appendChild(link);
+                notificationItem.appendChild(deleteButton);
+                notificationDropdown.appendChild(notificationItem);
+              });
+
+              const newNotificationActions = document.createElement('div');
+              newNotificationActions.className = 'notification-actions';
+              newNotificationActions.style.display = 'flex';
+              newNotificationActions.style.justifyContent = 'space-between';
+              newNotificationActions.style.padding = '8px';
+
+              const readAllButton = document.createElement('button');
+              readAllButton.id = 'read-all-btn';
+              readAllButton.className = 'notification-action-btn';
+              readAllButton.textContent = 'All Read';
+              readAllButton.addEventListener('click', async function () {
+                try {
+                  const readAllRes = await fetch('/notification/readAll', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                  if (!readAllRes.ok) {
+                    throw new Error('Error marking all notifications as read');
+                  }
+                  document
+                    .querySelectorAll('.unread-notification')
+                    .forEach(function (notification) {
+                      notification.classList.remove('unread-notification');
+                      notification.classList.add('read-notification');
+                    });
+                  $('.notification-badge').text(0);
+                } catch (error) {
+                  console.error('Error marking all notifications as read:', error);
+                }
+              });
+              newNotificationActions.appendChild(readAllButton);
+
+              const deleteAllButton = document.createElement('button');
+              deleteAllButton.id = 'delete-all-btn';
+              deleteAllButton.className = 'notification-action-btn';
+              deleteAllButton.textContent = 'All Delete';
+              deleteAllButton.addEventListener('click', async function () {
+                try {
+                  const deleteAllRes = await fetch('/notification/deleteAll', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                  if (!deleteAllRes.ok) {
+                    throw new Error('Error deleting all notifications');
+                  }
+                  document
+                    .querySelectorAll('.notification-item')
+                    .forEach((notification) => notification.remove());
+                  $('.notification-badge').text(0);
+                  newNotificationActions.style.display = 'none';
+                  const emptyMessage = document.createElement('div');
+                  emptyMessage.className = 'empty-notification-message';
+                  emptyMessage.textContent = '현재 알림이 없습니다';
+                  notificationDropdown.appendChild(emptyMessage);
+                } catch (error) {
+                  console.error('Error deleting all notifications:', error);
+                }
+              });
+              newNotificationActions.appendChild(deleteAllButton);
+              notificationDropdown.appendChild(newNotificationActions);
+            }
+          } catch (error) {
+            console.error('Error fetching notifications:', error);
+          }
+        }
+      });
     </script>
   </body>
 </html>

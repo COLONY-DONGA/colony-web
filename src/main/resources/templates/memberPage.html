@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>memberPage</title>
   </head>
+
   <body>
     <div th:replace="~{layouts/header :: header}"></div>
 
@@ -15,20 +16,20 @@
       <div class="my-profile-item">
         <div class="item-box">
           <div class="item-1">
-            <label class="item-2" for="id">ID :</label>
+            <label class="item-2" for="id">ID:</label>
             <input class="item-3-1" type="text" id="id" th:value="${member.loginId}" disabled />
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <label class="item-2" for="name">Name :</label>
+            <label class="item-2" for="name">Name:</label>
             <input class="item-3-3" type="text" id="name" th:value="${member.name}" />
-            <div class="item-4-4"></div>
+            <div class="item-4-1"></div>
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <label class="item-2" for="nickname">Nickname :</label>
+            <label class="item-2" for="nickname">Nickname:</label>
             <input
               class="item-3-4"
               type="text"
@@ -40,16 +41,23 @@
         </div>
         <div class="item-box">
           <div class="item-1">
-            <label class="item-2" for="phone">Phone :</label>
-            <input class="item-3-5" type="text" id="phone" th:value="${member.phoneNumber}" />
-            <div class="item-4-6"></div>
+            <label class="item-2" for="email">E-mail:</label>
+            <input class="item-3-5" type="text" id="email" th:value="${member.email}" />
+            <div class="item-4-2"></div>
           </div>
         </div>
         <div class="item-box">
           <div class="item-1">
-            <label class="item-2" for="department">Department :</label>
-            <input class="item-3-6" type="text" id="department" th:value="${member.department}" />
-            <div class="item-4-7"></div>
+            <label class="item-2" for="phone">Phone:</label>
+            <input class="item-3-6" type="text" id="phone" th:value="${member.phoneNumber}" />
+            <div class="item-4-3"></div>
+          </div>
+        </div>
+        <div class="item-box">
+          <div class="item-1">
+            <label class="item-2" for="department">Department:</label>
+            <input class="item-3-7" type="text" id="department" th:value="${member.department}" />
+            <div class="item-4-4"></div>
           </div>
         </div>
         <button class="item-btn-1">Edit Profile</button>
@@ -58,47 +66,96 @@
 
       <div id="modal-overlay-1"></div>
       <div id="modal-1">
-        <h2>비밀번호 확인</h2>
-        <input type="password" id="current-password" placeholder="현재 비밀번호" required />
-        <button class="pw-check" type="submit">확인</button>
-        <button class="item-btn-3-1">닫기</button>
+        <div class="modal-header">
+          <h2>비밀번호 확인</h2>
+          <button class="modal-close-btn" id="item-btn-3-1">×</button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="password"
+            id="current-password"
+            class="modal-input"
+            placeholder="현재 비밀번호"
+            required
+          />
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn" id="pw-check" type="submit">확인</button>
+        </div>
       </div>
 
       <div id="modal-overlay-2"></div>
       <div id="modal-2">
-        <h2>비밀번호 변경</h2>
-        <input type="password" id="cur-password" placeholder="현재 비밀번호" required />
-        <input type="password" id="new-password" placeholder="새로운 비밀번호" required />
-        <input type="password" id="confirm-password" placeholder="새로운 비밀번호 확인" required />
-        <button class="pw-change" type="submit">변경</button>
-        <button class="item-btn-3-2">닫기</button>
+        <div class="modal-header">
+          <h2>비밀번호 변경</h2>
+          <button class="modal-close-btn" id="item-btn-3-2">×</button>
+        </div>
+        <div class="modal-body">
+          <input
+            type="password"
+            id="cur-password"
+            class="modal-input"
+            placeholder="현재 비밀번호"
+            required
+          />
+          <input
+            type="password"
+            id="new-password"
+            class="modal-input"
+            placeholder="새로운 비밀번호"
+            required
+          />
+          <input
+            type="password"
+            id="confirm-password"
+            class="modal-input"
+            placeholder="새로운 비밀번호 확인"
+            required
+          />
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn" id="pw-change" type="submit">변경</button>
+        </div>
       </div>
 
       <div class="title">My History</div>
       <div class="my-history-item">
-        <div class="item-q">My Questions</div>
-        <div class="item-q-1">
-          <a class="item-q-2" href="?">Q1. how to learn computer security ??</a>
-          <a class="item-q-2" href="?">Q2. how to learn computer security ??</a>
-          <a class="item-q-2" href="?">Q3. how to learn computer security ??</a>
+        <div class="history-category">My Questions</div>
+        <div class="history-list">
+          <a
+            class="history-item"
+            th:each="post, status : ${member.postDto}"
+            th:href="@{'/post/' + ${post.postId}}"
+            th:text="${'Q' + (status.index + 1) + '. ' + post.title}"
+            >Questions</a
+          >
         </div>
-        <div class="item-a">My Answers</div>
-        <div class="item-a-1">
-          <a class="item-a-2" href="?">A1. how to learn computer security ??</a>
-          <a class="item-a-2" href="?">A2. how to learn computer security ??</a>
-          <a class="item-a-2" href="?">A3. how to learn computer security ??</a>
+        <div class="history-category">My Answers</div>
+        <div class="history-list">
+          <a
+            class="history-item"
+            th:each="answer, status : ${member.answerDto}"
+            th:href="@{'/post/' + ${answer.postId}}"
+            th:text="${'A' + (status.index + 1) + '. ' + answer.content}"
+            >Answers</a
+          >
         </div>
-        <div class="item-c">My Comments</div>
-        <div class="item-c-1">
-          <a class="item-c-2" href="?">C1. how to learn computer security ??</a>
-          <a class="item-c-2" href="?">C2. how to learn computer security ??</a>
-          <a class="item-c-2" href="?">C3. how to learn computer security ??</a>
+        <div class="history-category">My Comments</div>
+        <div class="history-list">
+          <a
+            class="history-item"
+            th:each="comment, status : ${member.commentDto}"
+            th:href="@{'/post/' + ${comment.postId}}"
+            th:text="${'C' + (status.index + 1) + '. ' + comment.content}"
+            >Comments</a
+          >
         </div>
-        <div class="item-l">My Likes</div>
-        <div class="item-l-1">
-          <a class="item-l-2" href="?">L1. how to learn computer security ??</a>
-          <a class="item-l-2" href="?">L2. how to learn computer security ??</a>
-          <a class="item-l-2" href="?">L3. how to learn computer security ??</a>
+        <div class="history-category">My Likes</div>
+        <div class="history-list">
+          <div class="like-item">
+            <i class="fa-solid fa-heart" style="color: #ff0000"></i>&nbsp;
+            <div class="like-count" th:text="${member.likesCount}"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -107,15 +164,28 @@
 
     <script>
       let editProfile = document.querySelector('.item-btn-1');
-      let pw_check = document.querySelector('.pw-check');
-      let closeModal1 = document.querySelector('.item-btn-3-1');
+      let pw_check = document.querySelector('#pw-check');
+      let closeModal1 = document.querySelector('#item-btn-3-1');
       let editPassword = document.querySelector('.item-btn-2');
-      let pw_change = document.querySelector('.pw-change');
-      let closeModal2 = document.querySelector('.item-btn-3-2');
+      let pw_change = document.querySelector('#pw-change');
+      let closeModal2 = document.querySelector('#item-btn-3-2');
+
+      function resetModal() {
+        let currentPassword = document.getElementById('current-password');
+        let curPassword = document.getElementById('cur-password');
+        let newPassword = document.getElementById('new-password');
+        let confirmPassword = document.getElementById('confirm-password');
+
+        currentPassword.value = '';
+        curPassword.value = '';
+        newPassword.value = '';
+        confirmPassword.value = '';
+      }
 
       editProfile.onclick = function () {
         document.getElementById('modal-overlay-1').style.display = 'block';
         document.getElementById('modal-1').style.display = 'block';
+        resetModal();
       };
 
       pw_check.onclick = function () {
@@ -139,23 +209,33 @@
 
       function validation1(event) {
         let na_reg = /^[가-힣]{2,}$/;
+        let em_reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         let ph_reg = /^\d{11}$/;
 
         let na = document.getElementById('name');
+        let em = document.getElementById('email');
         let ph = document.getElementById('phone');
         let de = document.getElementById('department');
 
-        let na_result = document.querySelector('.item-4-4');
-        let ph_result = document.querySelector('.item-4-6');
-        let de_result = document.querySelector('.item-4-7');
+        let na_result = document.querySelector('.item-4-1');
+        let em_result = document.querySelector('.item-4-2');
+        let ph_result = document.querySelector('.item-4-3');
+        let de_result = document.querySelector('.item-4-4');
 
         na_result.innerText = '';
+        em_result.innerText = '';
         ph_result.innerText = '';
         de_result.innerText = '';
 
         if (na.value.trim() === '') {
           na_result.innerText = '이름을 입력해주세요.';
           na.focus();
+          event.preventDefault();
+          return false;
+        }
+        if (em.value.trim() === '') {
+          em_result.innerText = '이메일을 입력해주세요.';
+          em.focus();
           event.preventDefault();
           return false;
         }
@@ -179,6 +259,13 @@
           event.preventDefault();
           return false;
         }
+        if (!em_reg.test(em.value)) {
+          em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
+          em.value = '';
+          em.focus();
+          event.preventDefault();
+          return false;
+        }
         if (!ph_reg.test(ph.value)) {
           ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
           ph.value = '';
@@ -192,6 +279,7 @@
 
       function editer1() {
         let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
         let phoneNumber = document.getElementById('phone').value;
         let department = document.getElementById('department').value;
 
@@ -199,7 +287,7 @@
           type: 'PUT',
           url: '/edit-mypage',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ name, phoneNumber, department }),
+          data: JSON.stringify({ name, email, phoneNumber, department }),
           success: function (result) {
             alert('프로필이 성공적으로 업데이트되었습니다.');
           },
@@ -212,11 +300,13 @@
       closeModal1.onclick = function () {
         document.getElementById('modal-overlay-1').style.display = 'none';
         document.getElementById('modal-1').style.display = 'none';
+        resetModal();
       };
 
       editPassword.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'block';
         document.getElementById('modal-2').style.display = 'block';
+        resetModal();
       };
 
       pw_change.onclick = function () {
@@ -297,6 +387,7 @@
       closeModal2.onclick = function () {
         document.getElementById('modal-overlay-2').style.display = 'none';
         document.getElementById('modal-2').style.display = 'none';
+        resetModal();
       };
     </script>
   </body>

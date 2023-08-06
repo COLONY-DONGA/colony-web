@@ -6,6 +6,8 @@ import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
 import colony.webproj.service.CommentService;
@@ -24,8 +26,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +39,6 @@ import java.util.stream.Collectors;
 public class PostController {
 
     private final PostService postService;
-    private final CommentService commentService;
     private final AnswerService answerService;
 
     /**
@@ -57,11 +60,13 @@ public class PostController {
             model.addAttribute("username", principalDetails.getNickname());
             log.info("회원 로그인");
         }
-        //승지방식
-        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
+
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("searchValue", searchValue);
+        model.addAttribute("sortBy", sortBy);
         return "qaList";
     }
 
@@ -92,66 +97,59 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
-    @ResponseBody
-    public String savePost( @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails, Model model
-            , HttpServletRequest request) throws IOException {
-
-//        String requestBody = request.getReader().lines()
-//                .collect(Collectors.joining(System.lineSeparator()));
-//        System.out.println("Request Body: " + requestBody);
-
-        log.info("postForm: ", postFormDto.getTitle());
-
+    public String savePost( @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
             return "qEnroll";
         }
+
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
         return "redirect:/post/" + savedPostId; //상세 페이지로 이동
     }
+
 
     /**
      * 게시글 수정 폼
      */
     @GetMapping("/edit-post/{postId}")
-    @ResponseBody
-    public PostFormDto editFrom(@PathVariable("postId") Long postId, Model model,
+    public String editFrom(@PathVariable("postId") Long postId, Model model,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return null;
+            throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         PostFormDto postFormDto = postService.updateForm(postId);
         model.addAttribute("postFormDto", postFormDto);
-        return postFormDto;
+        return "qModify";
     }
 
     /**
      * 게시글 수정
      */
-    @PutMapping("/edit-post/{postId}")
-    @ResponseBody
+    @PostMapping("/edit-post/{postId}")
     public String editPost(@PathVariable("postId") Long postId,
-                           @RequestBody @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @Valid PostFormDto postFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
+
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 !principalDetails.getRole().equals(Role.ROLE_ADMIN)) {
-            return "에러";
+            throw new CustomException(ErrorCode.POST_UPDATE_WRONG_ACCESS);
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
             model.addAttribute("postFormDto", postFormDto);
-            return "게시글 폼";
+            return "qEnroll";
         }
         postService.updatePost(postId, postFormDto);
-        return "게시글 상세";
+        return "redirect:/post/" + postId;
     }
 
     /**
@@ -161,9 +159,9 @@ public class PostController {
      * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
     @DeleteMapping("/delete-post/{postId}")
-    @ResponseBody
     public String deletePost(@PathVariable("postId") Long postId,
-                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                             @AuthenticationPrincipal PrincipalDetails principalDetails,
+                             Model model) {
         if (principalDetails == null) {
             return "redirect:/login";
         }
@@ -171,10 +169,10 @@ public class PostController {
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(postService.findWriter(postId)) &&
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
-            return "에러";
+            throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         postService.deletePost(postId);
-        return "게시글 리스트";
+        return "qaList";
     }
 
     /**
@@ -183,7 +181,6 @@ public class PostController {
     @Data
     @AllArgsConstructor
     static class Response {
-//        private List<CommentDto> commentDtoList;
         private PostDto postDto;
         private List<AnswerDto> answerDtoList;
     }

@@ -4,6 +4,7 @@ import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostManageDto;
 import colony.webproj.dto.QPostDto;
 import colony.webproj.dto.QPostManageDto;
+import colony.webproj.entity.QMember;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -27,10 +28,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+        QMember member = new QMember("member");
         List<PostDto> result = queryFactory
                 .select(new QPostDto(
                         post.id,
                         post.title,
+                        post.content,
                         member.nickname,
                         post.createdAt,
                         post.answered
@@ -59,18 +62,19 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostManageDto> findPostDtoListAdmin(SearchType searchType, String searchValue, Pageable pageable) {
+        QMember member1 = new QMember("member1");
         List<PostManageDto> result = queryFactory
                 .select(new QPostManageDto(
                         post.id,
                         post.title,
-                        member.name,
-                        member.nickname,
-                        member.department,
+                        member1.name,
+                        member1.nickname,
+                        member1.department,
                         post.createdAt,
                         post.answered
                         ))
                 .from(post)
-                .join(post.member, member)
+                .join(post.member, member1)
                 .where(searchValue(searchType, searchValue))
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -101,7 +105,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.content.containsIgnoreCase(searchValue);
         }
         if (searchType == SearchType.NICKNAME) {
-            return member.nickname.containsIgnoreCase(searchValue);
+            return post.member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
     }

@@ -21,8 +21,7 @@ public class AdminService {
 
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final BCryptPasswordEncoder encoder;
-
+ 
     /**
      * 회원 정보
      */

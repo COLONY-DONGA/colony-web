@@ -36,7 +36,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//mysql 추가
-//	runtimeOnly("com.mysql:mysql-connector-j")
+//	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 
 	//devtools 적용
 	implementation 'org.springframework.boot:spring-boot-devtools'
@@ -54,6 +55,13 @@ dependencies {
 	implementation 'org.springframework:spring-messaging:6.0.3'
 	implementation 'org.springframework.security:spring-security-messaging:6.0.2'
 
+	//email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -67,4 +75,9 @@ tasks.named('test') {
 
 clean {
 	delete file('src/main/generated')
+}
+
+//SNAPSHOT 생성 x
+jar {
+	enabled = false
 }

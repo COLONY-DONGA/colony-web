@@ -41,7 +41,8 @@ public class MyPageController {
         model.addAttribute("answers", myPageDto.getAnswerDto());
         model.addAttribute("comments", myPageDto.getCommentDto());
 
-        return "/memberPage";
+        return "memberPage";
+
     }
 
     /**
@@ -58,7 +59,6 @@ public class MyPageController {
         }
         return ResponseEntity.ok(true);
     }
-
 
     /**
      * 마이페이지 수정
