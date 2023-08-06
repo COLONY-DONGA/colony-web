@@ -1,41 +1,3 @@
-<<<<<<< HEAD
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://colony-test.coz9al7ljo0h.ap-northeast-2.rds.amazonaws.com:3306/colony-test
-#    username: root
-#    password: 12341234
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    properties:
-#      hibernate:
-#        format_sql: true
-#    show-sql: true
-
-#spring: 에서부터 ddl-auto: create 까지 주석 풀고 이 위로는 전부 주석처리 하면 됨. (gradle 에서 mysql 주석, h2 주석풀기)
-spring:
-  main:
-    allow-circular-references: true
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/colony
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-
-#파일 저장 경로 설정
-#file:
-#  dir: C:/Users/김진수/colony/
-
-file:
-  dir: /Users/yuhyeon/Desktop/😁
-
-=======
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -90,4 +52,3 @@ cloud:
     stack.auto: false #기본 cloudFormation 구성 시작 사용 x
     region:
       static: ap-northeast-2
->>>>>>> main
