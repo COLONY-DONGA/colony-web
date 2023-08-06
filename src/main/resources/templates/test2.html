@@ -154,7 +154,7 @@
       let name = $('#post-writer').val(); // post 작성자
       let postId = $('#postId').val();
 
-      /*var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+      /* var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
         window.open('/answer/' + postId, 'aEnroll');
       });
@@ -173,41 +173,41 @@
       deletebtn.addEventListener('click', function () {
         location.href = '/delete-post/' + postId;
       });
+      
 
       if (userName != name || userName === '') {
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
-      }*/
-      //관리자일때도 권한 추가해야함
+        //관리자일때도 권한 추가
+        if (userName === '관리자') {
+          //관리자 이름을 어떻게 받더라....
+          editbtn.style.display = 'block';
+          deletebtn.style.display = 'block';
+        }
+      }
+      */
 
       //좋아요 기능 구현(질문글 좋아요)
-      var qlikeCount = 0;
+      $(document).ready(function () {
+        $('.heart-button').click(function () {
+          const $parent = $(this).parent('.answer');
+          const answerId = $parent.data('answer-id');
 
-      // qlikeBtn 클릭 이벤트 처리 코드 이상함 수정필요
-      $('#heart-button').on('click', function () {
-        // class 변경
-        if ($(this).hasClass('likeButton')) {
-          $(this).removeClass('#heart-button').addClass('#heart-button-use'); // 색상 변경
-          // qlikeCount 증가 (이 친구가 나중에 ajax통신으로 질문에 대한 좋아요로 들어갈 것임)
-        } else {
-          $(this).removeClass('#heart-button-use').addClass('#heart-button');
-        }
-        $('#qlikeCount').text(qlikeCount);
-
-        // 서버로 ajax 요청
-        $.ajax({
-          url: 'localhost:8080/~~~/',
-          type: 'POST',
-          dataType: 'json',
-          data: { answerId: answerId },
-          success: function (response) {
-            // 서버 응답 처리
-            console.log(response);
-          },
-          error: function (error) {
-            // 에러 처리
-            console.error(error);
-          },
+          // json 형식으로 ajax 요청을 보냅니다.
+          $.ajax({
+            type: 'POST',
+            url: '/좋아요 url',
+            contentType: 'application/json',
+            data: JSON.stringify({ answerId: answerId, userName: userName }),
+            success: function (response) {
+              const $likeCount = $parent.find('.likecount');
+              const currentLikeCount = parseInt($likeCount.text());
+              $likeCount.text(currentLikeCount + 1);
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', status, error);
+            },
+          });
         });
       });
 
@@ -244,7 +244,9 @@
         element.style.height = 'auto'; // 높이 초기화
       }
 
-      //수정
+      //답변 생성 부분!!
+
+      //댓글 작성 기능!!!
       const commentsData = [
         {
           name: '최유현',
@@ -276,56 +278,22 @@
         newCommentInput.value = '';
       }
 
-      const writeButton = document.getElementById('add-comment-button');
-      writeButton.addEventListener('click', onWriteButtonClick);
-
       function onClickAddReplyButton(event) {
-        const button = event.target.closest('.fa-reply'); // Modify this line
+        const button = event.target.closest('.fa-reply');
+        if (!button) return;
+
         const commentIndex = button.dataset.commentIndex;
         const commentItem = button.closest('li');
         const replyList = commentItem.querySelector('.reply-list');
+        const inputReply = replyList.querySelector('.inputReply');
+        const newReplyText = inputReply.value;
 
-        const newReplyElement = `
-          <li class="new-reply">
-            <div class="comment-avatar">
-              <img src="../static/img/colony.jpg" alt="" />
-            </div>
-            <div class="comment-box">
-              <div class="comment-head">
-                <h6 class="comment-name">New Reply</h6>
-              </div>
-              <div class="comment-content"><input type="text" class="inputReply" /></div>
-              <button class="reply-write-btn">작성</button>
-            </div>
-          </li>
-        `;
-
-        replyList.innerHTML += newReplyElement;
-
-        const replyWriteBtn = replyList.querySelector('.reply-write-btn');
-        replyWriteBtn.addEventListener('click', () => {
-          const inputReply = replyList.querySelector('.inputReply');
-          const newReplyText = inputReply.value;
-
-          commentsData[commentIndex]['replies'].push({
-            name: '사용자',
-            content: newReplyText,
-          });
-
-          addComments();
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
+          content: newReplyText,
         });
-      }
-      function addNewCommentEventListeners(commentItem) {
-        const replyButton = commentItem.querySelector('.fa-reply');
-        replyButton.addEventListener('click', onClickAddReplyButton);
-      }
 
-      function addReplyButtonClickHandler() {
-        const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
-        replyButtons.forEach((button) => {
-          button.removeEventListener('click', onClickAddReplyButton);
-          button.addEventListener('click', onClickAddReplyButton);
-        });
+        addComments();
       }
 
       function addComments() {
@@ -338,22 +306,22 @@
           }
 
           const commentElement = `
-              <li>
-                <div class="comment-main-level">
-                  <div class="comment-avatar">
-                    <img src="../static/img/colony.jpg" alt="" />
-                  </div>
-                  <div class="comment-box">
-                    <div class="comment-head">
-                      <h6 class="comment-name">${comment.name}</h6>
-                      <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
-                    </div>
-                    <div class="comment-content">${comment.content}</div>
-                    <ul class="comments-list reply-list"></ul>
-                  </div>
-                </div>
-              </li>
-            `;
+        <li>
+          <div class="comment-main-level">
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">${comment.name}</h6>
+                <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
+              </div>
+              <div class="comment-content">${comment.content}</div>
+              <ul class="comments-list reply-list"></ul>
+            </div>
+          </div>
+        </li>
+      `;
           commentsList.innerHTML += commentElement;
 
           const commentItem = commentsList.lastElementChild;
@@ -364,31 +332,79 @@
 
             comment.replies.forEach((reply) => {
               const replyElement = `
-                  <li>
-                    <div class="comment-avatar">
-                      <img src="../static/img/colony.jpg" alt="" />
-                    </div>
-                    <div class="comment-box">
-                      <div class="comment-head">
-                        <h6 class="comment-name">${reply.name}</h6>
-                      </div>
-                      <div class="comment-content">${reply.content}</div>
-                    </div>
-                  </li>
-                `;
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">${reply.name}</h6>
+                </div>
+                <div class="comment-content">${reply.content}</div>
+              </div>
+            </li>
+          `;
               replyList.innerHTML += replyElement;
             });
           }
         });
       }
+
+      function addNewCommentEventListeners(commentItem) {
+        const replyButton = commentItem.querySelector('.fa-reply');
+        replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
+        replyButton.addEventListener('click', onClickAddReplyButton);
+
+        // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
+        const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
+        replyWriteBtn.forEach((button) => {
+          button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
+          button.addEventListener('click', onReplyWriteButtonClick);
+        });
+      }
+
+      function onReplyWriteButtonClick(event) {
+        const button = event.target.closest('.reply-write-btn');
+        if (!button) return;
+
+        const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
+          .dataset.commentIndex;
+        const commentItem = button.closest('li');
+        const replyList = commentItem.closest('ul.reply-list');
+
+        const inputReply = replyList.querySelector('.inputReply');
+        const newReplyText = inputReply.value;
+
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
+          content: newReplyText,
+        });
+
+        addComments();
+      }
+
+      function addReplyButtonClickHandler() {
+        const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
+        replyButtons.forEach((button) => {
+          button.removeEventListener('click', onClickAddReplyButton);
+          button.addEventListener('click', onClickAddReplyButton);
+        });
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         addComments();
         addReplyButtonClickHandler();
       });
 
+      const writeButton = document.getElementById('add-comment-button');
+      writeButton.addEventListener('click', onWriteButtonClick);
+
+      const commentsList = document.getElementById('comments-list');
       commentsList.addEventListener('click', (event) => {
         if (event.target.matches('.fa-reply')) {
           onClickAddReplyButton(event);
+        } else if (event.target.matches('.reply-write-btn')) {
+          onReplyWriteButtonClick(event);
         }
       });
     </script>
