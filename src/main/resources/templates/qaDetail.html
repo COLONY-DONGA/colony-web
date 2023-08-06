@@ -55,9 +55,22 @@
           <!--내용칸-->
         </div>
 
-        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
-
-        Q. question area 삼겹살 떡볶이 마라탕 꿔바로우 닭발 춰컬렛 프로젝트 언제끝나??
+        <div class="question-area" th:text="${postDto.content}">
+          Q. question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area Q.
+          question area Q. question area Q. question area Q. question area Q. question area
+        </div>
 
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
         <!--포스트아이디-->
@@ -112,7 +125,9 @@
 
         <div th:each="answer : ${answerList}" class="answer-text" id="answer-box-[[${answer.id}]]">
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <div class="answer-area" th:text="${'A. : ' + answer.content}">A.answer content</div>
+          <div class="answer-area" th:text="${'A. : ' + answer.content}">
+            A.answer content A.answer content A.answer content A.answer content A.answer content
+          </div>
         </div>
 
         <!--파일-->
