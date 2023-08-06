@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,22 +55,9 @@
           <!--내용칸-->
         </div>
 
-        <div class="question-area" th:text="${postDto.content}">
-          Q. question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area Q.
-          question area Q. question area Q. question area Q. question area Q. question area
-        </div>
+        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+
+        Q. question area
 
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
         <!--포스트아이디-->
@@ -98,10 +80,8 @@
               답변하기
             </button>
             <!--<button class="listbtn" id="listbtn">목록</button>-->
-            <button class="editbtn" id="post-editbtn">수정</button>
-            <button class="deletebtn" id="post-deletebtn">
-              <i class="fa fa-trash"></i>
-            </button>
+            <button class="editbtn" id="editbtn">수정</button>
+            <button class="deletebtn" id="deletebtn">삭제</button>
             <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
         </div>
@@ -130,9 +110,7 @@
 
         <div th:each="answer : ${answerList}" class="answer-text" id="answer-box-[[${answer.id}]]">
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <div class="answer-area" th:text="${'A. : ' + answer.content}">
-            A.answer content A.answer content A.answer content A.answer content A.answer content
-          </div>
+          <div class="answer-area" th:text="${'A. : ' + answer.content}">A.answer content</div>
         </div>
 
         <!--파일-->
@@ -142,9 +120,9 @@
           <button class="heart-button"><i class="fa fa-heart"></i></button>
           <div class="likecount" id="like">1</div>
           <div class="btn">
-            <button class="editbtn" id="answer-editbtn">수정</button>
-            <button class="deletebtn" id="answer-deletebtn">
-              <i class="fa fa-trash"></i>
+            <button class="editbtn" id="editbtn">수정</button>
+            <button class="deletebtn" id="deletebtn">
+              <i class="fa fa-trash" id="answer-deletebtn"></i>
             </button>
             <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
@@ -161,12 +139,7 @@
             <div class="inputframe">
               <br />
 
-              <input
-                type="text"
-                class="input-text"
-                id="newComment"
-                placeholder="새 댓글을 입력하세요"
-              />
+              <h5>New Comment : <input type="text" class="input-text" id="newComment" /></h5>
               <button class="new-comment-btn" id="add-comment-button">작성</button>
             </div>
           </div>
@@ -181,7 +154,7 @@
       let name = $('#post-writer').val(); // post 작성자
       let postId = $('#postId').val();
 
-      var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+      /* var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
         window.open('/answer/' + postId, 'aEnroll');
       });
@@ -191,25 +164,16 @@
         location.href = '/post-list';
       });
 
-      var postEditbtn = document.getElementById('post-editbtn'); //게시글 수정 버튼
+      var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
         location.href = 'edit-post/' + postId;
       });
 
-      var answerEditbtn = document.getElementById('answer-editbtn'); //답변글 수정 버튼
-      editbtn.addEventListener('click', function () {
-        location.href = 'answer-post/' + answerId;
-      });
-
-      var postDeletebtn = document.getElementById('post-deletebtn'); //게시글 삭제 버튼
+      var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
       deletebtn.addEventListener('click', function () {
         location.href = '/delete-post/' + postId;
       });
-
-      var answerDeletebtn = document.getElementById('answer-deletebtn'); //답변글 삭제 버튼
-      deletebtn.addEventListener('click', function () {
-        location.href = '/delete-answer/' + answerId;
-      });
+      
 
       if (userName != name || userName === '') {
         editbtn.style.display = 'none';
@@ -221,6 +185,7 @@
           deletebtn.style.display = 'block';
         }
       }
+      */
 
       //좋아요 기능 구현(질문글 좋아요)
       $(document).ready(function () {
@@ -281,73 +246,38 @@
 
       //답변 생성 부분!!
 
-      function fetchAnswers() {
-        const postId = $('#postId').val();
-        $.ajax({
-          type: 'GET',
-          url: `/api/answers/${postId}`,
-          success: function (response) {
-            processAnswersFromServer(response); // 가져온 답변 데이터를 처리하는 함수 호출
-          },
-          error: function (error) {
-            console.error('답변 데이터를 가져오는데 실패하였습니다:', error);
-          },
-        });
-      }
-
-      function addAnswer(answer) {
-        const answerList = document.getElementById('answer-list');
-
-        const answerElement = `
-          <div class="answer-text" id="answer-box-${answer.id}">
-            <div class="answer-area">A. : ${answer.content}</div>
-          </div>
-        `;
-        answerList.innerHTML += answerElement;
-      }
-
-      function addAnswers(answers) {
-        const answerList = document.getElementById('answer-list');
-        answerList.innerHTML = ''; // 기존 답변을 모두 지우고 새로운 답변을 추가할 것입니다.
-
-        answers.forEach((answer) => {
-          addAnswer(answer);
-        });
-      }
-
-      // 서버에서 답변을 받은 후 이 함수를 호출합니다.
-      function processAnswersFromServer(answers) {
-        addAnswers(answers);
-      }
-
       //댓글 작성 기능!!!
+      const commentsData = [
+        {
+          name: '최유현',
+          content: '첫번째 댓글~~~.',
+          replies: [
+            { name: '최쌤 대댓글1', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+            { name: '최쌤 대댓글2', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+          ],
+        },
+        {
+          name: '김진짜',
+          content: '두번쨰 댓글~~~',
+          replies: [{ name: '김진수', content: 'blalbalbalbalba' }],
+        },
+      ];
+
       function onWriteButtonClick() {
         const newCommentInput = document.getElementById('newComment');
         const newCommentText = newCommentInput.value;
 
-        const newComment = {
+        commentsData.push({
           name: '사용자',
           content: newCommentText,
           replies: [],
-        };
-
-        // 새 댓글을 서버로 전송!
-        $.ajax({
-          type: 'POST',
-          url: '/api/comments',
-          contentType: 'application/json', // JSON 형식으로 데이터를 보내도록 설정합니다.
-          data: JSON.stringify(newComment), // JSON 형식으로 직렬화하여 데이터를 보냅니다.
-          success: function () {
-            addComments(); // 댓글 작성 후 댓글 목록을 새로고침합니다.
-            newCommentInput.value = ''; // 입력 필드를 초기화합니다.
-          },
-          error: function (error) {
-            console.error('댓글 작성 오류:', error);
-          },
         });
+
+        addComments();
+
+        newCommentInput.value = '';
       }
 
-      // 대댓글 작성 기능
       function onClickAddReplyButton(event) {
         const button = event.target.closest('.fa-reply');
         if (!button) return;
@@ -358,88 +288,65 @@
         const inputReply = replyList.querySelector('.inputReply');
         const newReplyText = inputReply.value;
 
-        const newReply = {
-          name: userName,
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
           content: newReplyText,
-        };
-
-        // 새 대댓글을 서버로 전송!
-        $.ajax({
-          type: 'POST',
-          url: `/api/comments/${commentIndex}/replies`,
-          contentType: 'application/json', // JSON 형식으로 데이터를 보내도록 설정합니다.
-          data: JSON.stringify(newReply), // JSON 형식으로 직렬화하여 데이터를 보냅니다.
-          success: function () {
-            addComments(); // 대댓글 작성 후 댓글 목록을 새로고침합니다.
-          },
-          error: function (error) {
-            console.error('대댓글 작성 오류:', error);
-          },
         });
+
+        addComments();
       }
 
-      // 댓글과 대댓글 표시 기능
       function addComments() {
         const commentsList = document.getElementById('comments-list');
         commentsList.innerHTML = '';
 
-        // 댓글과 대댓글을 서버로부터 가져오는 부분
-        $.ajax({
-          type: 'GET',
-          url: '/api/comments',
-          success: function (commentsData) {
-            commentsData.forEach((comment, commentIndex) => {
-              if (!comment.hasOwnProperty('replies')) {
-                comment.replies = [];
-              }
+        commentsData.forEach((comment, commentIndex) => {
+          if (!comment.hasOwnProperty('replies')) {
+            comment.replies = [];
+          }
 
-              const commentElement = `
-                <li>
-                  <div class="comment-main-level">
-                    <div class="comment-avatar">
-                      <img src="../static/img/colony.jpg" alt="" />
-                    </div>
-                    <div class="comment-box">
-                      <div class="comment-head">
-                        <h6 class="comment-name">${comment.name}</h6>
-                        <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
-                      </div>
-                      <div class="comment-content">${comment.content}</div>
-                      <ul class="comments-list reply-list"></ul>
-                    </div>
-                  </div>
-                </li>
-              `;
-              commentsList.innerHTML += commentElement;
+          const commentElement = `
+        <li>
+          <div class="comment-main-level">
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">${comment.name}</h6>
+                <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
+              </div>
+              <div class="comment-content">${comment.content}</div>
+              <ul class="comments-list reply-list"></ul>
+            </div>
+          </div>
+        </li>
+      `;
+          commentsList.innerHTML += commentElement;
 
-              const commentItem = commentsList.lastElementChild;
-              addNewCommentEventListeners(commentItem);
+          const commentItem = commentsList.lastElementChild;
+          addNewCommentEventListeners(commentItem);
 
-              if (comment.replies.length > 0) {
-                const replyList = commentItem.querySelector('.reply-list');
+          if (comment.replies.length > 0) {
+            const replyList = commentItem.querySelector('.reply-list');
 
-                comment.replies.forEach((reply) => {
-                  const replyElement = `
-                    <li>
-                      <div class="comment-avatar">
-                        <img src="../static/img/colony.jpg" alt="" />
-                      </div>
-                      <div class="comment-box">
-                        <div class="comment-head">
-                          <h6 class="comment-name">${reply.name}</h6>
-                        </div>
-                        <div class="comment-content">${reply.content}</div>
-                      </div>
-                    </li>
-                  `;
-                  replyList.innerHTML += replyElement;
-                });
-              }
+            comment.replies.forEach((reply) => {
+              const replyElement = `
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">${reply.name}</h6>
+                </div>
+                <div class="comment-content">${reply.content}</div>
+              </div>
+            </li>
+          `;
+              replyList.innerHTML += replyElement;
             });
-          },
-          error: function (error) {
-            console.error('댓글 가져오기 오류:', error);
-          },
+          }
         });
       }
 
@@ -468,24 +375,12 @@
         const inputReply = replyList.querySelector('.inputReply');
         const newReplyText = inputReply.value;
 
-        const newReply = {
-          name: userName, //현재 로그인중인 유저네임!
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
           content: newReplyText,
-        };
-
-        // 새 대댓글을 서버로 전송합니다.
-        $.ajax({
-          type: 'POST',
-          url: `/api/comments/${commentIndex}/replies`,
-          contentType: 'application/json',
-          data: JSON.stringify(newReply),
-          success: function () {
-            addComments(); // 대댓글 작성 후 댓글 목록을 새로고침합니다.
-          },
-          error: function (error) {
-            console.error('대댓글 작성 오류:', error);
-          },
         });
+
+        addComments();
       }
 
       function addReplyButtonClickHandler() {
@@ -497,8 +392,6 @@
       }
 
       document.addEventListener('DOMContentLoaded', () => {
-        addReplyButtonClickHandler();
-        fetchAnswers();
         addComments();
         addReplyButtonClickHandler();
       });
