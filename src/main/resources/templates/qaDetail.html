@@ -41,7 +41,7 @@
               >작성자</span
             >
             <span class="small-line"> | </span>
-            <span class="question-info-date" th:text="${postDto.updatedAt}">date</span>
+            <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
           </div>
 
           <br />
@@ -67,7 +67,7 @@
           <!-- Loop through the file list -->
           <div th:each="file : ${postDto.imageDtoList}">
             <div class="file-img">
-              <img th:src="|${file.s3Url}" alt="이미지" />
+              <img th:src="${file.s3Url}" alt="이미지" />
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
 
       <br />
 
-      <div class="answer-box" id="answer-box">
+      <div th:each="answer : ${answerDtoList}" class="answer-box" id="answer-box">
         <div class="horizontal-line"></div>
         <div class="a-head">
           <div class="answer-title">
@@ -100,17 +100,19 @@
             <span class="answer-number">1</span>
           </div>
           <div class="answer-info">
-            <span id="answer-writer" class="answer-info-writer" th:text="${postDto.createdBy}"
+            <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
               >작성자</span
             >
             <span class="small-line"> | </span>
-            <span class="answer-info-date" th:text="${answerDto.createAt}">date</span>
+            <span class="answer-info-date" th:text="${answer.createdAt}">date</span>
           </div>
         </div>
 
-        <div th:each="answer : ${answerList}" class="answer-text" id="answer-box-[[${answer.id}]]">
+        <div class="answer-text" id="answer-box-[[${answer.id}]]">
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <div class="answer-area" th:text="${'A. : ' + answer.content}">A.answer content</div>
+          <div class="answer-area" th:text="${answer.content}">
+            A.answer content A.answer content A.answer content A.answer content A.answer content
+          </div>
         </div>
 
         <!--파일-->
@@ -118,7 +120,7 @@
 
         <div class="tool-box" id="answer-tool-box">
           <button class="heart-button"><i class="fa fa-heart"></i></button>
-          <div class="likecount" id="like">1</div>
+          <div class="likecount" id="like" th:text="${answer.heartNum}">1</div>
           <div class="btn">
             <button class="editbtn" id="editbtn">수정</button>
             <button class="deletebtn" id="deletebtn">

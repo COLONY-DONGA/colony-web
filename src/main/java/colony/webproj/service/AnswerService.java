@@ -9,6 +9,7 @@ import colony.webproj.exception.ErrorCode;
 import colony.webproj.repository.CommentRepository.CommentRepository;
 import colony.webproj.repository.answerRepository.AnswerRepository;
 import colony.webproj.repository.imageRepository.ImageRepository;
+import colony.webproj.repository.likesRepository.LikesRepository;
 import colony.webproj.repository.memberRepository.MemberRepository;
 import colony.webproj.repository.PostRepository.PostRepository;
 import colony.webproj.sse.NotificationService;
@@ -47,6 +48,7 @@ public class AnswerService {
     private final NotificationService notificationService;
     private final EmailService emailService;
     private final NotificationRepository notificationRepository;
+    private final LikesRepository likesRepository;
 
 
     /**
@@ -134,7 +136,8 @@ public class AnswerService {
         }
 
         List<AnswerDto> answerDtoList = answerList.stream()
-                .map(answer -> new AnswerDto(answer))
+                .map(answer ->
+                    new AnswerDto(answer, answer.getLikes().size()))
                 .collect(Collectors.toList());
         return answerDtoList;
     }
