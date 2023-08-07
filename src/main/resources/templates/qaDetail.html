@@ -67,7 +67,7 @@
           <!-- Loop through the file list -->
           <div th:each="file : ${postDto.imageDtoList}">
             <div class="file-img">
-              <img th:src="|/images/${file.storeImageName}|" alt="이미지" />
+              <img th:src="|${file.s3Url}" alt="이미지" />
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@
               >작성자</span
             >
             <span class="small-line"> | </span>
-            <span class="answer-info-date" th:text="${answerDto.updatedAt}">date</span>
+            <span class="answer-info-date" th:text="${answerDto.createAt}">date</span>
           </div>
         </div>
 
