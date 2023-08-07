@@ -24,12 +24,12 @@ spring:
 #      ddl-auto: create
 
 ##진수 파일 저장 경로 설정
-file:
-  dir: C:/Users/kimjinsu/colony/
+#file:
+#  dir: C:/Users/kimjinsu/colony/
 
 #유진 파일 저장 경로 설정
-#file:
-#  dir: D:/colony/
+file:
+  dir: D:/colony/
 
 spring.mail:
   host: smtp.gmail.com
