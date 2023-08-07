@@ -112,6 +112,7 @@ public class MemberService {
         member.setName(memberFormDto.getName());
         member.setPhoneNumber(memberFormDto.getPhoneNumber());
         member.setDepartment(memberFormDto.getDepartment());
+        member.setEmail(memberFormDto.getEmail());
 
         memberRepository.save(member);
 
