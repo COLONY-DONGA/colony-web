@@ -29,6 +29,8 @@ public class Answer extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+    @OneToMany(mappedBy = "answer")
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "answer")
     private List<Comment> comments;

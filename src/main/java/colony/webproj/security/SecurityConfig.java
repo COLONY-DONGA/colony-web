@@ -40,13 +40,14 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
         http.csrf().disable().cors().disable() //csrf 비활성화
                 .authorizeHttpRequests(request ->
                         request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
-                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
-                        .requestMatchers(
-                                "/login", "/join", "/login-guest", "validation-id",
-                                "validation-password", "validation-email", "post-list", "/post/{postId}").permitAll()
-                        .anyRequest().authenticated()
+                                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                                .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
+                                .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
+                                .requestMatchers(
+                                        "/login", "/join", "/login-guest", "validation-id",
+                                        "validation-password", "validation-email", "post-list", "/post/{postId}").permitAll()
+                                .requestMatchers("/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -76,7 +77,6 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
     ) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
 
 }
