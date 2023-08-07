@@ -46,7 +46,7 @@
               >작성자</span
             >
             <span class="small-line"> | </span>
-            <span class="question-info-date" th:text="${postDto.updatedAt}">date</span>
+            <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
           </div>
 
           <br />
@@ -85,7 +85,7 @@
           <!-- Loop through the file list -->
           <div th:each="file : ${postDto.imageDtoList}">
             <div class="file-img">
-              <img th:src="|${file.s3Url}" alt="이미지" />
+              <img th:src="${file.s3Url}" alt="이미지" />
             </div>
           </div>
         </div>
@@ -124,13 +124,13 @@
               >작성자</span
             >
             <span class="small-line"> | </span>
-            <span class="answer-info-date" th:text="${answerDto.createAt}">date</span>
+            <span class="answer-info-date">date</span>
           </div>
         </div>
 
-        <div th:each="answer : ${answerList}" class="answer-text" id="answer-box-[[${answer.id}]]">
+        <div th:each="answer : ${answerDtoList}" class="answer-text" id="answer-box-[[${answer.id}]]">
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-          <div class="answer-area" th:text="${'A. : ' + answer.content}">
+          <div class="answer-area" th:text="${answer.content}">
             A.answer content A.answer content A.answer content A.answer content A.answer content
           </div>
         </div>

@@ -4,6 +4,7 @@ import colony.webproj.entity.Member;
 import colony.webproj.service.EmailService;
 import colony.webproj.sse.dto.NotificationCountDto;
 import colony.webproj.sse.dto.NotificationDto;
+import colony.webproj.sse.dto.NotificationHistoryDto;
 import colony.webproj.sse.model.Notification;
 import colony.webproj.sse.model.NotificationContent;
 import colony.webproj.sse.model.NotificationType;
@@ -20,6 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -120,11 +124,38 @@ public class NotificationService {
     }
 
     @Transactional
-    public List<NotificationDto> findAllNotifications(Long memberId) {
+    public List<NotificationHistoryDto> findAllNotifications(Long memberId) {
         List<Notification> notifications = notificationRepository.findAllByMemberId(memberId);
-        return notifications.stream()
-                .map(NotificationDto::create)
-                .collect(Collectors.toList());
+        List<NotificationHistoryDto> notificationHistoryDtoList = new ArrayList<>();
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        for (Notification notification : notifications) {
+            LocalDateTime createdAt = notification.getCreatedAt();
+
+            //도착 시간 계산
+            long minutesDiff = ChronoUnit.MINUTES.between(createdAt, currentTime);
+            long hoursDiff = ChronoUnit.HOURS.between(createdAt, currentTime);
+            long daysDiff = ChronoUnit.DAYS.between(createdAt, currentTime);
+            long monthsDiff = ChronoUnit.MONTHS.between(createdAt, currentTime);
+
+            String arriveTime = "";
+
+            // 시간 간격에 따라 메시지를 출력합니다.
+            if (monthsDiff > 0) {
+                arriveTime = monthsDiff + "달 전에 도착했습니다.";
+            } else if (daysDiff > 0) {
+                arriveTime = daysDiff + "일 전에 도착했습니다.";
+            } else if (hoursDiff > 0) {
+                arriveTime = hoursDiff + "시간 전에 도착했습니다.";
+            } else if (minutesDiff > 0) {
+                arriveTime = minutesDiff + "분 전에 도착했습니다.";
+            } else {
+                arriveTime = "방금 도착했습니다.";
+            }
+            NotificationHistoryDto notificationHistoryDto = new NotificationHistoryDto(notification, arriveTime);
+            notificationHistoryDtoList.add(notificationHistoryDto);
+        }
+        return notificationHistoryDtoList;
     }
 
 
