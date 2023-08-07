@@ -41,10 +41,10 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                 .authorizeHttpRequests(request ->
                         request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/images/**", "/css/**", "/js/**").permitAll() //정적
+                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
                         .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
                         .requestMatchers(
-                                "/login", "/login-guest", "validation-id",
+                                "/login", "/join", "/login-guest", "validation-id",
                                 "validation-password", "validation-email", "post-list", "/post/{postId}").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -53,15 +53,15 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list", true) //메인페이지로 갈듯
+                        .defaultSuccessUrl("/post-list", true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // The URL to trigger the logout process
-                        .logoutSuccessUrl("/login") // Redirect to login page after successful logout
-                        .invalidateHttpSession(true) // Invalidate the HttpSession
-                        .deleteCookies("JSESSIONID") // Delete the JSESSIONID cookie
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
