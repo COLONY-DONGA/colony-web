@@ -101,11 +101,11 @@
               <div class="form sign-in">
                 <div class="input-group">
                   <i class="bx bxs-user"></i>
-                  <input name="loginId" type="text" placeholder="loginId" />
+                  <input name="loginId" id="login-id" type="text" placeholder="loginId" />
                 </div>
                 <div class="input-group">
                   <i class="bx bxs-lock-alt"></i>
-                  <input name="password" type="password" placeholder="Password" />
+                  <input name="password" id="login-pw" type="password" placeholder="Password" />
                 </div>
                 <button type="submit" class="login-btn">Sign in</button>
                 <button type="button" class="guest-btn">Guest</button>
@@ -150,6 +150,21 @@
       let container = document.getElementById('container');
 
       toggle = () => {
+        document.getElementById('login-id').value = '';
+        document.getElementById('login-pw').value = '';
+        document.getElementById('loginId').value = '';
+        document.getElementById('nickname').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('pw_check').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('department').value = '';
+
+        idChecked = false;
+        nicknameChecked = false;
+        emailChecked = false;
+
         container.classList.toggle('sign-in');
         container.classList.toggle('sign-up');
       };
@@ -191,8 +206,11 @@
       let nickname_check = document.getElementById('nickname-check');
       let email_check = document.getElementById('email-check');
 
+      let idChecked = false;
+      let nicknameChecked = false;
+      let emailChecked = false;
+
       joinBtn.onclick = function (event) {
-        console.log('시작');
         // 아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자
         let id_reg = /^[A-Za-z0-9]{4,16}$/;
         // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~6글자
@@ -233,8 +251,6 @@
         na_result.innerText = '';
         ph_result.innerText = '';
 
-        console.log('진짜 시작');
-
         if (id.value.trim() === '') {
           id_result.innerText = '아이디를 입력해주세요.';
           id.focus();
@@ -248,7 +264,12 @@
           event.preventDefault();
           return false;
         }
-        console.log('아이디 합격');
+        if (!idChecked) {
+          alert('아이디 중복 체크가 필요합니다.');
+          event.preventDefault();
+          return false;
+        }
+
         if (ni.value.trim() === '') {
           ni_result.innerText = '닉네임을 입력해주세요.';
           ni.focus();
@@ -262,7 +283,12 @@
           event.preventDefault();
           return false;
         }
-        console.log('닉네임 합격');
+        if (!nicknameChecked) {
+          alert('닉네임 중복 체크가 필요합니다.');
+          event.preventDefault();
+          return false;
+        }
+
         if (em.value.trim() === '') {
           em_result.innerText = '이메일을 입력해주세요.';
           em.focus();
@@ -276,14 +302,19 @@
           event.preventDefault();
           return false;
         }
-        console.log('이메일 합격');
+        if (!emailChecked) {
+          alert('이메일 중복 체크가 필요합니다.');
+          event.preventDefault();
+          return false;
+        }
+
         if (de.value.trim() === '') {
           de_result.innerText = '소속을 입력해주세요.';
           de.focus();
           event.preventDefault();
           return false;
         }
-        console.log('소속 합격');
+
         if (pw.value.trim() === '') {
           pw_result.innerText = '패스워드를 입력해주세요.';
           pw.focus();
@@ -298,7 +329,7 @@
           event.preventDefault();
           return false;
         }
-        console.log('패스워드 합격');
+
         if (pw_check.value.trim() === '') {
           pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
           pw_check.focus();
@@ -312,7 +343,7 @@
           event.preventDefault();
           return false;
         }
-        console.log('패스워드 체크 합격');
+
         if (na.value.trim() === '') {
           na_result.innerText = '이름을 입력해주세요.';
           na.focus();
@@ -326,7 +357,7 @@
           event.preventDefault();
           return false;
         }
-        console.log('이름 합격');
+
         if (ph.value.trim() === '') {
           ph_result.innerText = '전화번호를 입력해주세요.';
           ph.focus();
@@ -340,7 +371,6 @@
           event.preventDefault();
           return false;
         }
-        console.log('전부 통과');
       };
 
       id_check.onclick = function (event) {
@@ -352,6 +382,7 @@
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ loginId: loginId.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            idChecked = true;
             alert('사용 가능한 아이디입니다.');
           },
           error: function () {
@@ -369,6 +400,7 @@
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            nicknameChecked = true;
             alert('사용 가능한 닉네임입니다.');
           },
           error: function () {
@@ -386,6 +418,7 @@
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
           data: JSON.stringify({ email: email.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            emailChecked = true;
             alert('사용 가능한 이메일입니다.');
           },
           error: function () {
