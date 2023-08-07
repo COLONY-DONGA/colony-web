@@ -133,5 +133,15 @@ public class MemberService {
         return member.getId();
     }
 
+    /**
+     * 이메일 푸쉬 알람 동의 변경
+     */
+    public void changeEmailAlarmAgree(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        member.setEmailAlarm(!member.getEmailAlarm());
+        log.info("멤버 이메일 푸쉬 알람 동의 변경, 변경 정보: " + member.getEmailAlarm());
+    }
+
 
 }
