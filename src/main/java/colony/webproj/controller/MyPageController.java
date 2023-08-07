@@ -86,6 +86,8 @@ public class MyPageController {
         return ResponseEntity.ok(true);
     }
 
+
+
     @Getter
     @Setter
     @NoArgsConstructor

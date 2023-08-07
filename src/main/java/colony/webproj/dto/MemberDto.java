@@ -23,6 +23,7 @@ public class MemberDto {
     private String name; //이름
     private String nickname; //닉네임
     private String email; //이메일
+    private Boolean emailAlarm; //이메일 알람 수신 동의
     private String phoneNumber; //전화번호
     private String department; //학과
     private Role role; //권한
@@ -35,6 +36,7 @@ public class MemberDto {
                 entity.getName(),
                 entity.getNickname(),
                 entity.getEmail(),
+                entity.getEmailAlarm(),
                 entity.getPhoneNumber(),
                 entity.getDepartment(),
                 entity.getRole()
