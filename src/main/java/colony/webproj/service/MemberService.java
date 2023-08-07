@@ -42,6 +42,8 @@ public class MemberService {
                 .phoneNumber(joinFormDto.getPhoneNumber())
                 .department(joinFormDto.getDepartment())
                 .role(Role.ROLE_MEMBER)
+                .email(joinFormDto.getEmail())
+                .emailAlarm(joinFormDto.getEmailAlarm())
                 .build();
         memberRepository.save(member);
         return member.getId();
