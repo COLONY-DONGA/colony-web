@@ -45,7 +45,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                 .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
                                 .requestMatchers(
                                         "/login", "/join", "/login-guest", "validation-id",
-                                        "validation-password", "validation-email", "post-list", "/post/{postId}").permitAll()
+                                        "validation-nickname", "validation-email", "post-list", "/post/{postId}").permitAll()
                                 .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
                 )
