@@ -60,7 +60,6 @@ public class PostService {
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
 
-        System.out.println("받아온 이미지 사이즈: " + postFormDto.getImageList().size());
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
 
         //파일이 있다면 db 저장

@@ -19,16 +19,4 @@ public class RelatedURL {
     @Column(nullable = false,length = MAX_LENGTH)
     private String url;
 
-//    public RelatedURL(String url) {
-//        if (isNotValidRelatedURL(url)) {
-//            throw new CustomException(ErrorCode.NOT_VALIDURL);
-//        }
-//        this.url = url;
-//    }
-//
-//    private boolean isNotValidRelatedURL(String url) {
-//        return Objects.isNull(url) || url.length() > MAX_LENGTH || url.isEmpty();
-//
-//    }
-
 }

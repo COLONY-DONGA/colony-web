@@ -19,7 +19,11 @@ public class NotificationDto {
     private Boolean status;
 
     public static NotificationDto create(Notification notification) {
-        return new NotificationDto(notification.getId(), notification.getContent(),
-                notification.getUrl(), notification.getIsRead());
+        return NotificationDto.builder()
+                .id(notification.getId())
+                .content(notification.getContent())
+                .url(notification.getUrl())
+                .status(notification.getIsRead())
+                .build();
     }
 }
