@@ -17,6 +17,8 @@ public class MemberFormDto {
     private String nickname; //닉네임
     @NotBlank
     private String email; //이메일
+
+    private Boolean emailAlarm; // 이메일 수신 여부
     @NotBlank
     private String phoneNumber; //전화번호
     @NotBlank
