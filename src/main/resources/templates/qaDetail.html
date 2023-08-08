@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link rel="stylesheet" href="../static/css/qaDetail.css" />
     <link rel="stylesheet" href="/css/headerfooter.css" />
     <link
       rel="stylesheet"
@@ -30,6 +30,20 @@
     <br />
     <br />
     <br />
+
+    <ul class="comments-list reply-list">
+      <li>
+        <div class="comment-avatar">
+          <img src="../static/img/colony.jpg" alt="" />
+        </div>
+        <div class="comment-box">
+          <div class="comment-head">
+            <h6 class="comment-name">대댓글 입력란</h6>
+          </div>
+          <div class="comment-content"><input type="text" id="commentText" /></div>
+        </div>
+      </li>
+    </ul>
 
     <div class="qadetail-frame">
       <div class="q-box">
@@ -92,7 +106,11 @@
         <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
       </div>
 
-      <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box-[[${answer.id}]]">
+      <div
+        th:each="answer, status : ${answerDtoList}"
+        class="answer-box"
+        id="answer-box-[[${answer.id}]]"
+      >
         <div class="horizontal-line"></div>
         <div class="a-head">
           <div class="answer-info">
@@ -114,8 +132,17 @@
         <!--파일-->
 
         <div class="tool-box" id="answer-tool-box">
-          <button class="heart-button" th:data-answer-id="${answer.answerId}"><i class="fa fa-heart"></i></button>
-          <div class="likecount" id="like" th:id="'like-' + ${answer.answerId}" th:text="${answer.heartNum}">1</div>
+          <button class="heart-button" th:data-answer-id="${answer.answerId}">
+            <i class="fa fa-heart"></i>
+          </button>
+          <div
+            class="likecount"
+            id="like"
+            th:id="'like-' + ${answer.answerId}"
+            th:text="${answer.heartNum}"
+          >
+            1
+          </div>
           <div class="btn">
             <button class="editbtn" id="editbtn">수정</button>
             <button class="deletebtn" id="deletebtn">
@@ -128,7 +155,11 @@
         <br />
 
         <div class="comments-container">
-          <ul id="comments-list" class="comments-list" th:each="comment, status : ${answer.commentList}">
+          <ul
+            id="comments-list"
+            class="comments-list"
+            th:each="comment, status : ${answer.commentList}"
+          >
             <!-- 댓글이 여기에 추가될 예정 -->
 
             <!-- 첫번째 댓글 1 -->
@@ -142,8 +173,13 @@
                     <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
                     <i class="fa fa-reply" data-comment-index="1"></i>
                   </div>
-                  <div class="comment-content" th:text="${comment.content}">This is the main comment content.</div>
-                  <ul class="comments-list reply-list" th:each="recomment, status : ${comment.childList}">
+                  <div class="comment-content" th:text="${comment.content}">
+                    This is the main comment content.
+                  </div>
+                  <ul
+                    class="comments-list reply-list"
+                    th:each="recomment, status : ${comment.childList}"
+                  >
                     <!-- 첫번째 댓글에 대한 대댓글1 -->
                     <li>
                       <div class="comment-avatar">
@@ -153,61 +189,66 @@
                         <div class="comment-head">
                           <h6 class="comment-name" th:text="${recomment.createdBy}">Jane Smith</h6>
                         </div>
-                        <div class="comment-content" th:text="${recomment.content}">This is a reply to the main comment.</div>
+                        <div class="comment-content" th:text="${recomment.content}">
+                          This is a reply to the main comment.
+                        </div>
                       </div>
                     </li>
-<!--                    &lt;!&ndash; 첫번째 댓글에 대한 대댓글2 &ndash;&gt;-->
-<!--                    <li>-->
-<!--                      <div class="comment-avatar">-->
-<!--                        <img src="../static/img/colony.jpg" alt="" />-->
-<!--                      </div>-->
-<!--                      <div class="comment-box">-->
-<!--                        <div class="comment-head">-->
-<!--                          <h6 class="comment-name">Alice Johnson</h6>-->
-<!--                        </div>-->
-<!--                        <div class="comment-content">Another reply to the main comment.</div>-->
-<!--                      </div>-->
-<!--                    </li>-->
+                    <!--                    &lt;!&ndash; 첫번째 댓글에 대한 대댓글2 &ndash;&gt;-->
+                    <!--                    <li>-->
+                    <!--                      <div class="comment-avatar">-->
+                    <!--                        <img src="../static/img/colony.jpg" alt="" />-->
+                    <!--                      </div>-->
+                    <!--                      <div class="comment-box">-->
+                    <!--                        <div class="comment-head">-->
+                    <!--                          <h6 class="comment-name">Alice Johnson</h6>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="comment-content">Another reply to the main comment.</div>-->
+                    <!--                      </div>-->
+                    <!--                    </li>-->
                   </ul>
                 </div>
               </div>
             </li>
-<!--            &lt;!&ndash; 두번째 댓글 &ndash;&gt;-->
-<!--            <li>-->
-<!--              <div class="comment-main-level">-->
-<!--                <div class="comment-avatar">-->
-<!--                  <img src="../static/img/colony.jpg" alt="" />-->
-<!--                </div>-->
-<!--                <div class="comment-box">-->
-<!--                  <div class="comment-head">-->
-<!--                    <h6 class="comment-name">Michael Brown</h6>-->
-<!--                    <i class="fa fa-reply" data-comment-index="2"></i>-->
-<!--                  </div>-->
-<!--                  <div class="comment-content">Another main comment here.</div>-->
-<!--                  <ul class="comments-list reply-list">-->
-<!--                    &lt;!&ndash; 두번째 댓글에 대한 대댓글1 &ndash;&gt;-->
-<!--                    <li>-->
-<!--                      <div class="comment-avatar">-->
-<!--                        <img src="../static/img/colony.jpg" alt="" />-->
-<!--                      </div>-->
-<!--                      <div class="comment-box">-->
-<!--                        <div class="comment-head">-->
-<!--                          <h6 class="comment-name">David Clark</h6>-->
-<!--                        </div>-->
-<!--                        <div class="comment-content">A reply to the second main comment.</div>-->
-<!--                      </div>-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </li>-->
+            <!--            &lt;!&ndash; 두번째 댓글 &ndash;&gt;-->
+            <!--            <li>-->
+            <!--              <div class="comment-main-level">-->
+            <!--                <div class="comment-avatar">-->
+            <!--                  <img src="../static/img/colony.jpg" alt="" />-->
+            <!--                </div>-->
+            <!--                <div class="comment-box">-->
+            <!--                  <div class="comment-head">-->
+            <!--                    <h6 class="comment-name">Michael Brown</h6>-->
+            <!--                    <i class="fa fa-reply" data-comment-index="2"></i>-->
+            <!--                  </div>-->
+            <!--                  <div class="comment-content">Another main comment here.</div>-->
+            <!--                  <ul class="comments-list reply-list">-->
+            <!--                    &lt;!&ndash; 두번째 댓글에 대한 대댓글1 &ndash;&gt;-->
+            <!--                    <li>-->
+            <!--                      <div class="comment-avatar">-->
+            <!--                        <img src="../static/img/colony.jpg" alt="" />-->
+            <!--                      </div>-->
+            <!--                      <div class="comment-box">-->
+            <!--                        <div class="comment-head">-->
+            <!--                          <h6 class="comment-name">David Clark</h6>-->
+            <!--                        </div>-->
+            <!--                        <div class="comment-content">A reply to the second main comment.</div>-->
+            <!--                      </div>-->
+            <!--                    </li>-->
+            <!--                  </ul>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </li>-->
           </ul>
           <!-- 새댓글 작성부분 -->
           <div class="input-box">
             <div class="inputframe">
               <br />
-              <h5>New Comment : <input type="text" class="input-text" id="newComment" /></h5>
-              <button class="new-comment-btn" id="add-comment-button">작성</button>
+              <form id="comment-form" action="" method="post">
+                <!--서버로 새댓글 text값 데이터 전송-->
+                <input type="text" class="input-text" id="newComment" name="commentContent" />
+                <button class="new-comment-btn" id="add-comment-button" type="submit">작성</button>
+              </form>
             </div>
           </div>
         </div>
@@ -255,14 +296,12 @@
         }
       }
 
-
-
       // 모든 하트 버튼 요소 선택
       const heartButtons = document.querySelectorAll('.heart-button');
       console.log(heartButtons.length);
 
       // 각 하트 버튼에 클릭 이벤트 리스너 추가
-      heartButtons.forEach(button => {
+      heartButtons.forEach((button) => {
         button.addEventListener('click', function () {
           // data-answer-id 속성 값을 가져옴
           const answerId = this.getAttribute('data-answer-id');
@@ -278,9 +317,9 @@
               //likeCountElement
               const likeCountElement = document.querySelector('#like-' + answerId);
               // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-              if(response) {
+              if (response) {
                 likeCountElement.textContent++;
-              } else{
+              } else {
                 likeCountElement.textContent--;
               }
             },
@@ -290,6 +329,60 @@
           });
         });
       });
+
+      // 댓글 작성버튼 구현
+      document.addEventListener('DOMContentLoaded', function () {
+        var addCommentButton = document.getElementById('add-comment-button');
+
+        addCommentButton.addEventListener('click', function () {
+          var newCommentContent = document.getElementById('newComment').value;
+
+          // 여기서 서버로 데이터를 전송하는 로직을 추가
+
+          // 페이지 새로 고침
+          window.location.reload();
+        });
+      });
+
+      var replyButtons = document.querySelectorAll('.fa-reply'); // 댓글의 Reply 아이콘을 선택
+
+      replyButtons.forEach(function (replyButton) {
+        replyButton.addEventListener('click', function () {
+          // 댓글의 인덱스를 가져옴
+          var commentIndex = replyButton.getAttribute('data-comment-index');
+
+          // 대댓글 입력 폼을 생성
+          var replyForm = document.createElement('li');
+          replyForm.innerHTML = `
+            <div class="comment-main-level">
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">${userName}</h6>
+                </div>
+                <div class="comment-content">
+                  <form class="reply-form">
+                    <input type="text" class="input-text inputReply" id="commentText" name="replyContent" />
+                    <button class="new-comment-btn reply-write-btn" type="button">작성</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // 대댓글 입력 폼을 댓글 아래에 추가
+          var commentItem = replyButton.closest('li');
+          var replyList = commentItem.querySelector('.reply-list');
+          replyList.appendChild(replyForm);
+
+          // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가
+          var replyWriteBtn = replyForm.querySelector('.reply-write-btn');
+          replyWriteBtn.addEventListener('click', onReplyWriteButtonClick);
+        });
+      });
+
 
       //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
@@ -431,6 +524,20 @@
       }
       */
 
+
+      <li>
+        <div class="comment-avatar">
+          <img src="../static/img/colony.jpg" alt="" />
+        </div>
+        <div class="comment-box">
+          <div class="comment-head">
+            <h6 class="comment-name">${userName}</h6>
+          </div>
+          <div class="comment-content"><input type="text" id="commentText"></div>
+        </div>
+      </li>
+
+
       function addNewCommentEventListeners(commentItem) {
         const replyButton = commentItem.querySelector('.fa-reply');
         replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
@@ -463,6 +570,7 @@
 
         addComments();
       }
+
 
       function addReplyButtonClickHandler() {
         const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
