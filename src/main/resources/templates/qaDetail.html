@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link rel="stylesheet" href="../static/css/qaDetail.css" />
     <link rel="stylesheet" href="/css/headerfooter.css" />
     <link
       rel="stylesheet"
@@ -17,18 +20,10 @@
   <body>
     <!--  로그인 유저 닉네임-->
     <div>
-      <input
-        class="member-nickname"
-        th:value="${loginUser}"
-        style="display: none"
-      ></input>
+      <input class="member-nickname" th:value="${loginUser}" style="display: none" />
     </div>
     <div>
-      <input
-              class="post-writer-nickname"
-              th:value="${postUser}"
-              style="display: none"
-      ></input>
+      <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
     </div>
 
     <div th:replace="~{layouts/header :: header}"></div>
@@ -95,14 +90,12 @@
       <br />
       <div class="answer-title">
         <span class="answer-label">답변</span>
-        <!--타임리프 필요-->
         <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
       </div>
 
       <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box">
         <div class="horizontal-line"></div>
         <div class="a-head">
-
           <div class="answer-info">
             <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
               >작성자</span
@@ -139,6 +132,77 @@
         <div class="comments-container">
           <ul id="comments-list" class="comments-list">
             <!-- 댓글이 여기에 추가될 예정 -->
+
+            <!-- 첫번째 댓글 1 -->
+            <li>
+              <div class="comment-main-level">
+                <div class="comment-avatar">
+                  <img src="../static/img/colony.jpg" alt="" />
+                </div>
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name">John Doe</h6>
+                    <i class="fa fa-reply" data-comment-index="1"></i>
+                  </div>
+                  <div class="comment-content">This is the main comment content.</div>
+                  <ul class="comments-list reply-list">
+                    <!-- 첫번째 댓글에 대한 대댓글1 -->
+                    <li>
+                      <div class="comment-avatar">
+                        <img src="../static/img/colony.jpg" alt="" />
+                      </div>
+                      <div class="comment-box">
+                        <div class="comment-head">
+                          <h6 class="comment-name">Jane Smith</h6>
+                        </div>
+                        <div class="comment-content">This is a reply to the main comment.</div>
+                      </div>
+                    </li>
+                    <!-- 첫번째 댓글에 대한 대댓글2 -->
+                    <li>
+                      <div class="comment-avatar">
+                        <img src="../static/img/colony.jpg" alt="" />
+                      </div>
+                      <div class="comment-box">
+                        <div class="comment-head">
+                          <h6 class="comment-name">Alice Johnson</h6>
+                        </div>
+                        <div class="comment-content">Another reply to the main comment.</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <!-- 두번째 댓글 -->
+            <li>
+              <div class="comment-main-level">
+                <div class="comment-avatar">
+                  <img src="../static/img/colony.jpg" alt="" />
+                </div>
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name">Michael Brown</h6>
+                    <i class="fa fa-reply" data-comment-index="2"></i>
+                  </div>
+                  <div class="comment-content">Another main comment here.</div>
+                  <ul class="comments-list reply-list">
+                    <!-- 두번째 댓글에 대한 대댓글1 -->
+                    <li>
+                      <div class="comment-avatar">
+                        <img src="../static/img/colony.jpg" alt="" />
+                      </div>
+                      <div class="comment-box">
+                        <div class="comment-head">
+                          <h6 class="comment-name">David Clark</h6>
+                        </div>
+                        <div class="comment-content">A reply to the second main comment.</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
           </ul>
           <!-- 새댓글 작성부분 -->
           <div class="input-box">
@@ -159,8 +223,8 @@
       let userName = $('.member-nickname').val(); // 로그인 유저
       let name = $('.post-writer-nickname').val(); // post 작성자
       let postId = $('#postId').val();
-      console.log("userName: " + userName);
-      console.log("Name: " + name);
+      console.log('userName: ' + userName);
+      console.log('Name: ' + name);
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
@@ -183,7 +247,7 @@
       });
 
       if (userName != name || userName === '') {
-        console.log("css 숨기는 로직");
+        console.log('css 숨기는 로직');
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
         //관리자일때도 권한 추가
@@ -254,7 +318,7 @@
       //답변 생성 부분!!
 
       //댓글 작성 기능!!!
-      const commentsData = [
+      /*const commentsData = [
         {
           name: '최유현',
           content: '첫번째 댓글~~~.',
@@ -356,6 +420,7 @@
           }
         });
       }
+      */
 
       function addNewCommentEventListeners(commentItem) {
         const replyButton = commentItem.querySelector('.fa-reply');
