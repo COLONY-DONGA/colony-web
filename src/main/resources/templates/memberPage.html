@@ -410,6 +410,21 @@
         document.getElementById('modal-2').style.display = 'none';
         resetModal();
       };
+
+      window.onload = function () {
+        truncateText('.history-item', 50);
+      };
+
+      function truncateText(selector, maxLength) {
+        const elements = document.querySelectorAll(selector);
+
+        elements.forEach((element) => {
+          let text = element.innerText;
+          if (text.length > maxLength) {
+            element.innerText = text.slice(0, maxLength) + ' ...';
+          }
+        });
+      }
     </script>
   </body>
 </html>
