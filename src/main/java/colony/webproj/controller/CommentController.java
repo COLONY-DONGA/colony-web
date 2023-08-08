@@ -25,7 +25,7 @@ public class CommentController {
      */
     @PostMapping("/comment/{answerId}")
     public ResponseEntity<?> saveComment(@PathVariable("answerId") Long answerId,
-                                         @RequestBody CommentFormDto commentFormDto,
+                                         CommentFormDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);

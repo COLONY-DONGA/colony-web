@@ -159,69 +159,33 @@
                         <div class="comment-content" th:text="${recomment.content}">This is a reply to the main comment.</div>
                       </div>
                     </li>
-<!--                    &lt;!&ndash; 첫번째 댓글에 대한 대댓글2 &ndash;&gt;-->
-<!--                    <li>-->
-<!--                      <div class="comment-avatar">-->
-<!--                        <img src="../static/img/colony.jpg" alt="" />-->
-<!--                      </div>-->
-<!--                      <div class="comment-box">-->
-<!--                        <div class="comment-head">-->
-<!--                          <h6 class="comment-name">Alice Johnson</h6>-->
-<!--                        </div>-->
-<!--                        <div class="comment-content">Another reply to the main comment.</div>-->
-<!--                      </div>-->
-<!--                    </li>-->
                   </ul>
 
                   <!--대댓글 입력 폼-->
                   <div class="input-recomment-box" th:id="'recomment-' + ${comment.commentId}" th:data-answer-id="${answer.answerId}" style="display: none">
-                    <div class="inputframe">
-                      <br />
-                      <h5>New Comment : <input type="text" class="input-text"/></h5>
-                      <button class="new-comment-btn">작성</button>
-                    </div>
+                    <form th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}" method="post">
+                      <div class="inputframe">
+                        <br />
+                        <h5>New Comment : <input type="text" class="input-text" name="content"/></h5>
+                        <button class="new-comment-btn">작성</button>
+                      </div>
+                    </form>
                   </div>
 
                 </div>
               </div>
             </li>
-<!--            &lt;!&ndash; 두번째 댓글 &ndash;&gt;-->
-<!--            <li>-->
-<!--              <div class="comment-main-level">-->
-<!--                <div class="comment-avatar">-->
-<!--                  <img src="../static/img/colony.jpg" alt="" />-->
-<!--                </div>-->
-<!--                <div class="comment-box">-->
-<!--                  <div class="comment-head">-->
-<!--                    <h6 class="comment-name">Michael Brown</h6>-->
-<!--                    <i class="fa fa-reply" data-comment-index="2"></i>-->
-<!--                  </div>-->
-<!--                  <div class="comment-content">Another main comment here.</div>-->
-<!--                  <ul class="comments-list reply-list">-->
-<!--                    &lt;!&ndash; 두번째 댓글에 대한 대댓글1 &ndash;&gt;-->
-<!--                    <li>-->
-<!--                      <div class="comment-avatar">-->
-<!--                        <img src="../static/img/colony.jpg" alt="" />-->
-<!--                      </div>-->
-<!--                      <div class="comment-box">-->
-<!--                        <div class="comment-head">-->
-<!--                          <h6 class="comment-name">David Clark</h6>-->
-<!--                        </div>-->
-<!--                        <div class="comment-content">A reply to the second main comment.</div>-->
-<!--                      </div>-->
-<!--                    </li>-->
-<!--                  </ul>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </li>-->
+
           </ul>
           <!-- 새댓글 작성부분 -->
           <div class="input-comment-box">
-            <div class="inputframe">
-              <br />
-              <h5>New Comment : <input type="text" class="input-text" id="newComment" /></h5>
-              <button class="new-comment-btn" id="add-comment-button">작성</button>
-            </div>
+            <form th:action="@{/comment/{answerId}(answerId=${answer.answerId})}" method="post">
+              <div class="inputframe">
+                <br />
+                <h5>New Comment : <input type="text" class="input-text" id="newComment" name="content"/></h5>
+                <button class="new-comment-btn" id="add-comment-button">작성</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -344,113 +308,6 @@
       function adjustAnswerAreaHeight(element) {
         element.style.height = 'auto'; // 높이 초기화
       }
-
-      //답변 생성 부분!!
-
-      //댓글 작성 기능!!!
-      /*const commentsData = [
-        {
-          name: '최유현',
-          content: '첫번째 댓글~~~.',
-          replies: [
-            { name: '최쌤 대댓글1', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
-            { name: '최쌤 대댓글2', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
-          ],
-        },
-        {
-          name: '김진짜',
-          content: '두번쨰 댓글~~~',
-          replies: [{ name: '김진수', content: 'blalbalbalbalba' }],
-        },
-      ];
-
-      function onWriteButtonClick() {
-        const newCommentInput = document.getElementById('newComment');
-        const newCommentText = newCommentInput.value;
-
-        commentsData.push({
-          name: '사용자',
-          content: newCommentText,
-          replies: [],
-        });
-
-        addComments();
-
-        newCommentInput.value = '';
-      }
-
-      function onClickAddReplyButton(event) {
-        const button = event.target.closest('.fa-reply');
-        if (!button) return;
-
-        const commentIndex = button.dataset.commentIndex;
-        const commentItem = button.closest('li');
-        const replyList = commentItem.querySelector('.reply-list');
-        const inputReply = replyList.querySelector('.inputReply');
-        const newReplyText = inputReply.value;
-
-        commentsData[commentIndex]['replies'].push({
-          name: '사용자',
-          content: newReplyText,
-        });
-
-        addComments();
-      }
-
-      function addComments() {
-        const commentsList = document.getElementById('comments-list');
-        commentsList.innerHTML = '';
-
-        commentsData.forEach((  comment, commentIndex) => {
-          if (!comment.hasOwnProperty('replies')) {
-            comment.replies = [];
-          }
-
-          const commentElement = `
-        <li>
-          <div class="comment-main-level">
-            <div class="comment-avatar">
-              <img src="../static/img/colony.jpg" alt="" />
-            </div>
-            <div class="comment-box">
-              <div class="comment-head">
-                <h6 class="comment-name">${comment.name}</h6>
-                <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
-              </div>
-              <div class="comment-content">${comment.content}</div>
-              <ul class="comments-list reply-list"></ul>
-            </div>
-          </div>
-        </li>
-      `;
-          commentsList.innerHTML += commentElement;
-
-          const commentItem = commentsList.lastElementChild;
-          addNewCommentEventListeners(commentItem);
-
-          if (comment.replies.length > 0) {
-            const replyList = commentItem.querySelector('.reply-list');
-
-            comment.replies.forEach((reply) => {
-              const replyElement = `
-            <li>
-              <div class="comment-avatar">
-                <img src="../static/img/colony.jpg" alt="" />
-              </div>
-              <div class="comment-box">
-                <div class="comment-head">
-                  <h6 class="comment-name">${reply.name}</h6>
-                </div>
-                <div class="comment-content">${reply.content}</div>
-              </div>
-            </li>
-          `;
-              replyList.innerHTML += replyElement;
-            });
-          }
-        });
-      }
-      */
 
       function addNewCommentEventListeners(commentItem) {
         const replyButton = commentItem.querySelector('.fa-reply');
