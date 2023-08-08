@@ -171,6 +171,10 @@
                   }
                 };
 
+                const arriveTimeSpan = document.createElement('span');
+                arriveTimeSpan.className = 'notification-arrive-time';
+                arriveTimeSpan.textContent = notification.arriveTime;
+
                 const deleteButton = document.createElement('span');
                 deleteButton.classList.add('delete-btn');
                 deleteButton.innerHTML = '&times;';
@@ -204,6 +208,7 @@
                   }
                 };
                 notificationItem.appendChild(link);
+                notificationItem.appendChild(arriveTimeSpan);
                 notificationItem.appendChild(deleteButton);
                 notificationDropdown.appendChild(notificationItem);
               });

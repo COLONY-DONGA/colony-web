@@ -84,7 +84,8 @@ public class PostController {
         model.addAttribute("answerDtoList", answerDtoList);
 
         if(principalDetails != null) {
-            model.addAttribute("loginUser", principalDetails.getNickname());
+            if(principalDetails.getRole() == Role.ROLE_ADMIN) model.addAttribute("loginUser", "관리자");
+            else model.addAttribute("loginUser", principalDetails.getNickname());
             model.addAttribute("postUser", postDto.getCreatedBy());
         }
         return "qaDetail";

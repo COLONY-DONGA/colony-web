@@ -248,6 +248,9 @@
           event.preventDefault();
           return false;
         }
+        id.oninput = function () {
+          idChecked = false;
+        };
         if (!id_reg.test(id.value)) {
           id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
           id.value = '';
@@ -267,6 +270,9 @@
           event.preventDefault();
           return false;
         }
+        ni.oninput = function () {
+          nicknameChecked = false;
+        };
         if (!ni_reg.test(ni.value)) {
           ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
           ni.value = '';
@@ -286,6 +292,9 @@
           event.preventDefault();
           return false;
         }
+        em.oninput = function () {
+          emailChecked = false;
+        };
         if (!em_reg.test(em.value)) {
           em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
           em.value = '';
