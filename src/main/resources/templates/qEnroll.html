@@ -59,6 +59,7 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
   var imagesToUpload = [];
+  var urls = [];
 
   var editor = new toastui.Editor({
     el: document.querySelector('#textEditor'),
@@ -71,7 +72,8 @@
         var url = URL.createObjectURL(blob);
         imagesToUpload.push(blob);
         console.log(imagesToUpload);
-        callback(url, 'Image description');
+        callback(url, blob.name);
+        urls.append(url);
         return false;
       }
     }
@@ -79,7 +81,7 @@
 
   document.querySelector('.submit_btn').addEventListener('click', function(e) {
     e.preventDefault();
-
+    console.log(urls);
     var formData = new FormData();
     formData.append('title', document.querySelector('.title').value);
     formData.append('content', editor.getMarkdown());
