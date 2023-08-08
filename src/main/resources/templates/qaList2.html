@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <style>
+    /* qaList.css */
+
+    html {
+      box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'NanumSquare', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      background-color: #f8f8f8;
+      color: #404040;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .clearfix::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .row {
+      margin-bottom: 30px;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .main-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 30px;
+    }
+
+    .search-box .input-setting {
+      border: 2px solid #aaa;
+      border-radius: 5px;
+      padding: 5px;
+      margin-right: 10px;
+    }
+
+    .search-box .input-setting input,
+    .search-box .input-setting select {
+      width: 100%;
+      outline: none;
+      border: none;
+      background: none;
+      appearance: none;
+    }
+
+    .search-box .input-setting button {
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #fff;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .search-box .input-setting button:hover {
+      background-color: #222;
+      color: #fff;
+      border-color: #222;
+    }
+
+    .post-list {
+      background-color: #fff;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 60px;
+    }
+
+    .post-list .post-header {
+      border-bottom: 1px solid #eaeaea;
+      padding: 10px 15px;
+      background-color: #f9f9f9;
+    }
+
+    .post-list .post-items {
+      padding: 10px;
+    }
+
+    .post-list .post-item {
+      padding: 10px 15px;
+      border-bottom: 1px solid #eaeaea;
+      font-size: 16px;
+    }
+
+    .post-list .post-item:last-child {
+      border-bottom: none;
+    }
+
+    .post-list .post-item-title {
+      display: block;
+      font-size: 16px;
+      color: #222;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .author-name {
+      color: #555;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .date-info {
+      color: #999;
+      margin-left: 10px;
+    }
+
+  </style>
+</head>
+<body>
+<div th:replace="~{layouts/header :: header}"></div>
+
+<div class="container">
+    <h1 class="main-title text-center">질문 리스트</h1>
+    <div class="row search-box">
+        <form th:action="@{/post-list}" method="get" autocomplete="on" class="input-setting full-width">
+            <label for="searchType">검색 종류:</label>
+            <select id="searchType" name="searchType" th:value="${searchType}">
+                <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+                    닉네임으로 검색
+                </option>
+                <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+                    제목으로 검색
+                </option>
+            </select>
+            <input
+                    type="text"
+                    id="searchValue"
+                    name="searchValue"
+                    placeholder="검색어를 입력하세요"
+                    th:value="${searchValue}"
+            />
+            <button type="submit">검색</button>
+        </form>
+    </div>
+
+    <div class="row post-list">
+        <div class="post-header clearfix">
+            <p class="author-name">작성자</p>
+            <p class="date-info">날짜</p>
+        </div>
+        <div class="post-items">
+            <div th:each="post : ${postList}" class="post-item clearfix">
+                <a th:href="@{'/post/'+${post.id}}" class="post-item-title" th:text="${post.title}">제목</a>
+                <p>
+                    <span class="author-name" th:text="${post.writer.nickname}">작성자 닉네임</span>
+                    <span class="date-info" th:text="${post.formattedWriteDateTime}">작성일시</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a th:href="@{${#uriComponentsBuilder.path('/post-write').build()}}" class="btn btn-write">글 작성</a>
+    </div>
+
+    <div th:replace="~{layouts/footer :: footer}"></div>
+</div>
+
+</body>
+</html>

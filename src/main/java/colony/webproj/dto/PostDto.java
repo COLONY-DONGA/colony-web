@@ -18,6 +18,7 @@ public class PostDto {
     private String title;
     private String content;
     private String createdBy;
+    private Integer viewCount;
     private LocalDateTime createdAt; //생성일
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
@@ -33,20 +34,21 @@ public class PostDto {
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        Answered = answered;
+        this.Answered = answered;
     }
 
     /**
      * postList 에 사용
      */
     @QueryProjection
-    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered) {
+    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered, Integer viewCount) {
         this.postId = id;
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.Answered = answered;
+        this.viewCount = viewCount;
     }
 
     /**

@@ -148,6 +148,7 @@ public class PostService {
     public PostDto findPostDetail(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        post.setViewCount(post.getViewCount() + 1);
 
         List<ImageDto> imageDtoList = imageRepository.findByPostId(postId).stream()
                 .map(image -> new ImageDto(image))

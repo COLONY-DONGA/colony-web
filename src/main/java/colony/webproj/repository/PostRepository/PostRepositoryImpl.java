@@ -36,7 +36,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.content,
                         member.nickname,
                         post.createdAt,
-                        post.answered
+                        post.answered,
+                        post.viewCount
                 ))
                 .from(post)
                 .join(post.member, member)
