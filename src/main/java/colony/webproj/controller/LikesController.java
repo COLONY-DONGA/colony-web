@@ -25,17 +25,10 @@ public class LikesController {
     public ResponseEntity<?> increaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
 
-        boolean check = likesService.getLike(answerId,principalDetails.getLoginId());
+        boolean check = likesService.checkLike(answerId,principalDetails.getLoginId());
 
-        if(check){
-            likesService.addLikes(answerId,principalDetails.getLoginId());
-            return ResponseEntity.ok("add like");
-        }
-        else{
-            likesService.removeLikes(answerId, principalDetails.getLoginId());
-            return ResponseEntity.ok("remove like");
-
-        }
+        if(check) return ResponseEntity.ok(true);   // 좋아요 추가
+        else return ResponseEntity.ok(false);       // 좋아요 삭제
 
 
     }
