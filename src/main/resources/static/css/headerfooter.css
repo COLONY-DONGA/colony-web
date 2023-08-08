@@ -240,6 +240,10 @@ body {
 .unread-notification {
   background-color: #ffffff;
 }
+.notification-arrive-time {
+  color: #999;
+  font-size: 12px;
+}
 .delete-btn {
   cursor: pointer;
   color: #aaa;
