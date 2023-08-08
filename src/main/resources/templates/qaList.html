@@ -1,247 +1,248 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/qaList.css" />
-    <title>qaList</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<!--  <link rel="stylesheet" href="/css/qaList.css" />-->
+  <title>qaList</title>
+</head>
 
-  <style>
-    /* 전체 레이아웃 */
+<style>
+  /* 전체 레이아웃 */
 
-    .title {
-    }
-    .qa-page {
-      font-family: 'NanumSquare', sans-serif;
-      background-color: #fbfbfb;
-      margin: 5%;
-      padding: 0;
-      color: #404040;
-      line-height: 1.6;
-    }
+  .title {
+  }
+  .qa-page {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    margin: 5%;
+    padding: 0;
+    color: #404040;
+    line-height: 1.6;
+  }
 
-    /* 타이틀 */
-    .qa-page h1 {
-      text-align: center;
-      padding: 20px 0;
-      font-size: 36px;
-      color: #222;
-      border-bottom: 1px solid #ccc;
-    }
+  /* 타이틀 */
+  .qa-page h1 {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 36px;
+    color: #222;
+    border-bottom: 1px solid #ccc;
+  }
 
-    /* 검색 */
-    .search-sort-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 0;
-    }
+  /* 검색 */
+  .search-sort-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
 
-    form {
-      display: flex;
-      align-items: center;
-    }
+  form {
+    display: flex;
+    align-items: center;
+  }
 
-    label {
-      font-size: 18px;
-      font-weight: bold;
-      margin-right: 10px;
-    }
+  label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
 
-    select,
-    input,
-    button {
-      font-size: 16px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 12px;
-      transition: all 0.3s;
-      outline: none;
-    }
+  select,
+  input,
+  button {
+    font-size: 16px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    transition: all 0.3s;
+    outline: none;
+  }
 
-    input[type='text']::-webkit-input-placeholder {
-      color: #bbb;
-    }
+  input[type='text']::-webkit-input-placeholder {
+    color: #bbb;
+  }
 
-    select:hover,
-    input:hover,
-    button:hover {
-      background-color: #ddd;
-    }
+  select:hover,
+  input:hover,
+  button:hover {
+    background-color: #ddd;
+  }
 
-    /* 카드 */
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 30px 0;
-    }
+  /* 카드 */
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 0;
+  }
 
-    .card {
-      position: relative;
-      overflow: hidden;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  }
 
-    .card-title {
-      font-size: 24px;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 10px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-    .card-content {
-      font-size: 16px;
-      margin-bottom: 20px;
-      height: 80px;
-      overflow: hidden;
-      text-align: justify;
-      text-justify: inter-word;
-    }
+  .card-content {
+    font-size: 16px;
+    margin-bottom: 20px;
+    height: 80px;
+    overflow: hidden;
+    text-align: justify;
+    text-justify: inter-word;
+  }
 
-    .card-author {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
+  .card-author {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
 
-    .card-date {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
+  .card-date {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
 
-    .card-info span {
-      font-weight: bold;
-    }
+  .card-info span {
+    font-weight: bold;
+  }
 
-    .card-status {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 20px;
-      color: #fff;
-    }
+  .card-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: #fff;
+  }
 
-    .card-status-answered {
-      background-color: #28a745;
-    }
+  .card-status-answered {
+    background-color: #28a745;
+  }
 
-    .card-status-pending {
-      background-color: #ffc107;
-    }
+  .card-status-pending {
+    background-color: #ffc107;
+  }
 
-    .card-status-closed {
-      background-color: #dc3545;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-  </style>
+  .card-status-closed {
+    background-color: #dc3545;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+</style>
 
-  <body>
-    <div th:replace="~{layouts/header :: header}"></div>
+<body>
+<div th:replace="~{layouts/header :: header}"></div>
 
-    <div class="qa-page">
-      <h1 class="title">질문 리스트</h1>
-      <div class="search-sort-container fade-in">
-        <form th:action="@{/post-list}" method="get" autocomplete="on">
-          <label for="searchType">검색 종류:</label>
-          <select id="searchType" name="searchType" th:value="${searchType}">
-            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
-              닉네임으로 검색
-            </option>
-            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
-              제목으로 검색
-            </option>
-          </select>
-          <input
-            type="text"
-            id="searchValue"
-            name="searchValue"
-            placeholder="검색어를 입력하세요"
-            th:value="${searchValue}"
-          />
-          <button type="submit">검색</button>
-        </form>
+<div class="qa-page">
+  <h1 class="title">질문 리스트</h1>
+  <div class="search-sort-container fade-in">
+    <form th:action="@{/post-list}" method="get" autocomplete="on">
+      <label for="searchType">검색 종류:</label>
+      <select id="searchType" name="searchType" th:value="${searchType}">
+        <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+          닉네임으로 검색
+        </option>
+        <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+          제목으로 검색
+        </option>
+      </select>
+      <input
+              type="text"
+              id="searchValue"
+              name="searchValue"
+              placeholder="검색어를 입력하세요"
+              th:value="${searchValue}"
+      />
+      <button type="submit">검색</button>
+    </form>
+  </div>
+
+  <div class="sort-container fade-in">
+    <label for="sortSelect">정렬 기준:</label>
+    <select id="sortSelect" name="sort" th:value="${sortBy}">
+      <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
+        최신순
+      </option>
+      <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
+    </select>
+  </div>
+
+  <div class="card-container fade-in">
+    <div
+            th:each="postDto : ${postDtoList}"
+            class="card"
+            th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+    >
+      <h2 class="card-title" th:text="${postDto.title}"></h2>
+      <p class="card-content" th:text="${postDto.content}"></p>
+      <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
+      <p class="card-date">
+        Created At:
+        <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span>
+      </p>
+
+      <div th:if="${postDto.answered}">
+        <span>답변 완료</span>
       </div>
-
-      <div class="sort-container fade-in">
-        <label for="sortSelect">정렬 기준:</label>
-        <select id="sortSelect" name="sort" th:value="${sortBy}">
-          <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
-            최신순
-          </option>
-          <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
-        </select>
-      </div>
-
-      <div class="card-container fade-in">
-        <div
-          th:each="postDto : ${postDtoList}"
-          class="card"
-          th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
-        >
-          <h2 class="card-title" th:text="${postDto.title}"></h2>
-          <p class="card-content" th:text="${postDto.content}"></p>
-          <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
-          <p class="card-date">
-            Created At:
-            <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span>
-          </p>
-
-          <div th:if="${postDto.answered}">
-            <span>답변 완료</span>
-          </div>
-          <div th:unless="${postDto.answered}">
-            <span>답변 대기 중</span>
-          </div>
-        </div>
+      <div th:unless="${postDto.answered}">
+        <span>답변 대기 중</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <div th:replace="~{layouts/footer :: footer}"></div>
-  </body>
+<div th:replace="~{layouts/footer :: footer}"></div>
+</body>
 
-  <script>
-    function redirectToPost(postId) {
-      window.location.href = '/post/' + postId;
-    }
+<script>
+  function redirectToPost(postId) {
+    window.location.href = '/post/' + postId;
+  }
 
-    document.getElementById('sortSelect').addEventListener('change', function () {
-      var selectedValue = this.value;
-      var searchValue = document.getElementById('searchValue').value;
-      var searchType = document.getElementById('searchType').value;
-      window.location.href =
-        '/post-list?sortBy=' +
-        selectedValue +
-        '&searchType=' +
-        searchType +
-        '&searchValue=' +
-        searchValue;
-    });
-  </script>
+  document.getElementById('sortSelect').addEventListener('change', function () {
+    var selectedValue = this.value;
+    var searchValue = document.getElementById('searchValue').value;
+    var searchType = document.getElementById('searchType').value;
+    window.location.href =
+            '/post-list?sortBy=' +
+            selectedValue +
+            '&searchType=' +
+            searchType +
+            '&searchValue=' +
+            searchValue;
+  });
+</script>
 </html>

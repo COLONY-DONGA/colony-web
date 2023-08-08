@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 /* Reset CSS */
 body,
 h1,
@@ -73,7 +72,6 @@ footer {
   margin-top: 5px;
 }
 
->>>>>>> main
 /* 드롭다운 버튼 구현!! */
 .dropdown {
   position: relative;
@@ -100,7 +98,6 @@ footer {
   display: block;
 }
 
-<<<<<<< HEAD
 .dropbtn {
   align-items: center;
   background-color: #00a629;
@@ -141,15 +138,11 @@ footer {
   margin-top: 1rem;
 }
 
-=======
->>>>>>> main
 /* 따온거 */
 html {
   font-family: 'NanumSquare', sans-serif;
 }
 
-<<<<<<< HEAD
-=======
 /* 노말라이즈 */
 body,
 ul,
