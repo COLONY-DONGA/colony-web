@@ -4,7 +4,6 @@ spring:
     url: jdbc:mysql://${DB_ENDPOINT}:${DB_PORT}/${DB_SCHEMA_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-
   jpa:
     hibernate:
       ddl-auto: update

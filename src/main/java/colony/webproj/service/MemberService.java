@@ -43,7 +43,7 @@ public class MemberService {
                 .department(joinFormDto.getDepartment())
                 .role(Role.ROLE_MEMBER)
                 .email(joinFormDto.getEmail())
-                .emailAlarm(joinFormDto.getEmailAlarm())
+                .emailAlarm((joinFormDto.getEmailAlarm() == null) ? false : joinFormDto.getEmailAlarm())
                 .build();
         memberRepository.save(member);
         return member.getId();
