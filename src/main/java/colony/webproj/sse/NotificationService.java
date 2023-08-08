@@ -117,7 +117,7 @@ public class NotificationService {
         return Notification.builder()
                 .receiver(receiver)
                 .notificationType(notificationType)
-                .content(new NotificationContent(content))
+                .content(content)
                 .url(new RelatedURL(url))
                 .isRead(false) // 현재 읽음상태
                 .build();

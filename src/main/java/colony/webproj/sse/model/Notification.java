@@ -23,8 +23,8 @@ public class Notification extends BaseEntity {
     @Column(name = "notification_id")
     private Long id;
 
-    @Embedded
-    private NotificationContent content;
+    @Column(columnDefinition = "TEXT")
+    private String content;
     //알림 내용 - 50자 이내
 
     @Embedded
@@ -50,9 +50,6 @@ public class Notification extends BaseEntity {
         isRead = true;
     }
 
-    public String getContent() {
-        return content.getContent();
-    }
 
     public String getUrl() {
         return url.getUrl();
