@@ -75,16 +75,19 @@
     background-color: #ddd;
   }
 
-  /* 카드 */
-  .card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 30px 0;
-  }
+
+
+    /* 카드 */
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      /*grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));*/
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 0;
+    }
 
   .card {
     position: relative;
@@ -127,11 +130,19 @@
     margin-bottom: 5px;
   }
 
-  .card-date {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-  }
+
+    .card-view {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .card-date {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
 
   .card-info span {
     font-weight: bold;
@@ -148,20 +159,24 @@
     color: #fff;
   }
 
-  .card-status-answered {
-    background-color: #28a745;
-  }
 
-  .card-status-pending {
-    background-color: #ffc107;
-  }
+    .card-info-container {
+      display: flex;
+      align-items: center; /* 아이템들을 수직 가운데 정렬 */
+      gap: 10px; /* 아이템들 사이의 간격 설정 */
+    }
 
-  .card-status-closed {
-    background-color: #dc3545;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-</style>
+    .card-info-container p,
+    .card-info-container div {
+      margin: 0; /* 기본 마진 제거 */
+    }
+
+    .card-date {
+      margin-left: auto; /* Created At 부분을 오른쪽으로 이동 */
+    }
+
+  </style>
+
 
 <body>
 <div th:replace="~{layouts/header :: header}"></div>
@@ -217,8 +232,42 @@
       <div th:if="${postDto.answered}">
         <span>답변 완료</span>
       </div>
-      <div th:unless="${postDto.answered}">
-        <span>답변 대기 중</span>
+
+
+      <div class="sort-container fade-in">
+        <label for="sortSelect">정렬 기준:</label>
+        <select id="sortSelect" name="sort" th:value="${sortBy}">
+          <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
+            최신순
+          </option>
+          <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
+        </select>
+      </div>
+
+      <div class="card-container fade-in">
+        <div
+          th:each="postDto : ${postDtoList}"
+          class="card"
+          th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+        >
+          <h2 class="card-title" th:text="${postDto.title}"></h2>
+          <p class="card-content" th:text="${postDto.content}"></p>
+
+          <div class="card-info-container" style="display: flex;">
+            <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
+            <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
+            <p class="card-date">
+              <span> | </span>
+              <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span>
+            </p>
+            <div th:if="${postDto.answered}">
+              <span>답변 완료</span>
+            </div>
+            <div th:unless="${postDto.answered}">
+              <span>답변 대기 중</span>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>

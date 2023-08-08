@@ -25,7 +25,7 @@ public class CommentController {
      */
     @PostMapping("/comment/{answerId}")
     public ResponseEntity<?> saveComment(@PathVariable("answerId") Long answerId,
-                                         @RequestBody CommentFormDto commentFormDto,
+                                         CommentFormDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
@@ -37,8 +37,9 @@ public class CommentController {
     @PostMapping("/comment/{answerId}/{commentId}")
     public ResponseEntity<?> saveReComment(@PathVariable("answerId") Long answerId,
                                            @PathVariable("commentId") Long commentId,
-                                           @RequestBody CommentFormDto commentFormDto,
+                                           CommentFormDto commentFormDto,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        log.info("컨틀롤러 진입");
         commentService.saveReComment(answerId, commentId, commentFormDto, principalDetails.getLoginId());
         return ResponseEntity.ok(true);
     }
