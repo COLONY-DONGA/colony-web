@@ -79,6 +79,7 @@ public class CommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
         Comment parentComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_PARENT_NOT_FOUND));
+
         Comment childComment = Comment.builder()
                 .content(commentFormDto.getContent())
                 .member(member)
