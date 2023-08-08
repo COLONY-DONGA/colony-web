@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,15 +16,19 @@
 
   <body>
     <!--  로그인 유저 닉네임-->
-    <div sec:authorize="isAuthenticated()">
-      <span
+    <div>
+      <input
         class="member-nickname"
-        sec:authentication="principal.nickname"
+        th:value="${loginUser}"
         style="display: none"
-      ></span>
+      ></input>
     </div>
-    <div sec:authorize="isAnonymous()">
-      <span class="member-nickname" value="" style="display: none"></span>
+    <div>
+      <input
+              class="post-writer-nickname"
+              th:value="${postUser}"
+              style="display: none"
+      ></input>
     </div>
 
     <div th:replace="~{layouts/header :: header}"></div>
@@ -57,8 +62,6 @@
 
         <div class="question-area" th:text="${postDto.content}">Q. question area</div>
 
-        Q. question area
-
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
         <!--포스트아이디-->
 
@@ -90,15 +93,16 @@
       <br />
 
       <br />
+      <div class="answer-title">
+        <span class="answer-label">답변</span>
+        <!--타임리프 필요-->
+        <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
+      </div>
 
-      <div th:each="answer : ${answerDtoList}" class="answer-box" id="answer-box">
+      <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box">
         <div class="horizontal-line"></div>
         <div class="a-head">
-          <div class="answer-title">
-            <span class="answer-label">답변</span>
-            <!--타임리프 필요-->
-            <span class="answer-number">1</span>
-          </div>
+
           <div class="answer-info">
             <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
               >작성자</span
@@ -152,19 +156,21 @@
 
     <script>
       // [[${userName}]] 이런식으로 타임리프 식으로 사용 가능
-      let userName = $('#member-nickname').val(); // 로그인 유저
-      let name = $('#post-writer').val(); // post 작성자
+      let userName = $('.member-nickname').val(); // 로그인 유저
+      let name = $('.post-writer-nickname').val(); // post 작성자
       let postId = $('#postId').val();
+      console.log("userName: " + userName);
+      console.log("Name: " + name);
 
       var qabtn = document.getElementById('qabtn'); //답변등록 버튼
       qabtn.addEventListener('click', function () {
         window.open('/answer/' + postId, 'aEnroll');
       });
 
-      var listbtn = document.getElementById('listbtn'); //목록 버튼
-      listbtn.addEventListener('click', function () {
-        location.href = '/post-list';
-      });
+      // var listbtn = document.getElementById('listbtn'); //목록 버튼
+      // listbtn.addEventListener('click', function () {
+      //   location.href = '/post-list';
+      // });
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
@@ -177,6 +183,7 @@
       });
 
       if (userName != name || userName === '') {
+        console.log("css 숨기는 로직");
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
         //관리자일때도 권한 추가
@@ -300,7 +307,7 @@
         const commentsList = document.getElementById('comments-list');
         commentsList.innerHTML = '';
 
-        commentsData.forEach((comment, commentIndex) => {
+        commentsData.forEach((  comment, commentIndex) => {
           if (!comment.hasOwnProperty('replies')) {
             comment.replies = [];
           }
