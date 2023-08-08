@@ -40,26 +40,29 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
         http.csrf().disable().cors().disable() //csrf 비활성화
                 .authorizeHttpRequests(request ->
                         request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/status", "/images/**", "/css/**", "/js/**").permitAll() //정적
-                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated()
+                                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                                .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
+                                .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
+                                .requestMatchers(
+                                        "/login", "/join", "/login-guest", "validation-id",
+                                        "validation-nickname", "validation-email", "post-list", "/post/{postId}").permitAll()
+                                .requestMatchers("/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list", true) //메인페이지로 갈듯
+                        .defaultSuccessUrl("/post-list", true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // The URL to trigger the logout process
-                        .logoutSuccessUrl("/login") // Redirect to login page after successful logout
-                        .invalidateHttpSession(true) // Invalidate the HttpSession
-                        .deleteCookies("JSESSIONID") // Delete the JSESSIONID cookie
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
@@ -74,7 +77,6 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
     ) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
 
 }

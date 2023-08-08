@@ -1,10 +1,12 @@
 package colony.webproj.controller;
 
 import colony.webproj.dto.JoinFormDto;
+import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -85,6 +87,13 @@ public class MemberController {
     public ResponseEntity<?> validationEmail(@RequestBody Validation validation) {
         Boolean isValid = memberService.validateEmail(validation.getEmail());
         if(!isValid) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(true);
+    }
+
+    //알림 수신 동의 변경
+    @PostMapping("/email-alarm")
+    public ResponseEntity<?> changeEmailAlarmAgree(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        memberService.changeEmailAlarmAgree(principalDetails.getId());
         return ResponseEntity.ok(true);
     }
 

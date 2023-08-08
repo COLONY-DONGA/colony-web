@@ -60,6 +60,15 @@
             <div class="item-4-4"></div>
           </div>
         </div>
+        <div class="item-box email-box">
+          <input
+            type="checkbox"
+            name="emailAlarm"
+            id="emailAlarm"
+            th:checked="${member.emailAlarm}"
+          />
+          <span class="email-comment">푸쉬 알림 이메일 수신 동의</span>
+        </div>
         <button class="item-btn-1">Edit Profile</button>
         <button class="item-btn-2">Edit Password</button>
       </div>
@@ -200,6 +209,7 @@
             document.getElementById('modal-overlay-1').style.display = 'none';
             document.getElementById('modal-1').style.display = 'none';
             validation1(event);
+            changeEmailAlarm();
           },
           error: function () {
             alert('올바르지 않은 패스워드입니다. 다시 입력해주세요.');
@@ -296,6 +306,17 @@
           },
         });
       }
+
+      let changeEmailAlarm = function () {
+        $.ajax({
+          type: 'POST',
+          url: '/email-alarm',
+          headers: { 'Content-Type': 'application/json' },
+          data: JSON.stringify({ emailAlarm }),
+          success: function (result) {},
+          error: function () {},
+        });
+      };
 
       closeModal1.onclick = function () {
         document.getElementById('modal-overlay-1').style.display = 'none';

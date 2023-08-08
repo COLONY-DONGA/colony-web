@@ -47,13 +47,13 @@ public class ImageService {
      */
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
+        log.info("이미지 사이즈: " + multipartFiles.size());
         /* 비었는지 체크 */
         if (!CollectionUtils.isEmpty(multipartFiles)) {
 
             for (MultipartFile multipartFile : multipartFiles) {
                 String extension; //확장자명
                 String contentType = multipartFile.getContentType();
-
                 if (ObjectUtils.isEmpty(contentType)) {
                     break;
                 } else { //확장자명이 jpeg, png 인 파일들만 받아서 처리

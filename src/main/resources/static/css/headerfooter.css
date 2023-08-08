@@ -200,8 +200,8 @@ body {
   position: absolute;
   top: 60px;
   right: 10px;
-  min-width: 250px;
-  max-width: 350px;
+  min-width: 400px;
+  max-width: 450px;
   background-color: white;
   padding: 10px;
   border-radius: 10px;

@@ -51,6 +51,7 @@ public class AnswerController {
                              BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
+        log.info("답변 생성 컨트롤러 진입");
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("answerFormDto", answerFormDto);

@@ -9,64 +9,82 @@
   </head>
 
   <style>
-    .qa-page * {
-      box-sizing: border-box;
+    /* 전체 레이아웃 */
+
+    .title {
     }
     .qa-page {
-      font-family: 'Roboto', Arial, sans-serif;
-      background-color: #f9f9f9;
+      font-family: 'NanumSquare', sans-serif;
+      background-color: #fbfbfb;
       margin: 5%;
       padding: 0;
-      color: #4d4d4d;
+      color: #404040;
       line-height: 1.6;
     }
+
+    /* 타이틀 */
     .qa-page h1 {
       text-align: center;
       padding: 20px 0;
-      font-size: 28px;
-      font-weight: 500;
-      color: #3a3a3a;
-      border-bottom: 1px solid rgba(58, 58, 58, 0.1);
+      font-size: 36px;
+      color: #222;
+      border-bottom: 1px solid #ccc;
     }
-    .qa-page form > div {
+
+    /* 검색 */
+    .search-sort-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    form {
       display: flex;
       align-items: center;
-      gap: 10px;
     }
-    .qa-page label {
-      font-size: 16px;
-      font-weight: 500;
+
+    label {
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 10px;
     }
-    .qa-page select,
-    .qa-page input,
-    .qa-page button {
+
+    select,
+    input,
+    button {
       font-size: 16px;
       padding: 8px 12px;
       border: none;
-      background-color: #e9e9e9;
       border-radius: 12px;
       transition: all 0.3s;
       outline: none;
     }
-    .qa-page select:hover,
-    .qa-page input:hover,
-    .qa-page button:hover {
-      background-color: #d1d1d1;
+
+    input[type='text']::-webkit-input-placeholder {
+      color: #bbb;
     }
-    .qa-page button {
-      cursor: pointer;
-      color: #fff;
-      background-color: #007bff;
+
+    select:hover,
+    input:hover,
+    button:hover {
+      background-color: #ddd;
     }
-    .qa-page button:hover {
-      background-color: #0056b3;
-    }
+
+    /* 카드 */
     .card-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 20px;
       width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 0;
     }
+
     .card {
       position: relative;
       overflow: hidden;
@@ -77,48 +95,70 @@
       cursor: pointer;
       transition: transform 0.3s;
     }
+
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
+
     .card-title {
-      font-size: 22px;
-      font-weight: 500;
-      color: #3a3a3a;
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
       margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
     .card-content {
       font-size: 16px;
-      margin-bottom: 10px;
-      height: 60px;
+      margin-bottom: 20px;
+      height: 80px;
       overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      text-overflow: ellipsis;
+      text-align: justify;
+      text-justify: inter-word;
     }
+
+    .card-author {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .card-date {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
     .card-info span {
       font-weight: bold;
     }
-    .search-sort-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 20px 0;
+
+    .card-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: #fff;
     }
-    @media (max-width: 768px) {
-      .qa-page form {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .qa-page select,
-      .qa-page input {
-        width: 100%;
-      }
+
+    .card-status-answered {
+      background-color: #28a745;
+    }
+
+    .card-status-pending {
+      background-color: #ffc107;
+    }
+
+    .card-status-closed {
+      background-color: #dc3545;
+      cursor: not-allowed;
+      pointer-events: none;
     }
   </style>
 
@@ -126,7 +166,7 @@
     <div th:replace="~{layouts/header :: header}"></div>
 
     <div class="qa-page">
-      <h1>질문 리스트</h1>
+      <h1 class="title">질문 리스트</h1>
       <div class="search-sort-container fade-in">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
           <label for="searchType">검색 종류:</label>

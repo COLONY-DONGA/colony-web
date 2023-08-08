@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link rel="stylesheet" href="/css/headerfooter.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <title>질문 세부 페이지</title>
   </head>
 
@@ -28,72 +28,126 @@
 
     <div th:replace="~{layouts/header :: header}"></div>
     <br />
+    <br />
+    <br />
 
     <div class="qadetail-frame">
-      <section class="article-detail table-common con row">
-        <table class="cell" border="1">
-          <colgroup>
-            <col width="100px" />
-          </colgroup>
-          <tbody>
-            <tr class="article-title">
-              <th>제목</th>
-              <td class="question-title" th:text="${postDto.title}">title</td>
-              <th>작성자</th>
-              <td id="post-writer" class="question-title" th:text="${postDto.createdBy}">name</td>
-              <!--시큐리티 변수-->
-            </tr>
-            <tr class="article-info">
+      <div class="q-box">
+        <div class="horizontal-line"></div>
+        <div class="q-head">
+          <div class="question-title" th:text="${postDto.title}">title</div>
+          <div class="question-info">
+            <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
+              >작성자</span
+            >
+            <span class="small-line"> | </span>
+            <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
+          </div>
+
+          <br />
+          <br />
+          <hr />
+          <!--<tr class="article-info">
               <th>날짜</th>
               <td th:text="${postDto.updatedAt}">date</td>
-              <!--수정~-->
-              <th>좋아요</th>
-              <td id="qlikeCount">0</td>
-              <button id="qlikeBtn" class="likeButton">좋아요</button>
-            </tr>
-            <tr class="article-body">
-              <!--내용칸-->
-              <td colspan="4" th:text="${postDto.content}">Q. question area</td>
-            </tr>
-          </tbody>
-        </table>
+            </tr> -->
+
+          <!--내용칸-->
+        </div>
+
+        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+
+        Q. question area
+
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
-      </section>
-      <!--질문 첨부파일 이미지+이미지명 출력파트-->
-      <div class="file-box">
-        <!-- Loop through the file list -->
-        <div th:each="file : ${postDto.imageDtoList}">
-          <div class="file-img">
-<!--            <img th:src="|/images/${file.storeImageName}|" alt="이미지" />-->
-            <img th:src="${file.s3Url}" alt="이미지" />
+        <!--포스트아이디-->
+
+        ----------<!--질문 첨부파일 이미지+이미지명 출력파트-->
+        <div class="file-box">
+          <!-- Loop through the file list -->
+          <div th:each="file : ${postDto.imageDtoList}">
+            <div class="file-img">
+              <img th:src="${file.s3Url}" alt="이미지" />
+            </div>
+          </div>
+        </div>
+
+        <!--버튼바들-->
+        <div class="tool-box" id="question-tool-box">
+          <div class="btn">
+            <button class="qabtn" id="qabtn">
+              <i class="fa-keyboard-o"></i>
+              답변하기
+            </button>
+            <!--<button class="listbtn" id="listbtn">목록</button>-->
+            <button class="editbtn" id="editbtn">수정</button>
+            <button class="deletebtn" id="deletebtn">삭제</button>
+            <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
         </div>
       </div>
+      <br />
+      <br />
 
-      <div class="answer-text-box">
-        <div class="answer-text" th:text="테스트"></div>
-      </div>
+      <br />
 
-      <!--파일-->
+      <div th:each="answer : ${answerDtoList}" class="answer-box" id="answer-box">
+        <div class="horizontal-line"></div>
+        <div class="a-head">
+          <div class="answer-title">
+            <span class="answer-label">답변</span>
+            <!--타임리프 필요-->
+            <span class="answer-number">1</span>
+          </div>
+          <div class="answer-info">
+            <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
+              >작성자</span
+            >
+            <span class="small-line"> | </span>
+            <span class="answer-info-date" th:text="${answer.createdAt}">date</span>
+          </div>
+        </div>
 
-      <div class="btn">
-        <button type="button" class="qabtn" id="qabtn">답변 등록</button>
-        <button class="listbtn" id="listbtn">목록</button>
-        <button class="editbtn" id="editbtn">수정</button>
-        <button class="deletebtn" id="deletebtn">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
+        <div class="answer-text" id="answer-box-[[${answer.id}]]">
+          <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
+          <div class="answer-area" th:text="${answer.content}">
+            A.answer content A.answer content A.answer content A.answer content A.answer content
+          </div>
+        </div>
+
+        <!--파일-->
+        --파일,이미지 기능
+
+        <div class="tool-box" id="answer-tool-box">
+          <button class="heart-button"><i class="fa fa-heart"></i></button>
+          <div class="likecount" id="like" th:text="${answer.heartNum}">1</div>
+          <div class="btn">
+            <button class="editbtn" id="editbtn">수정</button>
+            <button class="deletebtn" id="deletebtn">
+              <i class="fa fa-trash" id="answer-deletebtn"></i>
+            </button>
+            <!--<a href="#" class="btn green rounded">Button</a>-->
+          </div>
+        </div>
+
+        <br />
+
+        <div class="comments-container">
+          <ul id="comments-list" class="comments-list">
+            <!-- 댓글이 여기에 추가될 예정 -->
+          </ul>
+          <!-- 새댓글 작성부분 -->
+          <div class="input-box">
+            <div class="inputframe">
+              <br />
+
+              <h5>New Comment : <input type="text" class="input-text" id="newComment" /></h5>
+              <button class="new-comment-btn" id="add-comment-button">작성</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <br />
-
-    <div class="comment-text-box">
-      <div class="comment-text">
-        <div id="comments"></div>
-      </div>
-    </div>
-    <button class="new-comment-btn" id="add-comment-button">새 댓글 추가</button>
-
     <div id="footer"></div>
 
     <script>
@@ -125,338 +179,236 @@
       if (userName != name || userName === '') {
         editbtn.style.display = 'none';
         deletebtn.style.display = 'none';
+        //관리자일때도 권한 추가
+        if (userName === '관리자') {
+          //관리자 이름을 어떻게 받더라....
+          editbtn.style.display = 'block';
+          deletebtn.style.display = 'block';
+        }
       }
 
       //좋아요 기능 구현(질문글 좋아요)
-      var qlikeCount = 0;
+      $(document).ready(function () {
+        $('.heart-button').click(function () {
+          const $parent = $(this).parent('.answer');
+          const answerId = $parent.data('answer-id');
 
-      // qlikeBtn 클릭 이벤트 처리
-      $('#qlikeBtn').on('click', function () {
-        // class 변경
-        if ($(this).hasClass('likeButton')) {
-          $(this).removeClass('likeButton').addClass('likeButton-use'); // 색상 변경
-          // qlikeCount 증가 (이 친구가 나중에 ajax통신으로 질문에 대한 좋아요로 들어갈 것임)
-          qlikeCount++;
-        } else {
-          $(this).removeClass('likeButton-use').addClass('likeButton');
-          // qlikeCount 감소
-          qlikeCount--;
-        }
-        $('#qlikeCount').text(qlikeCount);
-
-        // 서버로 ajax 요청
-        $.ajax({
-          url: 'localhost:8080/~~~/',
-          type: 'POST',
-          dataType: 'json',
-          data: { questionId: questionId, qlikeCount: qlikeCount },
-          success: function (response) {
-            // 서버 응답 처리
-            console.log(response);
-          },
-          error: function (error) {
-            // 에러 처리
-            console.error(error);
-          },
-        });
-      });
-
-      function addReply(event) {
-        var comment = event.target.parentElement;
-        var reply = document.createElement('div');
-        reply.classList.add('reply');
-
-        // 대댓글 작성자와 내용 표시
-        var replyAuthorSpan = document.createElement('span');
-        replyAuthorSpan.classList.add('name');
-        replyAuthorSpan.innerText = '↳(' + userName + ') ';
-        var replyContentInput = document.createElement('input');
-        replyContentInput.placeholder = '대댓글 내용';
-
-        // 대댓글 작성 버튼 추가
-        var replySubmitButton = document.createElement('button');
-        replySubmitButton.innerText = '작성';
-        replySubmitButton.addEventListener('click', function () {
-          var name = replyAuthorSpan.innerText; // 대댓글 작성자를 가져옴
-          var text = replyContentInput.value;
-
-          // 대댓글 생성 및 추가
-          var replyContent = document.createElement('span');
-          replyContent.classList.add('text');
-          replyContent.innerText = text;
-          var replyAuthor = document.createElement('span');
-          replyAuthor.classList.add('name');
-          replyAuthor.innerText = name;
-          reply.appendChild(replyAuthor);
-          reply.appendChild(replyContent);
-          comment.getElementsByClassName('replies')[0].appendChild(reply);
-
-          // 입력 폼 삭제
-          reply.removeChild(replyAuthorSpan);
-          reply.removeChild(replyContentInput);
-          reply.removeChild(replySubmitButton);
-
-          // 대댓글을 서버로 전송하여 저장
-          var commentId = comment.dataset.commentId;
-          saveReply(commentId, name, text);
-        });
-
-        // 대댓글 작성 폼 추가
-        reply.appendChild(replyAuthorSpan);
-        reply.appendChild(replyContentInput);
-        reply.appendChild(replySubmitButton);
-        comment.getElementsByClassName('replies')[0].appendChild(reply);
-      }
-
-      function saveComment(name, text) {
-        // 새 댓글을 서버로 전송하여 저장
-        $.ajax({
-          type: 'POST',
-          url: '/save-comment',
-          contentType: 'application/json',
-          data: JSON.stringify({
-            name: name, //오른쪽이 js변수 새댓글 작성자 name
-            text: text, //오른쪽이 js변수 새댓글 댓글텍스트
-          }),
-          success: function (response) {
-            console.log(response);
-          },
-          error: function (xhr, status, error) {
-            console.error(error);
-          },
-        });
-      }
-
-      function saveReply(commentId, name, text) {
-        // 대댓글을 서버로 전송하여 저장
-        $.ajax({
-          type: 'POST',
-          url: '/save-reply',
-          contentType: 'application/json',
-          dataType: 'json',
-          data: JSON.stringify({
-            commentId: commentId, //오른쪽 부모댓글!!! name,text가 속해있는 댓글의 식별자
-            name: name, //오른쪽이 js변수 대댓글 작성자 name
-            text: text, //오른쪽이 js변수 대댓글 텍스트
-          }),
-          success: function (response) {
-            console.log(response);
-          },
-          error: function (xhr, status, error) {
-            console.error(error);
-          },
-        });
-      }
-
-      // 대댓글 버튼 클릭 이벤트 처리
-      function addReplyButtonListeners() {
-        var replyButtons = document.getElementsByClassName('reply-button');
-        for (var i = 0; i < replyButtons.length; i++) {
-          replyButtons[i].addEventListener('click', addReply);
-        }
-      }
-
-      // 새 댓글 추가 버튼 클릭 이벤트 처리
-      var addCommentButton = document.getElementById('add-comment-button');
-      addCommentButton.addEventListener('click', function () {
-        var commentsDiv = document.getElementById('comments');
-        var newComment = document.createElement('div');
-        newComment.classList.add('comment');
-
-        // 댓글 작성자와 내용 표시
-        var commentAuthorSpan = document.createElement('span');
-        commentAuthorSpan.classList.add('name');
-        commentAuthorSpan.innerText = userName + ' : ';
-        var commentContentInput = document.createElement('input');
-        commentContentInput.placeholder = '댓글 내용';
-
-        // 입력 버튼 추가
-        var commentSubmitButton = document.createElement('button');
-        commentSubmitButton.innerText = '입력';
-
-        // 대댓글 버튼 추가
-        var replyButton = document.createElement('button');
-        replyButton.classList.add('reply-button');
-        replyButton.innerText = '대댓글';
-
-        // 대댓글 목록 추가
-        var repliesDiv = document.createElement('div');
-        repliesDiv.classList.add('replies');
-
-        newComment.appendChild(commentAuthorSpan);
-        newComment.appendChild(commentContentInput);
-        newComment.appendChild(commentSubmitButton);
-        newComment.appendChild(replyButton);
-        newComment.appendChild(repliesDiv);
-
-        commentsDiv.appendChild(newComment);
-
-        // 입력 버튼 클릭 이벤트 처리
-        commentSubmitButton.addEventListener('click', function () {
-          var name = commentAuthorSpan.innerText; // 댓글 작성자를 가져옴
-          var text = commentContentInput.value;
-
-          // 댓글 생성 및 추가
-          var commentContent = document.createElement('span');
-          commentContent.classList.add('text');
-          commentContent.innerText = text;
-          var commentAuthor = document.createElement('span');
-          commentAuthor.classList.add('name');
-          commentAuthor.innerText = name;
-          newComment.insertBefore(commentAuthor, commentContentInput);
-          newComment.insertBefore(commentContent, commentContentInput);
-
-          // 입력 폼 삭제
-          newComment.removeChild(commentAuthorSpan);
-          newComment.removeChild(commentContentInput);
-          newComment.removeChild(commentSubmitButton);
-
-          // 댓글을 서버로 전송하여 저장
-          saveComment(name, text);
-
-          // 대댓글 버튼 활성화
-          replyButton.disabled = false;
-        });
-
-        // 대댓글 버튼 클릭 이벤트 처리
-        replyButton.addEventListener('click', addReply);
-
-        // 댓글이 추가되었으므로 대댓글 버튼을 비활성화
-        replyButton.disabled = true;
-      });
-
-      // 페이지 로드 시에 댓글이 없으므로 대댓글 버튼 비활성화
-      var replyButtons = document.getElementsByClassName('reply-button');
-      for (var i = 0; i < replyButtons.length; i++) {
-        replyButtons[i].disabled = true;
-      }
-
-      // 페이지 로드 시에 기존 댓글과 대댓글을 가져와서 표시하는 함수
-      function loadComments() {
-        // 서버에서 댓글 데이터를 가져오는 Ajax 요청
-        $.ajax({
-          type: 'GET',
-          url: '/get-comments',
-          success: function (response) {
-            // 가져온 댓글 데이터를 반복하여 표시
-            for (var i = 0; i < response.comments.length; i++) {
-              var commentData = response.comments[i];
-
-              // 댓글 요소 생성
-              var newComment = document.createElement('div');
-              newComment.classList.add('comment');
-
-              // 댓글 작성자와 내용 표시
-              var commentAuthor = document.createElement('span');
-              commentAuthor.classList.add('name');
-              commentAuthor.innerText = commentData.name + ' : ';
-              var commentContent = document.createElement('span');
-              commentContent.classList.add('text');
-              commentContent.innerText = commentData.text;
-
-              newComment.appendChild(commentAuthor);
-              newComment.appendChild(commentContent);
-
-              // 대댓글 목록 추가
-              var repliesDiv = document.createElement('div');
-              repliesDiv.classList.add('replies');
-              newComment.appendChild(repliesDiv);
-
-              // 대댓글 작성 버튼 추가
-              var replyButton = document.createElement('button');
-              replyButton.classList.add('reply-button');
-              replyButton.innerText = '대댓글';
-              newComment.appendChild(replyButton);
-
-              // 댓글에 대댓글 버튼 클릭 이벤트 처리
-              replyButton.addEventListener('click', addReply);
-
-              // 댓글을 댓글 목록에 추가
-              var commentsDiv = document.getElementById('comments');
-              commentsDiv.appendChild(newComment);
-
-              // 해당 댓글의 대댓글 가져와서 표시
-              for (var j = 0; j < commentData.replies.length; j++) {
-                var replyData = commentData.replies[j];
-                var reply = document.createElement('div');
-                reply.classList.add('reply');
-
-                // 대댓글 작성자와 내용 표시
-                var replyAuthor = document.createElement('span');
-                replyAuthor.classList.add('name');
-                replyAuthor.innerText = '↳(' + replyData.name + ') ';
-                var replyContent = document.createElement('span');
-                replyContent.classList.add('text');
-                replyContent.innerText = replyData.text;
-
-                reply.appendChild(replyAuthor);
-                reply.appendChild(replyContent);
-                repliesDiv.appendChild(reply);
-              }
-            }
-
-            // 대댓글 버튼 활성화
-            addReplyButtonListeners();
-          },
-          error: function (xhr, status, error) {
-            console.error(error);
-          },
-        });
-      }
-
-      // 페이지 로드 시에 기존 댓글 가져오기
-      loadComments();
-
-      //첨부파일 부분
-      let fileInput = document.getElementById('file-input');
-      let fileList = document.getElementById('file-list');
-
-      // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
-      fileInput.addEventListener('change', () => {
-        // 선택된 파일들을 배열로 변환하여 변수에 저장
-        let selectedFiles = Array.from(fileInput.files);
-
-        // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
-        selectedFiles.forEach((file) => {
-          // 새로운 리스트 아이템인 <li> 요소를 생성
-          let listItem = document.createElement('li');
-
-          // 파일 미리보기 이미지를 위한 <img> 요소를 생성
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          let reader = new FileReader();
-
-          // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
-          reader.onload = function (e) {
-            resizeImage(e.target.result, 300, 300, (resizedImage) => {
-              filePreview.src = resizedImage;
-            });
-          };
-
-          // 파일을 데이터 URL로 읽음
-          reader.readAsDataURL(file);
-          listItem.appendChild(filePreview);
-
-          // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
-          let fileInfo = document.createElement('span');
-          // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
-          fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
-          listItem.appendChild(fileInfo);
-
-          let deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-btn');
-
-          // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
-          deleteButton.addEventListener('click', () => {
-            listItem.remove();
+          // json 형식으로 ajax 요청을 보냅니다.
+          $.ajax({
+            type: 'POST',
+            url: '/좋아요 url',
+            contentType: 'application/json',
+            data: JSON.stringify({ answerId: answerId, userName: userName }),
+            success: function (response) {
+              const $likeCount = $parent.find('.likecount');
+              const currentLikeCount = parseInt($likeCount.text());
+              $likeCount.text(currentLikeCount + 1);
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', status, error);
+            },
           });
-
-          listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
         });
+      });
+
+      //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+
+      // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+      window.addEventListener('load', function () {
+        adjustQuestionAreaHeight();
+      });
+
+      // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+      window.addEventListener('resize', function () {
+        adjustQuestionAreaHeight();
+      });
+
+      // 요소의 높이를 조정하는 함수
+      function adjustQuestionAreaHeight() {
+        var qBox = document.getElementById('q-box');
+        var questionArea = document.getElementById('question-area');
+        var maxHeight = qBox.offsetHeight;
+        questionArea.style.height = maxHeight + 'px';
+      }
+
+      // answer-area css부분
+      document.addEventListener('DOMContentLoaded', function () {
+        const answerAreas = document.querySelectorAll('.answer-area');
+        for (const answerArea of answerAreas) {
+          adjustAnswerAreaHeight(answerArea);
+        }
+      });
+
+      // answer-area의 높이를 자동으로 조절하는 함수
+      function adjustAnswerAreaHeight(element) {
+        element.style.height = 'auto'; // 높이 초기화
+      }
+
+      //답변 생성 부분!!
+
+      //댓글 작성 기능!!!
+      const commentsData = [
+        {
+          name: '최유현',
+          content: '첫번째 댓글~~~.',
+          replies: [
+            { name: '최쌤 대댓글1', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+            { name: '최쌤 대댓글2', content: 'ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ' },
+          ],
+        },
+        {
+          name: '김진짜',
+          content: '두번쨰 댓글~~~',
+          replies: [{ name: '김진수', content: 'blalbalbalbalba' }],
+        },
+      ];
+
+      function onWriteButtonClick() {
+        const newCommentInput = document.getElementById('newComment');
+        const newCommentText = newCommentInput.value;
+
+        commentsData.push({
+          name: '사용자',
+          content: newCommentText,
+          replies: [],
+        });
+
+        addComments();
+
+        newCommentInput.value = '';
+      }
+
+      function onClickAddReplyButton(event) {
+        const button = event.target.closest('.fa-reply');
+        if (!button) return;
+
+        const commentIndex = button.dataset.commentIndex;
+        const commentItem = button.closest('li');
+        const replyList = commentItem.querySelector('.reply-list');
+        const inputReply = replyList.querySelector('.inputReply');
+        const newReplyText = inputReply.value;
+
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
+          content: newReplyText,
+        });
+
+        addComments();
+      }
+
+      function addComments() {
+        const commentsList = document.getElementById('comments-list');
+        commentsList.innerHTML = '';
+
+        commentsData.forEach((comment, commentIndex) => {
+          if (!comment.hasOwnProperty('replies')) {
+            comment.replies = [];
+          }
+
+          const commentElement = `
+        <li>
+          <div class="comment-main-level">
+            <div class="comment-avatar">
+              <img src="../static/img/colony.jpg" alt="" />
+            </div>
+            <div class="comment-box">
+              <div class="comment-head">
+                <h6 class="comment-name">${comment.name}</h6>
+                <i class="fa fa-reply" data-comment-index="${commentIndex}"></i>
+              </div>
+              <div class="comment-content">${comment.content}</div>
+              <ul class="comments-list reply-list"></ul>
+            </div>
+          </div>
+        </li>
+      `;
+          commentsList.innerHTML += commentElement;
+
+          const commentItem = commentsList.lastElementChild;
+          addNewCommentEventListeners(commentItem);
+
+          if (comment.replies.length > 0) {
+            const replyList = commentItem.querySelector('.reply-list');
+
+            comment.replies.forEach((reply) => {
+              const replyElement = `
+            <li>
+              <div class="comment-avatar">
+                <img src="../static/img/colony.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name">${reply.name}</h6>
+                </div>
+                <div class="comment-content">${reply.content}</div>
+              </div>
+            </li>
+          `;
+              replyList.innerHTML += replyElement;
+            });
+          }
+        });
+      }
+
+      function addNewCommentEventListeners(commentItem) {
+        const replyButton = commentItem.querySelector('.fa-reply');
+        replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
+        replyButton.addEventListener('click', onClickAddReplyButton);
+
+        // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
+        const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
+        replyWriteBtn.forEach((button) => {
+          button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
+          button.addEventListener('click', onReplyWriteButtonClick);
+        });
+      }
+
+      function onReplyWriteButtonClick(event) {
+        const button = event.target.closest('.reply-write-btn');
+        if (!button) return;
+
+        const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
+          .dataset.commentIndex;
+        const commentItem = button.closest('li');
+        const replyList = commentItem.closest('ul.reply-list');
+
+        const inputReply = replyList.querySelector('.inputReply');
+        const newReplyText = inputReply.value;
+
+        commentsData[commentIndex]['replies'].push({
+          name: '사용자',
+          content: newReplyText,
+        });
+
+        addComments();
+      }
+
+      function addReplyButtonClickHandler() {
+        const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
+        replyButtons.forEach((button) => {
+          button.removeEventListener('click', onClickAddReplyButton);
+          button.addEventListener('click', onClickAddReplyButton);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        addComments();
+        addReplyButtonClickHandler();
+      });
+
+      const writeButton = document.getElementById('add-comment-button');
+      writeButton.addEventListener('click', onWriteButtonClick);
+
+      const commentsList = document.getElementById('comments-list');
+      commentsList.addEventListener('click', (event) => {
+        if (event.target.matches('.fa-reply')) {
+          onClickAddReplyButton(event);
+        } else if (event.target.matches('.reply-write-btn')) {
+          onReplyWriteButtonClick(event);
+        }
       });
     </script>
+
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>
