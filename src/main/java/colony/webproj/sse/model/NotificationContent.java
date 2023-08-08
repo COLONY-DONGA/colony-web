@@ -14,21 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class NotificationContent {
 
-    private static final int Max_LENGTH = 50;
-
-    @Column(nullable = false,length = Max_LENGTH)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-//    public NotificationContent(String content){
-////        if(isNotValidNotificationContent(content)){
-////            throw new CustomException(ErrorCode.NOT_VALIDCONTENT);
-////        }
-//        this.content = content;
-//    }
-//
-//    private boolean isNotValidNotificationContent(String content) {
-//        return Objects.isNull(content) || content.length() > Max_LENGTH
-//        || content.isEmpty();
-//
-//    }
 }
