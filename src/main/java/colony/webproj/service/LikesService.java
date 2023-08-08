@@ -27,16 +27,25 @@ public class LikesService {
 
     private final AnswerRepository answerRepository;
 
+
+    /**
+     *  좋아요 확인
+     */
+    public boolean getLike(Long answerId, String loginId) {
+        Optional<Likes> existingLikes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId);
+        if (existingLikes.isPresent()) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
     /**
      * 좋아요 추가 메서드
      */
     @Transactional
     public Boolean addLikes(Long answerId, String loginId) {
-
-        Optional<Likes> existingLikes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId);
-        if (existingLikes.isPresent()) {
-            return false;
-        }
 
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
@@ -67,5 +76,6 @@ public class LikesService {
 
         likesRepository.delete(likes);
     }
+
 
 }
