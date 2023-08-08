@@ -19,24 +19,18 @@ public class LikesController {
     private final LikesService likesService;
 
     /**
-     *  좋아요 추가
+     *  좋아요 추가 및 삭제
      */
     @PostMapping("/heart/{answerId}")
     public ResponseEntity<?> increaseLikes(@PathVariable("answerId") Long answerId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
 
-        return likesService.addLikes(answerId, principalDetails.getLoginId()) ?
-                ResponseEntity.ok(true) : ResponseEntity.badRequest().body("false");
+        boolean check = likesService.checkLike(answerId,principalDetails.getLoginId());
+
+        if(check) return ResponseEntity.ok(true);   // 좋아요 추가
+        else return ResponseEntity.ok(false);       // 좋아요 삭제
+
 
     }
-
-    /**
-     * 좋아요 취소
-     */
-    @DeleteMapping("/heart/{answerId}")
-    public ResponseEntity<?> decreaseLikes(@PathVariable("answerId") Long answerId,
-                                           @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
-        likesService.removeLikes(answerId, principalDetails.getLoginId());
-        return ResponseEntity.ok(true);
-    }
+    
 }
