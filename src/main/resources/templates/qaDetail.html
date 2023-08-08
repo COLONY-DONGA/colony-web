@@ -99,7 +99,7 @@
         <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
       </div>
 
-      <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box">
+      <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box-[[${answer.id}]]">
         <div class="horizontal-line"></div>
         <div class="a-head">
 
@@ -112,7 +112,7 @@
           </div>
         </div>
 
-        <div class="answer-text" id="answer-box-[[${answer.id}]]">
+        <div class="answer-text">
           <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
           <div class="answer-area" th:text="${answer.content}">
             A.answer content A.answer content A.answer content A.answer content A.answer content
@@ -123,8 +123,8 @@
         --파일,이미지 기능
 
         <div class="tool-box" id="answer-tool-box">
-          <button class="heart-button"><i class="fa fa-heart"></i></button>
-          <div class="likecount" id="like" th:text="${answer.heartNum}">1</div>
+          <button class="heart-button" th:data-answer-id="${answer.answerId}"><i class="fa fa-heart"></i></button>
+          <div class="likecount" id="like" th:id="'like-' + ${answer.answerId}" th:text="${answer.heartNum}">1</div>
           <div class="btn">
             <button class="editbtn" id="editbtn">수정</button>
             <button class="deletebtn" id="deletebtn">
@@ -194,22 +194,34 @@
         }
       }
 
-      //좋아요 기능 구현(질문글 좋아요)
-      $(document).ready(function () {
-        $('.heart-button').click(function () {
-          const $parent = $(this).parent('.answer');
-          const answerId = $parent.data('answer-id');
+
+
+      // 모든 하트 버튼 요소 선택
+      const heartButtons = document.querySelectorAll('.heart-button');
+      console.log(heartButtons.length);
+
+      // 각 하트 버튼에 클릭 이벤트 리스너 추가
+      heartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          // data-answer-id 속성 값을 가져옴
+          const answerId = this.getAttribute('data-answer-id');
+          console.log(answerId);
 
           // json 형식으로 ajax 요청을 보냅니다.
           $.ajax({
             type: 'POST',
-            url: '/좋아요 url',
+            url: '/heart/' + answerId,
             contentType: 'application/json',
             data: JSON.stringify({ answerId: answerId, userName: userName }),
             success: function (response) {
-              const $likeCount = $parent.find('.likecount');
-              const currentLikeCount = parseInt($likeCount.text());
-              $likeCount.text(currentLikeCount + 1);
+              //likeCountElement
+              const likeCountElement = document.querySelector('#like-' + answerId);
+              // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+              if(response) {
+                likeCountElement.textContent++;
+              } else{
+                likeCountElement.textContent--;
+              }
             },
             error: function (xhr, status, error) {
               console.error('Error:', status, error);
@@ -217,6 +229,46 @@
           });
         });
       });
+
+
+
+
+
+
+
+      // //좋아요 기능 구현(질문글 좋아요)
+      // $(document).ready(function () {
+      //   $('.heart-button').click(function () {
+      //     const $parent = $(this).parent('.answer');
+      //     // const answerId = $parent.data('answer-id');
+      //     const answerId =
+      //
+      //     // json 형식으로 ajax 요청을 보냅니다.
+      //     $.ajax({
+      //       type: 'POST',
+      //       url: '/heart/' + &parent.,
+      //       contentType: 'application/json',
+      //       data: JSON.stringify({ answerId: answerId, userName: userName }),
+      //       success: function (response) {
+      //         const $likeCount = $parent.find('.likecount');
+      //         const currentLikeCount = parseInt($likeCount.text());
+      //         $likeCount.text(currentLikeCount + 1);
+      //       },
+      //       error: function (xhr, status, error) {
+      //         console.error('Error:', status, error);
+      //       },
+      //     });
+      //   });
+      // });
+
+
+
+
+
+
+
+
+
 
       //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
