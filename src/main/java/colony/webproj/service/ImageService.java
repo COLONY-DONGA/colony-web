@@ -54,6 +54,10 @@ public class ImageService {
             for (MultipartFile multipartFile : multipartFiles) {
                 String extension; //확장자명
                 String contentType = multipartFile.getContentType();
+
+                if(contentType.contains("application/octet-stream")) {
+                    break;
+                }
                 if (ObjectUtils.isEmpty(contentType)) {
                     break;
                 } else { //확장자명이 jpeg, png 인 파일들만 받아서 처리
