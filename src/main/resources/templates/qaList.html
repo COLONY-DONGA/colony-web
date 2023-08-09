@@ -335,7 +335,7 @@
     <!--페이징 처리-->
     <div class="pagination-container">
       <ul class="pagination"
-          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}">
+          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}">
 
         <li th:if="${start > 1}">
           <a th:if="${searchType} != null and ${searchValue} != null"
@@ -382,7 +382,6 @@
         </li>
       </ul>
     </div>
-
 
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
