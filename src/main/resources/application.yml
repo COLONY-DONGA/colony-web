@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://${DB_ENDPOINT}:${DB_PORT}/${DB_SCHEMA_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   jpa:
     hibernate:
       ddl-auto: update

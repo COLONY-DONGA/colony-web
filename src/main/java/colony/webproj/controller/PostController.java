@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,9 +106,10 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
-    public String savePost( @Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails,
-                           Model model) throws IOException {
+    public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
+                                   @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                   Model model) throws IOException {
+        log.info("포스트 저장 진입");
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);

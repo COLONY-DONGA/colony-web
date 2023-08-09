@@ -49,6 +49,10 @@
           </div>
         </form>
       </div>
+
+      <div id="file-list-box">
+        <ul id="file-list"></ul>
+      </div>
     </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
@@ -161,8 +165,8 @@
       }
 
       cancelBtn.addEventListener('click', () => {
-        document.querySelector('.input-title').value = '';
-        document.querySelector('.input-content').value = '';
+        document.querySelector('.title').value = '';
+        document.querySelector('.text_box').value = '';
         history.back();
       });
     </script>

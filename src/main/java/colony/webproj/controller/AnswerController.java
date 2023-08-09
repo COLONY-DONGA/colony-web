@@ -110,7 +110,7 @@ public class AnswerController {
     /**
      * 답변 삭제
      */
-    @DeleteMapping("/answer/{postId}/{answerId}")
+    @PostMapping("/delete-answer/{postId}/{answerId}")
     public String deleteAnswer(@PathVariable("answerId") Long answerId, @PathVariable("postId") Long postId,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
