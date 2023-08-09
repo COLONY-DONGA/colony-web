@@ -69,6 +69,11 @@ public class PostController {
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("answered", answered);
+
+        model.addAttribute("pageNum", pageable.getPageNumber());
+        model.addAttribute("totalPages", postDtoList.getTotalPages());
+        model.addAttribute("maxPage", 10);
+
         return "qaList";
     }
 
@@ -168,7 +173,7 @@ public class PostController {
      * 답변 삭제
      * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
-    @DeleteMapping("/delete-post/{postId}")
+    @GetMapping("/delete-post/{postId}")
     public String deletePost(@PathVariable("postId") Long postId,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) {
@@ -182,7 +187,7 @@ public class PostController {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         postService.deletePost(postId);
-        return "qaList";
+        return "redirect:/post-list";
     }
 
     /**
