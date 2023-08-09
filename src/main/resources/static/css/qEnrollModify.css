@@ -12,7 +12,8 @@
   border-radius: 10px;
 }
 
-.question-enroll {
+.question-enroll,
+.question-modify {
   text-align: left;
   font-size: 24px;
   border-bottom: 3px solid #6b9275;
@@ -155,13 +156,13 @@
   background-color: rgba(7, 7, 7, 0.8);
 }
 
-.button_group {
+.button-group {
   display: flex;
   justify-content: center;
 }
 
-.submit_btn,
-.cancel_btn {
+.submit-btn,
+.cancel-btn {
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -172,22 +173,22 @@
   color: #ffffff;
 }
 
-.submit_btn {
+.submit-btn {
   background-color: rgba(111, 225, 92, 0.9);
   margin-right: 0.75rem;
 }
 
-.cancel_btn {
+.cancel-btn {
   background-color: rgba(253, 23, 23, 0.7);
   margin-left: 0.75rem;
 }
 
-.submit_btn:hover {
+.submit-btn:hover {
   background-color: rgba(78, 162, 63, 0.9);
   transform: scale(1.1);
 }
 
-.cancel_btn:hover {
+.cancel-btn:hover {
   background-color: rgba(172, 5, 5, 0.7);
   transform: scale(1.1);
 }
