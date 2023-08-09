@@ -168,75 +168,31 @@
         </tr>
       </tbody>
     </table>
-    <!--페이징 처리-->
     <div class="pagination-container">
-      <ul
-        class="pagination"
-        th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}"
-      >
+      <ul th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}">
+        <!-- Previous Page Links -->
         <li th:if="${start > 1}">
-          <a
-            th:if="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
-            th:text="'<<'"
-          ></a>
-          <a th:href="@{/admin/posts(page=0)}" th:text="'<<'"></a>
+          <a th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, answered=${answered}, sortBy=${sortBy})}" th:text="'<<'"></a>
         </li>
         <li th:if="${start > 1}">
-          <a
-            th:if="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${prev}, searchType=${searchType}, searchValue=${searchValue})}"
-            th:text="'<'"
-          ></a>
-          <a
-            th:unless="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${prev})}"
-            th:text="'<'"
-          ></a>
+          <a th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, answered=${answered}, sortBy=${sortBy})}" th:text="'<'"></a>
         </li>
 
-        <li
-          th:each="page: ${#numbers.sequence(start, end)}"
-          th:class="${page == (pageNum + 1)} ? 'active' : ''"
-        >
-          <a
-            th:if="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue})}"
-            th:text="${page}"
-          ></a>
-          <a
-            th:unless="${searchType} != null and ${searchValue} != null"
-            th:text="${page}"
-            th:href="@{/admin/posts(page=${page - 1})}"
-          ></a>
+        <!-- Page Number Links -->
+        <li th:each="page: ${#numbers.sequence(start, end)}" th:class="${page == (pageNum + 1)} ? 'active' : ''">
+          <a th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, answered=${answered}, sortBy=${sortBy})}" th:text="${page}"></a>
         </li>
 
+        <!-- Next Page Links -->
         <li th:if="${end < totalPages}">
-          <a
-            th:if="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${next}, searchType=${searchType}, searchValue=${searchValue})}"
-            th:text="'>'"
-          ></a>
-          <a
-            th:unless="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${next})}"
-            th:text="'>'"
-          ></a>
+          <a th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, answered=${answered}, sortBy=${sortBy})}" th:text="'>'"></a>
         </li>
         <li th:if="${end < totalPages}">
-          <a
-            th:if="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue})}"
-            th:text="'>>'"
-          ></a>
-          <a
-            th:unless="${searchType} != null and ${searchValue} != null"
-            th:href="@{/admin/posts(page=${totalPages - 1})}"
-            th:text="'>>'"
-          ></a>
+          <a th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, answered=${answered}, sortBy=${sortBy})}" th:text="'>>'"></a>
         </li>
       </ul>
     </div>
+
 
     <script>
       document.getElementById('search-button').addEventListener('click', function () {

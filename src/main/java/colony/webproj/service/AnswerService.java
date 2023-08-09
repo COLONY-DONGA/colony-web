@@ -199,9 +199,11 @@ public class AnswerService {
         for (Answer answer : answerList) {
             imageService.deleteFile(answer.getImageList());
             commentService.deleteCommentInAnswer(answer.getId());
+            likesRepository.deleteByAnswerId(answer.getId());
         }
         imageRepository.deleteImagesByAnswerInPost(postId); //Post 에 등록된 Answer 에 등록된 이미지 파일들 삭제
         answerRepository.deleteAnswersByPostId(postId); // Post 에 등록된 Answer 삭제
+
     }
 
     /**
@@ -213,7 +215,7 @@ public class AnswerService {
 
         imageService.deleteFile(answer.getImageList()); //로컬에 있는 이미지 파일 삭제
         commentService.deleteCommentInAnswer(answerId);
-
+        likesRepository.deleteByAnswerId(answerId);
         answerRepository.deleteById(answerId); // answer 삭제 //image 도 고아객체로 삭제
 
         //게시글에 answer 이 전부 지워졌을 경우
