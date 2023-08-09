@@ -20,8 +20,6 @@
   margin-bottom: 20px;
 }
 
-/* flex-box Start */
-
 .enroll-form {
   display: flex;
   flex-direction: column;
@@ -34,10 +32,14 @@
 }
 
 .title-box label {
+  margin-top: 0.3rem;
   margin-right: 7rem;
 }
 
 .title-box input {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
   width: 53rem;
   height: 1.5rem;
   border: 1px solid #93bfa9;
@@ -51,15 +53,36 @@
 }
 
 .content-box label {
+  margin-top: 0.1rem;
   margin-right: 5.25rem;
 }
 
 .content-box textarea {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
   width: 53rem;
   height: 20rem;
   border: 1px solid #93bfa9;
   border-radius: 5px;
+  padding: 0.3rem 0.2rem;
   resize: none;
+  overflow-y: auto;
+}
+
+.content-box textarea::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
 }
 
 .image-box {
@@ -72,7 +95,6 @@
   margin-right: 4rem;
 }
 
-/* div 태그 */
 #file-list-box {
   width: 53.5rem;
   border: 1px solid #93bfa9;
@@ -82,29 +104,45 @@
   max-height: 400px;
   border-radius: 5px;
 }
-/* ul 태그 */
+
+#file-list-box::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
 #file-list {
   list-style: none;
   padding-left: 0;
 }
-/* li 태그 */
+
 .file-list-item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 5px;
-  border-bottom: 1px solid #93bfa9; /* 아래 구분선 추가 */
+  border-bottom: 1px solid #93bfa9;
 }
-/* 마지막 li 태그 */
+
 .file-list-item:last-child {
-  border-bottom: none; /* 마지막 구분선 제거 */
+  border-bottom: none;
 }
-/* img 태그 */
+
 .file-preview {
   max-height: 100px;
 }
-/* button 태그 */
+
 .delete-btn {
+  margin-bottom: 0.5rem;
   font-size: 14px;
   background-color: rgba(7, 7, 7, 0.61);
   color: #fff;
@@ -112,12 +150,10 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-/* button:hover */
+
 .delete-btn:hover {
   background-color: rgba(7, 7, 7, 0.8);
 }
-
-/* flex-box End */
 
 .button_group {
   display: flex;
