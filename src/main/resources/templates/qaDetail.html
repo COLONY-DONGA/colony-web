@@ -195,8 +195,11 @@
   let userName = $('.member-nickname').val(); // 로그인 유저
   let name = $('.post-writer-nickname').val(); // post 작성자
   let postId = $('#postId').val(); //post아이디
+  let answerWriter = $('#answer-writer').val();//answer작성자
   console.log('userName: ' + userName);
   console.log('Name: ' + name);
+
+
 
   var qabtn = document.getElementById('qabtn'); //답변등록 버튼
   qabtn.addEventListener('click', function () {
@@ -204,6 +207,16 @@
   });
 
   var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+  if (userName != name || userName === '') {
+    editbtn.style.display = 'none';
+    deletebtn.style.display = 'none';
+    //관리자일때도 권한 추가
+    // if (userName === 'admin') {
+    //   //관리자 이름을 어떻게 받더라....
+    //   editbtn.style.display = 'block';
+    //   deletebtn.style.display = 'block';
+    // }
+  }
   editbtn.addEventListener('click', function () {
     location.href = 'http://localhost:8080/edit-post/' + postId;
     console.log("수정버튼");
@@ -216,6 +229,15 @@
   });
 
   var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+  if (userName != answerWriter || userName === '') {
+    editbtn.style.display = 'none';
+    deletebtn.style.display = 'none';
+    //관리자일때도 권한 추가
+    // if (userName === 'admin') {
+    //   //관리자 이름을 어떻게 받더라....
+    //   editbtn.style.display = 'block';
+    //   deletebtn.style.display = 'block';
+    // }
   answereditbtn.addEventListener('click', function () {
     var answerId = this.getAttribute('data-answer-id');
     location.href = '/edit-answer/' + postId + '/' + answerId
@@ -240,6 +262,7 @@
     //   deletebtn.style.display = 'block';
     // }
   }
+
 
   // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
   const replyButtons = document.querySelectorAll('.reply-button');
