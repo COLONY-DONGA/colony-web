@@ -34,11 +34,9 @@
     /* 검색 */
     .search-sort-container {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
       padding: 20px 0;
     }
 
@@ -78,7 +76,9 @@
     .card-container {
       display: flex;
       flex-direction: column;
-      /*grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));*/
+      position: relative;
+      text-align: center;
+      justify-content: center;
       gap: 30px;
       width: 100%;
       max-width: 1000px;
@@ -169,6 +169,58 @@
       margin-left: auto; /* Created At 부분을 오른쪽으로 이동 */
     }
 
+    /*체크박스 css*/
+    /* input 숨겨준다 */
+    input#check_btn{
+      display:none;
+    }
+
+    input#check_btn + label{
+      cursor:pointer;
+    }
+
+    input#check_btn + label > span{
+      vertical-align: middle;
+      padding-left: 5px;
+    }
+
+    /* label:before에 체크하기 전 상태 CSS */
+    input#check_btn + label:before{
+      content:"";
+      display:inline-block;
+      width:17px;
+      height:17px;
+      border:2px solid #F47C7C;
+      border-radius: 4px;
+      vertical-align:middle;
+    }
+
+    /* label:before에 체크 된 상태 CSS */
+    input#check_btn:checked + label:before{
+      content:"";
+      background-color:#F47C7C;
+      border-color:#F47C7C;
+      background-image: url('check_btn.png');
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+
+    .answer-sort {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .check_wrap {
+      position: relative;
+    }
+
+    .sort-container {
+      position: relative;
+    }
   </style>
 
   <body>
@@ -176,6 +228,7 @@
 
     <div class="qa-page">
       <h1 class="title">질문 리스트</h1>
+
       <div class="search-sort-container fade-in">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
           <label for="searchType">검색 종류:</label>
@@ -198,14 +251,21 @@
         </form>
       </div>
 
-      <div class="sort-container fade-in">
-        <label for="sortSelect">정렬 기준:</label>
-        <select id="sortSelect" name="sort" th:value="${sortBy}">
-          <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
-            최신순
-          </option>
-          <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
-        </select>
+      <div class="answer-sort">
+        <div class="check_wrap">
+          <input type="checkbox" id="check_btn" th:checked="${answered}"/>
+          <label for="check_btn"><span>답변완료된 글만 보기</span></label>
+        </div>
+
+        <div class="sort-container fade-in">
+          <label for="sortSelect">정렬 기준:</label>
+          <select id="sortSelect" name="sort" th:value="${sortBy}">
+            <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
+              최신순
+            </option>
+            <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
+          </select>
+        </div>
       </div>
 
       <div class="card-container fade-in">
@@ -233,6 +293,7 @@
           </div>
       </div>
     </div>
+    </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
@@ -253,6 +314,25 @@
         searchType +
         '&searchValue=' +
         searchValue;
+    });
+
+
+    const checkbox = document.getElementById('check_btn');
+    // 체크 박스 상태 변경 시 이벤트 핸들러 등록
+    checkbox.addEventListener('change', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (this.checked) {
+        urlParams.set('answered', 'true');
+      } else {
+        urlParams.delete('answered');
+      }
+
+      // 변경된 파라미터로 새로운 URL 생성
+      const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+      // 새로운 URL로 페이지 이동
+      window.location.href = newUrl;
     });
   </script>
 </html>

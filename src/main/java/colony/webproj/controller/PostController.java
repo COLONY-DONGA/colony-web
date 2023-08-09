@@ -67,6 +67,7 @@ public class PostController {
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
+        model.addAttribute("answered", answered);
         return "qaList";
     }
 
