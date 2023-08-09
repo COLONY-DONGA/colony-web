@@ -171,35 +171,35 @@
 
     /*체크박스 css*/
     /* input 숨겨준다 */
-    input#check_btn{
-      display:none;
+    input#check_btn {
+      display: none;
     }
 
-    input#check_btn + label{
-      cursor:pointer;
+    input#check_btn + label {
+      cursor: pointer;
     }
 
-    input#check_btn + label > span{
+    input#check_btn + label > span {
       vertical-align: middle;
       padding-left: 5px;
     }
 
     /* label:before에 체크하기 전 상태 CSS */
-    input#check_btn + label:before{
-      content:"";
-      display:inline-block;
-      width:17px;
-      height:17px;
-      border:2px solid #F47C7C;
+    input#check_btn + label:before {
+      content: '';
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      border: 2px solid #f47c7c;
       border-radius: 4px;
-      vertical-align:middle;
+      vertical-align: middle;
     }
 
     /* label:before에 체크 된 상태 CSS */
-    input#check_btn:checked + label:before{
-      content:"";
-      background-color:#F47C7C;
-      border-color:#F47C7C;
+    input#check_btn:checked + label:before {
+      content: '';
+      background-color: #f47c7c;
+      border-color: #f47c7c;
       background-image: url('check_btn.png');
       background-repeat: no-repeat;
       background-position: 50%;
@@ -254,7 +254,7 @@
 
       <div class="answer-sort">
         <div class="check_wrap">
-          <input type="checkbox" id="check_btn" th:checked="${answered}"/>
+          <input type="checkbox" id="check_btn" th:checked="${answered}" />
           <label for="check_btn"><span>답변완료된 글만 보기</span></label>
         </div>
 
@@ -278,7 +278,7 @@
           <h2 class="card-title" th:text="${postDto.title}"></h2>
           <p class="card-content" th:text="${postDto.content}"></p>
 
-          <div class="card-info-container" style="display: flex;">
+          <div class="card-info-container" style="display: flex">
             <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
             <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
             <p class="card-date">
@@ -292,8 +292,8 @@
               <span>답변 대기 중</span>
             </div>
           </div>
+        </div>
       </div>
-    </div>
     </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
@@ -317,10 +317,27 @@
         searchValue;
     });
 
+    const checkbox = document.getElementById('check_btn');
+    // 체크 박스 상태 변경 시 이벤트 핸들러 등록
+    checkbox.addEventListener('change', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (this.checked) {
+        urlParams.set('answered', 'true');
+      } else {
+        urlParams.delete('answered');
+      }
+
+      // 변경된 파라미터로 새로운 URL 생성
+      const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+      // 새로운 URL로 페이지 이동
+      window.location.href = newUrl;
+    });
 
     const checkbox = document.getElementById('check_btn');
     // 체크 박스 상태 변경 시 이벤트 핸들러 등록
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function () {
       const urlParams = new URLSearchParams(window.location.search);
 
       if (this.checked) {
@@ -339,7 +356,7 @@
     var postwritebtn = document.getElementById('postwritebtn'); //post글 수정 버튼
     postwritebtn.addEventListener('click', function () {
       location.href = '/post-form';
-      console.log("post글쓰기 btn");
+      console.log('post글쓰기 btn');
     });
   </script>
 </html>
