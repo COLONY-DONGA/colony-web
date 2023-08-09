@@ -118,9 +118,7 @@
           <div class="likecount" id="like" th:id="'like-' + ${answer.answerId}" th:text="${answer.heartNum}">1</div>
           <div class="btn">
             <button class="editbtn" id="editbtn">수정</button>
-            <button class="deletebtn" id="deletebtn">
-              <i class="fa fa-trash" id="answer-deletebtn"></i>
-            </button>
+            <button class="deletebtn" id="deletebtn">삭제</button>
             <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
         </div>
@@ -207,6 +205,7 @@
 
       var editbtn = document.getElementById('editbtn'); //수정 버튼
       editbtn.addEventListener('click', function () {
+        console.log("zzz");
         location.href = 'edit-post/' + postId;
       });
 
