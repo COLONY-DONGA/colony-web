@@ -134,7 +134,7 @@
         <li>
           <div class="comment-main-level">
             <div class="comment-avatar">
-              <img src="../static/img/colony.jpg" alt="" />
+              <img src="/img/colony1.jpg" alt="" />
             </div>
             <div class="comment-box">
               <div class="comment-head">
@@ -149,7 +149,7 @@
                 <!-- 첫번째 댓글에 대한 대댓글1 -->
                 <li>
                   <div class="comment-avatar">
-                    <img src="../static/img/colony.jpg" alt="" />
+                    <img src="/img/colony.jpg" alt="" />
                   </div>
                   <div class="comment-box">
                     <div class="comment-head">
@@ -194,7 +194,7 @@
 <script>
   let userName = $('.member-nickname').val(); // 로그인 유저
   let name = $('.post-writer-nickname').val(); // post 작성자
-  let postId = $('#postId').val();
+  let postId = $('#postId').val(); //post아이디
   console.log('userName: ' + userName);
   console.log('Name: ' + name);
 
@@ -203,24 +203,26 @@
     window.open('/answer/' + postId, 'aEnroll');
   });
 
-  var editbtn = document.getElementById('editbtn'); //수정 버튼
+  var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
   editbtn.addEventListener('click', function () {
-    location.href = 'edit-post/' + postId;
+    location.href = 'http://localhost:8080/edit-post/' + postId;
+    console.log("수정버튼");
   });
 
-  var deletebtn = document.getElementById('deletebtn'); //삭제 버튼
+  var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
   deletebtn.addEventListener('click', function () {
-    location.href = '/delete-post/' + postId;
+    location.href = 'http://localhost:8080/delete-post/' + postId;
+    console.log("삭제버튼");
   });
 
-  var answereditbtn = document.getElementById('Aeditbtn'); //수정 버튼
+  var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
   answereditbtn.addEventListener('click', function () {
     var answerId = this.getAttribute('data-answer-id');
     location.href = '/edit-answer/' + postId + '/' + answerId
     console.log("answer editbtn");
   });
 
-  var answerdeletebtn = document.getElementById('Adeletebtn'); //삭제 버튼
+  var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
   answerdeletebtn.addEventListener('click', function () {
     var answerId = this.getAttribute('data-answer-id');
     location.href = '/delete-answer/' + postId + '/' + answerId;
@@ -232,11 +234,11 @@
     editbtn.style.display = 'none';
     deletebtn.style.display = 'none';
     //관리자일때도 권한 추가
-    if (userName === '관리자') {
-      //관리자 이름을 어떻게 받더라....
-      editbtn.style.display = 'block';
-      deletebtn.style.display = 'block';
-    }
+    // if (userName === 'admin') {
+    //   //관리자 이름을 어떻게 받더라....
+    //   editbtn.style.display = 'block';
+    //   deletebtn.style.display = 'block';
+    // }
   }
 
   // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가

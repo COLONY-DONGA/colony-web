@@ -249,6 +249,7 @@
           />
           <button type="submit">검색</button>
         </form>
+        <button class="write-btn" id="postwritebtn">게시글 쓰기</button>
       </div>
 
       <div class="answer-sort">
@@ -333,6 +334,12 @@
 
       // 새로운 URL로 페이지 이동
       window.location.href = newUrl;
+    });
+
+    var postwritebtn = document.getElementById('postwritebtn'); //post글 수정 버튼
+    postwritebtn.addEventListener('click', function () {
+      location.href = '/post-form';
+      console.log("post글쓰기 btn");
     });
   </script>
 </html>
