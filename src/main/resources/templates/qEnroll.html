@@ -3,160 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="../static/css/qEnrollModify.css" /> -->
+    <link rel="stylesheet" href="/css/qEnrollModify.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>qEnroll</title>
   </head>
 
-  <style>
-    .frame {
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      width: 65rem;
-      padding: 20px;
-      background-color: #f1f1f1;
-    }
-
-    .question-enroll {
-      text-align: left;
-      font-weight: bold;
-      font-size: 24px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
-      margin-bottom: 20px;
-    }
-
-    /* flex-box Start */
-
-    .enroll-form-1,
-    .enroll-form-2 {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .enroll-form-1 {
-      margin-bottom: 1rem;
-    }
-
-    .label-box {
-      display: flex;
-      flex-direction: column;
-      margin-right: 7rem;
-    }
-
-    .input-box {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .enroll-form-2 .label-box {
-      margin-right: 6rem;
-    }
-
-    .label-title {
-      margin-bottom: 5rem;
-    }
-
-    .input-title {
-      margin-bottom: 5rem;
-    }
-
-    .label-content {
-    }
-
-    .input-content {
-      margin-bottom: 1rem;
-    }
-
-    .label-imageList {
-    }
-
-    .input-imageList {
-      border: 1px solid black;
-    }
-
-    #file-list-box {
-      width: 53rem;
-      border: 1px solid black;
-    }
-
-    #file-list {
-      list-style: none;
-    }
-
-    .file-list-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 5px;
-    }
-    .file-list-item img {
-      max-height: 100px;
-    }
-    .delete-btn {
-      font-size: 14px;
-      background-color: rgba(7, 7, 7, 0.61);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .delete-btn:hover {
-      background-color: rgba(7, 7, 7, 0.8);
-    }
-
-    /* flex-box End */
-
-    .button_group {
-      display: flex;
-      justify-content: center;
-    }
-
-    .submit_btn,
-    .cancel_btn {
-      background-color: #008cba;
-      border: none;
-      color: white;
-      padding: 8px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 8px;
-      cursor: pointer;
-      border-radius: 3px;
-    }
-
-    .cancel_btn {
-      background-color: #f44336;
-    }
-  </style>
+  <style></style>
 
   <body>
     <div th:replace="~{layouts/header :: header}"></div>
 
     <div class="frame">
       <div class="container">
-        <div class="question-enroll">질문 등록</div>
+        <div class="question-enroll">Question Enroll</div>
         <form action="/post" method="post" enctype="multipart/form-data">
-          <div class="enroll-form-1">
-            <div class="label-box">
-              <label for="title" class="label-title">제목</label>
-              <label for="content" class="label-content">내용</label>
+          <!-- asdf -->
+          <div class="enroll-form">
+            <div class="title-box">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" placeholder="제목을 입력하세요" />
             </div>
-            <div class="input-box">
-              <input type="text" class="input-title" name="title" placeholder="제목을 입력하세요" />
-              <textarea
-                class="input-content"
-                rows="20"
-                cols="115"
-                name="content"
-                placeholder="질문을 입력하세요"
-                style="resize: none"
-              ></textarea>
+            <div class="content-box">
+              <label for="content">Content</label>
+              <textarea id="content" name="content" placeholder="질문을 입력하세요"></textarea>
+            </div>
+            <div class="image-box">
               <input
                 type="file"
                 id="file-input"
@@ -166,21 +37,15 @@
                 multiple
               />
               <label for="file-input" class="input-imageList">📁Add file</label>
-            </div>
-          </div>
-          <div class="enroll-form-2">
-            <div class="label-box">
-              <label for="content" class="label-imageList">이미지</label>
-            </div>
-            <div class="input-box">
               <div id="file-list-box">
                 <ul id="file-list"></ul>
               </div>
             </div>
           </div>
+          <!-- asdf -->
           <div class="button_group">
-            <button type="submit" class="submit_btn">등록</button>
-            <button type="button" class="cancel_btn">취소</button>
+            <button type="submit" class="submit_btn">Enroll</button>
+            <button type="button" class="cancel_btn">Cancel</button>
           </div>
         </form>
       </div>
@@ -191,7 +56,6 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
-      let submitBtn = document.querySelector('.submit_btn');
       let cancelBtn = document.querySelector('.cancel_btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
