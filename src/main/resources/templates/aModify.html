@@ -7,61 +7,90 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>aModify</title>
   </head>
+
   <body>
     <div th:replace="~{layouts/header :: header}"></div>
 
     <div class="frame">
       <div class="container">
+        <div class="answer-modify">Answer Modify</div>
         <form
+          id="answerEditForm"
           th:action="@{/edit-answer/{postId}/{answerId}(postId=${postId},answerId=${answerId})}"
           method="post"
           enctype="multipart/form-data"
         >
-          <div class="item1">
-            <div class="answer_modify">답변 수정</div>
-            <textarea
-              class="text_box"
-              rows="10"
-              cols="156"
-              name="content"
-              th:text="${answerDto.content}"
-              placeholder="답변을 입력하세요"
-            ></textarea>
+          <div class="modify-form">
+            <div class="content-box">
+              <label for="content">Content</label>
+              <textarea
+                id="content"
+                name="content"
+                th:text="${answerDto.content}"
+                placeholder="질문을 입력하세요"
+              ></textarea>
+            </div>
+            <div class="old-image-box">
+              <div class="old-image-1">Old Image</div>
+              <div class="old-image-2">
+                <ul class="old-image-3"></ul>
+              </div>
+              <input type="hidden" id="deleteImageList" name="deleteImageList" />
+            </div>
+            <div class="image-box">
+              <input
+                type="file"
+                id="file-input"
+                name="imageList"
+                accept="image/jpeg, image/png"
+                style="display: none"
+                multiple
+              />
+              <label for="file-input" class="input-imageList">📁Add file</label>
+              <div id="file-list-box">
+                <ul id="file-list"></ul>
+              </div>
+            </div>
           </div>
-          <div class="item2">
-            <input
-              type="file"
-              id="file-input"
-              name="imageList"
-              accept="image/jpeg, image/png"
-              style="display: none"
-              multiple
-            />
-            <label for="file-input" class="add_file">📁Add file</label>
-            <button type="button" class="submit_btn">수정</button>
-            <button type="button" class="cancel_btn">취소</button>
+          <div class="button-group">
+            <button type="submit" class="submit-btn">Modify</button>
+            <button type="button" class="cancel-btn">Cancel</button>
           </div>
         </form>
-        <div id="file-list-box">
-          <ul id="file-list">
-            <!-- 여기에 질문 등록 페이지에서 등록했었던 이미지를 추가할 예정 -->
-          </ul>
-        </div>
       </div>
     </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
-    <script>
+    <input type="hidden" class="getPostId" th:value="${postFormDto.postId}" />
+    <input type="hidden" class="getAnswerId" th:value="${answerFormDto.answerId}" />
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      let uploadedImages = /*[[${answerDto.imageDtoList}]]*/ [];
+      /*]]>*/
+
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
-      let submitBtn = document.querySelector('.submit_btn');
-      let cancelBtn = document.querySelector('.cancel_btn');
+      let submitBtn = document.querySelector('.submit-btn');
+      let cancelBtn = document.querySelector('.cancel-btn');
+      let getPostId = document.querySelector('.getPostId').value;
+      let allSelectedFiles = [];
+      let deleteImageList = [];
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
         // 선택된 파일들을 배열로 변환하여 변수에 저장
         let selectedFiles = Array.from(fileInput.files);
+        // 선택된 파일들을 전체 선택된 파일들 배열에 추가
+        allSelectedFiles = allSelectedFiles.concat(selectedFiles);
+
+        // 전체 선택된 파일 목록을 업데이트
+        const newFileList = new DataTransfer();
+        allSelectedFiles.forEach((file) => {
+          newFileList.items.add(file);
+        });
+        fileInput.files = newFileList.files;
 
         // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
         selectedFiles.forEach((file) => {
@@ -101,13 +130,13 @@
             listItem.remove();
 
             // 파일 input에서 해당 파일을 삭제
-            let fileIndex = selectedFiles.indexOf(file);
+            let fileIndex = allSelectedFiles.indexOf(file);
             if (fileIndex !== -1) {
-              selectedFiles.splice(fileIndex, 1);
+              allSelectedFiles.splice(fileIndex, 1);
 
-              // 파일 input의 값을 업데이트
+              // 전체 선택된 파일 목록을 파일 input의 값으로 업데이트
               const newFileList = new DataTransfer();
-              selectedFiles.forEach((file) => {
+              allSelectedFiles.forEach((file) => {
                 newFileList.items.add(file);
               });
               fileInput.files = newFileList.files;
@@ -160,19 +189,17 @@
         img.src = src;
       }
 
-      // 이전에 업로드한 이미지를 표시하는 함수
-      function displayUploadedImages() {
-        // 일단 이미지 하드 코딩
-        let uploadedImages = ['/img/colony.jpg', '/img/colony.jpg', '/img/colony.jpg'];
+      // 기존 이미지들을 표시하는 함수
+      function displayRegisteredImages(uploadedImages) {
+        const imageListContainer = document.querySelector('.old-image-3');
 
-        uploadedImages.forEach((imageUrl) => {
-          let listItem = document.createElement('li');
+        uploadedImages.forEach((imageDto) => {
+          const listItem = document.createElement('li');
           listItem.classList.add('file-list-item');
 
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          filePreview.src = imageUrl;
-          listItem.appendChild(filePreview);
+          let fileInfo = document.createElement('span');
+          fileInfo.textContent = imageDto.originImageName;
+          listItem.appendChild(fileInfo);
 
           let deleteButton = document.createElement('button');
           deleteButton.textContent = 'Delete';
@@ -180,27 +207,52 @@
 
           deleteButton.addEventListener('click', () => {
             listItem.remove();
-            // 해당 이미지를 서버에서 삭제하는 로직을 추가할 예정
+
+            let fileIndex = uploadedImages.indexOf(imageDto);
+            if (fileIndex !== -1) {
+              uploadedImages.splice(fileIndex, 1);
+            }
+
+            deleteImageList.push(imageDto.storeImageName);
+            document.getElementById('deleteImageList').value = deleteImageList.join(',');
           });
 
           listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
+          imageListContainer.appendChild(listItem);
         });
       }
 
-      displayUploadedImages();
+      displayRegisteredImages(uploadedImages);
 
-      submitBtn.addEventListener('click', () => {
-        let formData = new FormData(document.querySelector('form'));
-        document.querySelector('form').submit();
-        setTimeout(() => {
-          window.opener.location.reload();
-          window.close();
-        }, 50);
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        let formData = new FormData(document.getElementById('answerEditForm'));
+
+        $.ajax({
+          url: `/edit-answer/${getPostId}/${getAnswerId}`,
+          type: 'POST',
+          enctype: 'multipart/form-data',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            console.log('수정 완료');
+            let formData = new FormData(document.querySelector('form'));
+            document.querySelector('form').submit();
+            setTimeout(() => {
+              window.opener.location.reload();
+              window.close();
+            }, 50);
+          },
+          error: function (err) {
+            console.error('오류 발생: ', err);
+            alert('게시물 수정에 실패했습니다. 다시 시도해주세요.');
+          },
+        });
       });
 
       cancelBtn.addEventListener('click', () => {
-        document.querySelector('.text_box').value = '';
         window.close();
       });
     </script>
