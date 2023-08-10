@@ -9,7 +9,12 @@
   </head>
 
   <style>
-    /* 전체 레이아웃 */
+    @font-face {
+      font-family: 'Giants-Bold';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
 
     .pagination-container {
       text-align: center;
@@ -48,6 +53,7 @@
     }
 
     .title {
+      font-family: 'Giants-Bold', sans-serif;
     }
     .qa-page {
       font-family: 'NanumSquare', sans-serif;
@@ -263,7 +269,7 @@
     <div th:replace="~{layouts/header :: header}"></div>
 
     <div class="qa-page">
-      <h1 class="title">질문 리스트</h1>
+      <h1 class="title">질문 게시판</h1>
 
       <div class="search-sort-container fade-in">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
@@ -297,10 +303,13 @@
         <div class="sort-container fade-in">
           <label for="sortSelect">정렬 기준:</label>
           <select id="sortSelect" name="sort" th:value="${sortBy}">
-            <option value="createdAt" th:selected="${#strings.equals(sortBy, 'createdAt')}">
+            <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
               최신순
             </option>
-            <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목</option>
+            <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
+              오래된 순
+            </option>
+            <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 순</option>
           </select>
         </div>
       </div>
