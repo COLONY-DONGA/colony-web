@@ -3,6 +3,7 @@ package colony.webproj.service;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
+import colony.webproj.dto.PostUpdateFormDto;
 import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
@@ -61,7 +62,6 @@ public class PostService {
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
 
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
-
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {
@@ -86,15 +86,19 @@ public class PostService {
     /**
      * 게시글 업데이트
      */
-    public Long updatePost(Long postId, PostFormDto postFormDto) throws IOException {
+    public Long updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        post.setTitle(postFormDto.getTitle());
-        post.setContent(postFormDto.getContent());
+        post.setTitle(postUpdateFormDto.getTitle());
+        post.setContent(postUpdateFormDto.getContent());
+
+        //수정하며 삭제할 사진 s3, db 에서 제거
+        imageService.deleteFileWithStoreImageName(postUpdateFormDto.getDeleteImageList());
+        imageRepository.deleteByImageIds(postUpdateFormDto.getDeleteImageList());
 
         //수정하며 추가한 사진 파일 업로드
-        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
+        List<Image> imageList = imageService.uploadFile(postUpdateFormDto.getImageList());
 
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
