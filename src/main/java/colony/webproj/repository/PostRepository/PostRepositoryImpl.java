@@ -6,14 +6,20 @@ import colony.webproj.dto.QPostDto;
 import colony.webproj.dto.QPostManageDto;
 import colony.webproj.entity.QMember;
 import colony.webproj.entity.type.SearchType;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static colony.webproj.entity.QMember.*;
@@ -28,6 +34,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+        LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
         List<PostDto> result = queryFactory
                 .select(new QPostDto(

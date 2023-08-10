@@ -119,7 +119,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      text-align: center;
+      /*text-align: center;*/
       justify-content: center;
       gap: 30px;
       width: 100%;
@@ -157,7 +157,7 @@
     .card-content {
       font-size: 16px;
       margin-bottom: 20px;
-      height: 80px;
+      height: 30px;
       overflow: hidden;
       text-align: justify;
       text-justify: inter-word;
@@ -328,7 +328,7 @@
             <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
             <p class="card-date">
               <span> | </span>
-              <span th:text="${#temporals.format(postDto.createdAt, 'yyyy-MM-dd')}"></span>
+              <span th:text="${postDto.enrollTime}"></span>
             </p>
             <div th:if="${postDto.answered}">
               <span>답변 완료</span>

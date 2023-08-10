@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +33,6 @@ import java.util.stream.Stream;
 @Slf4j
 @Transactional
 public class PostService {
-    private final CommentService commentService;
     private final ImageRepository imageRepository;
 
     private final MemberRepository memberRepository;
@@ -44,7 +45,18 @@ public class PostService {
      * queryDsl 게시글 리스트 조회
      */
     public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
-        return postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+        Page<PostDto> resultPage = postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+
+        List<PostDto> resultList = resultPage.getContent();
+        for (PostDto postDto : resultList) {
+            LocalDateTime createdAt = postDto.getCreatedAt();
+            LocalDateTime currentTime = LocalDateTime.now();
+            Duration duration = Duration.between(createdAt, currentTime);
+
+            String enrollTime = getTimeAgo(duration);
+            postDto.setEnrollTime(enrollTime);
+        }
+        return resultPage;
     }
 
 
@@ -170,4 +182,28 @@ public class PostService {
                 .build();
         return postDto;
     }
+
+    private String getTimeAgo(Duration duration) {
+        long seconds = duration.getSeconds();
+
+        if (seconds < 60) {
+            return "방금 전";
+        } else if (seconds < 3600) {
+            long minutes = duration.toMinutes();
+            return minutes + "분 전";
+        } else if (seconds < 86400) {
+            long hours = duration.toHours();
+            return hours + "시간 전";
+        } else if (seconds < 2592000) {
+            long days = duration.toDays();
+            return days + "일 전";
+        } else if (seconds < 31536000) {
+            long months = duration.toDays() / 30;
+            return months + "달 전";
+        } else {
+            long years = duration.toDays() / 365;
+            return years + "년 전";
+        }
+    }
+
 }
