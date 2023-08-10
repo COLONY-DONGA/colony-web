@@ -17,10 +17,10 @@ public class ExceptionController {
         return "errorPage";
     }
 
-    @ExceptionHandler(Exception.class)
-    public String handleCustomException(Exception e, Model model) {
-        model.addAttribute("errorMessage", e.getMessage());
-        log.info("핸들링하지 않은 에러 발생");
-        return "errorPage";
-    }
+//    @ExceptionHandler(Exception.class)
+//    public String handleCustomException(Exception e, Model model) {
+//        model.addAttribute("errorMessage", e.getMessage());
+//        log.info("핸들링하지 않은 에러 발생");
+//        return "errorPage";
+//    }
 }

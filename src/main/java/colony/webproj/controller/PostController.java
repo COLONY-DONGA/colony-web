@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,8 +49,8 @@ public class PostController {
     public String postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
-                           @RequestParam(defaultValue = "createdAt") String sortBy, //정렬기준
-                           @PageableDefault(size = 10) Pageable pageable,
+                           @RequestParam(defaultValue = "createdAtDesc") String sortBy, //정렬기준
+                           @PageableDefault(size = 3) Pageable pageable,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {
         if(principalDetails == null) {
@@ -67,6 +68,12 @@ public class PostController {
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("sortBy", sortBy);
+        model.addAttribute("answered", answered);
+
+        model.addAttribute("pageNum", pageable.getPageNumber());
+        model.addAttribute("totalPages", postDtoList.getTotalPages());
+        model.addAttribute("maxPage", 10);
+
         return "qaList";
     }
 
@@ -104,9 +111,10 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/post")
-    public String savePost( @Valid PostFormDto postFormDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails,
-                           Model model) throws IOException {
+    public String savePost(@Valid PostFormDto postFormDto, BindingResult bindingResult,
+                                   @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                   Model model) throws IOException {
+        log.info("포스트 저장 진입");
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
@@ -165,7 +173,7 @@ public class PostController {
      * 답변 삭제
      * 게시글에 대한 이미지, 답변에 대한 이미지 삭제
      */
-    @DeleteMapping("/delete-post/{postId}")
+    @GetMapping("/delete-post/{postId}")
     public String deletePost(@PathVariable("postId") Long postId,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) {
@@ -179,7 +187,7 @@ public class PostController {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         postService.deletePost(postId);
-        return "qaList";
+        return "redirect:/post-list";
     }
 
     /**

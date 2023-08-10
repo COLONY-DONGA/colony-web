@@ -37,4 +37,5 @@ public class Answer extends BaseEntity {
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList;
+
 }

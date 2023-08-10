@@ -1,115 +1,149 @@
 .frame {
-  padding: 1rem 0rem 1rem 0rem;
-  width: 100%;
-
-  .container {
-    .item1 {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      padding-bottom: 1.2rem;
-
-      .question_enroll,
-      .question_modify {
-        align-items: center;
-        background-color: #b0b0b0;
-        border-radius: 1.4rem;
-        display: flex;
-        font-family: Baloo Bhai, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 400;
-        height: 3.5rem;
-        justify-content: center;
-        margin: 0rem 30rem 1rem 30rem;
-        width: 30rem;
-      }
-      .title {
-        background-color: #d9d9d9;
-        border-radius: 1.4rem;
-        border: solid 0.1rem rgba(0, 0, 0, 0.2);
-        box-sizing: border-box;
-        color: black;
-        font-family: Baloo Bhai, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 400;
-        margin: 0rem 50rem 1.2rem 20rem;
-        padding: 1rem 2rem;
-        width: 62rem;
-      }
-      .text_box {
-        background-color: #f5f5f7;
-        border: solid 0.1rem rgba(0, 0, 0, 0.2);
-        border-radius: 1.4rem;
-        box-sizing: border-box;
-        color: rgba(12, 11, 11, 0.75);
-        font-family: Baloo Bhai, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 400;
-        padding: 0.8rem 1.8rem;
-        resize: none;
-      }
-    }
-    .item2 {
-      display: flex;
-      justify-content: center;
-
-      .add_file {
-        background-color: #c8c8c8;
-        border-radius: 0.9rem;
-        color: #0c0b0b;
-        flex-shrink: 0;
-        font-family: Baloo Bhai, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 400;
-        margin: 0rem 13rem 0rem 0rem;
-        padding: 0.8rem 1.8rem;
-        width: 50rem;
-      }
-      .submit_btn {
-        align-items: center;
-        background-color: rgba(111, 225, 92, 0.8);
-        border: none;
-        border-radius: 0.6rem;
-        box-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
-        color: #0c0b0b;
-        font-family: Roboto, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 700;
-        height: 3.3rem;
-        justify-content: center;
-        margin-right: 1.4rem;
-        width: 12rem;
-      }
-      .cancel_btn {
-        align-items: center;
-        background-color: rgba(253, 23, 23, 0.6);
-        border: none;
-        border-radius: 0.6rem;
-        box-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
-        color: #0c0b0b;
-        font-family: Roboto, 'Source Sans Pro';
-        font-size: 1.2rem;
-        font-weight: 700;
-        height: 3.3rem;
-        justify-content: center;
-        width: 12rem;
-      }
-    }
-    #file-list {
-      list-style: none;
-    }
-  }
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
 }
+
+.container {
+  width: 65rem;
+  padding: 20px;
+  border: 1px solid #93bfa9;
+  border-radius: 10px;
+}
+
+.question-enroll,
+.question-modify {
+  text-align: left;
+  font-size: 24px;
+  border-bottom: 3px solid #6b9275;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.enroll-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-box {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3rem;
+}
+
+.title-box label {
+  margin-top: 0.3rem;
+  margin-right: 7rem;
+}
+
+.title-box input {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  width: 53rem;
+  height: 1.5rem;
+  border: 1px solid #93bfa9;
+  border-radius: 5px;
+}
+
+.content-box {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3rem;
+}
+
+.content-box label {
+  margin-top: 0.1rem;
+  margin-right: 5.25rem;
+}
+
+.content-box textarea {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  width: 53rem;
+  height: 20rem;
+  border: 1px solid #93bfa9;
+  border-radius: 5px;
+  padding: 0.3rem 0.2rem;
+  resize: none;
+  overflow-y: auto;
+}
+
+.content-box textarea::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
+.image-box {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3rem;
+}
+
+.image-box label {
+  margin-right: 4rem;
+}
+
+#file-list-box {
+  width: 53.5rem;
+  border: 1px solid #93bfa9;
+  border-radius: 5px;
+  overflow-y: auto;
+  overflow-x: auto;
+  max-height: 400px;
+  border-radius: 5px;
+}
+
+#file-list-box::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
+#file-list {
+  list-style: none;
+  padding-left: 0;
+}
+
 .file-list-item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 5px;
+  border-bottom: 1px solid #93bfa9;
 }
-.file-list-item img {
+
+.file-list-item:last-child {
+  border-bottom: none;
+}
+
+.file-preview {
   max-height: 100px;
 }
+
 .delete-btn {
+  margin-bottom: 0.5rem;
   font-size: 14px;
   background-color: rgba(7, 7, 7, 0.61);
   color: #fff;
@@ -117,6 +151,44 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 .delete-btn:hover {
   background-color: rgba(7, 7, 7, 0.8);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn,
+.cancel-btn {
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.submit-btn {
+  background-color: rgba(111, 225, 92, 0.9);
+  margin-right: 0.75rem;
+}
+
+.cancel-btn {
+  background-color: rgba(253, 23, 23, 0.7);
+  margin-left: 0.75rem;
+}
+
+.submit-btn:hover {
+  background-color: rgba(78, 162, 63, 0.9);
+  transform: scale(1.1);
+}
+
+.cancel-btn:hover {
+  background-color: rgba(172, 5, 5, 0.7);
+  transform: scale(1.1);
 }
