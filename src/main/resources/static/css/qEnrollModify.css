@@ -12,15 +12,14 @@
   border-radius: 10px;
 }
 
-.question-enroll {
+.question-enroll,
+.question-modify {
   text-align: left;
   font-size: 24px;
   border-bottom: 3px solid #6b9275;
   padding-bottom: 5px;
   margin-bottom: 20px;
 }
-
-/* flex-box Start */
 
 .enroll-form {
   display: flex;
@@ -34,10 +33,14 @@
 }
 
 .title-box label {
+  margin-top: 0.3rem;
   margin-right: 7rem;
 }
 
 .title-box input {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
   width: 53rem;
   height: 1.5rem;
   border: 1px solid #93bfa9;
@@ -51,15 +54,36 @@
 }
 
 .content-box label {
+  margin-top: 0.1rem;
   margin-right: 5.25rem;
 }
 
 .content-box textarea {
+  font-family: 'NanumSquare', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
   width: 53rem;
   height: 20rem;
   border: 1px solid #93bfa9;
   border-radius: 5px;
+  padding: 0.3rem 0.2rem;
   resize: none;
+  overflow-y: auto;
+}
+
+.content-box textarea::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+.content-box textarea::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
 }
 
 .image-box {
@@ -72,7 +96,6 @@
   margin-right: 4rem;
 }
 
-/* div 태그 */
 #file-list-box {
   width: 53.5rem;
   border: 1px solid #93bfa9;
@@ -82,29 +105,45 @@
   max-height: 400px;
   border-radius: 5px;
 }
-/* ul 태그 */
+
+#file-list-box::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+#file-list-box::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
 #file-list {
   list-style: none;
   padding-left: 0;
 }
-/* li 태그 */
+
 .file-list-item {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 5px;
-  border-bottom: 1px solid #93bfa9; /* 아래 구분선 추가 */
+  border-bottom: 1px solid #93bfa9;
 }
-/* 마지막 li 태그 */
+
 .file-list-item:last-child {
-  border-bottom: none; /* 마지막 구분선 제거 */
+  border-bottom: none;
 }
-/* img 태그 */
+
 .file-preview {
   max-height: 100px;
 }
-/* button 태그 */
+
 .delete-btn {
+  margin-bottom: 0.5rem;
   font-size: 14px;
   background-color: rgba(7, 7, 7, 0.61);
   color: #fff;
@@ -112,20 +151,18 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
-/* button:hover */
+
 .delete-btn:hover {
   background-color: rgba(7, 7, 7, 0.8);
 }
 
-/* flex-box End */
-
-.button_group {
+.button-group {
   display: flex;
   justify-content: center;
 }
 
-.submit_btn,
-.cancel_btn {
+.submit-btn,
+.cancel-btn {
   border: none;
   border-radius: 5px;
   font-weight: bold;
@@ -136,22 +173,22 @@
   color: #ffffff;
 }
 
-.submit_btn {
+.submit-btn {
   background-color: rgba(111, 225, 92, 0.9);
   margin-right: 0.75rem;
 }
 
-.cancel_btn {
+.cancel-btn {
   background-color: rgba(253, 23, 23, 0.7);
   margin-left: 0.75rem;
 }
 
-.submit_btn:hover {
+.submit-btn:hover {
   background-color: rgba(78, 162, 63, 0.9);
   transform: scale(1.1);
 }
 
-.cancel_btn:hover {
+.cancel-btn:hover {
   background-color: rgba(172, 5, 5, 0.7);
   transform: scale(1.1);
 }

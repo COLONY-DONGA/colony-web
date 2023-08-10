@@ -8,8 +8,6 @@
     <title>qEnroll</title>
   </head>
 
-  <style></style>
-
   <body>
     <div th:replace="~{layouts/header :: header}"></div>
 
@@ -17,7 +15,6 @@
       <div class="container">
         <div class="question-enroll">Question Enroll</div>
         <form action="/post" method="post" enctype="multipart/form-data">
-          <!-- asdf -->
           <div class="enroll-form">
             <div class="title-box">
               <label for="title">Title</label>
@@ -42,10 +39,9 @@
               </div>
             </div>
           </div>
-          <!-- asdf -->
-          <div class="button_group">
-            <button type="submit" class="submit_btn">Enroll</button>
-            <button type="button" class="cancel_btn">Cancel</button>
+          <div class="button-group">
+            <button type="submit" class="submit-btn">Enroll</button>
+            <button type="button" class="cancel-btn">Cancel</button>
           </div>
         </form>
       </div>
@@ -56,7 +52,7 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
-      let cancelBtn = document.querySelector('.cancel_btn');
+      let cancelBtn = document.querySelector('.cancel-btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -161,9 +157,7 @@
       }
 
       cancelBtn.addEventListener('click', () => {
-        document.querySelector('.title').value = '';
-        document.querySelector('.text_box').value = '';
-        history.back();
+        location.href = '/post-list';
       });
     </script>
   </body>
