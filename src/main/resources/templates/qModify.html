@@ -1,212 +1,165 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/qEnrollModify.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>qModify</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/qEnrollModify.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>qModify</title>
+</head>
+<body>
+<div th:replace="~{layouts/header :: header}"></div>
 
-  <body>
-    <div th:replace="~{layouts/header :: header}"></div>
-
-    <div class="frame">
-      <div class="container">
-        <div class="question-modify">Question Modify</div>
-        <form
-          th:action="@{/edit-post/{postId}(postId=${postId})}"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          <div class="enroll-form">
-            <div class="title-box">
-              <label for="title">Title</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                th:value="${postFormDto.title}"
-                placeholder="제목을 입력하세요"
-              />
-            </div>
-            <div class="content-box">
-              <label for="content">Content</label>
-              <textarea
-                id="content"
-                name="content"
-                th:text="${postFormDto.content}"
-                placeholder="질문을 입력하세요"
-              ></textarea>
-            </div>
-            <div class="image-box">
-              <input
-                type="file"
-                id="file-input"
-                name="imageList"
-                accept="image/jpeg, image/png"
-                style="display: none"
-                multiple
-              />
-              <label for="file-input" class="input-imageList">📁Add file</label>
-              <div id="file-list-box">
-                <ul id="file-list"></ul>
-              </div>
-            </div>
+<div class="frame">
+  <div class="container">
+    <div class="question-modify">Question Modify</div>
+    <form th:action="@{/edit-post/{postId}(postId=${postId})}" method="post" enctype="multipart/form-data">
+      <div class="enroll-form">
+        <div class="title-box">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" th:value="${postFormDto.title}" placeholder="제목을 입력하세요" />
+        </div>
+        <div class="content-box">
+          <label for="content">Content</label>
+          <textarea id="content" name="content" th:text="${postFormDto.content}" placeholder="질문을 입력하세요"></textarea>
+        </div>
+        <div class="image-box">
+          <input type="file" id="file-input" name="imageList" accept="image/jpeg, image/png" style="display: none" multiple />
+          <label for="file-input" class="input-imageList">📁Add file</label>
+          <div id="file-list-box">
+            <ul id="file-list"></ul>
           </div>
-          <div class="button-group">
-            <button type="submit" class="submit-btn">Modify</button>
-            <button type="button" class="cancel-btn">Cancel</button>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+      <div class="button-group">
+        <button type="submit" class="submit-btn">Modify</button>
+        <button type="button" class="cancel-btn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-    <div th:replace="~{layouts/footer :: footer}"></div>
+<div th:replace="~{layouts/footer :: footer}"></div>
 
-    <input type="hidden" class="getPostId" th:value="${postFormDto.postId}" />
+<input type="hidden" class="getPostId" th:value="${postFormDto.postId}" />
 
-    <script>
-      let fileInput = document.getElementById('file-input');
-      let fileList = document.getElementById('file-list');
-      let cancelBtn = document.querySelector('.cancel-btn');
-      let getPostId = document.querySelector('.getPostId').value;
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  let uploadedImages = /*[[${postFormDto.imageDtoList}]]*/ [];
+  /*]]>*/
 
-      // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
-      fileInput.addEventListener('change', () => {
-        // 선택된 파일들을 배열로 변환하여 변수에 저장
-        let selectedFiles = Array.from(fileInput.files);
+  console.log(uploadedImages);
 
-        // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
-        selectedFiles.forEach((file) => {
-          // 새로운 리스트 아이템인 <li> 요소를 생성
-          let listItem = document.createElement('li');
-          // 파일 리스트 항목에 해당하는 클래스 이름 추가
-          listItem.classList.add('file-list-item');
+  let fileInput = document.getElementById('file-input');
+  let fileList = document.getElementById('file-list');
+  let cancelBtn = document.querySelector('.cancel-btn');
+  let getPostId = document.querySelector('.getPostId').value;
 
-          // 파일 미리보기 이미지를 위한 <img> 요소를 생성
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          let reader = new FileReader();
+  fileInput.addEventListener('change', () => {
+    let selectedFiles = Array.from(fileInput.files);
+    selectedFiles.forEach((file) => {
+      let listItem = document.createElement('li');
+      listItem.classList.add('file-list-item');
 
-          // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
-          reader.onload = function (e) {
-            resizeImage(e.target.result, 300, 300, (resizedImage) => {
-              filePreview.src = resizedImage;
-            });
-          };
-
-          // 파일을 데이터 URL로 읽음
-          reader.readAsDataURL(file);
-          listItem.appendChild(filePreview);
-
-          // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
-          let fileInfo = document.createElement('span');
-          // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
-          fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
-          listItem.appendChild(fileInfo);
-
-          let deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-btn');
-
-          // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
-          deleteButton.addEventListener('click', () => {
-            listItem.remove();
-
-            // 파일 input에서 해당 파일을 삭제
-            let fileIndex = selectedFiles.indexOf(file);
-            if (fileIndex !== -1) {
-              selectedFiles.splice(fileIndex, 1);
-
-              // 파일 input의 값을 업데이트
-              const newFileList = new DataTransfer();
-              selectedFiles.forEach((file) => {
-                newFileList.items.add(file);
-              });
-              fileInput.files = newFileList.files;
-            }
-          });
-
-          listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
+      let filePreview = document.createElement('img');
+      filePreview.classList.add('file-preview');
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        resizeImage(e.target.result, 300, 300, (resizedImage) => {
+          filePreview.src = resizedImage;
         });
-      });
+      };
+      reader.readAsDataURL(file);
+      listItem.appendChild(filePreview);
 
-      // 파일 크기를 사람이 읽기 쉬운 형식으로 변환하는 함수
-      function formatFileSize(size) {
-        if (size === 0) return '0 Bytes'; // 파일 크기가 0인 경우 '0 Bytes'를 반환
-        let units = ['Bytes', 'KB', 'MB', 'GB', 'TB']; // 파일 크기 단위를 정의
-        let i = Math.floor(Math.log(size) / Math.log(1024)); // 파일 크기를 1024로 나누어 단위를 결정
-        return `${parseFloat((size / Math.pow(1024, i)).toFixed(2))} ${units[i]}`; // 사람이 읽기 쉬운 형식으로 파일 크기를 변환하여 반환
-      }
+      let fileInfo = document.createElement('span');
+      fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+      listItem.appendChild(fileInfo);
 
-      // 이미지 크기를 조정하는 함수
-      function resizeImage(src, maxWidth, maxHeight, callback) {
-        let img = new Image();
-        img.onload = function () {
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > maxWidth) {
-              height *= maxWidth / width;
-              width = maxWidth;
-            }
-          } else {
-            if (height > maxHeight) {
-              width *= maxHeight / height;
-              height = maxHeight;
-            }
-          }
-
-          let canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          let ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          let resizedImage = canvas.toDataURL('image/jpeg');
-          callback(resizedImage);
-        };
-
-        img.src = src;
-      }
-
-      // 이전에 업로드한 이미지를 표시하는 함수
-      function displayUploadedImages() {
-        // 일단 이미지 하드 코딩
-        let uploadedImages = ['/img/colony.jpg', '/img/colony.jpg', '/img/colony.jpg'];
-
-        uploadedImages.forEach((imageUrl) => {
-          let listItem = document.createElement('li');
-          listItem.classList.add('file-list-item');
-
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          filePreview.src = imageUrl;
-          listItem.appendChild(filePreview);
-
-          let deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-btn');
-
-          deleteButton.addEventListener('click', () => {
-            listItem.remove();
-            // 해당 이미지를 서버에서 삭제하는 로직을 추가할 예정
+      let deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.classList.add('delete-btn');
+      deleteButton.addEventListener('click', () => {
+        listItem.remove();
+        let fileIndex = selectedFiles.indexOf(file);
+        if (fileIndex !== -1) {
+          selectedFiles.splice(fileIndex, 1);
+          const newFileList = new DataTransfer();
+          selectedFiles.forEach((file) => {
+            newFileList.items.add(file);
           });
-
-          listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
-        });
-      }
-
-      displayUploadedImages();
-
-      cancelBtn.addEventListener('click', () => {
-        location.href = '/post/' + getPostId;
+          fileInput.files = newFileList.files;
+        }
       });
-    </script>
-  </body>
+      listItem.appendChild(deleteButton);
+      fileList.appendChild(listItem);
+    });
+  });
+
+  function formatFileSize(size) {
+    if (size === 0) return '0 Bytes';
+    let units = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    let i = Math.floor(Math.log(size) / Math.log(1024));
+    return `${parseFloat((size / Math.pow(1024, i)).toFixed(2))} ${units[i]}`;
+  }
+
+  function resizeImage(src, maxWidth, maxHeight, callback) {
+    let img = new Image();
+    img.onload = function () {
+      let width = img.width;
+      let height = img.height;
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+      let canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      let resizedImage = canvas.toDataURL('image/jpeg');
+      callback(resizedImage);
+    };
+    img.src = src;
+  }
+
+  function displayUploadedImages() {
+    uploadedImages.forEach((imageDto) => {
+      let listItem = document.createElement('li');
+      listItem.classList.add('file-list-item');
+
+      let filePreview = document.createElement('img');
+      filePreview.classList.add('file-preview');
+      filePreview.src = imageDto.s3Url;
+      listItem.appendChild(filePreview);
+
+      let fileInfo = document.createElement('span');
+      fileInfo.textContent = imageDto.originImageName;
+      listItem.appendChild(fileInfo);
+
+      let deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.classList.add('delete-btn');
+      deleteButton.addEventListener('click', () => {
+        listItem.remove();
+      });
+      listItem.appendChild(deleteButton);
+      fileList.appendChild(listItem);
+    });
+  }
+
+  displayUploadedImages();
+
+  cancelBtn.addEventListener('click', () => {
+    location.href = '/post/' + getPostId;
+  });
+</script>
+</body>
 </html>
