@@ -87,16 +87,17 @@
       <br />
 
       <br />
-      <div class="answer-title">
-        <span class="answer-label">답변</span>
-        <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
-      </div>
 
       <div
         th:each="answer, status : ${answerDtoList}"
         class="answer-box"
         id="answer-box-[[${answer.id}]]"
       >
+        <div class="answer-title">
+          <span class="answer-label">답변</span>
+          <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
+        </div>
+
         <div class="horizontal-line"></div>
         <div class="a-head">
           <div class="answer-info">
@@ -163,6 +164,8 @@
                       class="fa fa-reply reply-button"
                       th:data-comment-id="${comment.commentId}"
                     ></i>
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                    <i class="fa fa-trash" aria-hidden="true"></i>
                   </div>
                   <div class="comment-content" th:text="${comment.content}">
                     This is the main comment content.
@@ -214,7 +217,11 @@
           </ul>
           <!-- 새댓글 작성부분 -->
           <div class="input-comment-box">
-            <form th:action="@{/comment/{answerId}(answerId=${answer.answerId})}" method="post">
+            <form
+              th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
+              method="post"
+              id="comment-form"
+            >
               <div class="inputframe">
                 <br />
                 <h5>
@@ -373,7 +380,7 @@
           replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
           replyButton.addEventListener('click', onClickAddReplyButton);
 
-          // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
+          // 대댓글 작성 버튼에 대한 이벤트 리스너
           const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
           replyWriteBtn.forEach((button) => {
             button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
@@ -382,6 +389,7 @@
         }
 
         function onReplyWriteButtonClick(event) {
+          //대댓글 버튼 리스너
           const button = event.target.closest('.reply-write-btn');
           if (!button) return;
 
@@ -397,35 +405,159 @@
             name: '사용자',
             content: newReplyText,
           });
-
-          addComments();
+          // addComments();
         }
 
-        function addReplyButtonClickHandler() {
-          const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
-          replyButtons.forEach((button) => {
-            button.removeEventListener('click', onClickAddReplyButton);
-            button.addEventListener('click', onClickAddReplyButton);
+        //   function addReplyButtonClickHandler() {
+        //     const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
+        //     replyButtons.forEach((button) => {
+        //       button.removeEventListener('click', onClickAddReplyButton);
+        //       button.addEventListener('click', onClickAddReplyButton);
+        //     });
+        //   }
+        //
+        //   document.addEventListener('DOMContentLoaded', () => {
+        //     addComments();
+        //     addReplyButtonClickHandler();
+        //   });
+        //
+        //   const writeButton = document.getElementById('add-comment-button');
+        //   writeButton.addEventListener('click', onWriteButtonClick);
+        //
+        //   const commentsList = document.getElementById('comments-list');
+        //   commentsList.addEventListener('click', (event) => {
+        //     if (event.target.matches('.fa-reply')) {
+        //       onClickAddReplyButton(event);
+        //     } else if (event.target.matches('.reply-write-btn')) {
+        //       onReplyWriteButtonClick(event);
+        //     }
+        //   });
+        // });
+        //
+        // function onWriteButtonClick(event) {
+        //   event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+        //   const commentForm = document.getElementById('comment-form');
+        //   commentForm.submit(); // 폼 제출
+        //   newCommentInput.value = '';
+        //
+        //   // 이전 페이지로 이동
+        //   window.history.back();
+        //
+        //   // 입력란을 비웁니다.
+        //   const newCommentInput = document.getElementById('newComment');
+        //
+        // }
+
+        //댓글, 대댓글 작성 버튼 기능입니다!!
+        document.addEventListener('DOMContentLoaded', function () {
+          const addCommentButton = document.getElementById('add-comment-button');
+          const replyWriteButton = document.querySelectorAll('.reply-write-btn');
+
+          // 댓글 작성 이벤트 리스너
+          addCommentButton.addEventListener('click', function (event) {
+            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+            const commentForm = document.getElementById('comment-form');
+            newCommentInput.value = ''; // 입력란을 비웁니다.
+            commentForm.submit(); // 폼 제출
+            window.history.back(); // 이전 페이지로 이동
           });
-        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-          addComments();
-          addReplyButtonClickHandler();
-        });
+          replyWriteButton.forEach((button) => {
+            button.addEventListener('click', function (event) {
+              event.preventDefault(); // 폼 제출 이벤트를 막습니다.
 
-        const writeButton = document.getElementById('add-comment-button');
-        writeButton.addEventListener('click', onWriteButtonClick);
-
-        const commentsList = document.getElementById('comments-list');
-        commentsList.addEventListener('click', (event) => {
-          if (event.target.matches('.fa-reply')) {
-            onClickAddReplyButton(event);
-          } else if (event.target.matches('.reply-write-btn')) {
-            onReplyWriteButtonClick(event);
-          }
+              //혹시 몰라서 대댓글은 아직 form id나 reload 구현 안함
+              const recommentInput = button.closest('.inputframe').querySelector('.input-text');
+              window.location.reload(); //대댓글 작성 후 새로고침
+              recommentInput.value = ''; // 입력란을 비웁니다.
+            });
+          });
         });
       });
+
+      //댓글 수정 버튼 부분
+
+      // let isEditing = false; //수정상태 지정할 변수
+      // let currentEditingElement = null;
+      // const comments = document.querySelectorAll('.comment-main-level');
+      // comments.forEach((comment) => { //댓글을 돌면서 권한에 따라 수정,삭제 버튼 보이지 않게 설정
+      //   const createdBy = comment.querySelector('.comment-name').textContent;
+      //   const editButton = comment.querySelector('.fa-pencil');
+      //   const deleteButton = comment.querySelector('.fa-trash');
+      //
+      //   if (userName != createdBy) {
+      //     editButton.style.display = 'none';
+      //     deleteButton.style.display = 'none';
+      //   }
+      // });
+      //
+      // const commentEditButtons = document.querySelectorAll('.fa-pencil'); //댓글 수정 버튼 리스너
+      // commentEditButtons.forEach((button) => {
+      //   button.addEventListener('click', function () {
+      //     if (!isEditing) {
+      //       currentEditingElement = this;
+      //       const commentContent = this.closest('.comment-head').nextElementSibling;
+      //       const originalContent = commentContent.textContent;
+      //
+      //       // 댓글 내용 영역을 input으로 변경
+      //       const editContent = document.createElement('input');
+      //       editContent.type = 'text';
+      //       editContent.value = originalContent;
+      //       editContent.classList.add('edit-comment-input');
+      //
+      //       // 수정 완료 버튼 추가
+      //       const editCompleteBtn = document.createElement('button');
+      //       editCompleteBtn.textContent = '수정완료';
+      //       editCompleteBtn.classList.add('edit-complete-btn');
+      //
+      //       // 댓글 내용과 수정 완료 버튼을 함께 감싸는 div 생성
+      //       const editCommentContainer = document.createElement('div');
+      //       editCommentContainer.classList.add('edit-comment-container');
+      //       editCommentContainer.appendChild(editContent);
+      //       editCommentContainer.appendChild(editCompleteBtn);
+      //
+      //       commentContent.textContent = '';
+      //       commentContent.appendChild(editCommentContainer);
+      //
+      //       // 수정 상태 변경
+      //       isEditing = true;
+      //
+      //       // 수정 완료 버튼 클릭 이벤트 설정
+      //       editCompleteBtn.addEventListener('click', function () {
+      //         // 수정 내용 가져오기
+      //         const editedContent = editContent.value;
+      //
+      //         // 서버에 수정된 내용 전송하는 코드 추가 (예시: AJAX로 수정된 내용을 서버에 전달)
+      //         // ...
+      //
+      //         // 댓글 내용 업데이트
+      //         commentContent.textContent = editedContent;
+      //
+      //         // 수정 완료 버튼 제거
+      //         this.remove();
+      //
+      //         // 수정 상태 변경
+      //         isEditing = false;
+      //         currentEditingElement = null;
+      //       });
+      //     }
+      //   });
+      // });
+      //
+      // //댓글 삭제 버튼 구현
+      // const commentDeleteButtons = document.querySelectorAll('.fa-trash');
+      // commentDeleteButtons.forEach((button) => {
+      //   button.addEventListener('click', function () {
+      //     const confirmDelete = confirm('정말 삭제하시겠습니까?');
+      //     if (confirmDelete) {
+      //       // 서버에서 댓글 삭제하는 코드 추가 (예시: AJAX로 해당 댓글 ID를 서버에 전달하여 삭제 요청)
+      //       // ...
+      //
+      //       // 댓글 삭제
+      //       this.closest('.comment-main-level').remove();
+      //     }
+      //   });
+      // });
     </script>
 
     <div th:replace="~{layouts/footer :: footer}"></div>

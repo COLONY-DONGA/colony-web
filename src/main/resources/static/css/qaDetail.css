@@ -1,46 +1,3 @@
-<<<<<<< HEAD
-=======
-/* Reset CSS */
-body,
-h1,
-h2,
-h3,
-p,
-ul,
-li,
-a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  font-family: 'NanumSquare', sans-serif;
-  color: #333;
-  text-decoration: none;
-}
-
-/* Layout */
-main {
-  margin: 20px;
-}
-
-section {
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.question {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.question h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
 
 .question p {
   margin-bottom: 5px;
@@ -52,7 +9,7 @@ footer {
   text-align: center;
 }
 
-/* ㄴㄴ11111111111111111111111111 */
+
 .qa-item-content {
   margin-bottom: 10px;
   padding: 10px;
@@ -73,8 +30,7 @@ footer {
   margin-top: 5px;
 }
 
->>>>>>> main
-/* 드롭다운 버튼 구현!! */
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -141,197 +97,11 @@ footer {
   margin-top: 1rem;
 }
 
-=======
->>>>>>> main
-/* 따온거 */
-html {
-  font-family: 'NanumSquare', sans-serif;
-}
 
-<<<<<<< HEAD
-=======
-/* 노말라이즈 */
-body,
-ul,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+/*html {*/
+/*  font-family: 'NanumSquare', sans-serif;*/
+/*}*/
 
-a:link {
-  color: lightblue;
-}
-
-/* 라이브러리 */
-.con {
-  margin: 0 auto;
-}
-
-.img-box > img {
-  width: 100%;
-  display: block;
-}
-
-.row::after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
-.cell {
-  float: left;
-  box-sizing: border-box;
-}
-
-.cell-right {
-  float: right;
-  box-sizing: border-box;
-}
-
-.margin-0-auto {
-  margin: 0 auto;
-}
-
-.block {
-  display: block;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-.text-align-center {
-  text-align: center;
-}
-
-.line-height-0-ch-only {
-  line-height: 0;
-}
-
-.line-height-0-ch-only > * {
-  line-height: normal;
-}
-
-.relative {
-  position: relative;
-}
-
-.absolute-left {
-  position: absolute;
-  left: 0;
-}
-
-.absolute-right {
-  position: absolute;
-  right: 0;
-}
-
-.absolute-middle {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* 커스텀 */
-/* 반응형 레이아웃 */
-.con {
-  max-width: 950px;
-}
-
-.con-min-width {
-  min-width: 320px;
-}
-
-html,
-body {
-  overflow-x: hidden;
-}
-
-.table-common > table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-common .btn-box {
-  text-align: center;
-}
-
-.table-common > table th,
-.table-common > table td {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-.article-list table {
-  border: none;
-  border-top: 2px solid lightgray;
-  border-bottom: 2px solid lightgray;
-}
-
-.article-list > table th,
-.article-list > table td {
-  border: none;
-}
-
-.article-list > table td {
-  border-bottom: 1px solid lightgray;
-}
-
-.article-list > table thead {
-  border-bottom: 2px solid lightgray;
-  background-color: #f5f5f5;
-}
-
-.article-detail {
-  border: 2px solid lightgray;
-}
-
-.article-detail > table {
-  border: none;
-  width: calc(100% - 100px);
-}
-
-.article-detail > table th,
-.article-detail > table td {
-  border: none;
-}
-
-.article-detail > table tr:not(:last-child) {
-  border-bottom: 1px solid lightgray;
-}
-
-.article-detail > table tr:not(.article-body),
-.article-detail > table tr:not(.article-body) > td {
-  height: 20px;
-  font-size: 0.8rem;
-}
-
-.article-detail > table td:last-child {
-  padding-right: 100px;
-}
-
-.article-detail > .article-writer {
-  width: 100px;
-  height: 102px;
-  background-color: lightgray;
-  border-bottom: 1px solid lightgray;
-  text-align: center;
-}
-
-.article-detail > .article-writer .writer-icon {
-  margin: 0 auto;
-  background-color: white;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
 
 .reply {
   margin-top: 20px;
@@ -1068,4 +838,13 @@ ul {
 
 .inputframe {
   display: flex;
+}
+
+.edit-comment-container {
+  display: flex;
+}
+
+.edit-comment-input {
+  flex-grow: 1;
+  margin-right: 5px;
 }
