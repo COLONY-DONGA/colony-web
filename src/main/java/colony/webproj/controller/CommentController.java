@@ -48,7 +48,7 @@ public class CommentController {
      * 댓글 수정
      * 대댓글 수정
      */
-    @PutMapping("/comment/{commentId}")
+    @PostMapping("/edit-comment/{commentId}")
     public ResponseEntity<?> updateCommentOrReComment(@PathVariable("commentId") Long commentId,
                                                       @RequestBody CommentFormDto commentFormDto,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -65,7 +65,7 @@ public class CommentController {
     /**
      * 댓글 삭제
      */
-    @DeleteMapping("/comment/{commentId}")
+    @GetMapping("/delete-comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
         //로그인 유저가 작성자와 다를 때

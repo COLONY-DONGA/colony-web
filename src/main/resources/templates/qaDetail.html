@@ -205,13 +205,13 @@
 
   var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
   editbtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/edit-post/' + postId;
+    location.href = '/edit-post/' + postId;
     console.log("수정버튼");
   });
 
   var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
   deletebtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/delete-post/' + postId;
+    location.href = '/delete-post/' + postId;
     console.log("삭제버튼");
   });
 
