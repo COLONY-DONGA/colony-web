@@ -2,6 +2,7 @@ package colony.webproj.controller;
 
 import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
+import colony.webproj.dto.AnswerUpdateFormDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.entity.Role;
 import colony.webproj.exception.CustomException;
@@ -94,16 +95,16 @@ public class AnswerController {
     @PostMapping("/edit-answer/{postId}/{answerId}")
     public String editAnswer(@PathVariable("answerId") Long answerId,
                              @PathVariable("postId") Long postId,
-                             @Valid AnswerFormDto answerFormDto,
+                             @Valid AnswerUpdateFormDto answerUpdateFormDto,
                              BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", answerFormDto);
+            model.addAttribute("answerFormDto", answerUpdateFormDto);
             return "aEnroll";
         }
-        answerService.updateAnswer(answerId, answerFormDto);
+        answerService.updateAnswer(answerId, answerUpdateFormDto);
         return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
     }
 

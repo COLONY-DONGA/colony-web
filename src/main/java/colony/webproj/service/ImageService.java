@@ -121,8 +121,17 @@ public class ImageService {
             String storeImageName = image.getStoreImageName();
             DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
             amazonS3Client.deleteObject(deleteObjectRequest);
-            log.info("S3 파일 삭제 완료");
         }
+        log.info("S3 파일 삭제 완료");
+    }
+
+    public void deleteFileWithStoreImageName(List<String> imageList) {
+        //s3
+        for (String storeImageName : imageList) {
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
+            amazonS3Client.deleteObject(deleteObjectRequest);
+        }
+        log.info("S3 파일 삭제 완료");
     }
 
     /**

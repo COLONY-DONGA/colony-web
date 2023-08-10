@@ -1,9 +1,6 @@
 package colony.webproj.controller;
 
-import colony.webproj.dto.AnswerDto;
-import colony.webproj.dto.CommentDto;
-import colony.webproj.dto.PostDto;
-import colony.webproj.dto.PostFormDto;
+import colony.webproj.dto.*;
 import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.exception.CustomException;
@@ -115,6 +112,7 @@ public class PostController {
                                    @AuthenticationPrincipal PrincipalDetails principalDetails,
                                    Model model) throws IOException {
         log.info("포스트 저장 진입");
+        System.out.println("이미지 크기: " + postFormDto.getImageList().size());
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
@@ -148,7 +146,7 @@ public class PostController {
      */
     @PostMapping("/edit-post/{postId}")
     public String editPost(@PathVariable("postId") Long postId,
-                           @Valid PostFormDto postFormDto, BindingResult bindingResult,
+                           @Valid PostUpdateFormDto postUpdateFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
 
@@ -160,10 +158,10 @@ public class PostController {
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
-            model.addAttribute("postFormDto", postFormDto);
+            model.addAttribute("postFormDto", postUpdateFormDto);
             return "qEnroll";
         }
-        postService.updatePost(postId, postFormDto);
+        postService.updatePost(postId, postUpdateFormDto);
         return "redirect:/post/" + postId;
     }
 
