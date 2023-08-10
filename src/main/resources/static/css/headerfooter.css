@@ -28,16 +28,10 @@ header {
   z-index: 9999;
 }
 header img {
-  width: 5rem;
-  height: 5rem;
+  width: 14rem;
+  height: 4rem;
   cursor: pointer;
   margin-left: 3rem;
-}
-header .colony {
-  font-weight: bold;
-  font-size: 1.3rem;
-  position: absolute;
-  left: 8rem;
 }
 header .welcome {
   position: absolute;

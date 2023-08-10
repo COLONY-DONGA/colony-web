@@ -13,35 +13,37 @@
 
     <div class="frame">
       <div class="container">
+        <div class="question-enroll">Question Enroll</div>
         <form action="/post" method="post" enctype="multipart/form-data">
-          <div class="item1">
-            <div class="question_enroll">질문 등록</div>
-            <input class="title" type="text" name="title" placeholder="제목을 입력하세요" />
-            <textarea
-              class="text_box"
-              rows="10"
-              cols="156"
-              name="content"
-              placeholder="질문을 입력하세요"
-            ></textarea>
+          <div class="enroll-form">
+            <div class="title-box">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" placeholder="제목을 입력하세요" />
+            </div>
+            <div class="content-box">
+              <label for="content">Content</label>
+              <textarea id="content" name="content" placeholder="질문을 입력하세요"></textarea>
+            </div>
+            <div class="image-box">
+              <input
+                type="file"
+                id="file-input"
+                name="imageList"
+                accept="image/jpeg, image/png"
+                style="display: none"
+                multiple
+              />
+              <label for="file-input" class="input-imageList">📁Add file</label>
+              <div id="file-list-box">
+                <ul id="file-list"></ul>
+              </div>
+            </div>
           </div>
-          <div class="item2">
-            <input
-              type="file"
-              id="file-input"
-              name="imageList"
-              accept="image/jpeg, image/png"
-              style="display: none"
-              multiple
-            />
-            <label for="file-input" class="add_file">📁Add file</label>
-            <button type="submit" class="submit_btn">등록</button>
-            <button type="button" class="cancel_btn">취소</button>
+          <div class="button-group">
+            <button type="submit" class="submit-btn">Enroll</button>
+            <button type="button" class="cancel-btn">Cancel</button>
           </div>
         </form>
-        <div id="file-list-box">
-          <ul id="file-list"></ul>
-        </div>
       </div>
     </div>
 
@@ -50,8 +52,7 @@
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
-      let submitBtn = document.querySelector('.submit_btn');
-      let cancelBtn = document.querySelector('.cancel_btn');
+      let cancelBtn = document.querySelector('.cancel-btn');
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -156,9 +157,7 @@
       }
 
       cancelBtn.addEventListener('click', () => {
-        document.querySelector('.title').value = '';
-        document.querySelector('.text_box').value = '';
-        history.back();
+        location.href = '/post-list';
       });
     </script>
   </body>
