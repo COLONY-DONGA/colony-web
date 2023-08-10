@@ -3,6 +3,8 @@ package colony.webproj.controller;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -90,6 +92,19 @@ public class MemberController {
         return ResponseEntity.ok(true);
     }
 
+    // 접근 거부 처리
+    @GetMapping("/denied-page")
+    public String showDeniedPage(HttpSession session, @RequestParam("type") String type, Model model) {
+        if(type.equals("UNAUTHORIZED")) {
+            model.addAttribute("msg", "접근 권한이 없습니다.");
+        }
+        if(type.equals("guest")) {
+            model.addAttribute("msg", "로그인 후 이용가능합니다.");
+            model.addAttribute("nextPage", "/login");
+        }
+
+        return "deniedPage";
+    }
     //알림 수신 동의 변경
     @PostMapping("/email-alarm")
     public ResponseEntity<?> changeEmailAlarmAgree(@AuthenticationPrincipal PrincipalDetails principalDetails) {

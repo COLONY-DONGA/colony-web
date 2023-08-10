@@ -1,6 +1,7 @@
 package colony.webproj.security;
 
 
+import colony.webproj.entity.Role;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,15 +40,17 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
 
         http.csrf().disable().cors().disable() //csrf 비활성화
                 .authorizeHttpRequests(request ->
-                        request
-                                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
-                                .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
-                                .requestMatchers(
-                                        "/login", "/join", "/login-guest", "validation-id",
-                                        "validation-nickname", "validation-email", "post-list", "/post/{postId}").permitAll()
-                                .requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated()
+                                request
+                                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
+                                        .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
+                                        .requestMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
+                                        .requestMatchers(
+                                                "/login", "/join", "/login-guest", "/validation-id",
+                                                "/validation-nickname", "/validation-email", "/post-list",
+                                                "/post/{postId}", "/denied-page").permitAll()
+//                                .requestMatchers("/**").permitAll()
+                                        .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -63,7 +66,12 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                ).exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .authenticationEntryPoint(customAuthenticationEntryPoint())
+                                .accessDeniedHandler(customAccessDeniedHandler())
                 );
+
 
         return http.build();
     }
@@ -78,5 +86,14 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @Bean
+    public CustomAuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return new CustomAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public CustomAccessDeniedHandler customAccessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
 
 }
