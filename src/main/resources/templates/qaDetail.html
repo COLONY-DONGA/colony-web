@@ -205,6 +205,7 @@
     });
 
     var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+    console.log(editbtn);
     editbtn.addEventListener('click', function () {
       location.href = '/edit-post/' + postId;
       console.log("수정버튼");
@@ -217,18 +218,22 @@
     });
 
     var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-    answereditbtn.addEventListener('click', function () {
-      var answerId = this.getAttribute('data-answer-id1');
-      location.href = '/edit-answer/' + postId + '/' + answerId
-      console.log("answer editbtn");
-    });
+    if(answereditbtn != null) {
+      answereditbtn.addEventListener('click', function () {
+        var answerId = this.getAttribute('data-answer-id1');
+        location.href = '/edit-answer/' + postId + '/' + answerId
+        console.log("answer editbtn");
+      });
+    }
 
     var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-    answerdeletebtn.addEventListener('click', function () {
-      var answerId = this.getAttribute('data-answer-id2');
-      location.href = '/delete-answer/' + postId + '/' + answerId;
-      console.log("answer deletebtn");
-    });
+    if(answerdeletebtn != null) {
+      answerdeletebtn.addEventListener('click', function () {
+        var answerId = this.getAttribute('data-answer-id2');
+        location.href = '/delete-answer/' + postId + '/' + answerId;
+        console.log("answer deletebtn");
+      });
+    }
 
     if (userName != name || userName === '') {
       console.log('css 숨기는 로직');
