@@ -39,6 +39,12 @@
                 placeholder="질문을 입력하세요"
               ></textarea>
             </div>
+            <div class="old-image-box">
+              <div class="old-image-1">Old Image</div>
+              <div class="old-image-2">
+                <ul class="old-image-3"></ul>
+              </div>
+            </div>
             <div class="image-box">
               <input
                 type="file"
@@ -66,7 +72,11 @@
 
     <input type="hidden" class="getPostId" th:value="${postFormDto.postId}" />
 
-    <script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      let uploadedImages = /*[[${postFormDto.imageDtoList}]]*/ [];
+      /*]]>*/
+
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
       let cancelBtn = document.querySelector('.cancel-btn');
@@ -174,19 +184,17 @@
         img.src = src;
       }
 
-      // 이전에 업로드한 이미지를 표시하는 함수
-      function displayUploadedImages() {
-        // 일단 이미지 하드 코딩
-        let uploadedImages = ['/img/colony.jpg', '/img/colony.jpg', '/img/colony.jpg'];
+      // 기존 이미지들을 표시하는 함수
+      function displayRegisteredImages(uploadedImages) {
+        const imageListContainer = document.querySelector('.old-image-3');
 
-        uploadedImages.forEach((imageUrl) => {
-          let listItem = document.createElement('li');
+        uploadedImages.forEach((imageDto) => {
+          const listItem = document.createElement('li');
           listItem.classList.add('file-list-item');
 
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
-          filePreview.src = imageUrl;
-          listItem.appendChild(filePreview);
+          let fileInfo = document.createElement('span');
+          fileInfo.textContent = imageDto.originImageName;
+          listItem.appendChild(fileInfo);
 
           let deleteButton = document.createElement('button');
           deleteButton.textContent = 'Delete';
@@ -194,15 +202,19 @@
 
           deleteButton.addEventListener('click', () => {
             listItem.remove();
-            // 해당 이미지를 서버에서 삭제하는 로직을 추가할 예정
+
+            let fileIndex = selectedFiles.indexOf(imageDto);
+            if (fileIndex !== -1) {
+              uploadedImages.splice(fileIndex, 1);
+            }
           });
 
           listItem.appendChild(deleteButton);
-          fileList.appendChild(listItem);
+          imageListContainer.appendChild(listItem);
         });
       }
 
-      displayUploadedImages();
+      displayRegisteredImages(uploadedImages);
 
       cancelBtn.addEventListener('click', () => {
         location.href = '/post/' + getPostId;
