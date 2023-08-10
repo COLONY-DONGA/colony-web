@@ -47,7 +47,6 @@ public class ImageService {
      */
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
-        log.info("이미지 사이즈: " + multipartFiles.size());
         /* 비었는지 체크 */
         if (!CollectionUtils.isEmpty(multipartFiles)) {
 
