@@ -1,410 +1,433 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="/css/qaDetail.css" />
-  <link rel="stylesheet" href="/css/headerfooter.css" />
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
-  <title>질문 세부 페이지</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link rel="stylesheet" href="/css/headerfooter.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>질문 세부 페이지</title>
+  </head>
 
-<body>
-<!--  로그인 유저 닉네임-->
-<div>
-  <input class="member-nickname" th:value="${loginUser}" style="display: none" />
-</div>
-<div>
-  <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
-</div>
+  <body>
+    <!--  로그인 유저 닉네임-->
+    <div>
+      <input class="member-nickname" th:value="${loginUser}" style="display: none" />
+    </div>
+    <div>
+      <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
+    </div>
 
-<div th:replace="~{layouts/header :: header}"></div>
-<br />
-<br />
-<br />
+    <div th:replace="~{layouts/header :: header}"></div>
+    <br />
+    <br />
+    <br />
 
-<div class="qadetail-frame">
-  <div class="q-box">
-    <div class="horizontal-line"></div>
-    <div class="q-head">
-      <div class="question-title" th:text="${postDto.title}">title</div>
-      <div class="question-info">
+    <div class="qadetail-frame">
+      <div class="q-box">
+        <div class="horizontal-line"></div>
+        <div class="q-head">
+          <div class="question-title" th:text="${postDto.title}">title</div>
+          <div class="question-info">
             <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
-            >작성자</span
+              >작성자</span
             >
-        <span class="small-line"> | </span>
-        <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
-      </div>
+            <span class="small-line"> | </span>
+            <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
+          </div>
 
-      <br />
-      <br />
-      <hr />
-      <!--<tr class="article-info">
+          <br />
+          <br />
+          <hr />
+          <!--<tr class="article-info">
           <th>날짜</th>
           <td th:text="${postDto.updatedAt}">date</td>
         </tr> -->
 
-      <!--내용칸-->
-    </div>
+          <!--내용칸-->
+        </div>
 
-    <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
 
-    <input id="postId" type="hidden" th:value="${postDto.postId}" />
-    <!--포스트아이디-->
+        <input id="postId" type="hidden" th:value="${postDto.postId}" />
+        <!--포스트아이디-->
 
-    <div class="file-box">
-      <!-- Loop through the file list -->
-      <div th:each="file : ${postDto.imageDtoList}">
-        <div class="file-img">
-          <img th:src="${file.s3Url}" alt="이미지" />
+        <div class="file-box">
+          <!-- Loop through the file list -->
+          <div th:each="file : ${postDto.imageDtoList}">
+            <div class="file-img">
+              <img th:src="${file.s3Url}" alt="이미지" />
+            </div>
+          </div>
+        </div>
+
+        <!--버튼바들-->
+        <div class="tool-box" id="question-tool-box">
+          <div class="btn">
+            <button class="qabtn" id="qabtn">
+              <i class="fa-keyboard-o"></i>
+              답변하기
+            </button>
+            <!--<button class="listbtn" id="listbtn">목록</button>-->
+            <button class="editbtn" id="editbtn">수정</button>
+            <button class="deletebtn" id="deletebtn">삭제</button>
+            <!--<a href="#" class="btn green rounded">Button</a>-->
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+
+      <br />
+      <div class="answer-title">
+        <span class="answer-label">답변</span>
+        <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
+      </div>
+
+      <div
+        th:each="answer, status : ${answerDtoList}"
+        class="answer-box"
+        id="answer-box-[[${answer.id}]]"
+      >
+        <div class="horizontal-line"></div>
+        <div class="a-head">
+          <div class="answer-info">
+            <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
+              >작성자</span
+            >
+            <span class="small-line"> | </span>
+            <span class="answer-info-date" th:text="${answer.createdAt}">date</span>
+          </div>
+        </div>
+
+        <div class="answer-text">
+          <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
+          <div class="answer-area" th:text="${answer.content}">
+            A.answer content A.answer content A.answer content A.answer content A.answer content
+          </div>
+        </div>
+
+        <!--파일-->
+
+        <div class="tool-box" id="answer-tool-box">
+          <button class="heart-button" th:data-answer-id="${answer.answerId}">
+            <i class="fa fa-heart"></i>
+          </button>
+          <div
+            class="likecount"
+            id="like"
+            th:id="'like-' + ${answer.answerId}"
+            th:text="${answer.heartNum}"
+          >
+            1
+          </div>
+          <div class="btn">
+            <button class="editbtn" id="Aeditbtn" th:data-answer-id1="${answer.answerId}">
+              수정
+            </button>
+            <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">
+              삭제
+            </button>
+            <!--<a href="#" class="btn green rounded">Button</a>-->
+          </div>
+        </div>
+
+        <br />
+
+        <div class="comments-container">
+          <ul
+            id="comments-list"
+            class="comments-list"
+            th:each="comment, status : ${answer.commentList}"
+          >
+            <!-- 댓글이 여기에 추가될 예정 -->
+
+            <!-- 첫번째 댓글 1 -->
+            <li>
+              <div class="comment-main-level">
+                <div class="comment-avatar">
+                  <img src="/img/colonyLogo.jpg" alt="" />
+                </div>
+                <div class="comment-box">
+                  <div class="comment-head">
+                    <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
+                    <i
+                      class="fa fa-reply reply-button"
+                      th:data-comment-id="${comment.commentId}"
+                    ></i>
+                  </div>
+                  <div class="comment-content" th:text="${comment.content}">
+                    This is the main comment content.
+                  </div>
+
+                  <ul
+                    class="comments-list reply-list"
+                    th:each="recomment, status : ${comment.childList}"
+                  >
+                    <!-- 첫번째 댓글에 대한 대댓글1 -->
+                    <li>
+                      <div class="comment-avatar">
+                        <img src="/img/colony3.jpg" alt="" />
+                      </div>
+                      <div class="comment-box">
+                        <div class="comment-head">
+                          <h6 class="comment-name" th:text="${recomment.createdBy}">Jane Smith</h6>
+                        </div>
+                        <div class="comment-content" th:text="${recomment.content}">
+                          This is a reply to the main comment.
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+
+                  <!--대댓글 입력 폼-->
+                  <div
+                    class="input-recomment-box"
+                    th:id="'recomment-' + ${comment.commentId}"
+                    th:data-answer-id="${answer.answerId}"
+                    style="display: none"
+                  >
+                    <form
+                      th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
+                      method="post"
+                    >
+                      <div class="inputframe">
+                        <br />
+                        <h5>
+                          New Comment : <input type="text" class="input-text" name="content" />
+                        </h5>
+                        <button class="new-comment-btn">작성</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <!-- 새댓글 작성부분 -->
+          <div class="input-comment-box">
+            <form th:action="@{/comment/{answerId}(answerId=${answer.answerId})}" method="post">
+              <div class="inputframe">
+                <br />
+                <h5>
+                  New Comment :
+                  <input type="text" class="input-text" id="newComment" name="content" />
+                </h5>
+                <button class="new-comment-btn" id="add-comment-button">작성</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+    <div id="footer"></div>
 
-    <!--버튼바들-->
-    <div class="tool-box" id="question-tool-box">
-      <div class="btn">
-        <button class="qabtn" id="qabtn">
-          <i class="fa-keyboard-o"></i>
-          답변하기
-        </button>
-        <!--<button class="listbtn" id="listbtn">목록</button>-->
-        <button class="editbtn" id="editbtn">수정</button>
-        <button class="deletebtn" id="deletebtn">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
-      </div>
-    </div>
-  </div>
-  <br />
-  <br />
+    <script>
+      $(document).ready(function () {
+        let userName = $('.member-nickname').val(); // 로그인 유저
+        let name = $('.post-writer-nickname').val(); // post 작성자
+        let postId = $('#postId').val(); //post아이디
+        console.log('userName: ' + userName);
+        console.log('Name: ' + name);
 
-  <br />
-  <div class="answer-title">
-    <span class="answer-label">답변</span>
-    <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
-  </div>
+        var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+        qabtn.addEventListener('click', function () {
+          window.open('/answer/' + postId, 'aEnroll');
+        });
 
-  <div th:each="answer, status : ${answerDtoList}" class="answer-box" id="answer-box-[[${answer.id}]]">
-    <div class="horizontal-line"></div>
-    <div class="a-head">
-      <div class="answer-info">
-            <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-            >작성자</span
-            >
-        <span class="small-line"> | </span>
-        <span class="answer-info-date" th:text="${answer.createdAt}">date</span>
-      </div>
-    </div>
+        var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+        console.log(editbtn);
+        editbtn.addEventListener('click', function () {
+          location.href = '/edit-post/' + postId;
+          console.log('수정버튼');
+        });
 
-    <div class="answer-text">
-      <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-      <div class="answer-area" th:text="${answer.content}">
-        A.answer content A.answer content A.answer content A.answer content A.answer content
-      </div>
-    </div>
+        var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
+        deletebtn.addEventListener('click', function () {
+          location.href = '/delete-post/' + postId;
+          console.log('삭제버튼');
+        });
 
-    <!--파일-->
+        var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+        if (answereditbtn != null) {
+          answereditbtn.addEventListener('click', function () {
+            var answerId = this.getAttribute('data-answer-id1');
+            location.href = '/edit-answer/' + postId + '/' + answerId;
+            console.log('answer editbtn');
+          });
+        }
 
-    <div class="tool-box" id="answer-tool-box">
-      <button class="heart-button" th:data-answer-id="${answer.answerId}"><i class="fa fa-heart"></i></button>
-      <div class="likecount" id="like" th:id="'like-' + ${answer.answerId}" th:text="${answer.heartNum}">1</div>
-      <div class="btn">
+        var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
+        if (answerdeletebtn != null) {
+          answerdeletebtn.addEventListener('click', function () {
+            var answerId = this.getAttribute('data-answer-id2');
+            location.href = '/delete-answer/' + postId + '/' + answerId;
+            console.log('answer deletebtn');
+          });
+        }
 
-        <button class="editbtn" id="Aeditbtn" th:data-answer-id="${answer.answerId}">수정</button>
-        <button class="deletebtn" id="Adeletebtn" th:data-answer-id="${answer.answerId}">삭제</button>
-        <!--<a href="#" class="btn green rounded">Button</a>-->
-      </div>
-    </div>
+        if (userName != name || userName === '') {
+          console.log('css 숨기는 로직');
+          editbtn.style.display = 'none';
+          deletebtn.style.display = 'none';
+          //관리자일때도 권한 추가
+          // if (userName === 'admin') {
+          //   //관리자 이름을 어떻게 받더라....
+          //   editbtn.style.display = 'block';
+          //   deletebtn.style.display = 'block';
+          // }
+        }
 
-    <br />
+        // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
+        const replyButtons = document.querySelectorAll('.reply-button');
+        replyButtons.forEach((button) => {
+          button.addEventListener('click', function () {
+            // data-answer-id 속성 값을 가져옴
+            const commentId = this.getAttribute('data-comment-id');
+            console.log(commentId);
 
-    <div class="comments-container">
-      <ul id="comments-list" class="comments-list" th:each="comment, status : ${answer.commentList}">
-        <!-- 댓글이 여기에 추가될 예정 -->
+            const recommentElement = document.querySelector('#recomment-' + commentId);
 
-        <!-- 첫번째 댓글 1 -->
-        <li>
-          <div class="comment-main-level">
-            <div class="comment-avatar">
-              <img src="/img/colonyLogo.jpg" alt="" />
-            </div>
-            <div class="comment-box">
-              <div class="comment-head">
-                <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
-                <i class="fa fa-reply reply-button" th:data-comment-id="${comment.commentId}"></i>
-              </div>
-              <div class="comment-content" th:text="${comment.content}">This is the main comment content.</div>
+            if (recommentElement.style.display === 'none') {
+              recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+            } else {
+              recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
+            }
+          });
+        });
 
+        // 각 하트 버튼에 클릭 이벤트 리스너 추가
+        const heartButtons = document.querySelectorAll('.heart-button');
+        heartButtons.forEach((button) => {
+          button.addEventListener('click', function () {
+            // data-answer-id 속성 값을 가져옴
+            const answerId = this.getAttribute('data-answer-id');
+            console.log(answerId);
 
+            // json 형식으로 ajax 요청을 보냅니다.
+            $.ajax({
+              type: 'POST',
+              url: '/heart/' + answerId,
+              contentType: 'application/json',
+              data: JSON.stringify({ answerId: answerId, userName: userName }),
+              success: function (response) {
+                //likeCountElement
+                const likeCountElement = document.querySelector('#like-' + answerId);
+                // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+                if (response) {
+                  likeCountElement.textContent++;
+                } else {
+                  likeCountElement.textContent--;
+                }
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
+          });
+        });
 
-              <ul class="comments-list reply-list" th:each="recomment, status : ${comment.childList}">
-                <!-- 첫번째 댓글에 대한 대댓글1 -->
-                <li>
-                  <div class="comment-avatar">
-                    <img src="/img/colony3.jpg" alt="" />
-                  </div>
-                  <div class="comment-box">
-                    <div class="comment-head">
-                      <h6 class="comment-name" th:text="${recomment.createdBy}">Jane Smith</h6>
-                    </div>
-                    <div class="comment-content" th:text="${recomment.content}">This is a reply to the main comment.</div>
-                  </div>
-                </li>
-              </ul>
+        //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
-              <!--대댓글 입력 폼-->
-              <div class="input-recomment-box" th:id="'recomment-' + ${comment.commentId}" th:data-answer-id="${answer.answerId}" style="display: none">
-                <form th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}" method="post">
-                  <div class="inputframe">
-                    <br />
-                    <h5>New Comment : <input type="text" class="input-text" name="content"/></h5>
-                    <button class="new-comment-btn">작성</button>
-                  </div>
-                </form>
-              </div>
+        // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+        window.addEventListener('load', function () {
+          adjustQuestionAreaHeight();
+        });
 
-            </div>
-          </div>
-        </li>
+        // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+        window.addEventListener('resize', function () {
+          adjustQuestionAreaHeight();
+        });
 
-      </ul>
-      <!-- 새댓글 작성부분 -->
-      <div class="input-comment-box">
-        <form th:action="@{/comment/{answerId}(answerId=${answer.answerId})}" method="post">
-          <div class="inputframe">
-            <br />
-            <h5>New Comment : <input type="text" class="input-text" id="newComment" name="content"/></h5>
-            <button class="new-comment-btn" id="add-comment-button">작성</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="footer"></div>
+        // 요소의 높이를 조정하는 함수
+        function adjustQuestionAreaHeight() {
+          var qBox = document.getElementById('q-box');
+          var questionArea = document.getElementById('question-area');
+          var maxHeight = qBox.offsetHeight;
+          questionArea.style.height = maxHeight + 'px';
+        }
 
-<script>
-  let userName = $('.member-nickname').val(); // 로그인 유저
-  let name = $('.post-writer-nickname').val(); // post 작성자
-  let postId = $('#postId').val(); //post아이디
-  let answerWriter = $('#answer-writer').val();//answer작성자
-  console.log('userName: ' + userName);
-  console.log('Name: ' + name);
-
-
-
-  var qabtn = document.getElementById('qabtn'); //답변등록 버튼
-  qabtn.addEventListener('click', function () {
-    window.open('/answer/' + postId, 'aEnroll');
-  });
-
-  var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
-  if (userName != name || userName === '') {
-    editbtn.style.display = 'none';
-    deletebtn.style.display = 'none';
-    //관리자일때도 권한 추가
-    // if (userName === 'admin') {
-    //   //관리자 이름을 어떻게 받더라....
-    //   editbtn.style.display = 'block';
-    //   deletebtn.style.display = 'block';
-    // }
-  }
-  editbtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/edit-post/' + postId;
-    console.log("수정버튼");
-  });
-
-  var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
-  deletebtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/delete-post/' + postId;
-    console.log("삭제버튼");
-  });
-
-  var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-  if (userName != answerWriter || userName === '') {
-    editbtn.style.display = 'none';
-    deletebtn.style.display = 'none';
-    //관리자일때도 권한 추가
-    // if (userName === 'admin') {
-    //   //관리자 이름을 어떻게 받더라....
-    //   editbtn.style.display = 'block';
-    //   deletebtn.style.display = 'block';
-    // }
-  answereditbtn.addEventListener('click', function () {
-    var answerId = this.getAttribute('data-answer-id');
-    location.href = '/edit-answer/' + postId + '/' + answerId
-    console.log("answer editbtn");
-  });
-
-  var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-  answerdeletebtn.addEventListener('click', function () {
-    var answerId = this.getAttribute('data-answer-id');
-    location.href = '/delete-answer/' + postId + '/' + answerId;
-    console.log("answer deletebtn");
-  });
-
-  if (userName != name || userName === '') {
-    console.log('css 숨기는 로직');
-    editbtn.style.display = 'none';
-    deletebtn.style.display = 'none';
-    //관리자일때도 권한 추가
-    // if (userName === 'admin') {
-    //   //관리자 이름을 어떻게 받더라....
-    //   editbtn.style.display = 'block';
-    //   deletebtn.style.display = 'block';
-    // }
-  }
-
-
-  // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
-  const replyButtons = document.querySelectorAll('.reply-button');
-  replyButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      // data-answer-id 속성 값을 가져옴
-      const commentId = this.getAttribute('data-comment-id');
-      console.log(commentId);
-
-      const recommentElement = document.querySelector('#recomment-' + commentId);
-
-      if (recommentElement.style.display === 'none') {
-        recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
-      } else {
-        recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
-      }
-    });
-  });
-
-  // 각 하트 버튼에 클릭 이벤트 리스너 추가
-  const heartButtons = document.querySelectorAll('.heart-button');
-  heartButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      // data-answer-id 속성 값을 가져옴
-      const answerId = this.getAttribute('data-answer-id');
-      console.log(answerId);
-
-      // json 형식으로 ajax 요청을 보냅니다.
-      $.ajax({
-        type: 'POST',
-        url: '/heart/' + answerId,
-        contentType: 'application/json',
-        data: JSON.stringify({ answerId: answerId, userName: userName }),
-        success: function (response) {
-          //likeCountElement
-          const likeCountElement = document.querySelector('#like-' + answerId);
-          // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-          if(response) {
-            likeCountElement.textContent++;
-          } else{
-            likeCountElement.textContent--;
+        // answer-area css부분
+        document.addEventListener('DOMContentLoaded', function () {
+          const answerAreas = document.querySelectorAll('.answer-area');
+          for (const answerArea of answerAreas) {
+            adjustAnswerAreaHeight(answerArea);
           }
-        },
-        error: function (xhr, status, error) {
-          console.error('Error:', status, error);
-        },
-      });
-    });
-  });
+        });
 
-  //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+        // answer-area의 높이를 자동으로 조절하는 함수
+        function adjustAnswerAreaHeight(element) {
+          element.style.height = 'auto'; // 높이 초기화
+        }
 
-  // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-  window.addEventListener('load', function () {
-    adjustQuestionAreaHeight();
-  });
+        function addNewCommentEventListeners(commentItem) {
+          const replyButton = commentItem.querySelector('.fa-reply');
+          replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
+          replyButton.addEventListener('click', onClickAddReplyButton);
 
-  // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-  window.addEventListener('resize', function () {
-    adjustQuestionAreaHeight();
-  });
+          // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
+          const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
+          replyWriteBtn.forEach((button) => {
+            button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
+            button.addEventListener('click', onReplyWriteButtonClick);
+          });
+        }
 
-  // 요소의 높이를 조정하는 함수
-  function adjustQuestionAreaHeight() {
-    var qBox = document.getElementById('q-box');
-    var questionArea = document.getElementById('question-area');
-    var maxHeight = qBox.offsetHeight;
-    questionArea.style.height = maxHeight + 'px';
-  }
+        function onReplyWriteButtonClick(event) {
+          const button = event.target.closest('.reply-write-btn');
+          if (!button) return;
 
-  // answer-area css부분
-  document.addEventListener('DOMContentLoaded', function () {
-    const answerAreas = document.querySelectorAll('.answer-area');
-    for (const answerArea of answerAreas) {
-      adjustAnswerAreaHeight(answerArea);
-    }
-  });
-
-  // answer-area의 높이를 자동으로 조절하는 함수
-  function adjustAnswerAreaHeight(element) {
-    element.style.height = 'auto'; // 높이 초기화
-  }
-
-  function addNewCommentEventListeners(commentItem) {
-    const replyButton = commentItem.querySelector('.fa-reply');
-    replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
-    replyButton.addEventListener('click', onClickAddReplyButton);
-
-    // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
-    const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
-    replyWriteBtn.forEach((button) => {
-      button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
-      button.addEventListener('click', onReplyWriteButtonClick);
-    });
-  }
-
-  function onReplyWriteButtonClick(event) {
-    const button = event.target.closest('.reply-write-btn');
-    if (!button) return;
-
-    const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
+          const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
             .dataset.commentIndex;
-    const commentItem = button.closest('li');
-    const replyList = commentItem.closest('ul.reply-list');
+          const commentItem = button.closest('li');
+          const replyList = commentItem.closest('ul.reply-list');
 
-    const inputReply = replyList.querySelector('.inputReply');
-    const newReplyText = inputReply.value;
+          const inputReply = replyList.querySelector('.inputReply');
+          const newReplyText = inputReply.value;
 
-    commentsData[commentIndex]['replies'].push({
-      name: '사용자',
-      content: newReplyText,
-    });
+          commentsData[commentIndex]['replies'].push({
+            name: '사용자',
+            content: newReplyText,
+          });
 
-    addComments();
-  }
+          addComments();
+        }
 
-  function addReplyButtonClickHandler() {
-    const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
-    replyButtons.forEach((button) => {
-      button.removeEventListener('click', onClickAddReplyButton);
-      button.addEventListener('click', onClickAddReplyButton);
-    });
-  }
+        function addReplyButtonClickHandler() {
+          const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
+          replyButtons.forEach((button) => {
+            button.removeEventListener('click', onClickAddReplyButton);
+            button.addEventListener('click', onClickAddReplyButton);
+          });
+        }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    addComments();
-    addReplyButtonClickHandler();
-  });
+        document.addEventListener('DOMContentLoaded', () => {
+          addComments();
+          addReplyButtonClickHandler();
+        });
 
-  const writeButton = document.getElementById('add-comment-button');
-  writeButton.addEventListener('click', onWriteButtonClick);
+        const writeButton = document.getElementById('add-comment-button');
+        writeButton.addEventListener('click', onWriteButtonClick);
 
-  const commentsList = document.getElementById('comments-list');
-  commentsList.addEventListener('click', (event) => {
-    if (event.target.matches('.fa-reply')) {
-      onClickAddReplyButton(event);
-    } else if (event.target.matches('.reply-write-btn')) {
-      onReplyWriteButtonClick(event);
-    }
-  });
-</script>
+        const commentsList = document.getElementById('comments-list');
+        commentsList.addEventListener('click', (event) => {
+          if (event.target.matches('.fa-reply')) {
+            onClickAddReplyButton(event);
+          } else if (event.target.matches('.reply-write-btn')) {
+            onReplyWriteButtonClick(event);
+          }
+        });
+      });
+    </script>
 
-<div th:replace="~{layouts/footer :: footer}"></div>
-</body>
+    <div th:replace="~{layouts/footer :: footer}"></div>
+  </body>
 </html>

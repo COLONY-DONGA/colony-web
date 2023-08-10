@@ -47,7 +47,6 @@ public class ImageService {
      */
     public List<Image> uploadFile(List<MultipartFile> multipartFiles) throws IOException {
         List<Image> fileList = new ArrayList<>();
-        log.info("이미지 사이즈: " + multipartFiles.size());
         /* 비었는지 체크 */
         if (!CollectionUtils.isEmpty(multipartFiles)) {
 
@@ -121,8 +120,17 @@ public class ImageService {
             String storeImageName = image.getStoreImageName();
             DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
             amazonS3Client.deleteObject(deleteObjectRequest);
-            log.info("S3 파일 삭제 완료");
         }
+        log.info("S3 파일 삭제 완료");
+    }
+
+    public void deleteFileWithStoreImageName(List<String> imageList) {
+        //s3
+        for (String storeImageName : imageList) {
+            DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, storeImageName);
+            amazonS3Client.deleteObject(deleteObjectRequest);
+        }
+        log.info("S3 파일 삭제 완료");
     }
 
     /**

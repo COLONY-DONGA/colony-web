@@ -3,6 +3,7 @@ package colony.webproj.service;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
+import colony.webproj.dto.PostUpdateFormDto;
 import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,7 +33,6 @@ import java.util.stream.Stream;
 @Slf4j
 @Transactional
 public class PostService {
-    private final CommentService commentService;
     private final ImageRepository imageRepository;
 
     private final MemberRepository memberRepository;
@@ -43,7 +45,18 @@ public class PostService {
      * queryDsl 게시글 리스트 조회
      */
     public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
-        return postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+        Page<PostDto> resultPage = postRepository.findPostDtoList(searchType, searchValue, answered, sortBy, pageable);
+
+        List<PostDto> resultList = resultPage.getContent();
+        for (PostDto postDto : resultList) {
+            LocalDateTime createdAt = postDto.getCreatedAt();
+            LocalDateTime currentTime = LocalDateTime.now();
+            Duration duration = Duration.between(createdAt, currentTime);
+
+            String enrollTime = getTimeAgo(duration);
+            postDto.setEnrollTime(enrollTime);
+        }
+        return resultPage;
     }
 
 
@@ -61,7 +74,6 @@ public class PostService {
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
 
         List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
-
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {
@@ -86,15 +98,19 @@ public class PostService {
     /**
      * 게시글 업데이트
      */
-    public Long updatePost(Long postId, PostFormDto postFormDto) throws IOException {
+    public Long updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        post.setTitle(postFormDto.getTitle());
-        post.setContent(postFormDto.getContent());
+        post.setTitle(postUpdateFormDto.getTitle());
+        post.setContent(postUpdateFormDto.getContent());
+
+        //수정하며 삭제할 사진 s3, db 에서 제거
+        imageService.deleteFileWithStoreImageName(postUpdateFormDto.getDeleteImageList());
+        imageRepository.deleteByImageIds(postUpdateFormDto.getDeleteImageList());
 
         //수정하며 추가한 사진 파일 업로드
-        List<Image> imageList = imageService.uploadFile(postFormDto.getImageList());
+        List<Image> imageList = imageService.uploadFile(postUpdateFormDto.getImageList());
 
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
@@ -166,4 +182,28 @@ public class PostService {
                 .build();
         return postDto;
     }
+
+    private String getTimeAgo(Duration duration) {
+        long seconds = duration.getSeconds();
+
+        if (seconds < 60) {
+            return "방금 전";
+        } else if (seconds < 3600) {
+            long minutes = duration.toMinutes();
+            return minutes + "분 전";
+        } else if (seconds < 86400) {
+            long hours = duration.toHours();
+            return hours + "시간 전";
+        } else if (seconds < 2592000) {
+            long days = duration.toDays();
+            return days + "일 전";
+        } else if (seconds < 31536000) {
+            long months = duration.toDays() / 30;
+            return months + "달 전";
+        } else {
+            long years = duration.toDays() / 365;
+            return years + "년 전";
+        }
+    }
+
 }

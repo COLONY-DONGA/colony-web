@@ -20,6 +20,7 @@ public class PostDto {
     private String createdBy;
     private Integer viewCount;
     private LocalDateTime createdAt; //생성일
+    private String enrollTime; // 현재로부터 등록된 날
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
     private List<ImageDto> imageDtoList; // 사진

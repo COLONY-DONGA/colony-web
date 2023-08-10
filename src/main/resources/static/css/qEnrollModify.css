@@ -55,14 +55,14 @@
 
 .content-box label {
   margin-top: 0.1rem;
-  margin-right: 5.25rem;
+  margin-right: 5.275rem;
 }
 
 .content-box textarea {
   font-family: 'NanumSquare', sans-serif;
   font-weight: bold;
   font-size: 14px;
-  width: 53rem;
+  width: 52.85rem;
   height: 20rem;
   border: 1px solid #93bfa9;
   border-radius: 5px;
@@ -86,6 +86,27 @@
   border-radius: 10px;
 }
 
+.old-image-box {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3rem;
+}
+
+.old-image-box .old-image-1 {
+  margin-right: 4.35rem;
+}
+
+.old-image-box .old-image-2 {
+  width: 53.5rem;
+  border: 1px solid #93bfa9;
+  border-radius: 5px;
+}
+
+.old-image-box .old-image-3 {
+  list-style: none;
+  padding: 0;
+}
+
 .image-box {
   display: flex;
   flex-direction: row;
@@ -93,7 +114,7 @@
 }
 
 .image-box label {
-  margin-right: 4rem;
+  margin-right: 4.1rem;
 }
 
 #file-list-box {
@@ -123,7 +144,7 @@
 
 #file-list {
   list-style: none;
-  padding-left: 0;
+  padding: 0;
 }
 
 .file-list-item {
@@ -143,7 +164,7 @@
 }
 
 .delete-btn {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   font-size: 14px;
   background-color: rgba(7, 7, 7, 0.61);
   color: #fff;

@@ -1,5 +1,6 @@
 package colony.webproj.repository.imageRepository;
 
+import colony.webproj.dto.ImageDto;
 import colony.webproj.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,4 +26,8 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     @Query("select i from Image i join fetch i.post p where i.id = :imageId")
     Optional<Image> findImageWithPost(@Param("imageId") Long imageId);
+
+    @Modifying
+    @Query("delete from Image i where i.storeImageName in :deleteImageList")
+    void deleteByImageIds(@Param("deleteImageList") List<String> deleteImageList);
 }

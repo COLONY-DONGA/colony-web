@@ -2,6 +2,7 @@ package colony.webproj.service;
 
 import colony.webproj.dto.AnswerDto;
 import colony.webproj.dto.AnswerFormDto;
+import colony.webproj.dto.AnswerUpdateFormDto;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.entity.*;
 import colony.webproj.exception.CustomException;
@@ -169,14 +170,19 @@ public class AnswerService {
      * 이미지는 추가한 이미지만 받아와서 저장
      * 삭제 시 비동기 처리 할 생각
      */
-    public Long updateAnswer(Long answerId, AnswerFormDto answerFormDto) throws IOException {
+    public Long updateAnswer(Long answerId, AnswerUpdateFormDto answerUpdateFormDto) throws IOException {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
 
         //답변 업데이트
-        answer.setContent(answerFormDto.getContent());
+        answer.setContent(answerUpdateFormDto.getContent());
+
+        //수정하며 삭제할 사진 s3, db 에서 제거
+        imageService.deleteFileWithStoreImageName(answerUpdateFormDto.getDeleteImageList());
+        imageRepository.deleteByImageIds(answerUpdateFormDto.getDeleteImageList());
+
         //수정하며 추가한 사진 파일 업로드
-        List<Image> imageList = imageService.uploadFile(answerFormDto.getImageList());
+        List<Image> imageList = imageService.uploadFile(answerUpdateFormDto.getImageList());
         //파일이 있다면 db 저장
         if (!imageList.isEmpty()) {
             for (Image image : imageList) {
