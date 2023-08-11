@@ -302,10 +302,9 @@
           answereditbtn.addEventListener('click', function () {
             var answerId = this.getAttribute('data-answer-id1');
             window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
-            location.href = console.log('answer editbtn');
+            console.log('answer editbtn');
           });
         }
-
         var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
         if (answerdeletebtn != null) {
           answerdeletebtn.addEventListener('click', function () {
