@@ -62,8 +62,8 @@
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
-    <input type="hidden" class="getPostId" th:value="${postFormDto.postId}" />
-    <input type="hidden" class="getAnswerId" th:value="${answerFormDto.answerId}" />
+    <input type="hidden" class="getPostId" th:value="${postDto.postId}" />
+    <input type="hidden" class="getAnswerId" th:value="${answerDto.answerId}" />
 
     <script th:inline="javascript">
       /*<![CDATA[*/
@@ -75,6 +75,7 @@
       let submitBtn = document.querySelector('.submit-btn');
       let cancelBtn = document.querySelector('.cancel-btn');
       let getPostId = document.querySelector('.getPostId').value;
+      let getAnswerId = document.querySelector('.getAnswerId').value;
       let allSelectedFiles = [];
       let deleteImageList = [];
 
@@ -238,8 +239,6 @@
           contentType: false,
           success: function (response) {
             console.log('수정 완료');
-            let formData = new FormData(document.querySelector('form'));
-            document.querySelector('form').submit();
             setTimeout(() => {
               window.opener.location.reload();
               window.close();
@@ -253,6 +252,7 @@
       });
 
       cancelBtn.addEventListener('click', () => {
+        deleteImageList = [];
         window.close();
       });
     </script>
