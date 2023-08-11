@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!--  <link rel="stylesheet" href="/css/qaList.css" />-->
-  <title>qaList</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/qaList.css" />
+    <title>qaList</title>
+  </head>
 
   <style>
     @font-face {
       font-family: 'Giants-Bold';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2')
+        format('woff2');
       font-weight: 700;
       font-style: normal;
     }
@@ -65,14 +65,14 @@
       line-height: 1.6;
     }
 
-  /* 타이틀 */
-  .qa-page h1 {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 36px;
-    color: #222;
-    border-bottom: 1px solid #ccc;
-  }
+    /* 타이틀 */
+    .qa-page h1 {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 36px;
+      color: #222;
+      border-bottom: 1px solid #ccc;
+    }
 
     /* 검색 */
     .search-sort-container {
@@ -83,39 +83,37 @@
       padding: 20px 0;
     }
 
-  form {
-    display: flex;
-    align-items: center;
-  }
+    form {
+      display: flex;
+      align-items: center;
+    }
 
-  label {
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-  }
+    label {
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
 
-  select,
-  input,
-  button {
-    font-size: 16px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    transition: all 0.3s;
-    outline: none;
-  }
+    select,
+    input,
+    button {
+      font-size: 16px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      transition: all 0.3s;
+      outline: none;
+    }
 
-  input[type='text']::-webkit-input-placeholder {
-    color: #bbb;
-  }
+    input[type='text']::-webkit-input-placeholder {
+      color: #bbb;
+    }
 
-  select:hover,
-  input:hover,
-  button:hover {
-    background-color: #ddd;
-  }
-
-
+    select:hover,
+    input:hover,
+    button:hover {
+      background-color: #ddd;
+    }
 
     /* 카드 */
     .card-container {
@@ -131,31 +129,31 @@
       padding: 30px 0;
     }
 
-  .card {
-    position: relative;
-    overflow: hidden;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
+    .card {
+      position: relative;
+      overflow: hidden;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
 
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-  }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
 
-  .card-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+    .card-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     .card-content {
       font-size: 16px;
@@ -165,7 +163,6 @@
       text-align: justify;
       text-justify: inter-word;
     }
-
 
     .card-view {
       font-size: 14px;
@@ -179,22 +176,20 @@
       margin-bottom: 5px;
     }
 
+    .card-info span {
+      font-weight: bold;
+    }
 
-  .card-info span {
-    font-weight: bold;
-  }
-
-  .card-status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 20px;
-    color: #fff;
-  }
-
+    .card-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: #fff;
+    }
 
     .card-info-container {
       display: flex;
@@ -265,132 +260,153 @@
     }
   </style>
 
+  <div class="qa-page">
+    <h1 class="title">질문 게시판</h1>
 
-    <div class="qa-page">
-      <h1 class="title">질문 게시판</h1>
+    <div class="search-sort-container fade-in">
+      <form th:action="@{/post-list}" method="get" autocomplete="on">
+        <label for="searchType">검색 종류:</label>
+        <select id="searchType" name="searchType" th:value="${searchType}">
+          <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+            닉네임으로 검색
+          </option>
+          <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+            제목으로 검색
+          </option>
+        </select>
+        <input
+          type="text"
+          id="searchValue"
+          name="searchValue"
+          placeholder="검색어를 입력하세요"
+          th:value="${searchValue}"
+        />
+        <button type="submit">검색</button>
+      </form>
+      <button class="write-btn" id="postwritebtn">게시글 쓰기</button>
+    </div>
 
-      <div class="search-sort-container fade-in">
-        <form th:action="@{/post-list}" method="get" autocomplete="on">
-          <label for="searchType">검색 종류:</label>
-          <select id="searchType" name="searchType" th:value="${searchType}">
-            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
-              닉네임으로 검색
-            </option>
-            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
-              제목으로 검색
-            </option>
-          </select>
-          <input
-            type="text"
-            id="searchValue"
-            name="searchValue"
-            placeholder="검색어를 입력하세요"
-            th:value="${searchValue}"
-          />
-          <button type="submit">검색</button>
-        </form>
-        <button class="write-btn" id="postwritebtn">게시글 쓰기</button>
+    <div class="answer-sort">
+      <div class="check_wrap">
+        <input type="checkbox" id="check_btn" th:checked="${answered}" />
+        <label for="check_btn"><span>답변완료된 글만 보기</span></label>
       </div>
 
-      <div class="answer-sort">
-        <div class="check_wrap">
-          <input type="checkbox" id="check_btn" th:checked="${answered}" />
-          <label for="check_btn"><span>답변완료된 글만 보기</span></label>
-        </div>
-
-        <div class="sort-container fade-in">
-          <label for="sortSelect">정렬 기준:</label>
-          <select id="sortSelect" name="sort" th:value="${sortBy}">
-            <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
-              최신순
-            </option>
-            <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
-              오래된 순
-            </option>
-            <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 순</option>
-          </select>
-        </div>
+      <div class="sort-container fade-in">
+        <label for="sortSelect">정렬 기준:</label>
+        <select id="sortSelect" name="sort" th:value="${sortBy}">
+          <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
+            최신순
+          </option>
+          <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
+            오래된 순
+          </option>
+          <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 순</option>
+        </select>
       </div>
+    </div>
 
-      <div class="card-container fade-in">
-        <div
-          th:each="postDto : ${postDtoList}"
-          class="card"
-          th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
-        >
-          <h2 class="card-title" th:text="${postDto.title}"></h2>
-          <p class="card-content" th:text="${postDto.content}"></p>
+    <div class="card-container fade-in">
+      <div
+        th:each="postDto : ${postDtoList}"
+        class="card"
+        th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+      >
+        <h2 class="card-title" th:text="${postDto.title}"></h2>
+        <p class="card-content" th:text="${postDto.content}"></p>
 
-          <div class="card-info-container" style="display: flex">
-            <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
-            <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
-            <p class="card-date">
-              <span> | </span>
-              <span th:text="${postDto.enrollTime}"></span>
-            </p>
-            <div th:if="${postDto.answered}">
-              <span>답변 완료</span>
-            </div>
-            <div th:unless="${postDto.answered}">
-              <span>답변 대기 중</span>
-            </div>
+        <div class="card-info-container" style="display: flex">
+          <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
+          <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
+          <p class="card-date">
+            <span> | </span>
+            <span th:text="${postDto.enrollTime}"></span>
+          </p>
+          <div th:if="${postDto.answered}">
+            <span>답변 완료</span>
+          </div>
+          <div th:unless="${postDto.answered}">
+            <span>답변 대기 중</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<body>
-<div th:replace="~{layouts/header :: header}"></div>
+  <body>
+    <div th:replace="~{layouts/header :: header}"></div>
 
     <!--페이징 처리-->
     <div class="pagination-container">
-      <ul class="pagination"
-          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}">
-
+      <ul
+        class="pagination"
+        th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}"
+      >
         <li th:if="${start > 1}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<<'"></a>
-          <a th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}" th:text="'<<'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'<<'"
+          ></a>
+          <a
+            th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'<<'"
+          ></a>
         </li>
 
         <li th:if="${start > 1}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'<'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'<'"
+          ></a>
         </li>
 
-        <li th:each="page: ${#numbers.sequence(start, end)}"
-            th:class="${page == (pageNum + 1)} ? 'active' : ''">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="${page}"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:text="${page}"
-             th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"></a>
+        <li
+          th:each="page: ${#numbers.sequence(start, end)}"
+          th:class="${page == (pageNum + 1)} ? 'active' : ''"
+        >
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="${page}"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:text="${page}"
+            th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"
+          ></a>
         </li>
 
         <li th:if="${end < totalPages}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'>'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'>'"
+          ></a>
         </li>
 
         <li th:if="${end < totalPages}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>>'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>>'"></a>
+          <a
+            th:if="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'>>'"
+          ></a>
+          <a
+            th:unless="${searchType} != null and ${searchValue} != null"
+            th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
+            th:text="'>>'"
+          ></a>
         </li>
       </ul>
     </div>
@@ -398,10 +414,10 @@
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 
-<script>
-  function redirectToPost(postId) {
-    window.location.href = '/post/' + postId;
-  }
+  <script>
+    function redirectToPost(postId) {
+      window.location.href = '/post/' + postId;
+    }
 
     var postwritebtn = document.getElementById('postwritebtn'); //post글 수정 버튼
     postwritebtn.addEventListener('click', function () {
@@ -439,6 +455,5 @@
       // 새로운 URL로 페이지 이동
       window.location.href = newUrl;
     });
-
   </script>
 </html>
