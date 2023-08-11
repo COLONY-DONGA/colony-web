@@ -15,6 +15,7 @@
       <div class="container">
         <div class="answer-enroll">Answer Enroll</div>
         <form
+          id="answerEnrollForm"
           th:action="@{/answer/{postId}(postId=${postId})}"
           method="post"
           enctype="multipart/form-data"
@@ -49,11 +50,14 @@
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
+    <input type="hidden" class="getPostId" th:value="${postId}" />
+
     <script>
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
       let submitBtn = document.querySelector('.submit-btn');
       let cancelBtn = document.querySelector('.cancel-btn');
+      let getPostId = document.querySelector('.getPostId').value;
       let allSelectedFiles = [];
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
@@ -167,13 +171,42 @@
         img.src = src;
       }
 
-      submitBtn.addEventListener('click', () => {
-        let formData = new FormData(document.querySelector('form'));
-        document.querySelector('form').submit();
-        setTimeout(() => {
-          window.opener.location.reload();
-          window.close();
-        }, 50);
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('핸들러 진입');
+        let formData = new FormData(document.getElementById('answerEnrollForm'));
+
+        $.ajax({
+          url: `/answer/${getPostId}`,
+          type: 'POST',
+          enctype: 'multipart/form-data',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            if(response) {
+              console.log('답변 등록 완료');
+              window.opener.location.reload();
+              window.close();
+            }
+          },
+          error: function (err) {
+            console.error('오류 발생: ', err);
+            alert('게시물 수정에 실패했습니다. 다시 시도해주세요.');
+          },
+        });
+
+
+
+
+
+
+
+        // document.querySelector('form').submit();
+        // setTimeout(() => {
+        //   window.opener.location.reload();
+        //   window.close();
+        // }, 50);
       });
 
       cancelBtn.addEventListener('click', () => {
