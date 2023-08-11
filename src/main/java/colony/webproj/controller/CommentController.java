@@ -6,8 +6,10 @@ import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -24,24 +26,30 @@ public class CommentController {
      * 댓글 생성
      */
     @PostMapping("/comment/{answerId}")
-    public ResponseEntity<?> saveComment(@PathVariable("answerId") Long answerId,
+    public String saveComment(HttpServletRequest request,
+                                         @PathVariable("answerId") Long answerId,
                                          CommentFormDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        String refer = request.getHeader("Referer"); // 이전 url 주소
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
-        return ResponseEntity.ok(true);
+        return "redirect:" + refer;
     }
 
     /**
      * 대댓글 생성
      */
     @PostMapping("/comment/{answerId}/{commentId}")
-    public ResponseEntity<?> saveReComment(@PathVariable("answerId") Long answerId,
+    public String saveReComment(HttpServletRequest request,
+                                           @PathVariable("answerId") Long answerId,
                                            @PathVariable("commentId") Long commentId,
                                            CommentFormDto commentFormDto,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        log.info("컨틀롤러 진입");
+        String refer = request.getHeader("Referer"); // 이전 url 주소
+
         commentService.saveReComment(answerId, commentId, commentFormDto, principalDetails.getLoginId());
-        return ResponseEntity.ok(true);
+        return "redirect:" + refer;
+
     }
 
     /**
@@ -49,9 +57,12 @@ public class CommentController {
      * 대댓글 수정
      */
     @PostMapping("/edit-comment/{commentId}")
-    public ResponseEntity<?> updateCommentOrReComment(@PathVariable("commentId") Long commentId,
+    public String updateCommentOrReComment(HttpServletRequest request,
+                                                      @PathVariable("commentId") Long commentId,
                                                       @RequestBody CommentFormDto commentFormDto,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        String refer = request.getHeader("Referer"); // 이전 url 주소
+
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&
@@ -59,22 +70,27 @@ public class CommentController {
             throw new CustomException(ErrorCode.COMMENT_UPDATE_WRONG_ACCESS);
         }
         commentService.updateCommentOrRecomment(commentId, commentFormDto, principalDetails.getLoginId());
-        return ResponseEntity.ok(true);
+        return "redirect:" + refer;
+
     }
 
     /**
      * 댓글 삭제
      */
     @GetMapping("/delete-comment/{commentId}")
-    public ResponseEntity<?> deleteComment(@PathVariable("commentId") Long commentId,
+    public String deleteComment(HttpServletRequest request,
+                                           @PathVariable("commentId") Long commentId,
                                                       @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        String refer = request.getHeader("Referer"); // 이전 url 주소
+
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId))) {
             throw new CustomException(ErrorCode.COMMENT_DELETE_WRONG_ACCESS);
         }
         commentService.deleteComment(commentId);
-        return ResponseEntity.ok(true);
+        return "redirect:" + refer;
+
     }
 
 }
