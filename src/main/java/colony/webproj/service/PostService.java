@@ -178,6 +178,7 @@ public class PostService {
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .Answered(post.isAnswered())
+                .viewCount(post.getViewCount())
                 .imageDtoList(imageDtoList) //이미지
                 .build();
         return postDto;
