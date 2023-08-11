@@ -62,11 +62,21 @@
       let fileInput = document.getElementById("file-input");
       let fileList = document.getElementById("file-list");
       let cancelBtn = document.querySelector(".cancel-btn");
+      let allSelectedFiles = [];
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener("change", () => {
         // 선택된 파일들을 배열로 변환하여 변수에 저장
         let selectedFiles = Array.from(fileInput.files);
+        // 선택된 파일들을 전체 선택된 파일들 배열에 추가
+        allSelectedFiles = allSelectedFiles.concat(selectedFiles);
+
+        // 전체 선택된 파일 목록을 업데이트
+        const newFileList = new DataTransfer();
+        allSelectedFiles.forEach(file => {
+          newFileList.items.add(file);
+        });
+        fileInput.files = newFileList.files;
 
         // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
         selectedFiles.forEach(file => {
@@ -106,13 +116,13 @@
             listItem.remove();
 
             // 파일 input에서 해당 파일을 삭제
-            let fileIndex = selectedFiles.indexOf(file);
+            let fileIndex = allSelectedFiles.indexOf(file);
             if (fileIndex !== -1) {
-              selectedFiles.splice(fileIndex, 1);
+              allSelectedFiles.splice(fileIndex, 1);
 
-              // 파일 input의 값을 업데이트
+              // 전체 선택된 파일 목록을 파일 input의 값으로 업데이트
               const newFileList = new DataTransfer();
-              selectedFiles.forEach(file => {
+              allSelectedFiles.forEach(file => {
                 newFileList.items.add(file);
               });
               fileInput.files = newFileList.files;

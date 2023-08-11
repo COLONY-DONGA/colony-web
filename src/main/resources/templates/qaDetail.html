@@ -118,8 +118,8 @@
       <div class="likecount" id="like" th:id="'like-' + ${answer.answerId}" th:text="${answer.heartNum}">1</div>
       <div class="btn">
 
-        <button class="editbtn" id="Aeditbtn" th:data-answer-id="${answer.answerId}">수정</button>
-        <button class="deletebtn" id="Adeletebtn" th:data-answer-id="${answer.answerId}">삭제</button>
+        <button class="editbtn" id="Aeditbtn" th:data-answer-id1="${answer.answerId}">수정</button>
+        <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">삭제</button>
         <!--<a href="#" class="btn green rounded">Button</a>-->
       </div>
     </div>
@@ -192,194 +192,202 @@
 <div id="footer"></div>
 
 <script>
-  let userName = $('.member-nickname').val(); // 로그인 유저
-  let name = $('.post-writer-nickname').val(); // post 작성자
-  let postId = $('#postId').val(); //post아이디
-  console.log('userName: ' + userName);
-  console.log('Name: ' + name);
+  $(document).ready(function() {
+    let userName = $('.member-nickname').val(); // 로그인 유저
+    let name = $('.post-writer-nickname').val(); // post 작성자
+    let postId = $('#postId').val(); //post아이디
+    console.log('userName: ' + userName);
+    console.log('Name: ' + name);
 
-  var qabtn = document.getElementById('qabtn'); //답변등록 버튼
-  qabtn.addEventListener('click', function () {
-    window.open('/answer/' + postId, 'aEnroll');
-  });
-
-  var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
-  editbtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/edit-post/' + postId;
-    console.log("수정버튼");
-  });
-
-  var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
-  deletebtn.addEventListener('click', function () {
-    location.href = 'http://localhost:8080/delete-post/' + postId;
-    console.log("삭제버튼");
-  });
-
-  var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-  answereditbtn.addEventListener('click', function () {
-    var answerId = this.getAttribute('data-answer-id');
-    location.href = '/edit-answer/' + postId + '/' + answerId
-    console.log("answer editbtn");
-  });
-
-  var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-  answerdeletebtn.addEventListener('click', function () {
-    var answerId = this.getAttribute('data-answer-id');
-    location.href = '/delete-answer/' + postId + '/' + answerId;
-    console.log("answer deletebtn");
-  });
-
-  if (userName != name || userName === '') {
-    console.log('css 숨기는 로직');
-    editbtn.style.display = 'none';
-    deletebtn.style.display = 'none';
-    //관리자일때도 권한 추가
-    // if (userName === 'admin') {
-    //   //관리자 이름을 어떻게 받더라....
-    //   editbtn.style.display = 'block';
-    //   deletebtn.style.display = 'block';
-    // }
-  }
-
-  // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
-  const replyButtons = document.querySelectorAll('.reply-button');
-  replyButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      // data-answer-id 속성 값을 가져옴
-      const commentId = this.getAttribute('data-comment-id');
-      console.log(commentId);
-
-      const recommentElement = document.querySelector('#recomment-' + commentId);
-
-      if (recommentElement.style.display === 'none') {
-        recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
-      } else {
-        recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
-      }
+    var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+    qabtn.addEventListener('click', function () {
+      window.open('/answer/' + postId, 'aEnroll');
     });
-  });
 
-  // 각 하트 버튼에 클릭 이벤트 리스너 추가
-  const heartButtons = document.querySelectorAll('.heart-button');
-  heartButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      // data-answer-id 속성 값을 가져옴
-      const answerId = this.getAttribute('data-answer-id');
-      console.log(answerId);
+    var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+    console.log(editbtn);
+    editbtn.addEventListener('click', function () {
+      location.href = '/edit-post/' + postId;
+      console.log("수정버튼");
+    });
 
-      // json 형식으로 ajax 요청을 보냅니다.
-      $.ajax({
-        type: 'POST',
-        url: '/heart/' + answerId,
-        contentType: 'application/json',
-        data: JSON.stringify({ answerId: answerId, userName: userName }),
-        success: function (response) {
-          //likeCountElement
-          const likeCountElement = document.querySelector('#like-' + answerId);
-          // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-          if(response) {
-            likeCountElement.textContent++;
-          } else{
-            likeCountElement.textContent--;
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error('Error:', status, error);
-        },
+    var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
+    deletebtn.addEventListener('click', function () {
+      location.href = '/delete-post/' + postId;
+      console.log("삭제버튼");
+    });
+
+    var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+    if(answereditbtn != null) {
+      answereditbtn.addEventListener('click', function () {
+        var answerId = this.getAttribute('data-answer-id1');
+        location.href = '/edit-answer/' + postId + '/' + answerId
+        console.log("answer editbtn");
+      });
+    }
+
+    var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
+    if(answerdeletebtn != null) {
+      answerdeletebtn.addEventListener('click', function () {
+        var answerId = this.getAttribute('data-answer-id2');
+        location.href = '/delete-answer/' + postId + '/' + answerId;
+        console.log("answer deletebtn");
+      });
+    }
+
+    if (userName != name || userName === '') {
+      console.log('css 숨기는 로직');
+      editbtn.style.display = 'none';
+      deletebtn.style.display = 'none';
+      //관리자일때도 권한 추가
+      // if (userName === 'admin') {
+      //   //관리자 이름을 어떻게 받더라....
+      //   editbtn.style.display = 'block';
+      //   deletebtn.style.display = 'block';
+      // }
+    }
+
+    // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
+    const replyButtons = document.querySelectorAll('.reply-button');
+    replyButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        // data-answer-id 속성 값을 가져옴
+        const commentId = this.getAttribute('data-comment-id');
+        console.log(commentId);
+
+        const recommentElement = document.querySelector('#recomment-' + commentId);
+
+        if (recommentElement.style.display === 'none') {
+          recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+        } else {
+          recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
+        }
       });
     });
-  });
 
-  //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+    // 각 하트 버튼에 클릭 이벤트 리스너 추가
+    const heartButtons = document.querySelectorAll('.heart-button');
+    heartButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        // data-answer-id 속성 값을 가져옴
+        const answerId = this.getAttribute('data-answer-id');
+        console.log(answerId);
 
-  // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-  window.addEventListener('load', function () {
-    adjustQuestionAreaHeight();
-  });
+        // json 형식으로 ajax 요청을 보냅니다.
+        $.ajax({
+          type: 'POST',
+          url: '/heart/' + answerId,
+          contentType: 'application/json',
+          data: JSON.stringify({ answerId: answerId, userName: userName }),
+          success: function (response) {
+            //likeCountElement
+            const likeCountElement = document.querySelector('#like-' + answerId);
+            // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+            if(response) {
+              likeCountElement.textContent++;
+            } else{
+              likeCountElement.textContent--;
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', status, error);
+          },
+        });
+      });
+    });
 
-  // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-  window.addEventListener('resize', function () {
-    adjustQuestionAreaHeight();
-  });
+    //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
-  // 요소의 높이를 조정하는 함수
-  function adjustQuestionAreaHeight() {
-    var qBox = document.getElementById('q-box');
-    var questionArea = document.getElementById('question-area');
-    var maxHeight = qBox.offsetHeight;
-    questionArea.style.height = maxHeight + 'px';
-  }
+    // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+    window.addEventListener('load', function () {
+      adjustQuestionAreaHeight();
+    });
 
-  // answer-area css부분
-  document.addEventListener('DOMContentLoaded', function () {
-    const answerAreas = document.querySelectorAll('.answer-area');
-    for (const answerArea of answerAreas) {
-      adjustAnswerAreaHeight(answerArea);
+    // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+    window.addEventListener('resize', function () {
+      adjustQuestionAreaHeight();
+    });
+
+    // 요소의 높이를 조정하는 함수
+    function adjustQuestionAreaHeight() {
+      var qBox = document.getElementById('q-box');
+      var questionArea = document.getElementById('question-area');
+      var maxHeight = qBox.offsetHeight;
+      questionArea.style.height = maxHeight + 'px';
     }
-  });
 
-  // answer-area의 높이를 자동으로 조절하는 함수
-  function adjustAnswerAreaHeight(element) {
-    element.style.height = 'auto'; // 높이 초기화
-  }
-
-  function addNewCommentEventListeners(commentItem) {
-    const replyButton = commentItem.querySelector('.fa-reply');
-    replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
-    replyButton.addEventListener('click', onClickAddReplyButton);
-
-    // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
-    const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
-    replyWriteBtn.forEach((button) => {
-      button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
-      button.addEventListener('click', onReplyWriteButtonClick);
-    });
-  }
-
-  function onReplyWriteButtonClick(event) {
-    const button = event.target.closest('.reply-write-btn');
-    if (!button) return;
-
-    const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
-            .dataset.commentIndex;
-    const commentItem = button.closest('li');
-    const replyList = commentItem.closest('ul.reply-list');
-
-    const inputReply = replyList.querySelector('.inputReply');
-    const newReplyText = inputReply.value;
-
-    commentsData[commentIndex]['replies'].push({
-      name: '사용자',
-      content: newReplyText,
+    // answer-area css부분
+    document.addEventListener('DOMContentLoaded', function () {
+      const answerAreas = document.querySelectorAll('.answer-area');
+      for (const answerArea of answerAreas) {
+        adjustAnswerAreaHeight(answerArea);
+      }
     });
 
-    addComments();
-  }
-
-  function addReplyButtonClickHandler() {
-    const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
-    replyButtons.forEach((button) => {
-      button.removeEventListener('click', onClickAddReplyButton);
-      button.addEventListener('click', onClickAddReplyButton);
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    addComments();
-    addReplyButtonClickHandler();
-  });
-
-  const writeButton = document.getElementById('add-comment-button');
-  writeButton.addEventListener('click', onWriteButtonClick);
-
-  const commentsList = document.getElementById('comments-list');
-  commentsList.addEventListener('click', (event) => {
-    if (event.target.matches('.fa-reply')) {
-      onClickAddReplyButton(event);
-    } else if (event.target.matches('.reply-write-btn')) {
-      onReplyWriteButtonClick(event);
+    // answer-area의 높이를 자동으로 조절하는 함수
+    function adjustAnswerAreaHeight(element) {
+      element.style.height = 'auto'; // 높이 초기화
     }
-  });
+
+    function addNewCommentEventListeners(commentItem) {
+      const replyButton = commentItem.querySelector('.fa-reply');
+      replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
+      replyButton.addEventListener('click', onClickAddReplyButton);
+
+      // 대댓글 작성 버튼에 대한 이벤트 리스너를 추가합니다.
+      const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
+      replyWriteBtn.forEach((button) => {
+        button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
+        button.addEventListener('click', onReplyWriteButtonClick);
+      });
+    }
+
+    function onReplyWriteButtonClick(event) {
+      const button = event.target.closest('.reply-write-btn');
+      if (!button) return;
+
+      const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
+              .dataset.commentIndex;
+      const commentItem = button.closest('li');
+      const replyList = commentItem.closest('ul.reply-list');
+
+      const inputReply = replyList.querySelector('.inputReply');
+      const newReplyText = inputReply.value;
+
+      commentsData[commentIndex]['replies'].push({
+        name: '사용자',
+        content: newReplyText,
+      });
+
+      addComments();
+    }
+
+    function addReplyButtonClickHandler() {
+      const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
+      replyButtons.forEach((button) => {
+        button.removeEventListener('click', onClickAddReplyButton);
+        button.addEventListener('click', onClickAddReplyButton);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      addComments();
+      addReplyButtonClickHandler();
+    });
+
+    const writeButton = document.getElementById('add-comment-button');
+    writeButton.addEventListener('click', onWriteButtonClick);
+
+    const commentsList = document.getElementById('comments-list');
+    commentsList.addEventListener('click', (event) => {
+      if (event.target.matches('.fa-reply')) {
+        onClickAddReplyButton(event);
+      } else if (event.target.matches('.reply-write-btn')) {
+        onReplyWriteButtonClick(event);
+      }
+    });
+  })
+
 </script>
 
 <div th:replace="~{layouts/footer :: footer}"></div>
