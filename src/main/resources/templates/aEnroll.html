@@ -171,7 +171,7 @@
         let formData = new FormData(document.querySelector('form'));
         document.querySelector('form').submit();
         setTimeout(() => {
-          window.opener.location.reload();
+          window.opener.parent.location.reload();
           window.close();
         }, 50);
       });

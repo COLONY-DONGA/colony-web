@@ -240,7 +240,7 @@
           success: function (response) {
             console.log('수정 완료');
             setTimeout(() => {
-              window.opener.location.reload();
+              window.opener.parent.location.reload();
               window.close();
             }, 50);
           },
