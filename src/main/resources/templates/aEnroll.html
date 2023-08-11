@@ -22,7 +22,12 @@
           <div class="enroll-form">
             <div class="content-box">
               <label for="content">Content</label>
-              <textarea id="content" name="content" placeholder="답변을 입력하세요"></textarea>
+              <textarea
+                id="content"
+                name="content"
+                placeholder="답변을 입력하세요"
+                required
+              ></textarea>
             </div>
             <div class="image-box">
               <input
@@ -171,7 +176,7 @@
         let formData = new FormData(document.querySelector('form'));
         document.querySelector('form').submit();
         setTimeout(() => {
-          window.opener.location.reload();
+          window.opener.parent.location.reload();
           window.close();
         }, 50);
       });
