@@ -11,46 +11,47 @@
 <body>
 <div th:replace="~{layouts/header :: header}"></div>
 
-<div class="frame">
-  <div class="container">
-    <div class="answer-modify">Answer Modify</div>
-    <form
-            id="answerEditForm"
-            th:action="@{/edit-answer/{postId}/{answerId}(postId=${postId},answerId=${answerId})}"
-            method="post"
-            enctype="multipart/form-data"
-    >
-      <div class="modify-form">
-        <div class="content-box">
-          <label for="content">Content</label>
-          <textarea
-                  id="content"
-                  name="content"
-                  th:text="${answerDto.content}"
-                  placeholder="질문을 입력하세요"
-          ></textarea>
-        </div>
-        <div class="old-image-box">
-          <div class="old-image-1">Old Image</div>
-          <div class="old-image-2">
-            <ul class="old-image-3"></ul>
-          </div>
-          <input type="hidden" id="deleteImageList" name="deleteImageList" />
-        </div>
-        <div class="image-box">
-          <input
-                  type="file"
-                  id="file-input"
-                  name="imageList"
-                  accept="image/jpeg, image/png"
-                  style="display: none"
-                  multiple
-          />
-          <label for="file-input" class="input-imageList">📁Add file</label>
-          <div id="file-list-box">
-            <ul id="file-list"></ul>
-          </div>
-        </div>
+    <div class="frame">
+      <div class="container">
+        <div class="answer-modify">Answer Modify</div>
+        <form
+          id="answerEditForm"
+          th:action="@{/edit-answer/{postId}/{answerId}(postId=${postId},answerId=${answerId})}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="modify-form">
+            <div class="content-box">
+              <label for="content">Content</label>
+              <textarea
+                id="content"
+                name="content"
+                th:text="${answerDto.content}"
+                placeholder="질문을 입력하세요"
+                required
+              ></textarea>
+            </div>
+            <div class="old-image-box">
+              <div class="old-image-1">Old Image</div>
+              <div class="old-image-2">
+                <ul class="old-image-3"></ul>
+              </div>
+              <input type="hidden" id="deleteImageList" name="deleteImageList" />
+            </div>
+            <div class="image-box">
+              <input
+                type="file"
+                id="file-input"
+                name="imageList"
+                accept="image/jpeg, image/png"
+                style="display: none"
+                multiple
+              />
+              <label for="file-input" class="input-imageList">📁Add file</label>
+              <div id="file-list-box">
+                <ul id="file-list"></ul>
+              </div>
+            </div>
       </div>
       <div class="button-group">
         <button type="submit" class="submit-btn">Modify</button>
@@ -62,8 +63,8 @@
 
 <div th:replace="~{layouts/footer :: footer}"></div>
 
-<input type="hidden" class="getPostId" th:value="${postDto.postId}" />
-<input type="hidden" class="getAnswerId" th:value="${answerDto.answerId}" />
+    <input type="hidden" class="getPostId" th:value="${postDto.postId}" />
+    <input type="hidden" class="getAnswerId" th:value="${answerDto.answerId}" />
 
 <script th:inline="javascript">
   /*<![CDATA[*/

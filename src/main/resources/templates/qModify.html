@@ -29,6 +29,7 @@
                 name="title"
                 th:value="${postFormDto.title}"
                 placeholder="제목을 입력하세요"
+                required
               />
             </div>
             <div class="content-box">
@@ -38,6 +39,7 @@
                 name="content"
                 th:text="${postFormDto.content}"
                 placeholder="질문을 입력하세요"
+                required
               ></textarea>
             </div>
             <div class="old-image-box">

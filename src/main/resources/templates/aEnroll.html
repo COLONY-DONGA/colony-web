@@ -23,7 +23,12 @@
           <div class="enroll-form">
             <div class="content-box">
               <label for="content">Content</label>
-              <textarea id="content" name="content" placeholder="답변을 입력하세요"></textarea>
+              <textarea
+                id="content"
+                name="content"
+                placeholder="답변을 입력하세요"
+                required
+              ></textarea>
             </div>
             <div class="image-box">
               <input
@@ -195,18 +200,6 @@
             alert('게시물 수정에 실패했습니다. 다시 시도해주세요.');
           },
         });
-
-
-
-
-
-
-
-        // document.querySelector('form').submit();
-        // setTimeout(() => {
-        //   window.opener.location.reload();
-        //   window.close();
-        // }, 50);
       });
 
       cancelBtn.addEventListener('click', () => {
