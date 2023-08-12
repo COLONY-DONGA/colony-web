@@ -37,11 +37,17 @@
         <div class="q-head">
           <div class="question-title" th:text="${postDto.title}">title</div>
           <div class="question-info">
+            <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+            <!--조회수--><span th:text="${postDto.viewCount}">조회수</span>
+
+            <span class="small-line"> </span>
             <i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
             <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
               >작성자</span
             >
-            <span class="small-line"> | </span>
+            <span class="small-line"> </span>
+
+            <i class="fa-regular fa-clock"></i>
             <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
           </div>
 
@@ -122,8 +128,8 @@
 
                 <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
 
-                <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-                <!--조회수--><span th:text="${postDto.viewCount}">조회수</span>
+                <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+                <span th:text="${postDto.viewCount}">조회수</span>-->
 
                 <span class="time">
                   <i class="fa-regular fa-clock"></i>
@@ -231,7 +237,8 @@
                         <div class="inputframe">
                           <br />
                           <h5>
-                            New Comment : <input type="text" class="input-text" name="content" />
+                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                            <input type="text" class="reply-input-text" name="content" />
                           </h5>
                           <button class="new-comment-btn">
                             <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
