@@ -38,7 +38,7 @@
           <div class="question-title" th:text="${postDto.title}">title</div>
           <div class="question-info">
             <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-            <!--조회수--><span th:text="${postDto.viewCount}">조회수</span>
+            <span th:text="${postDto.viewCount}"></span> <!--조회수-->
 
             <span class="small-line"> </span>
             <i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
@@ -121,8 +121,9 @@
             <span class="small-line"> | </span>
             <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
               <div class="answer-data-box">
+                <i class="fa-solid fa-face-laugh-squint" style="color: Green;  margin-left:1rem"></i>
                 <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-                  ><i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
+                  >
                   작성자</span
                 >
 
@@ -194,8 +195,21 @@
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
+<!--                      <form class="edit-comment-form"-->
+<!--                            method="post"-->
+<!--                            th:action="">&lt;!&ndash;새댓글 수정버튼 타임리프 필요!!!&ndash;&gt;-->
+<!--                        <i class="fa fa-pencil" aria-hidden="true"></i>-->
+<!--                      </form>-->
+<!--                      <form class="delete-comment-form"-->
+<!--                            method="post"-->
+<!--                            th:action="">&lt;!&ndash;새댓글 삭제버튼 타임리프 필요!!!&ndash;&gt;-->
+<!--                      <i class="fa fa-trash" aria-hidden="true"></i>-->
+<!--                      </form>-->
+
                       <i class="fa fa-pencil" aria-hidden="true"></i>
                       <i class="fa fa-trash" aria-hidden="true"></i>
+
+
                     </div>
                     <div class="comment-content" th:text="${comment.content}">
                       This is the main comment content.
@@ -234,7 +248,7 @@
                         th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
                         method="post"
                       >
-                        <div class="inputframe">
+                        <div class="reply-inputframe">
                           <br />
                           <h5>
                             <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
@@ -320,16 +334,26 @@
           });
         }
 
-        if (userName != name || userName === '') {
+        if (userName != name || userName === '') { //게시글 수정 삭제 권한부여
           console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
           deletebtn.style.display = 'none';
-
           //관리자일때도 권한 추가
           // if (userName === 'admin') {
           //   //관리자 이름을 어떻게 받더라....
           //   editbtn.style.display = 'block';
           //   deletebtn.style.display = 'block';
+          // }
+        }
+
+        if (userName = answerName || userName ===''){ //답변 수정 삭제 권한부여
+          answereditbtn.style.display = 'none';
+          answerdeletebtn.style.display = 'none';
+          //관리자일때도 권한 추가
+          // if (userName === 'admin') {
+          //   //관리자 이름을 어떻게 받더라....
+          //   answereditbtn.style.display = 'block';
+          //   answerdeletebtn.style.display = 'block';
           // }
         }
 
@@ -598,8 +622,30 @@
       //     }
       //   });
       // });
-    </script>
 
+      //댓글 수정 기능 아직 미완성.. 어떻게 해야하징
+      const replyName = document.querySelector('');
+
+
+      //댓글 삭제 기능
+      document.addEventListener('DOMContentLoaded', function () {
+        const commentDeleteForms = document.querySelectorAll('.delete-comment-form');
+        // const replyWriteButton = document.querySelectorAll('.reply-write-btn');
+
+        commentDeleteForms.forEach((form) => {
+          form.addEventListener('submit', function (event) {
+            event.preventDefault(); //잠시 폼제출 막기
+            const confirmDelete = confirm('정말 삭제하시겠습니까?');
+            if (confirmDelete) {
+              this.submit(); // 문구를 띄운 후, 확인되면 form 제출하기
+            }
+            window.location.reload();
+          })
+        });
+      });
+
+
+    </script>
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>

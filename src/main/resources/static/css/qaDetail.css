@@ -662,7 +662,7 @@ ul {
 }
 
 .question-info-writer {
-  font-weight: 200;
+  font-weight: 300;
   font-style: rgb(120, 116, 116) (36, 35, 35);
 }
 
@@ -753,10 +753,9 @@ ul {
   font-size: 0.9rem;
 }
 .answer-info-writer {
-  font-weight: 200;
+  font-weight: 300;
   font-size: 0.9rem;
   margin-right: 1rem;
-  margin-left: 0.5rem;
 }
 
 .answer-info-date {
@@ -903,6 +902,22 @@ ul {
   border-width: 1px;
   border-color: rgb(215, 212, 212);
 }
+
+
 .reply-input-text:focus {
   border-color: #71e049; /* 요소가 클릭되어 포커스가 맞춰졌을 때 테두리 색을 변경 */
+}
+
+.reply-inputframe{
+  background-color: #fffefec0;
+  height: 5rem;
+  margin: 1rem auto;
+  width: 41rem;
+
+  /* border-radius: 0.2rem;
+  border: 1px solid #89e888; */
+
+  display: flex;
+
+  align-items: center; /* 세로로 중앙 정렬 */
 }
