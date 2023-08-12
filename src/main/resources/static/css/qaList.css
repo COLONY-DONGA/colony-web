@@ -362,7 +362,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 3.5rem;
+  min-width: 4rem;
   height: 1.5rem;
   vertical-align: middle;
   border-radius: 30px;
@@ -470,4 +470,9 @@
 .pagination li i {
   margin-top: -1px;
   font-weight: bold;
+}
+/* 나중에 생각 ㄱㄱ */
+body {
+  margin: 0;
+  padding: 0;
 }
