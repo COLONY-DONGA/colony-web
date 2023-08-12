@@ -1,74 +1,288 @@
-.qa-item-content {
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
+@font-face {
+  font-family: 'Giants-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
-.qa-question {
+
+.qa-page {
+  font-family: 'NanumSquare', sans-serif;
+  margin: 5%;
+  padding: 0;
+  color: #404040;
+  line-height: 1.6;
+  border: 1px solid #93bfa9;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 15rem 30px 15rem;
+}
+
+.qa-page .title {
+  font-family: 'Giants-Bold', sans-serif;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 36px;
+  color: #222;
+  border-bottom: 1px solid #6b9275;
+}
+
+.qa-page form {
+  display: flex;
+  align-items: center;
+}
+
+.qa-page label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.qa-page select,
+.qa-page input {
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.qa-page button {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #93bfa9;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.qa-page input[type='text']::-webkit-input-placeholder {
+  color: #bbb;
+}
+
+.qa-page select:hover,
+.qa-page input:hover {
+  background-color: #ddd;
+}
+
+.qa-page button:hover {
+  background-color: #6b9275;
+}
+
+/* 체크 박스 */
+
+.qa-page input#check_btn {
+  display: none; /* input 숨겨준다 */
+}
+
+.qa-page input#check_btn + label {
+  cursor: pointer;
+}
+
+.qa-page input#check_btn + label > span {
+  vertical-align: middle;
+  padding-left: 5px;
+}
+
+/* label:before에 체크하기 전 상태 CSS */
+.qa-page #check_btn + label:before {
+  content: '';
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #f47c7c;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+/* label:before에 체크 된 상태 CSS */
+.qa-page input#check_btn:checked + label:before {
+  content: '';
+  background-color: #f47c7c;
+  border-color: #f47c7c;
+  background-image: url('check_btn.png');
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+/* 검색 */
+
+.search-sort-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* 답변 완료 & 정렬 */
+
+.answer-sort {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 답변 완료 */
+
+.check_wrap {
+  position: relative;
+}
+
+/* 정렬 */
+
+.sort-container {
+  position: relative;
+}
+
+/* 카드 */
+
+.card-item {
+  max-width: 800px;
+  margin: 0 auto 0 auto;
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.card-item:not(:last-child) {
+  border-bottom: 2px solid #eee;
+}
+
+.card-item:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-info {
+  padding: 20px 0 10px 0;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-state-yes,
+.card-state-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+  border-radius: 30px;
+  color: white;
+  font-weight: 900;
+  font-size: 14px;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin: auto 0;
+}
+
+.card-state-yes {
+  border: 1px solid limegreen;
+  background-color: limegreen;
+}
+
+.card-state-no {
+  border: 1px solid lightgray;
+  background-color: lightgray;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-content {
+  color: #666;
+  line-height: 1.6;
+  font-size: 16px;
+  margin-bottom: 20px;
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-author-date {
+  font-size: 0.9em;
+  color: #999;
+}
+
+.card-view-answer {
+  font-size: 14px;
+  color: #555;
+  margin-left: auto;
+}
+
+.card-view-answer span {
+  margin-right: 1rem;
+}
+
+/* 페이징 */
+
+.pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  display: inline-block;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination li a {
+  color: #333;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #93bfa9;
+  margin: 0 4px;
+  border-radius: 5px;
   font-weight: bold;
 }
-.qa-answer {
-  margin-top: 5px;
+
+.pagination li a:hover {
+  background-color: #6b9275;
 }
-.qa-date {
-  color: gray;
-  font-style: italic;
-  margin-top: 5px;
+
+.pagination li.active a {
+  background-color: #6b9275;
+  color: white;
+  border: 1px solid #6b9275;
 }
-.dropdown {
-  position: relative;
-  display: inline-block;
+
+.pagination li.disabled a {
+  pointer-events: none;
+  color: #aaa;
 }
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropbtn {
-  align-items: center;
-  background-color: #00a629;
-  border-radius: 0.6rem;
-  color: #ffffff;
-  display: flex;
-  flex-shrink: 0;
-  font-family: Nunito Sans, 'Source Sans Pro';
-  font-size: 0.8rem;
-  font-weight: 600;
-  height: 3rem;
-  justify-content: center;
-  line-height: 1.3625;
-  margin-bottom: 1.45rem;
-  white-space: nowrap;
-  width: 3rem;
-  height: 2rem;
-  margin-top: 1rem;
-}
-.select1 {
-  align-items: center;
-  background-color: #000000;
-  border-radius: 0.6rem;
-  color: #ffffff;
-  flex-shrink: 0;
-  font-family: Nunito Sans, 'Source Sans Pro';
-  font-size: 0.8rem;
-  font-weight: 600;
-  height: 3rem;
-  justify-content: center;
-  line-height: 1.3625;
-  margin-bottom: 1.45rem;
-  white-space: nowrap;
-  width: 4rem;
-  height: 2rem;
-  margin-top: 1rem;
+
+.pagination li i {
+  margin-top: -1px;
+  font-weight: bold;
 }
