@@ -471,3 +471,8 @@
   margin-top: -1px;
   font-weight: bold;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
