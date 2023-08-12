@@ -21,7 +21,8 @@
   margin-bottom: 20px;
 }
 
-.enroll-form {
+.enroll-form,
+.modify-form {
   display: flex;
   flex-direction: column;
 }

@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +48,8 @@ public class AnswerController {
      * 답변 생성
      */
     @PostMapping("/answer/{postId}")
-    public String saveAnswer(@PathVariable("postId") Long postId,
+    @ResponseBody
+    public ResponseEntity<?> saveAnswer(@PathVariable("postId") Long postId,
                              @Valid AnswerFormDto answerFormDto,
                              BindingResult bindingResult,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -55,12 +57,11 @@ public class AnswerController {
         log.info("답변 생성 컨트롤러 진입");
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", answerFormDto);
-            return "aEnroll";
+            new CustomException(ErrorCode.ANSWER_NO_REQUIRED_VALUE);
         }
         answerService.saveAnswer(postId, principalDetails.getLoginId(), answerFormDto);
 
-        return "redirect:/post/" + postId;
+        return ResponseEntity.ok(true);
     }
 
     /**
@@ -83,7 +84,7 @@ public class AnswerController {
 
         //답변 정보
         AnswerDto answerDto = answerService.findAnswerDetail(answerId);
-        model.addAttribute(answerDto);
+        model.addAttribute("answerDto", answerDto);
 
         return "aModify";
     }
@@ -93,19 +94,18 @@ public class AnswerController {
      * 게시글 상세로 리다이렉트
      */
     @PostMapping("/edit-answer/{postId}/{answerId}")
-    public String editAnswer(@PathVariable("answerId") Long answerId,
-                             @PathVariable("postId") Long postId,
-                             @Valid AnswerUpdateFormDto answerUpdateFormDto,
-                             BindingResult bindingResult,
-                             @AuthenticationPrincipal PrincipalDetails principalDetails,
-                             Model model) throws IOException {
+    public ResponseEntity editAnswer(@PathVariable("answerId") Long answerId,
+                                     @PathVariable("postId") Long postId,
+                                     @Valid AnswerUpdateFormDto answerUpdateFormDto,
+                                     BindingResult bindingResult,
+                                     @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                     Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("answerFormDto", answerUpdateFormDto);
-            return "aEnroll";
+            throw new CustomException(ErrorCode.ANSWER_NO_REQUIRED_VALUE);
         }
         answerService.updateAnswer(answerId, answerUpdateFormDto);
-        return "redirect:/post/" + postId; //답변 수정한 질문 페이지로 이동
+        return ResponseEntity.ok(true);
     }
 
     /**
