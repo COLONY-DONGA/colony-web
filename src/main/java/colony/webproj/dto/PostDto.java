@@ -1,9 +1,7 @@
 package colony.webproj.dto;
 
-import colony.webproj.entity.Post;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +21,7 @@ public class PostDto {
     private String enrollTime; // 현재로부터 등록된 날
     private LocalDateTime updatedAt; //수정일
     private Boolean Answered; //답변 유무
+    private Long answerCount;
     private List<ImageDto> imageDtoList; // 사진
 
     //댓글과 답변은 따로 modelAttribute 해줌
@@ -42,7 +41,7 @@ public class PostDto {
      * postList 에 사용
      */
     @QueryProjection
-    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered, Integer viewCount) {
+    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered, Integer viewCount, Long answerCount) {
         this.postId = id;
         this.title = title;
         this.content = content;
@@ -50,20 +49,21 @@ public class PostDto {
         this.createdAt = createdAt;
         this.Answered = answered;
         this.viewCount = viewCount;
+        this.answerCount = answerCount;
     }
 
-    /**
-     * Post객체를 PostDto로 변환하기 위한 함수
-     */
-    public static PostDto from(Post entity) {
-        return new PostDto(
-                entity.getId(),
-                entity.getTitle(),
-                entity.getContent(),
-                null, //에러떠서 null 로 넣어둠.
-                entity.getCreatedAt(),
-                entity.getUpdatedAt(),
-                entity.isAnswered()
-        );
-    }
+//    /**
+//     * Post객체를 PostDto로 변환하기 위한 함수
+//     */
+//    public static PostDto from(Post entity) {
+//        return new PostDto(
+//                entity.getId(),
+//                entity.getTitle(),
+//                entity.getContent(),
+//                null, //에러떠서 null 로 넣어둠.
+//                entity.getCreatedAt(),
+//                entity.getUpdatedAt(),
+//                entity.isAnswered()
+//        );
+//    }
 }
