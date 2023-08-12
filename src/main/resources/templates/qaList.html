@@ -5,18 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/qaList.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
     <title>qaList</title>
   </head>
 
   <body>
-    <div th:replace="~{layouts/header :: header}"></div>
+    <!-- <div th:replace="~{layouts/header :: header}"></div> -->
 
+    <!-- 배너  -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">콜로니 웹 사이트 오픈!🎉</h2>
+              <h2 class="firstBanner_sub_title">모르는게 있다면 자유롭게 질문을 남겨보세요</h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">9월7일 콜로니 종강총회</h2>
+              <h2 class="firstBanner_sub_title">장소: 꽃다지 입장비: 10000원</h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">졸업한 선배의 이야기가 궁금하다면?</h2>
+              <h2 class="firstBanner_sub_title">
+                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글 폼을 통해
+                신청해주세요
+              </h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 질문 목록  -->
     <div class="qa-page">
-      <h1 class="title">질문 게시판</h1>
       <!-- 검색 -->
       <div class="search-sort-container fade-in">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
-          <label for="searchType">검색 종류:</label>
+          <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
             <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
               닉네임으로 검색
@@ -45,8 +117,9 @@
         </div>
         <!-- 정렬 -->
         <div class="sort-container fade-in">
-          <label for="sortSelect">정렬 기준:</label>
+          <label for="sortSelect"></label>
           <select id="sortSelect" name="sort" th:value="${sortBy}">
+            <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
             <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
               최신순
             </option>
@@ -169,7 +242,7 @@
       </div>
     </div>
 
-    <div th:replace="~{layouts/footer :: footer}"></div>
+    <!-- <div th:replace="~{layouts/footer :: footer}"></div> -->
 
     <script>
       function redirectToPost(postId) {
@@ -182,7 +255,8 @@
         console.log('post글쓰기 btn');
       });
 
-      document.getElementById('sortSelect').addEventListener('change', function () {
+      document.getElementById('sortSelect').addEventListener('change', function (event) {
+        if (event.target.value === '정렬 기준') return;
         var selectedValue = this.value;
         var searchValue = document.getElementById('searchValue').value;
         var searchType = document.getElementById('searchType').value;
