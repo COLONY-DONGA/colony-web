@@ -28,6 +28,8 @@
   margin-right: 10px;
 }
 
+/* 수정 중 */
+
 .qa-page select,
 .qa-page input {
   font-size: 16px;
@@ -65,7 +67,7 @@
   background-color: #6b9275;
 }
 
-/* 체크 박스 */
+/* Checkbox */
 
 .qa-page input#check_btn {
   display: none;
@@ -73,6 +75,8 @@
 
 .qa-page input#check_btn + label {
   cursor: pointer;
+  font-size: 16px;
+  color: #555;
 }
 
 .qa-page input#check_btn + label > span {
@@ -85,18 +89,20 @@
   display: inline-block;
   width: 17px;
   height: 17px;
-  border: 2px solid #f47c7c;
+  border: 2px solid #32cd32;
   border-radius: 4px;
   vertical-align: middle;
+  transition: all 0.3s;
 }
 
 .qa-page input#check_btn:checked + label:before {
   content: '';
-  background-color: #f47c7c;
-  border-color: #f47c7c;
+  background-color: #32cd32;
+  border-color: #32cd32;
   background-image: url('check_btn.png');
   background-repeat: no-repeat;
   background-position: 50%;
+  box-shadow: 0 0 5px rgba(50, 205, 50, 0.5);
 }
 
 /* 부트스트랩 */
@@ -297,7 +303,7 @@
 
 /* 검색 */
 
-.search-sort-container {
+.search-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -307,7 +313,7 @@
 
 /* 답변 완료 & 정렬 */
 
-.answer-sort {
+.answer-sort-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -318,7 +324,7 @@
 
 /* 답변 완료 */
 
-.check_wrap {
+.answer-container {
   position: relative;
 }
 
@@ -331,12 +337,13 @@
 /* 카드 */
 
 .card-item {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto 0 auto;
   background-color: white;
   overflow: hidden;
   padding: 0 20px;
   border-top: 2px solid #eee;
+  cursor: pointer;
 }
 
 .card-item:last-child {

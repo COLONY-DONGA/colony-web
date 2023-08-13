@@ -86,7 +86,7 @@
     <!-- 질문 목록  -->
     <div class="qa-page">
       <!-- 검색 -->
-      <div class="search-sort-container fade-in">
+      <div class="search-container">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
           <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
@@ -106,17 +106,17 @@
           />
           <button type="submit">검색</button>
         </form>
-        <button class="write-btn" id="postwritebtn">게시글 쓰기</button>
+        <button class="write-btn" id="postwritebtn">질문 등록</button>
       </div>
       <!-- 답변 완료 & 정렬 -->
-      <div class="answer-sort">
+      <div class="answer-sort-container">
         <!-- 답변 완료 -->
-        <div class="check_wrap">
+        <div class="answer-container">
           <input type="checkbox" id="check_btn" th:checked="${answered}" />
           <label for="check_btn"><span>답변 완료된 글만 보기</span></label>
         </div>
         <!-- 정렬 -->
-        <div class="sort-container fade-in">
+        <div class="sort-container">
           <label for="sortSelect"></label>
           <select id="sortSelect" name="sort" th:value="${sortBy}">
             <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
@@ -131,7 +131,7 @@
         </div>
       </div>
       <!-- 카드 -->
-      <div class="card-container fade-in">
+      <div class="card-container">
         <div
           th:each="postDto : ${postDtoList}"
           class="card-item"
