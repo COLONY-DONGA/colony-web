@@ -454,3 +454,8 @@ transform: translateY(100%);
 .form.sign-in {
   width: 20rem;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}

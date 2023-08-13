@@ -12,7 +12,6 @@
   padding: 0;
   color: #404040;
   line-height: 1.6;
-  border: 1px solid #93bfa9;
   border-radius: 10px;
   padding: 20px;
   margin: 0 15rem 30px 15rem;
@@ -104,7 +103,7 @@
 
 .carousel-indicators {
   position: absolute;
-  top: 23.25rem;
+  top: 22.5rem;
   right: 0;
   left: 0;
   z-index: 9999;
@@ -471,7 +470,7 @@
   margin-top: -1px;
   font-weight: bold;
 }
-/* 나중에 생각 ㄱㄱ */
+
 body {
   margin: 0;
   padding: 0;

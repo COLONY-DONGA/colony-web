@@ -13,7 +13,7 @@
   height: 6rem;
   background-color: white;
   margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #d3d3d3;
   z-index: 100;
 }
 header {
@@ -116,7 +116,7 @@ header nav ul li:last-child::after {
   right: 0;
 }
 body {
-  padding-top: 100px;
+  padding-top: 6rem;
 }
 .notification-container {
   position: absolute;
