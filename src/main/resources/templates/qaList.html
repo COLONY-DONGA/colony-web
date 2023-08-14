@@ -104,12 +104,11 @@
             placeholder="검색어를 입력하세요"
             th:value="${searchValue}"
           />
-          <button type="submit">검색</button>
+          <button class="searchBtn" type="submit">검색</button>
         </form>
-        <button class="write-btn" id="postwritebtn">질문 등록</button>
       </div>
-      <!-- 답변 완료 & 정렬 -->
-      <div class="answer-sort-container">
+      <!-- 답변 완료 & 정렬 & 질문 등록 -->
+      <div class="answer-sort-enroll-container">
         <!-- 답변 완료 -->
         <div class="answer-container">
           <input type="checkbox" id="check_btn" th:checked="${answered}" />
@@ -129,6 +128,8 @@
             <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 순</option>
           </select>
         </div>
+        <!-- 질문 등록 -->
+        <button class="enroll-btn" id="postwritebtn">질문 등록</button>
       </div>
       <!-- 카드 -->
       <div class="card-container">
@@ -147,9 +148,7 @@
               </div>
               <div class="card-title" th:text="${postDto.title}"></div>
             </div>
-
             <p class="card-content" th:text="${postDto.content}"></p>
-
             <div class="card-footer">
               <p class="card-author-date">
                 <span th:text="${postDto.createdBy}"></span>

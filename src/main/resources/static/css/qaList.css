@@ -30,7 +30,7 @@
 
 /* 수정 중 */
 
-.qa-page select,
+/* .qa-page select,
 .qa-page input {
   font-size: 16px;
   padding: 8px 12px;
@@ -65,7 +65,7 @@
 
 .qa-page button:hover {
   background-color: #6b9275;
-}
+} */
 
 /* Checkbox */
 
@@ -309,11 +309,45 @@
   align-items: center;
   width: 100%;
   padding: 20px 0;
+  margin-top: -1rem;
 }
 
-/* 답변 완료 & 정렬 */
+#searchType {
+  font-family: 'NanumSquare', sans-serif;
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #1dc078;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline: none;
+}
 
-.answer-sort-container {
+#searchValue {
+  font-family: 'NanumSquare', sans-serif;
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #1dc078;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline: none;
+  margin: 0 0.5rem 0 0.5rem;
+}
+
+.searchBtn {
+  font-family: 'NanumSquare', sans-serif;
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #1dc078;
+  background-color: white;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 답변 완료 & 정렬 & 질문 등록 */
+
+.answer-sort-enroll-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -326,12 +360,44 @@
 
 .answer-container {
   position: relative;
+  margin-top: 1rem;
 }
 
 /* 정렬 */
 
 .sort-container {
   position: relative;
+  margin: 0 0 0.5rem 36.5rem;
+}
+
+#sortSelect {
+  font-family: 'NanumSquare', sans-serif;
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #1dc078;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline: none;
+}
+
+/* 질문 등록 */
+
+.enroll-btn {
+  background-color: rgba(111, 225, 92, 0.9);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 10px 20px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.enroll-btn:hover {
+  background-color: rgba(78, 162, 63, 0.9);
+  transform: scale(1.1);
 }
 
 /* 카드 */
@@ -434,7 +500,7 @@
 
 .pagination-container {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 3rem;
 }
 
 .pagination {
