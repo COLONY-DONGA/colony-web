@@ -46,7 +46,7 @@ public class PostController {
     public String postList(@RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
-                           @RequestParam(defaultValue = "createdAtDesc") String sortBy, //정렬기준
+                           @RequestParam(required = false) String sortBy, //정렬기준
                            @PageableDefault(size = 10) Pageable pageable,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) {

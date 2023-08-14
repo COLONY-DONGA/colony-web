@@ -62,7 +62,7 @@ public class CommentService {
             );
             notificationService.send(notification);
             if(answer.getMember().getEmailAlarm()) {
-                emailService.sendMail(answer.getMember(), content, url);
+                emailService.sendMail(answer.getMember(), content, url, notification.getNotificationType());
             }
         }
 
@@ -99,7 +99,7 @@ public class CommentService {
             );
             notificationService.send(notification);
             if(answer.getMember().getEmailAlarm()) {
-                emailService.sendMail(answer.getMember(), content, url);
+                emailService.sendMail(answer.getMember(), content, url, notification.getNotificationType());
             }
         }
         return commentRepository.save(childComment).getId();

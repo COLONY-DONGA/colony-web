@@ -4,6 +4,7 @@ import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostManageDto;
 import colony.webproj.dto.QPostDto;
 import colony.webproj.dto.QPostManageDto;
+import colony.webproj.entity.QAnswer;
 import colony.webproj.entity.QMember;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.Expression;
@@ -12,6 +13,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
         LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
+        QAnswer answer = new QAnswer("answer");
         List<PostDto> result = queryFactory
                 .select(new QPostDto(
                         post.id,
@@ -44,7 +47,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         member.nickname,
                         post.createdAt,
                         post.answered,
-                        post.viewCount
+                        post.viewCount,
+                        JPAExpressions.select(answer.count())
+                                .from(answer)
+                                .where(answer.post.eq(post))
                 ))
                 .from(post)
                 .join(post.member, member)

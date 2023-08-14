@@ -92,7 +92,7 @@ public class AnswerService {
             );
             notificationService.send(notification);
             if(post.getMember().getEmailAlarm()) {
-                emailService.sendMail(post.getMember(), content, url);
+                emailService.sendMail(post.getMember(), content, url, notification.getNotificationType());
             }
         }
 
