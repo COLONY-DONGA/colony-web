@@ -90,6 +90,7 @@ public class AnswerService {
             Notification notification = notificationRepository.save(
                     notificationService.createNotification(post.getMember(), NotificationType.ANSWER, content, url)
             );
+            log.info("답변 알람 repo 에 저장");
             notificationService.send(notification);
             if(post.getMember().getEmailAlarm()) {
                 emailService.sendMail(post.getMember(), content, url, notification.getNotificationType());
