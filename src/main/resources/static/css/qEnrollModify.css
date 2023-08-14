@@ -8,7 +8,6 @@
 .container {
   width: 65rem;
   padding: 20px;
-  border: 1px solid #93bfa9;
   border-radius: 10px;
 }
 
@@ -21,7 +20,8 @@
   margin-bottom: 20px;
 }
 
-.enroll-form {
+.enroll-form,
+.modify-form {
   display: flex;
   flex-direction: column;
 }
@@ -212,4 +212,9 @@
 .cancel-btn:hover {
   background-color: rgba(172, 5, 5, 0.7);
   transform: scale(1.1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }

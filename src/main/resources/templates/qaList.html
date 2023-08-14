@@ -5,275 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/qaList.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
     <title>qaList</title>
   </head>
-
-  <style>
-    @font-face {
-      font-family: 'Giants-Bold';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
-      font-weight: 700;
-      font-style: normal;
-    }
-
-    .pagination-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .pagination {
-      display: inline-block;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-    .pagination li {
-      display: inline;
-    }
-    .pagination li a {
-      color: #333;
-      padding: 8px 16px;
-      text-decoration: none;
-      border: 1px solid #ddd;
-      margin: 0 4px;
-    }
-    .pagination li a:hover {
-      background-color: gray;
-    }
-    .pagination li.active a {
-      background-color: black;
-      color: white;
-      border: 1px solid black;
-    }
-    .pagination li.disabled a {
-      pointer-events: none;
-      color: #aaa;
-    }
-    .pagination li i {
-      margin-top: -1px;
-    }
-
-    .title {
-      font-family: 'Giants-Bold', sans-serif;
-    }
-    .qa-page {
-      font-family: 'NanumSquare', sans-serif;
-      background-color: #fbfbfb;
-      margin: 5%;
-      padding: 0;
-      color: #404040;
-      line-height: 1.6;
-    }
-
-    /* 타이틀 */
-    .qa-page h1 {
-      text-align: center;
-      padding: 20px 0;
-      font-size: 36px;
-      color: #222;
-      border-bottom: 1px solid #ccc;
-    }
-
-    /* 검색 */
-    .search-sort-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      padding: 20px 0;
-    }
-
-    form {
-      display: flex;
-      align-items: center;
-    }
-
-    label {
-      font-size: 18px;
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
-    select,
-    input,
-    button {
-      font-size: 16px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 12px;
-      transition: all 0.3s;
-      outline: none;
-    }
-
-    input[type='text']::-webkit-input-placeholder {
-      color: #bbb;
-    }
-
-    select:hover,
-    input:hover,
-    button:hover {
-      background-color: #ddd;
-    }
-
-    /* 카드 */
-    .card-container {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      /*text-align: center;*/
-      justify-content: center;
-      gap: 30px;
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 30px 0;
-    }
-
-    .card {
-      position: relative;
-      overflow: hidden;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-title {
-      font-size: 24px;
-      font-weight: bold;
-      color: #222;
-      margin-bottom: 10px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .card-content {
-      font-size: 16px;
-      margin-bottom: 20px;
-      height: 30px;
-      overflow: hidden;
-      text-align: justify;
-      text-justify: inter-word;
-    }
-
-    .card-author {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
-
-    .card-view {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
-
-    .card-date {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 5px;
-    }
-
-    .card-info span {
-      font-weight: bold;
-    }
-
-    .card-status {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      padding: 5px 10px;
-      border-radius: 20px;
-      color: #fff;
-    }
-
-    .card-info-container {
-      display: flex;
-      align-items: center; /* 아이템들을 수직 가운데 정렬 */
-      gap: 10px; /* 아이템들 사이의 간격 설정 */
-    }
-
-    .card-info-container p,
-    .card-info-container div {
-      margin: 0; /* 기본 마진 제거 */
-    }
-
-    .card-date {
-      margin-left: auto; /* Created At 부분을 오른쪽으로 이동 */
-    }
-
-    /*체크박스 css*/
-    /* input 숨겨준다 */
-    input#check_btn {
-      display: none;
-    }
-
-    input#check_btn + label {
-      cursor: pointer;
-    }
-
-    input#check_btn + label > span {
-      vertical-align: middle;
-      padding-left: 5px;
-    }
-
-    /* label:before에 체크하기 전 상태 CSS */
-    input#check_btn + label:before {
-      content: '';
-      display: inline-block;
-      width: 17px;
-      height: 17px;
-      border: 2px solid #f47c7c;
-      border-radius: 4px;
-      vertical-align: middle;
-    }
-
-    /* label:before에 체크 된 상태 CSS */
-    input#check_btn:checked + label:before {
-      content: '';
-      background-color: #f47c7c;
-      border-color: #f47c7c;
-      background-image: url('check_btn.png');
-      background-repeat: no-repeat;
-      background-position: 50%;
-    }
-
-    .answer-sort {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .check_wrap {
-      position: relative;
-    }
-
-    .sort-container {
-      position: relative;
-    }
-  </style>
 
   <body>
     <div th:replace="~{layouts/header :: header}"></div>
 
+    <!-- 배너  -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">콜로니 웹 사이트 오픈!🎉</h2>
+              <h2 class="firstBanner_sub_title">모르는게 있다면 자유롭게 질문을 남겨보세요</h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">9월7일 콜로니 종강총회</h2>
+              <h2 class="firstBanner_sub_title">장소: 꽃다지 입장비: 10000원</h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="firstBanner_container">
+            <div class="firstBanner_left">
+              <button class="firstBanner_button">Notice</button>
+              <h2 class="firstBanner_title">졸업한 선배의 이야기가 궁금하다면?</h2>
+              <h2 class="firstBanner_sub_title">
+                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글 폼을 통해
+                신청해주세요
+              </h2>
+            </div>
+            <div class="firstBanner_right">
+              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 질문 목록  -->
     <div class="qa-page">
-      <h1 class="title">질문 게시판</h1>
-
-      <div class="search-sort-container fade-in">
+      <!-- 검색 -->
+      <div class="search-container">
         <form th:action="@{/post-list}" method="get" autocomplete="on">
-          <label for="searchType">검색 종류:</label>
+          <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
             <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
               닉네임으로 검색
@@ -291,18 +106,20 @@
           />
           <button type="submit">검색</button>
         </form>
-        <button class="write-btn" id="postwritebtn">게시글 쓰기</button>
+        <button class="write-btn" id="postwritebtn">질문 등록</button>
       </div>
-
-      <div class="answer-sort">
-        <div class="check_wrap">
+      <!-- 답변 완료 & 정렬 -->
+      <div class="answer-sort-container">
+        <!-- 답변 완료 -->
+        <div class="answer-container">
           <input type="checkbox" id="check_btn" th:checked="${answered}" />
-          <label for="check_btn"><span>답변완료된 글만 보기</span></label>
+          <label for="check_btn"><span>답변 완료된 글만 보기</span></label>
         </div>
-
-        <div class="sort-container fade-in">
-          <label for="sortSelect">정렬 기준:</label>
+        <!-- 정렬 -->
+        <div class="sort-container">
+          <label for="sortSelect"></label>
           <select id="sortSelect" name="sort" th:value="${sortBy}">
+            <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
             <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
               최신순
             </option>
@@ -313,130 +130,162 @@
           </select>
         </div>
       </div>
-
-      <div class="card-container fade-in">
+      <!-- 카드 -->
+      <div class="card-container">
         <div
           th:each="postDto : ${postDtoList}"
-          class="card"
+          class="card-item"
           th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
         >
-          <h2 class="card-title" th:text="${postDto.title}"></h2>
-          <p class="card-content" th:text="${postDto.content}"></p>
-
-          <div class="card-info-container" style="display: flex">
-            <p class="card-author">작성자: <span th:text="${postDto.createdBy}"></span></p>
-            <p class="card-view">조회수: <span th:text="${postDto.viewCount}"></span></p>
-            <p class="card-date">
-              <span> | </span>
-              <span th:text="${postDto.enrollTime}"></span>
-            </p>
-            <div th:if="${postDto.answered}">
-              <span>답변 완료</span>
+          <div class="card-info">
+            <div class="card-header">
+              <div class="card-state-yes" th:if="${postDto.answered}">
+                <div>답변 완료</div>
+              </div>
+              <div class="card-state-no" th:unless="${postDto.answered}">
+                <div>답변 대기</div>
+              </div>
+              <div class="card-title" th:text="${postDto.title}"></div>
             </div>
-            <div th:unless="${postDto.answered}">
-              <span>답변 대기 중</span>
+
+            <p class="card-content" th:text="${postDto.content}"></p>
+
+            <div class="card-footer">
+              <p class="card-author-date">
+                <span th:text="${postDto.createdBy}"></span>
+                <span>|</span>
+                <span th:text="${postDto.enrollTime}"></span>
+              </p>
+              <p class="card-view-answer">
+                <i class="fa-regular fa-eye"></i>
+                <span th:text="${postDto.viewCount}"></span>
+                <i class="fa-regular fa-comment"></i>
+                <span th:text="${postDto.answerCount}"></span>
+              </p>
             </div>
           </div>
         </div>
       </div>
+      <!-- 페이징 -->
+      <div class="pagination-container">
+        <ul
+          class="pagination"
+          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}"
+        >
+          <li th:if="${start > 1}">
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
+            ></a>
+            <a
+              th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
+            ></a>
+          </li>
+
+          <li th:if="${start > 1}">
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<'"
+            ></a>
+            <a
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<'"
+            ></a>
+          </li>
+
+          <li
+            th:each="page: ${#numbers.sequence(start, end)}"
+            th:class="${page == (pageNum + 1)} ? 'active' : ''"
+          >
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="${page}"
+            ></a>
+            <a
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:text="${page}"
+              th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"
+            ></a>
+          </li>
+
+          <li th:if="${end < totalPages}">
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
+            ></a>
+            <a
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
+            ></a>
+          </li>
+
+          <li th:if="${end < totalPages}">
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
+            ></a>
+            <a
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
+            ></a>
+          </li>
+        </ul>
+      </div>
     </div>
-
-    <!--페이징 처리-->
-    <div class="pagination-container">
-      <ul class="pagination"
-          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}">
-
-        <li th:if="${start > 1}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<<'"></a>
-          <a th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}" th:text="'<<'"></a>
-        </li>
-
-        <li th:if="${start > 1}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'<'"></a>
-        </li>
-
-        <li th:each="page: ${#numbers.sequence(start, end)}"
-            th:class="${page == (pageNum + 1)} ? 'active' : ''">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="${page}"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:text="${page}"
-             th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"></a>
-        </li>
-
-        <li th:if="${end < totalPages}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>'"></a>
-        </li>
-
-        <li th:if="${end < totalPages}">
-          <a th:if="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>>'"></a>
-          <a th:unless="${searchType} != null and ${searchValue} != null"
-             th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
-             th:text="'>>'"></a>
-        </li>
-      </ul>
-    </div>
-
 
     <div th:replace="~{layouts/footer :: footer}"></div>
-  </body>
 
-  <script>
-    function redirectToPost(postId) {
-      window.location.href = '/post/' + postId;
-    }
-
-    var postwritebtn = document.getElementById('postwritebtn'); //post글 수정 버튼
-    postwritebtn.addEventListener('click', function () {
-      location.href = '/post-form';
-      console.log('post글쓰기 btn');
-    });
-
-    document.getElementById('sortSelect').addEventListener('change', function () {
-      var selectedValue = this.value;
-      var searchValue = document.getElementById('searchValue').value;
-      var searchType = document.getElementById('searchType').value;
-      window.location.href =
-        '/post-list?sortBy=' +
-        selectedValue +
-        '&searchType=' +
-        searchType +
-        '&searchValue=' +
-        searchValue;
-    });
-
-    const checkbox = document.getElementById('check_btn');
-    // 체크 박스 상태 변경 시 이벤트 핸들러 등록
-    checkbox.addEventListener('change', function () {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      if (this.checked) {
-        urlParams.set('answered', 'true');
-      } else {
-        urlParams.delete('answered');
+    <script>
+      function redirectToPost(postId) {
+        window.location.href = '/post/' + postId;
       }
 
-      // 변경된 파라미터로 새로운 URL 생성
-      const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+      var postwritebtn = document.getElementById('postwritebtn');
+      postwritebtn.addEventListener('click', function () {
+        location.href = '/post-form';
+        console.log('post글쓰기 btn');
+      });
 
-      // 새로운 URL로 페이지 이동
-      window.location.href = newUrl;
-    });
+      document.getElementById('sortSelect').addEventListener('change', function (event) {
+        if (event.target.value === '정렬 기준') return;
+        var selectedValue = this.value;
+        var searchValue = document.getElementById('searchValue').value;
+        var searchType = document.getElementById('searchType').value;
+        window.location.href =
+          '/post-list?sortBy=' +
+          selectedValue +
+          '&searchType=' +
+          searchType +
+          '&searchValue=' +
+          searchValue;
+      });
 
-  </script>
+      const checkbox = document.getElementById('check_btn');
+      // 체크 박스 상태 변경 시 이벤트 핸들러 등록
+      checkbox.addEventListener('change', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (this.checked) {
+          urlParams.set('answered', 'true');
+        } else {
+          urlParams.delete('answered');
+        }
+
+        // 변경된 파라미터로 새로운 URL 생성
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+        // 새로운 URL로 페이지 이동
+        window.location.href = newUrl;
+      });
+    </script>
+  </body>
 </html>

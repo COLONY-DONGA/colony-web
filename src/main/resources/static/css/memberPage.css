@@ -1,11 +1,8 @@
 .my-profile {
-  border: 1px solid #93bfa9;
-  border-radius: 10px;
   padding: 20px;
   margin: 0 15rem 30px 15rem;
   font-family: 'NanumSquare', sans-serif;
 }
-.my-profile,
 .my-profile-item,
 .my-history-item {
   border: 1px solid #93bfa9;
@@ -82,13 +79,13 @@
   color: #ffffff;
 }
 .item-btn-1 {
-  top: 32.5rem;
-  right: 28.5rem;
+  top: 31.5rem;
+  right: 28rem;
   background-color: rgba(111, 225, 92, 0.9);
 }
 .item-btn-2 {
-  top: 32.5rem;
-  right: 18rem;
+  top: 31.5rem;
+  right: 17.5rem;
   background-color: rgba(253, 23, 23, 0.7);
 }
 .item-btn-1:hover {
@@ -263,4 +260,8 @@
 }
 .like-count {
   font-size: 14px;
+}
+body {
+  margin: 0;
+  padding: 0;
 }
