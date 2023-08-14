@@ -46,7 +46,7 @@ public class PostService {
      */
     public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
         Page<PostDto> resultPage =
-                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null) ? "createdAtDesc" : sortBy, pageable);
+                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable);
 
         List<PostDto> resultList = resultPage.getContent();
         for (PostDto postDto : resultList) {
