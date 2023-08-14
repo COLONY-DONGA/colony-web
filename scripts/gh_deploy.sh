@@ -35,3 +35,5 @@ nohup java -jar $DEPLOY_JAR >> $APPLICATION_LOG_PATH 2> $DEPLOY_ERR_LOG_PATH &
 sleep 3
 
 echo "> 배포 종료 : $(date +%c)" >> $DEPLOY_LOG_PATH
+
+# nohup java -jar web-proj-0.0.1-SNAPSHOT.jar >> application.log 2 > deploy_err.log &
