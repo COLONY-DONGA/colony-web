@@ -528,24 +528,22 @@
 
       //댓글 수정 삭제 기능 권한 부여!!!
 
-      //댓글 수정 기능
-      document //댓글 삭제 기능 //대댓글 수정 기능
-        .addEventListener('DOMContentLoaded', function () {
-          const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
+      document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 
-          deleteButtons.forEach((button) => {
-            button.addEventListener('click', function () {
-              const form = this.closest('.delete-comment-form');
+        deleteButtons.forEach((button) => {
+          button.addEventListener('click', function () {
+            const form = this.closest('.delete-comment-form');
 
-              if (form) {
-                const confirmDelete = confirm('정말 삭제하시겠습니까?');
-                if (confirmDelete) {
-                  form.submit();
-                }
+            if (form) {
+              const confirmDelete = confirm('정말 삭제하시겠습니까?');
+              if (confirmDelete) {
+                form.submit();
               }
-            });
+            }
           });
         });
+      });
 
       //대댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
