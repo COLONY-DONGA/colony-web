@@ -198,11 +198,14 @@
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
-                      <!--                                            <form class="edit-comment-form"-->
-                      <!--                                                  method="post"-->
-                      <!--                                                  th:action="">&lt;!&ndash;새댓글 수정버튼 타임리프 필요!!!&ndash;&gt;-->
-                      <!--                                              <i class="fa fa-pencil" aria-hidden="true"></i>-->
-                      <!--                                            </form>-->
+                      <!-- 유진 수정 폼 -->
+                      <form
+                        class="edit-comment-form"
+                        method="post"
+                        th:action="@{'/edit-comment/' + ${comment.commentId}}"
+                      >
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      </form>
                       <form
                         class="delete-comment-form"
                         method="get"
@@ -526,26 +529,23 @@
       //댓글 수정 삭제 기능 권한 부여!!!
 
       //댓글 수정 기능
+      document.document //댓글 삭제 기능 //대댓글 수정 기능
+        .addEventListener('DOMContentLoaded', function () {
+          const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 
-      //대댓글 수정 기능
+          deleteButtons.forEach((button) => {
+            button.addEventListener('click', function () {
+              const form = this.closest('.delete-comment-form');
 
-      //댓글 삭제 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
-
-        deleteButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            const form = this.closest('.delete-comment-form');
-
-            if (form) {
-              const confirmDelete = confirm('정말 삭제하시겠습니까?');
-              if (confirmDelete) {
-                form.submit();
+              if (form) {
+                const confirmDelete = confirm('정말 삭제하시겠습니까?');
+                if (confirmDelete) {
+                  form.submit();
+                }
               }
-            }
+            });
           });
         });
-      });
 
       //대댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
