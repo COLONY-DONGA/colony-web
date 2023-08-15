@@ -200,14 +200,14 @@
                       ></i>
                                             <form class="edit-comment-form"
                                                   method="post"
-                                                  th:action=" "><!--새댓글 수정버튼 타임리프 필요!!!-->
+                                                  th:action=""><!--새댓글 수정버튼 타임리프 필요!!!-->
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </form>
                                             <form class="delete-comment-form"
                                                   method="post"
-                                                  th:action=" "><!--새댓글 삭제버튼 타임리프 필요!!!-->
+                                                  th:action=""><!--새댓글 삭제버튼 타임리프 필요!!!-->
                                             <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </form> <!--댓글 수정 삭제 폼 부분-->
+                                            </form>
 
 <!--                      <i class="fa fa-pencil" aria-hidden="true"></i>-->
 <!--                      <i class="fa fa-trash" aria-hidden="true"></i>-->
@@ -216,6 +216,12 @@
                       This is the main comment content.
                     </div>
 
+                    <!--수정된 부분 댓글 수정 파트!!!!!!!!!!-->
+<!--                    <form id="edit-comment-{commentId}" style="display: none;">-->
+<!--                      <input type="text" name="updatedContent" value="updatedContent" />-->
+<!--                      <button type="submit">수정 제출</button>-->
+<!--                      <button type="button" class="cancel-edit-comment">취소</button>-->
+<!--                    </form>-->
                     <ul
                       class="comments-list reply-list"
                       th:each="recomment, status : ${comment.childList}"
@@ -235,16 +241,12 @@
                             This is a reply to the main comment.
                           </div>
 
-                          <form class="edit-reply-form"
-                                method="post"
-                                th:action=" "><!--대댓글 수정버튼 타임리프 필요!!!-->
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                          </form>
-                          <form class="delete-reply-form"
-                                method="post"
-                                th:action=" "><!--대댓글 삭제버튼 타임리프 필요!!!-->
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                          </form> <!--댓글 수정 삭제 폼 부분-->
+                          <!--수정된 부분 대댓글 수정 파트!!!!!-->
+<!--                          <form id="edit-reply-{replyId}" style="display: none;">-->
+<!--                            <input type="text" name="updatedContent" value="updatedContent" />-->
+<!--                            <button type="submit">수정 제출</button>-->
+<!--                            <button type="button" class="cancel-edit-reply">취소</button>-->
+<!--                          </form>-->
 
                         </div>
                       </li>
@@ -519,7 +521,9 @@
 
       //댓글 수정 삭제 기능 권한 부여!!!
 
-      //대댓글 수정 기능 하는중
+
+
+      //대댓글 수정 기능
 
 
       //댓글 삭제 기능
@@ -550,6 +554,11 @@
           window.location.reload(); // 선택 사항: 대댓글 삭제 후 페이지를 새로고침할 수 있습니다.
         });
       });
+
+
+
+
+
     </script>
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
