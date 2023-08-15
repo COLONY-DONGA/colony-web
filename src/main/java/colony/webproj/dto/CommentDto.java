@@ -21,6 +21,7 @@ public class CommentDto {
     private Long commentId;
     private String content;
     private String createdBy;
+    private Boolean isRemoved; //삭제 됐는지
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long parentId;
@@ -54,6 +55,7 @@ public class CommentDto {
         this.createdAt = comment.getCreatedAt();
         this.updatedAt = comment.getUpdatedAt();
         this.createdBy = comment.getMember().getNickname();
+        this.isRemoved = comment.isRemoved();
 
         //자식 comment Dto 변환
         this.childList = comment.getChildList().stream()
