@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    @Query("select n from Notification n where n.receiver.id = :memberId")
+    @Query("select n from Notification n where n.receiver.id = :memberId order by n.createdAt desc")
     List<Notification> findAllByMemberId(@Param("memberId") Long memberId);
 
     @Query("select count(n) from Notification n where n.receiver.id = :memberId and n.isRead = false")

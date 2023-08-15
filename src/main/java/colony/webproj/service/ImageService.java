@@ -35,7 +35,6 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final AmazonS3Client amazonS3Client;
 
-
     @Value("${file.dir}")
     private String fileDir;
 

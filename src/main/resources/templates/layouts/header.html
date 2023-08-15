@@ -84,11 +84,19 @@
       }
 
       $(document).ready(function () {
+        // updateNotificationBadge();
+
         if (isLoggedIn) {
           console.log('알람 구독 로직 시작');
           updateNotificationBadge();
 
           const source = new EventSource('/subscribe');
+
+          // 사용자가 페이지를 떠날 때 SSE 구독 취소
+          window.addEventListener('beforeunload', () => {
+            console.log('구독 취소')
+            source.close();
+          });
 
           source.onmessage = function (event) {
             const data = event.data;
