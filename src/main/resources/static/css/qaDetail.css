@@ -529,10 +529,10 @@ ul {
   background: #fff;
   padding: 12px;
   font-size: 15px;
-  color: #595959;
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
+}
+
+.deleted-comment {
+  color: gray;
 }
 
 .comment-box .comment-name.by-author,

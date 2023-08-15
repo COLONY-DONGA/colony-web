@@ -18,7 +18,11 @@
 </head>
 
 <body>
-<!--  로그인 유저 닉네임-->
+<!-- answer 작성자 정보 저장 -->
+<input type="hidden" id="answer-writer" th:data-answer-writer="${answer.createdBy}" />
+<!-- comment 작성자 정보 저장 -->
+<input type="hidden" id="comment-writer" th:data-comment-writer="${comment.createdBy}" />
+
 <div>
   <input class="member-nickname" th:value="${loginUser}" style="display: none" />
 </div>
@@ -56,10 +60,7 @@
       <br />
       <div class="horizontal-line"></div>
 
-      <!--<tr class="article-info">
-      <th>날짜</th>
-      <td th:text="${postDto.updatedAt}">date</td>
-    </tr> -->
+
 
       <!--내용칸-->
     </div>
@@ -117,10 +118,10 @@
       <div class="a-head">
         <div class="answer-info">
           <!--<span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-          >작성자</span
-        >
-        <span class="small-line"> | </span>
-        <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
+      >작성자</span
+    >
+    <span class="small-line"> | </span>
+    <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
           <div class="answer-data-box">
             <i
                     class="fa-solid fa-face-laugh-squint"
@@ -133,7 +134,7 @@
             <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
 
             <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-            <span th:text="${postDto.viewCount}">조회수</span>-->
+        <span th:text="${postDto.viewCount}">조회수</span>-->
 
             <span class="time">
                   <i class="fa-regular fa-clock"></i>
@@ -211,7 +212,12 @@
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </form>
                 </div>
-                <div class="comment-content" th:text="${comment.content}">
+
+                <div
+                        class="comment-content"
+                        th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
+                        th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
+                >
                   This is the main comment content.
                 </div>
 
@@ -238,7 +244,7 @@
                         <form
                                 class="delete-reply-form"
                                 method="get"
-                                th:action="@{'/delete-comment/' + ${comment.commentId}}"
+                                th:action="@{'/delete-comment/' + ${recomment.commentId}}"
                         >
                           <i class="fa fa-trash" aria-hidden="true"></i>
                         </form>
@@ -316,8 +322,11 @@
     let userName = $('.member-nickname').val(); // 로그인 유저
     let name = $('.post-writer-nickname').val(); // post 작성자
     let postId = $('#postId').val(); //post아이디
+    let answerWriter = $('#answer-writer').val();
+    let commentWriter = $('#comment-name').val();
     console.log('userName: ' + userName);
     console.log('Name: ' + name);
+
 
     var qabtn = document.getElementById('qabtn'); //답변등록 버튼
     qabtn.addEventListener('click', function () {
@@ -520,6 +529,16 @@
   });
 
   //댓글 수정 삭제 기능 권한 부여!!!
+  $(document).ready(function () {
+    // answer 작성자 정보 가져오기
+    let answerWriter = document.getElementById('answer-writer').dataset.answerWriter;
+    // comment 작성자 정보 가져오기
+    let commentWriter = document.getElementById('comment-writer').dataset.commentWriter;
+
+    console.log('Answer Writer: ' + answerWriter);
+    console.log('Comment Writer: ' + commentWriter);
+
+  });
 
   //댓글 수정 기능
 
@@ -552,13 +571,9 @@
         const form = this.closest('.delete-reply-form');
 
         if (form) {
-          console.log('1');
           const confirmDelete = confirm('정말 삭제하시겠습니까?');
-          console.log('2');
           if (confirmDelete) {
-            console.log('3');
             form.submit();
-            console.log('4');
           }
         }
       });
