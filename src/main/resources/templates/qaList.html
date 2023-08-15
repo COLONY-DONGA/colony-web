@@ -114,22 +114,30 @@
           <input type="checkbox" id="check_btn" th:checked="${answered}" />
           <label for="check_btn"><span>답변 완료된 글만 보기</span></label>
         </div>
-        <!-- 정렬 -->
-        <div class="sort-container">
-          <label for="sortSelect"></label>
-          <select id="sortSelect" name="sort" th:value="${sortBy}">
-            <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
-            <option value="createdAtDesc" th:selected="${#strings.equals(sortBy, 'createdAtDesc')}">
-              최신순
-            </option>
-            <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
-              오래된 순
-            </option>
-            <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">제목 순</option>
-          </select>
+        <!-- 정렬 & 등록 -->
+        <div class="sort-enroll-container">
+          <!-- 정렬 -->
+          <div class="sort-container">
+            <label for="sortSelect"></label>
+            <select id="sortSelect" name="sort" th:value="${sortBy}">
+              <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
+              <option
+                value="createdAtDesc"
+                th:selected="${#strings.equals(sortBy, 'createdAtDesc')}"
+              >
+                최신순
+              </option>
+              <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
+                오래된 순
+              </option>
+              <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">
+                제목 순
+              </option>
+            </select>
+          </div>
+          <!-- 질문 등록 -->
+          <button class="enroll-btn" id="postwritebtn">질문 등록</button>
         </div>
-        <!-- 질문 등록 -->
-        <button class="enroll-btn" id="postwritebtn">질문 등록</button>
       </div>
       <!-- 카드 -->
       <div class="card-container">
