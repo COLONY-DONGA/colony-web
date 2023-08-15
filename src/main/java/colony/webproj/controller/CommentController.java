@@ -1,5 +1,6 @@
 package colony.webproj.controller;
 
+import colony.webproj.dto.CommentDto;
 import colony.webproj.dto.CommentFormDto;
 import colony.webproj.entity.Role;
 import colony.webproj.exception.CustomException;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -49,7 +51,19 @@ public class CommentController {
 
         commentService.saveReComment(answerId, commentId, commentFormDto, principalDetails.getLoginId());
         return "redirect:" + refer;
+    }
 
+    @GetMapping("/edit-comment/{commentId}")
+    @ResponseBody
+    public ResponseEntity<CommentFormDto> updateCommentOrReCommentForm(@PathVariable("commentId") Long commentId,
+                                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        //로그인 유저가 작성자와 다를 때
+        //admin 은 수정 가능
+        if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&
+                principalDetails.getRole() != Role.ROLE_ADMIN) {
+            throw new CustomException(ErrorCode.COMMENT_UPDATE_WRONG_ACCESS);
+        }
+        return ResponseEntity.ok(commentService.findCommentOne(commentId));
     }
 
     /**
@@ -89,6 +103,7 @@ public class CommentController {
             throw new CustomException(ErrorCode.COMMENT_DELETE_WRONG_ACCESS);
         }
         commentService.deleteComment(commentId);
+        log.info(refer);
         return "redirect:" + refer;
 
     }

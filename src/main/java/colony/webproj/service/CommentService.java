@@ -160,6 +160,18 @@ public class CommentService {
     }
 
     /**
+     * 단일 댓글 조회 (업데이트 폼)
+     */
+    public CommentFormDto findCommentOne(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        return CommentFormDto.builder()
+                .commentId(comment.getId())
+                .content(comment.getContent())
+                .build();
+    }
+
+    /**
      * 댓글 불러오기
      */
     @Transactional(readOnly = true)
@@ -182,4 +194,6 @@ public class CommentService {
         }
         return responseCommentDto;
     }
+
+
 }
