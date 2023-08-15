@@ -37,11 +37,18 @@
         <div class="q-head">
           <div class="question-title" th:text="${postDto.title}">title</div>
           <div class="question-info">
+            <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+            <span th:text="${postDto.viewCount}"></span>
+            <!--조회수-->
+
+            <span class="small-line"> </span>
             <i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
             <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
               >작성자</span
             >
-            <span class="small-line"> | </span>
+            <span class="small-line"> </span>
+
+            <i class="fa-regular fa-clock"></i>
             <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
           </div>
 
@@ -115,15 +122,18 @@
             <span class="small-line"> | </span>
             <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
               <div class="answer-data-box">
-                <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-                  ><i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
+                <i
+                  class="fa-solid fa-face-laugh-squint"
+                  style="color: Green; margin-left: 1rem"
+                ></i>
+                <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}">
                   작성자</span
                 >
 
                 <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
 
-                <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-                <!--조회수--><span th:text="${postDto.viewCount}">조회수</span>
+                <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+                <span th:text="${postDto.viewCount}">조회수</span>-->
 
                 <span class="time">
                   <i class="fa-regular fa-clock"></i>
@@ -188,8 +198,19 @@
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
-                      <i class="fa fa-pencil" aria-hidden="true"></i>
-                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <form class="edit-comment-form"
+                                                  method="post"
+                                                  th:action=" "><!--새댓글 수정버튼 타임리프 필요!!!-->
+                                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </form>
+                                            <form class="delete-comment-form"
+                                                  method="post"
+                                                  th:action=" "><!--새댓글 삭제버튼 타임리프 필요!!!-->
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </form> <!--댓글 수정 삭제 폼 부분-->
+
+<!--                      <i class="fa fa-pencil" aria-hidden="true"></i>-->
+<!--                      <i class="fa fa-trash" aria-hidden="true"></i>-->
                     </div>
                     <div class="comment-content" th:text="${comment.content}">
                       This is the main comment content.
@@ -213,6 +234,18 @@
                           <div class="comment-content" th:text="${recomment.content}">
                             This is a reply to the main comment.
                           </div>
+
+                          <form class="edit-reply-form"
+                                method="post"
+                                th:action=" "><!--대댓글 수정버튼 타임리프 필요!!!-->
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </form>
+                          <form class="delete-reply-form"
+                                method="post"
+                                th:action=" "><!--대댓글 삭제버튼 타임리프 필요!!!-->
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </form> <!--댓글 수정 삭제 폼 부분-->
+
                         </div>
                       </li>
                     </ul>
@@ -228,10 +261,11 @@
                         th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
                         method="post"
                       >
-                        <div class="inputframe">
+                        <div class="reply-inputframe">
                           <br />
                           <h5>
-                            New Comment : <input type="text" class="input-text" name="content" />
+                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                            <input type="text" class="reply-input-text" name="content" />
                           </h5>
                           <button class="new-comment-btn">
                             <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
@@ -239,6 +273,9 @@
                         </div>
                       </form>
                     </div>
+
+
+
                   </div>
                 </div>
               </li>
@@ -314,10 +351,10 @@
         }
 
         if (userName != name || userName === '') {
+          //게시글 수정 삭제 권한부여
           console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
           deletebtn.style.display = 'none';
-
           //관리자일때도 권한 추가
           // if (userName === 'admin') {
           //   //관리자 이름을 어떻게 받더라....
@@ -325,6 +362,18 @@
           //   deletebtn.style.display = 'block';
           // }
         }
+
+        // if ((userName = answerName || userName === '')) {
+        //   //답변 수정 삭제 권한부여
+        //   answereditbtn.style.display = 'none';
+        //   answerdeletebtn.style.display = 'none';
+        //   //관리자일때도 권한 추가
+        //   // if (userName === 'admin') {
+        //   //   //관리자 이름을 어떻게 받더라....
+        //   //   answereditbtn.style.display = 'block';
+        //   //   answerdeletebtn.style.display = 'block';
+        //   // }
+        // }
 
         // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
         const replyButtons = document.querySelectorAll('.reply-button');
@@ -438,48 +487,8 @@
             name: '사용자',
             content: newReplyText,
           });
-          // addComments();
         }
 
-        //   function addReplyButtonClickHandler() {
-        //     const replyButtons = document.querySelectorAll('.comment-head .fa-reply');
-        //     replyButtons.forEach((button) => {
-        //       button.removeEventListener('click', onClickAddReplyButton);
-        //       button.addEventListener('click', onClickAddReplyButton);
-        //     });
-        //   }
-        //
-        //   document.addEventListener('DOMContentLoaded', () => {
-        //     addComments();
-        //     addReplyButtonClickHandler();
-        //   });
-        //
-        //   const writeButton = document.getElementById('add-comment-button');
-        //   writeButton.addEventListener('click', onWriteButtonClick);
-        //
-        //   const commentsList = document.getElementById('comments-list');
-        //   commentsList.addEventListener('click', (event) => {
-        //     if (event.target.matches('.fa-reply')) {
-        //       onClickAddReplyButton(event);
-        //     } else if (event.target.matches('.reply-write-btn')) {
-        //       onReplyWriteButtonClick(event);
-        //     }
-        //   });
-        // });
-        //
-        // function onWriteButtonClick(event) {
-        //   event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-        //   const commentForm = document.getElementById('comment-form');
-        //   commentForm.submit(); // 폼 제출
-        //   newCommentInput.value = '';
-        //
-        //   // 이전 페이지로 이동
-        //   window.history.back();
-        //
-        //   // 입력란을 비웁니다.
-        //   const newCommentInput = document.getElementById('newComment');
-        //
-        // }
 
         //댓글, 대댓글 작성 버튼 기능입니다!!
         document.addEventListener('DOMContentLoaded', function () {
@@ -499,7 +508,6 @@
             button.addEventListener('click', function (event) {
               event.preventDefault(); // 폼 제출 이벤트를 막습니다.
 
-              //혹시 몰라서 대댓글은 아직 form id나 reload 구현 안함
               const recommentInput = button.closest('.inputframe').querySelector('.input-text');
               window.location.reload(); //대댓글 작성 후 새로고침
               recommentInput.value = ''; // 입력란을 비웁니다.
@@ -508,91 +516,41 @@
         });
       });
 
-      //댓글 수정 버튼 부분
-      //
-      // let isEditing = false; //수정상태 지정할 변수
-      // let currentEditingElement = null;
-      // const comments = document.querySelectorAll('.comment-main-level');
-      // comments.forEach((comment) => { //댓글을 돌면서 권한에 따라 수정,삭제 버튼 보이지 않게 설정
-      //   const createdBy = comment.querySelector('.comment-name').textContent;
-      //   const editButton = comment.querySelector('.fa-pencil');
-      //   const deleteButton = comment.querySelector('.fa-trash');
-      //
-      //   if (userName != createdBy) {
-      //     editButton.style.display = 'none';
-      //     deleteButton.style.display = 'none';
-      //   }
-      // });
-      //
-      // const commentEditButtons = document.querySelectorAll('.fa-pencil'); //댓글 수정 버튼 리스너
-      // commentEditButtons.forEach((button) => {
-      //   button.addEventListener('click', function () {
-      //     if (!isEditing) {
-      //       currentEditingElement = this;
-      //       const commentContent = this.closest('.comment-head').nextElementSibling;
-      //       const originalContent = commentContent.textContent;
-      //
-      //       // 댓글 내용 영역을 input으로 변경
-      //       const editContent = document.createElement('input');
-      //       editContent.type = 'text';
-      //       editContent.value = originalContent;
-      //       editContent.classList.add('edit-comment-input');
-      //
-      //       // 수정 완료 버튼 추가
-      //       const editCompleteBtn = document.createElement('button');
-      //       editCompleteBtn.textContent = '수정완료';
-      //       editCompleteBtn.classList.add('edit-complete-btn');
-      //
-      //       // 댓글 내용과 수정 완료 버튼을 함께 감싸는 div 생성
-      //       const editCommentContainer = document.createElement('div');
-      //       editCommentContainer.classList.add('edit-comment-container');
-      //       editCommentContainer.appendChild(editContent);
-      //       editCommentContainer.appendChild(editCompleteBtn);
-      //
-      //       commentContent.textContent = '';
-      //       commentContent.appendChild(editCommentContainer);
-      //
-      //       // 수정 상태 변경
-      //       isEditing = true;
-      //
-      //       // 수정 완료 버튼 클릭 이벤트 설정
-      //       editCompleteBtn.addEventListener('click', function () {
-      //         // 수정 내용 가져오기
-      //         const editedContent = editContent.value;
-      //
-      //         // 서버에 수정된 내용 전송하는 코드 추가 (예시: AJAX로 수정된 내용을 서버에 전달)
-      //         // ...
-      //
-      //         // 댓글 내용 업데이트
-      //         commentContent.textContent = editedContent;
-      //
-      //         // 수정 완료 버튼 제거
-      //         this.remove();
-      //
-      //         // 수정 상태 변경
-      //         isEditing = false;
-      //         currentEditingElement = null;
-      //       });
-      //     }
-      //   });
-      // });
-      //
-      // //댓글 삭제 버튼 구현
-      // const commentDeleteButtons = document.querySelectorAll('.fa-trash');
-      // commentDeleteButtons.forEach((button) => {
-      //   button.addEventListener('click', function () {
-      //     const confirmDelete = confirm('정말 삭제하시겠습니까?');
-      //     if (confirmDelete) {
-      //       // 서버에서 댓글 삭제하는 코드 추가 (예시: AJAX로 해당 댓글 ID를 서버에 전달하여 삭제 요청)
-      //       // ...
-      //
-      //       // 댓글 삭제
-      //       this.closest('.comment-main-level').remove();
-      //     }
-      //   });
-      // });
-    </script>
 
+      //댓글 수정 삭제 기능 권한 부여!!!
+
+      //대댓글 수정 기능 하는중
+
+
+      //댓글 삭제 기능
+      document.addEventListener('DOMContentLoaded', function () {
+        const commentDeleteForms = document.querySelectorAll('.delete-comment-form');
+
+        commentDeleteForms.forEach((form) => {
+          form.addEventListener('submit', function (event) {
+            event.preventDefault(); //잠시 폼제출 막기
+            const confirmDelete = confirm('정말 삭제하시겠습니까?');
+            if (confirmDelete) {
+              this.submit(); // 문구를 띄운 후, 확인되면 form 제출하기
+            }
+            window.location.reload();
+          });
+        });
+      });
+
+      //대댓글 삭제 기능
+      const deleteReplyForms = document.querySelectorAll('.delete-reply-form');
+      deleteReplyForms.forEach((form) => {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const confirmDelete = confirm('정말 삭제하시겠습니까?');
+          if (confirmDelete) {
+            this.submit();
+          }
+          window.location.reload(); // 선택 사항: 대댓글 삭제 후 페이지를 새로고침할 수 있습니다.
+        });
+      });
+    </script>
     <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>
