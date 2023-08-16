@@ -198,7 +198,7 @@
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
-                      <!-- 유진 수정 위치 -->
+                      <!-- 유진 1 -->
                       <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
                       <form class="edit-comment-form" method="post" style="display: none">
                         <input type="text" name="content" />
@@ -220,13 +220,6 @@
                     >
                       This is the main comment content.
                     </div>
-
-                    <!--수정된 부분 댓글 수정 파트!!!!!!!!!!-->
-                    <!--                    <form id="edit-comment-{commentId}" style="display: none;">-->
-                    <!--                      <input type="text" name="updatedContent" value="updatedContent" />-->
-                    <!--                      <button type="submit">수정 제출</button>-->
-                    <!--                      <button type="button" class="cancel-edit-comment">취소</button>-->
-                    <!--                    </form>-->
                     <ul
                       class="comments-list reply-list"
                       th:each="recomment, status : ${comment.childList}"
@@ -241,6 +234,17 @@
                             <h6 class="comment-name" th:text="${recomment.createdBy}">
                               Jane Smith
                             </h6>
+                            <!-- 유진 2 -->
+                            <i
+                              class="fa fa-pencil recomment-edit-i"
+                              aria-hidden="true"
+                              th:data-comment-id="${recomment.commentId}"
+                            ></i>
+                            <form class="edit-recomment-form" method="post" style="display: none">
+                              <input type="text" name="content" />
+                              <button type="submit">수정 제출</button>
+                              <button type="button" class="cancel-edit-recomment">취소</button>
+                            </form>
                             <form
                               class="delete-reply-form"
                               method="get"
@@ -252,13 +256,6 @@
                           <div class="comment-content" th:text="${recomment.content}">
                             This is a reply to the main comment.
                           </div>
-
-                          <!--수정된 부분 대댓글 수정 파트!!!!!-->
-                          <!--                          <form id="edit-reply-{replyId}" style="display: none;">-->
-                          <!--                            <input type="text" name="updatedContent" value="updatedContent" />-->
-                          <!--                            <button type="submit">수정 제출</button>-->
-                          <!--                            <button type="button" class="cancel-edit-reply">취소</button>-->
-                          <!--                          </form>-->
                         </div>
                       </li>
                     </ul>
@@ -527,7 +524,7 @@
 
       //댓글 수정 삭제 기능 권한 부여!!!
 
-      // // 댓글 수정 기능
+      // 댓글 수정 기능
       document.addEventListener('DOMContentLoaded', function () {
         const commentEditIs = document.querySelectorAll('.comment-edit-i');
 
@@ -594,7 +591,71 @@
         });
       });
 
-      //대댓글 수정 기능
+      // 대댓글 수정 기능
+      document.addEventListener('DOMContentLoaded', function () {
+        const recommentEditIs = document.querySelectorAll('.recomment-edit-i');
+
+        recommentEditIs.forEach((editIcon) => {
+          editIcon.addEventListener('click', function () {
+            const commentBox = this.closest('.comment-box');
+            const commentContent = commentBox.querySelector('.comment-content');
+            const editForm = commentBox.querySelector('.edit-recomment-form');
+            const editInput = editForm.querySelector('input[type="text"]');
+
+            const textWrapper = document.createElement('span');
+            textWrapper.textContent = commentContent.childNodes[0].textContent;
+            commentContent.innerHTML = '';
+            commentContent.appendChild(textWrapper);
+
+            editInput.value = textWrapper.textContent;
+
+            textWrapper.style.display = 'none';
+            editForm.style.display = 'block';
+
+            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
+          });
+        });
+
+        const cancelButtons = document.querySelectorAll('.cancel-edit-recomment');
+
+        cancelButtons.forEach((cancelButton) => {
+          cancelButton.addEventListener('click', function () {
+            const commentBox = this.closest('.comment-box');
+            const commentContent = commentBox.querySelector('.comment-content');
+            const editForm = commentBox.querySelector('.edit-recomment-form');
+            const textWrapper = commentContent.querySelector('span');
+
+            editForm.style.display = 'none';
+            textWrapper.style.display = 'inline';
+          });
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const editRecommentForms = document.querySelectorAll('.edit-recomment-form');
+
+        editRecommentForms.forEach((editForm) => {
+          editForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const commentId = this.closest('.recomment-edit-i').dataset.commentId;
+            const content = this.querySelector('input[type="text"]').value;
+
+            $.ajax({
+              type: 'POST',
+              url: '/edit-comment/' + commentId,
+              contentType: 'application/json',
+              data: JSON.stringify({ content: content }),
+              success: function (response) {
+                window.location.reload();
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
+          });
+        });
+      });
 
       //댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
