@@ -32,7 +32,7 @@ public class CommentController {
                                          @PathVariable("answerId") Long answerId,
                                          CommentFormDto commentFormDto,
                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
+        System.out.println("==========   " + commentFormDto.getContent());
         String refer = request.getHeader("Referer"); // 이전 url 주소
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
         return "redirect:" + refer;
@@ -71,11 +71,13 @@ public class CommentController {
      * 대댓글 수정
      */
     @PostMapping("/edit-comment/{commentId}")
-    public String updateCommentOrReComment(HttpServletRequest request,
-                                                      @PathVariable("commentId") Long commentId,
-                                                      @RequestBody CommentFormDto commentFormDto,
-                                                      @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @ResponseBody
+    public ResponseEntity<?> updateCommentOrReComment(HttpServletRequest request,
+                                                            @PathVariable("commentId") Long commentId,
+                                                            @RequestBody CommentFormDto commentFormDto,
+                                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
         String refer = request.getHeader("Referer"); // 이전 url 주소
+        System.out.println("==========   " + commentFormDto.getContent());
 
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
@@ -84,8 +86,8 @@ public class CommentController {
             throw new CustomException(ErrorCode.COMMENT_UPDATE_WRONG_ACCESS);
         }
         commentService.updateCommentOrRecomment(commentId, commentFormDto, principalDetails.getLoginId());
-        return "redirect:" + refer;
-
+        System.out.println(refer);
+        return ResponseEntity.ok(true);
     }
 
     /**
