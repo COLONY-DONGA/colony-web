@@ -4,12 +4,13 @@ import colony.webproj.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
+@Getter @Setter
 @Builder
 @AllArgsConstructor
 public class AnswerDto {
@@ -21,6 +22,7 @@ public class AnswerDto {
     private List<ImageDto> imageDtoList; // 사진
     private List<CommentDto> commentList;
     private Integer heartNum; //좋아요 수
+    private Boolean isHearted; // 로그인한 회원이 좋아요 눌러쓴지
 
 
     public AnswerDto(Answer answer, Integer heartNum) {

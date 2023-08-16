@@ -57,8 +57,8 @@
           <div class="horizontal-line"></div>
 
           <!--<tr class="article-info">
-  <th>날짜</th>
-  <td th:text="${postDto.updatedAt}">date</td>
+<th>날짜</th>
+<td th:text="${postDto.updatedAt}">date</td>
 </tr> -->
 
           <!--내용칸-->
@@ -117,10 +117,10 @@
           <div class="a-head">
             <div class="answer-info">
               <!--<span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-      >작성자</span
-    >
-    <span class="small-line"> | </span>
-    <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
+  >작성자</span
+>
+<span class="small-line"> | </span>
+<span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
               <div class="answer-data-box">
                 <i
                   class="fa-solid fa-face-laugh-squint"
@@ -133,7 +133,7 @@
                 <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
 
                 <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-        <span th:text="${postDto.viewCount}">조회수</span>-->
+    <span th:text="${postDto.viewCount}">조회수</span>-->
 
                 <span class="time">
                   <i class="fa-regular fa-clock"></i>
@@ -340,24 +340,39 @@
           console.log('삭제버튼');
         });
 
-        var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-        if (answereditbtn != null) {
-          answereditbtn.addEventListener('click', function () {
-            var answerId = this.getAttribute('data-answer-id1');
+        // var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+        // if (answereditbtn != null) {
+        //   answereditbtn.addEventListener('click', function () {
+        //     var answerId = this.getAttribute('data-answer-id1');
+        //     window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
+        //     console.log('answer editbtn');
+        //   });
+        // }
+        // var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
+        // if (answerdeletebtn != null) {
+        //   answerdeletebtn.addEventListener('click', function () {
+        //     var answerId = this.getAttribute('data-answer-id2');
+        //     location.href = '/delete-answer/' + postId + '/' + answerId;
+        //     console.log('answer deletebtn');
+        //   });
+        // }
+
+        //answer 수정 삭제 버튼 이벤트 리스너
+        document.body.addEventListener('click', function (event) {
+          if (event.target && event.target.id === 'Aeditbtn') {
+            var answerId = event.target.getAttribute('data-answer-id1');
             window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
             console.log('answer editbtn');
-          });
-        }
-        var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-        if (answerdeletebtn != null) {
-          answerdeletebtn.addEventListener('click', function () {
-            var answerId = this.getAttribute('data-answer-id2');
+          }
+
+          if (event.target && event.target.id === 'Adeletebtn') {
+            var answerId = event.target.getAttribute('data-answer-id2');
             location.href = '/delete-answer/' + postId + '/' + answerId;
             console.log('answer deletebtn');
-          });
-        }
+          }
+        });
 
-        if (userName !== name || userName === '') {
+        if (userName != name || userName === '') {
           //게시글 수정 삭제 권한부여
           console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
@@ -370,204 +385,167 @@
           // }
         }
 
-        if (userName === answerName || userName === '') {
-          //답변 수정 삭제 권한부여
-          answereditbtn.style.display = 'none';
-          answerdeletebtn.style.display = 'none';
-          //관리자일때도 권한 추가
+        // if ((userName = answerName || userName === '')) {
+        //   //답변 수정 삭제 권한부여
+        //   answereditbtn.style.display = 'none';
+        //   answerdeletebtn.style.display = 'none';
+        //   //관리자일때도 권한 추가
+        //   // if (userName === 'admin') {
+        //   //   //관리자 이름을 어떻게 받더라....
+        //   //   answereditbtn.style.display = 'block';
+        //   //   answerdeletebtn.style.display = 'block';
+        //   // }
+        // }
+
+        // // 답변 수정 삭제 권한부여
+        const answerBoxes = document.querySelectorAll('.answer-box');
+        answerBoxes.forEach((answerBox) => {
+          const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
+
+          const answerEditBtn = answerBox.querySelector('#Aeditbtn');
+          const answerDeleteBtn = answerBox.querySelector('#Adeletebtn');
+
+          if (userName === answerAuthor) {
+            answerEditBtn.style.display = 'block';
+            answerDeleteBtn.style.display = 'block';
+          } else {
+            answerEditBtn.style.display = 'none';
+            answerDeleteBtn.style.display = 'none';
+          }
+          // // 관리자일 때 추가 권한
           // if (userName === 'admin') {
-          //   //관리자 이름을 어떻게 받더라....
-          //   answereditbtn.style.display = 'block';
-          //   answerdeletebtn.style.display = 'block';
+          //   answerEditBtn.style.display = 'block';
+          //   answerDeleteBtn.style.display = 'block';
           // }
-        }
-
-        // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
-        const replyButtons = document.querySelectorAll('.reply-button');
-        replyButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            // data-answer-id 속성 값을 가져옴
-            const commentId = this.getAttribute('data-comment-id');
-            console.log(commentId);
-
-            const recommentElement = document.querySelector('#recomment-' + commentId);
-
-            if (recommentElement.style.display === 'none') {
-              recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
-            } else {
-              recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
-            }
-          });
         });
+      });
 
-        // 각 하트 버튼에 클릭 이벤트 리스너 추가
-        // const heartButtons = document.querySelectorAll('.heart-button');
-        // heartButtons.forEach((button) => {
-        //   button.addEventListener('click', function () {
-        //     // data-answer-id 속성 값을 가져옴
-        //     const answerId = this.getAttribute('data-answer-id');
-        //     console.log(answerId);
+      // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
+      const replyButtons = document.querySelectorAll('.reply-button');
+      replyButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          // data-answer-id 속성 값을 가져옴
+          const commentId = this.getAttribute('data-comment-id');
+          console.log(commentId);
 
-        //     // json 형식으로 ajax 요청을 보냅니다.
-        //     $.ajax({
-        //       type: 'POST',
-        //       url: '/heart/' + answerId,
-        //       contentType: 'application/json',
-        //       data: JSON.stringify({ answerId: answerId, userName: userName }),
-        //       success: function (response) {
-        //         //likeCountElement
-        //         const likeCountElement = document.querySelector('#like-' + answerId);
-        //         // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-        //         if (response) {
-        //           likeCountElement.textContent++;
-        //         } else {
-        //           likeCountElement.textContent--;
-        //         }
-        //       },
-        //       error: function (xhr, status, error) {
-        //         console.error('Error:', status, error);
-        //       },
-        //     });
-        //   });
-        // });
+          const recommentElement = document.querySelector('#recomment-' + commentId);
 
-        const heartButtons = document.querySelectorAll('.heart-button');
-        heartButtons.forEach((button) => {
-          // 여긴 좋아요 색상 그거 클래스 추가임 (유진)
-          // const answerId = button.getAttribute('data-answer-id');
-          // $.ajax({
-          //   type: 'GET',
-          //   url: '/isLiked/' + answerId + '/' + userName,
-          //   success: function (response) {
-          //     if (response) {
-          //       button.classList.add('likelike');
-          //     } else {
-          //       button.classList.remove('likelike');
-          //     }
-          //   },
-          //   error: function (xhr, status, error) {
-          //     console.error('Error:', status, error);
-          //   },
-          // });
-
-          button.addEventListener('click', function () {
-            const answerId = this.getAttribute('data-answer-id');
-            console.log(answerId);
-
-            $.ajax({
-              type: 'POST',
-              url: '/heart/' + answerId,
-              contentType: 'application/json',
-              data: JSON.stringify({ answerId: answerId, userName: userName }),
-              success: function (response) {
-                const likeCountElement = document.querySelector('#like-' + answerId);
-                if (response) {
-                  likeCountElement.textContent++;
-                  button.classList.add('likelike');
-                } else {
-                  likeCountElement.textContent--;
-                  button.classList.remove('likelike');
-                }
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-
-        //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
-
-        // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-        window.addEventListener('load', function () {
-          adjustQuestionAreaHeight();
-        });
-
-        // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-        window.addEventListener('resize', function () {
-          adjustQuestionAreaHeight();
-        });
-
-        // 요소의 높이를 조정하는 함수
-        function adjustQuestionAreaHeight() {
-          var qBox = document.getElementById('q-box');
-          var questionArea = document.getElementById('question-area');
-          var maxHeight = qBox.offsetHeight;
-          questionArea.style.height = maxHeight + 'px';
-        }
-
-        // answer-area css부분
-        document.addEventListener('DOMContentLoaded', function () {
-          const answerAreas = document.querySelectorAll('.answer-area');
-          for (const answerArea of answerAreas) {
-            adjustAnswerAreaHeight(answerArea);
+          if (recommentElement.style.display === 'none') {
+            recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+          } else {
+            recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
           }
         });
+      });
 
-        // answer-area의 높이를 자동으로 조절하는 함수
-        function adjustAnswerAreaHeight(element) {
-          element.style.height = 'auto'; // 높이 초기화
-        }
+      // 각 하트 버튼에 클릭 이벤트 리스너 추가
+      const heartButtons = document.querySelectorAll('.heart-button');
+      heartButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          // data-answer-id 속성 값을 가져옴
+          const answerId = this.getAttribute('data-answer-id');
+          console.log(answerId);
 
-        function addNewCommentEventListeners(commentItem) {
-          const replyButton = commentItem.querySelector('.fa-reply');
-          replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
-          replyButton.addEventListener('click', onClickAddReplyButton);
-
-          // 대댓글 작성 버튼에 대한 이벤트 리스너
-          const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
-          replyWriteBtn.forEach((button) => {
-            button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
-            button.addEventListener('click', onReplyWriteButtonClick);
-          });
-        }
-
-        function onReplyWriteButtonClick(event) {
-          //대댓글 버튼 리스너
-          const button = event.target.closest('.reply-write-btn');
-          if (!button) return;
-
-          const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
-            .dataset.commentIndex;
-          const commentItem = button.closest('li');
-          const replyList = commentItem.closest('ul.reply-list');
-
-          const inputReply = replyList.querySelector('.inputReply');
-          const newReplyText = inputReply.value;
-
-          commentsData[commentIndex]['replies'].push({
-            name: '사용자',
-            content: newReplyText,
-          });
-        }
-
-        //댓글, 대댓글 작성 버튼 기능입니다!!
-        document.addEventListener('DOMContentLoaded', function () {
-          const addCommentButton = document.getElementById('add-comment-button');
-          const replyWriteButton = document.querySelectorAll('.reply-write-btn');
-
-          // 댓글 작성 이벤트 리스너
-          addCommentButton.addEventListener('click', function (event) {
-            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-            const commentForm = document.getElementById('comment-form');
-            newCommentInput.value = ''; // 입력란을 비웁니다.
-            commentForm.submit(); // 폼 제출
-            window.history.back(); // 이전 페이지로 이동
-          });
-
-          replyWriteButton.forEach((button) => {
-            button.addEventListener('click', function (event) {
-              event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-
-              const recommentInput = button.closest('.inputframe').querySelector('.input-text');
-              window.location.reload(); //대댓글 작성 후 새로고침
-              recommentInput.value = ''; // 입력란을 비웁니다.
-            });
+          // json 형식으로 ajax 요청을 보냅니다.
+          $.ajax({
+            type: 'POST',
+            url: '/heart/' + answerId,
+            contentType: 'application/json',
+            data: JSON.stringify({ answerId: answerId, userName: userName }),
+            success: function (response) {
+              //likeCountElement
+              const likeCountElement = document.querySelector('#like-' + answerId);
+              // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+              if (response) {
+                likeCountElement.textContent++;
+              } else {
+                likeCountElement.textContent--;
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', status, error);
+            },
           });
         });
       });
 
-      //댓글 수정 삭제 기능 권한 부여!!!
+      //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+
+      // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+      window.addEventListener('load', function () {
+        adjustQuestionAreaHeight();
+      });
+
+      // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+      window.addEventListener('resize', function () {
+        adjustQuestionAreaHeight();
+      });
+
+      // 요소의 높이를 조정하는 함수
+      function adjustQuestionAreaHeight() {
+        var qBox = document.getElementById('q-box');
+        var questionArea = document.getElementById('question-area');
+        var maxHeight = qBox.offsetHeight;
+        questionArea.style.height = maxHeight + 'px';
+      }
+
+      // answer-area css부분
+      document.addEventListener('DOMContentLoaded', function () {
+        const answerAreas = document.querySelectorAll('.answer-area');
+        for (const answerArea of answerAreas) {
+          adjustAnswerAreaHeight(answerArea);
+        }
+      });
+
+      // answer-area의 높이를 자동으로 조절하는 함수
+      function adjustAnswerAreaHeight(element) {
+        element.style.height = 'auto'; // 높이 초기화
+      }
+
+      //댓글, 대댓글 작성 버튼 기능입니다!!
+      document.addEventListener('DOMContentLoaded', function () {
+        const addCommentButton = document.getElementById('add-comment-button');
+        const replyWriteButton = document.querySelectorAll('.reply-write-btn');
+
+        // 댓글 작성 이벤트 리스너
+        let commentButtonEnabled = true;
+        addCommentButton.addEventListener('click', function (event) {
+          if (!commentButtonEnabled) {
+            return;
+          }
+          commentButtonEnabled = false;
+
+          event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+          const commentForm = document.getElementById('comment-form');
+          newCommentInput.value = ''; // 입력란을 비웁니다.
+          commentForm.submit(); // 폼 제출
+          window.history.back(); // 이전 페이지로 이동
+
+          setTimeout(function () {
+            commentButtonEnabled = true;
+          }, 500);
+        });
+
+        replyWriteButton.forEach((button) => {
+          let replyButtonEnabled = true;
+          button.addEventListener('click', function (event) {
+            if (!replyButtonEnabled) {
+              return;
+            }
+            replyButtonEnabled = false;
+
+            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+
+            const recommentInput = button.closest('.inputframe').querySelector('.input-text');
+            window.location.reload(); //대댓글 작성 후 새로고침
+            recommentInput.value = ''; // 입력란을 비웁니다.
+
+            setTimeout(function () {
+              replyButtonEnabled = true;
+            }, 500);
+          });
+        });
+      });
 
       // 댓글 수정 기능
       document.addEventListener('DOMContentLoaded', function () {
@@ -704,7 +682,7 @@
         });
       });
 
-      // 댓글 삭제 기능
+      //댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 
@@ -722,7 +700,7 @@
         });
       });
 
-      // 대댓글 삭제 기능
+      //대댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
 
@@ -740,7 +718,31 @@
         });
       });
 
-      // 댓글 수정 삭제 기능 권한 부여
+      //댓글 수정 삭제 기능 권한 부여
+      document.addEventListener('DOMContentLoaded', function () {
+        let userName = $('.member-nickname').val(); // 로그인 유저
+        const commentBoxes = document.querySelectorAll('.comment-box');
+
+        commentBoxes.forEach((commentBox) => {
+          const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+          const editBtn = commentBox.querySelector('.fa-pencil');
+          const deleteBtn =
+            commentBox.querySelector('.delete-comment-form i.fa-trash') ||
+            commentBox.querySelector('.delete-reply-form i.fa-trash');
+          // const deleteBtn = commentBox.querySelector('.fa-trash');
+          // const btnbox = commentBox.querySelector('.btn');
+
+          if (userName === commentAuthor) {
+            editBtn.style.display = 'inline';
+            deleteBtn.style.display = 'inline';
+          } else {
+            editBtn.style.display = 'none';
+            deleteBtn.style.display = 'none';
+          }
+        });
+      });
+
+      //삭제된 댓글에 대한 수정 삭제 버튼 지우기 로직
       document.addEventListener('DOMContentLoaded', function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
         const commentBoxes = document.querySelectorAll('.comment-box');
@@ -752,6 +754,8 @@
           const deleteBtn =
             commentBox.querySelector('.delete-comment-form i.fa-trash') ||
             commentBox.querySelector('.delete-reply-form i.fa-trash');
+          // const deleteBtn = commentBox.querySelector('.fa-trash');
+          // const btnbox = commentBox.querySelector('.btn');
 
           // 삭제된 댓글 관련 처리
           const commentRemoved = commentContent.textContent === '삭제된 댓글입니다.';
