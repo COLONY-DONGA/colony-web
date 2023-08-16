@@ -39,7 +39,7 @@ public class NotificationService {
         //emitter 하나하나 에 고유의 값을 주기 위해
         String emitterId = makeTimeIncludeId(userId);
 
-        Long timeout = 60L * 1000L * 5L; // 1시간
+        Long timeout = 60L * 1000L; //1분
         // 생성된 emiiterId를 기반으로 emitter를 저장
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
 
