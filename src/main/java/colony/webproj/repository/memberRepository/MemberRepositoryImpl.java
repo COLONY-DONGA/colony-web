@@ -1,12 +1,13 @@
 package colony.webproj.repository.memberRepository;
 
 
-import colony.webproj.dto.MemberManageDto;
-import colony.webproj.dto.MyPageDto;
-import colony.webproj.dto.QMemberManageDto;
+import colony.webproj.dto.*;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +109,49 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return myPageDto;
     }
 
+    @Override
+    public MemberPageDto findMemberInfo(String loginId) {
+        QLikes likes = new QLikes("likes");
+        List<MemberPageDto.PostDto> postDtoList = queryFactory
+                .select(new QMemberPageDto_PostDto(post.id, post.title))
+                .from(post)
+                .where(post.member.loginId.eq(loginId))
+                .fetch();
 
+        List<MemberPageDto.AnswerDto> answerDtoList = queryFactory
+                .select(new QMemberPageDto_AnswerDto(answer.id, post.id, answer.content))
+                .from(answer)
+                .join(answer.post, post)
+                .where(answer.member.loginId.eq(loginId))
+                .fetch();
 
+        List<MemberPageDto.CommentDto> commentDtoList = queryFactory
+                .select(new QMemberPageDto_CommentDto(comment.id, post.id, comment.content))
+                .from(comment)
+                .join(answer.post, post)
+                .where(comment.member.loginId.eq(loginId))
+                .fetch();
+
+        MemberPageDto memberPageDto = queryFactory
+                .select(new QMemberPageDto(
+                        member.loginId,
+                        member.password,
+                        member.name,
+                        member.nickname,
+                        member.email,
+                        member.emailAlarm,
+                        member.phoneNumber,
+                        member.department,
+                        JPAExpressions.select(likes.count())
+                                .from(likes)
+                                .where(likes.member.loginId.eq(loginId))
+                        ))
+                .from(member)
+                .where(member.loginId.eq(loginId))
+                .fetchOne();
+        memberPageDto.setPostDtoList(postDtoList);
+        memberPageDto.setAnswerDtoList(answerDtoList);
+        memberPageDto.setCommentDtoList(commentDtoList);
+        return memberPageDto;
+    }
 }
