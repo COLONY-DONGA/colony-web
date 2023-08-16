@@ -1,9 +1,6 @@
 package colony.webproj.service;
 
-import colony.webproj.dto.JoinFormDto;
-import colony.webproj.dto.MemberFormDto;
-import colony.webproj.dto.MyPageDto;
-import colony.webproj.dto.PasswordFormDto;
+import colony.webproj.dto.*;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Role;
 import colony.webproj.exception.CustomException;
@@ -73,13 +70,17 @@ public class MemberService {
         return memberEntity.isPresent() ? false : true;
     }
 
-    public List<Member> findAllMember() {
-        List<Member> all = memberRepository.findAll();
-        return all;
+
+    /**
+     * 마이페이지에 필요한 정보 반환
+     */
+    public MemberPageDto memberPageInfo(String loginId) {
+        MemberPageDto memberInfo = memberRepository.findMemberInfo(loginId);
+        return memberInfo;
     }
 
     /**
-     * 마이페이지 멤버 정보 가져오기 (본인의 답변에 대한 모든 좋아요 수를 보여줘야 함.)
+     * 예전 코드 (나중에 삭제)
      */
     public MyPageDto searchMember(String loginID){
         MyPageDto myPageDto = memberRepository.findMemberWithLikeCount(loginID);
@@ -143,6 +144,4 @@ public class MemberService {
         member.setEmailAlarm(!member.getEmailAlarm());
         log.info("멤버 이메일 푸쉬 알람 동의 변경, 변경 정보: " + member.getEmailAlarm());
     }
-
-
 }

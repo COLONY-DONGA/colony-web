@@ -30,10 +30,11 @@ fi
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포" >> $DEPLOY_LOG_PATH
 source ~/.bashrc  # 환경 변수 세팅
-nohup java -jar $DEPLOY_JAR >> $APPLICATION_LOG_PATH 2> $DEPLOY_ERR_LOG_PATH &
+nohup java -jar -Duser.timezone=Asia/Seoul $DEPLOY_JAR >> $APPLICATION_LOG_PATH 2> $DEPLOY_ERR_LOG_PATH &
 
 sleep 3
 
 echo "> 배포 종료 : $(date +%c)" >> $DEPLOY_LOG_PATH
 
 # nohup java -jar web-proj-0.0.1-SNAPSHOT.jar >> application.log 2 > deploy_err.log &
+# nohup java -jar -Duser.timezone=Asia/Seoul web-proj-0.0.1-SNAPSHOT.jar >> application.log 2> deploy_err.log &
