@@ -60,7 +60,7 @@ footer {
   color: #ffffff;
   display: flex;
   flex-shrink: 0;
-  font-family: "NanumSquare", sans-serif;
+  font-family: 'NanumSquare', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   height: 3rem;
@@ -80,7 +80,7 @@ footer {
   color: #ffffff;
 
   flex-shrink: 0;
-  font-family: "NanumSquare", sans-serif;
+  font-family: 'NanumSquare', sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   height: 3rem;
@@ -108,7 +108,7 @@ footer {
   padding: 10px;
 }
 
-.reply-form > form input[type="text"] {
+.reply-form > form input[type='text'] {
   width: 200px;
 }
 
@@ -117,7 +117,7 @@ footer {
   min-height: 40px;
 }
 
-.reply-form > form input[type="submit"] {
+.reply-form > form input[type='submit'] {
   width: 80px;
   height: 40px;
   transform: translatey(-40%);
@@ -165,8 +165,8 @@ footer {
 
 .qabtn:hover {
   /* Hover effect remains unchanged */
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .listbtn {
@@ -204,8 +204,8 @@ footer {
 }
 
 .editbtn:hover {
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 
   background-color: rgba(152, 246, 121, 0.604);
 }
@@ -214,7 +214,7 @@ footer {
   width: 60px;
   height: 40px;
   border: 0.8px solid #ffffff;
-  font-family: "NanumSquare", sans-serif;
+  font-family: 'NanumSquare', sans-serif;
   font-weight: 520;
   font-size: 1em;
   background: transparent;
@@ -229,8 +229,8 @@ footer {
 }
 
 .deletebtn:hover {
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
   background-color: rgb(255, 140, 59);
 }
 .tool-box {
@@ -352,7 +352,7 @@ ul {
  * Lineas / Detalles
  -----------------------*/
 .comments-list:before {
-  content: "";
+  content: '';
   width: 2px;
   height: 100%;
   background: #c7cacb;
@@ -380,7 +380,7 @@ ul {
   display: none;
 }
 .reply-list li:before {
-  content: "";
+  content: '';
   width: 0px;
   height: 0px;
 
@@ -396,7 +396,7 @@ ul {
 }
 
 .comments-list li:after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
   height: 0;
@@ -439,7 +439,7 @@ ul {
 }
 
 .comment-main-level:after {
-  content: "";
+  content: '';
   width: 0;
   height: 0;
   display: block;
@@ -459,7 +459,7 @@ ul {
 
 .comments-list .comment-box:before,
 .comments-list .comment-box:after {
-  content: "";
+  content: '';
   height: 0;
   width: 0;
   position: absolute;
@@ -540,7 +540,7 @@ ul {
   color: #03658c;
 }
 .comment-box .comment-name.by-author:after {
-  content: "autor";
+  content: 'autor';
   background: #03658c;
   color: #fff;
   font-size: 12px;
@@ -612,10 +612,9 @@ ul {
   --c-secondary: #ff7450;
   --c-secondary-rgb: 255, 116, 80;
   --c-secondary-darken: #ff6037;
-  --font-base: "Pretendard Variable", pretendard, -apple-system,
-    blinkmacsystemfont, system-ui, roboto, "Helvetica Neue", "Segoe UI",
-    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-base: 'Pretendard Variable', pretendard, -apple-system, blinkmacsystemfont, system-ui,
+    roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 }
 
 .qaDetail-frame {
@@ -686,6 +685,7 @@ ul {
   font-size: 1rem;
   font-style: rgb(120, 116, 116) (36, 35, 35);
   margin-top: 2rem;
+  white-space: pre-wrap;
 }
 /* This class will be added to the answer-text-box when you want to show its content */
 .answer-text-box.expanded {
@@ -842,8 +842,8 @@ ul {
 
 .new-comment-btn:hover {
   /* Hover effect remains unchanged */
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .likecount {
@@ -887,8 +887,6 @@ ul {
   background-color: #f4f5f6;
 }
 
-
-
 .reply-input-text {
   width: 500px;
   height: 25px;
@@ -903,12 +901,11 @@ ul {
   border-color: rgb(215, 212, 212);
 }
 
-
 .reply-input-text:focus {
   border-color: #71e049; /* 요소가 클릭되어 포커스가 맞춰졌을 때 테두리 색을 변경 */
 }
 
-.reply-inputframe{
+.reply-inputframe {
   background-color: #fffefec0;
   height: 5rem;
   margin: 1rem auto;
@@ -922,8 +919,54 @@ ul {
   align-items: center; /* 세로로 중앙 정렬 */
 }
 
-.btn {
+/* 수정 폼 스타일 */
+
+.edit-comment-form,
+.edit-recomment-form {
   display: flex;
-  justify-content: space-between;
-  margin-right: 100px; /* 오른쪽 여백 */
+  align-items: center;
+  /* padding: 10px; */
+  border-radius: 5px;
+}
+
+.edit-comment-form input[type='text'],
+.edit-recomment-form input[type='text'] {
+  flex-grow: 1;
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.edit-comment-form input[type='text']:focus,
+.edit-recomment-form input[type='text']:focus {
+  border-color: #106ba3;
+}
+
+.edit-comment-form button,
+.edit-recomment-form button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #106ba3;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.edit-comment-form button:hover,
+.edit-recomment-form button:hover {
+  background-color: #248dc1;
+}
+
+.edit-comment-form button[type='button'],
+.edit-recomment-form button[type='button'] {
+  background-color: #cccccc;
+}
+
+.edit-comment-form button[type='button']:hover,
+.edit-recomment-form button[type='button']:hover {
+  background-color: #dddddd;
 }

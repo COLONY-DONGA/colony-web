@@ -28,45 +28,6 @@
   margin-right: 10px;
 }
 
-/* 수정 중 */
-
-/* .qa-page select,
-.qa-page input {
-  font-size: 16px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  transition: all 0.3s;
-  outline: none;
-}
-
-.qa-page button {
-  height: 36px;
-  padding: 0 16px;
-  background-color: #93bfa9;
-  color: #fff;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s;
-}
-
-.qa-page input[type='text']::-webkit-input-placeholder {
-  color: #bbb;
-}
-
-.qa-page select:hover,
-.qa-page input:hover {
-  background-color: #ddd;
-}
-
-.qa-page button:hover {
-  background-color: #6b9275;
-} */
-
 /* Checkbox */
 
 .qa-page input#check_btn {
@@ -351,7 +312,6 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -363,11 +323,16 @@
   margin-top: 1rem;
 }
 
+/* 정렬 & 질문 등록 */
+
+.sort-enroll-container {
+  display: flex;
+}
+
 /* 정렬 */
 
 .sort-container {
-  position: relative;
-  margin: 0 0 0.5rem 36.5rem;
+  margin-right: 0.5rem;
 }
 
 #sortSelect {
