@@ -23,9 +23,17 @@ public class MyPageDto {
     private String department; //학과
     private long likesCount; // 본인의 모든 Answer에 대한 좋아요 합계
 
-    private List<AnswerDtoForMemberPage> answerDto;
-    private List<PostDtoForMemberPage> postDto;
-    private List<CommentDtoForMemberPage> commentDto;
+    private List<AnswerDtoForMemberPage> answerDto = new ArrayList<>();
+    private List<PostDtoForMemberPage> postDto = new ArrayList<>();
+    private List<CommentDtoForMemberPage> commentDto = new ArrayList<>();
+
+
+    public void setPostDto(List<Post> posts){
+        for(Post post : posts){
+            log.info("쿼리 날라가는거 테스트");
+            this.postDto.add(new PostDtoForMemberPage(post.getId(),post.getTitle()));
+        }
+    }
 
 
     public MyPageDto(Member entity) {
@@ -41,42 +49,42 @@ public class MyPageDto {
 
         log.info("포스트 작업 1");
 
-        // 본인의 게시글(고유아이디, 제목)만 가져옴
-        if (entity.getPosts().size() != 0) {
-            log.info("포스트 작업 2");
-
-            List<PostDtoForMemberPage> postDtoList = new ArrayList<>();
-            for (Post post : entity.getPosts()) {
-                PostDtoForMemberPage postDto = new PostDtoForMemberPage(post.getId(), post.getTitle());
-                postDtoList.add(postDto);
-            }
-            this.postDto = postDtoList;
-        }
-        log.info("포스트 작업 끝");
-
-        // 본인의 답변(고유아이디, 게시글아이디, 내용)만 가져옴
-        if (entity.getAnswers().size() != 0) {
-            List<AnswerDtoForMemberPage> answerDtoList = new ArrayList<>();
-            for (Answer answer : entity.getAnswers()) {
-                AnswerDtoForMemberPage answerDto = new AnswerDtoForMemberPage(answer.getId(), answer.getPost().getId(), answer.getContent());
-                answerDtoList.add(answerDto);
-            }
-            this.answerDto = answerDtoList;
-        }
-        log.info("답변 작업 끝");
-
-
-        // 본인의 댓글(고유아이디, 답변아이디, 내용)만 가져옴
-        if (entity.getComments().size() != 0) {
-            List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
-
-            for (Comment comment : entity.getComments()) {
-                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getPost().getId() ,comment.getAnswer().getId(), comment.getContent());
-                commentDtoList.add(commentDto);
-            }
-            this.commentDto = commentDtoList;
-        }
-        log.info("댓글 작업 끝");
+//        // 본인의 게시글(고유아이디, 제목)만 가져옴
+//        if (entity.getPosts().size() != 0) {
+//            log.info("포스트 작업 2");
+//
+//            List<PostDtoForMemberPage> postDtoList = new ArrayList<>();
+//            for (Post post : entity.getPosts()) {
+//                PostDtoForMemberPage postDto = new PostDtoForMemberPage(post.getId(), post.getTitle());
+//                postDtoList.add(postDto);
+//            }
+//            this.postDto = postDtoList;
+//        }
+//        log.info("포스트 작업 끝");
+//
+//        // 본인의 답변(고유아이디, 게시글아이디, 내용)만 가져옴
+//        if (entity.getAnswers().size() != 0) {
+//            List<AnswerDtoForMemberPage> answerDtoList = new ArrayList<>();
+//            for (Answer answer : entity.getAnswers()) {
+//                AnswerDtoForMemberPage answerDto = new AnswerDtoForMemberPage(answer.getId(), answer.getPost().getId(), answer.getContent());
+//                answerDtoList.add(answerDto);
+//            }
+//            this.answerDto = answerDtoList;
+//        }
+//        log.info("답변 작업 끝");
+//
+//
+//        // 본인의 댓글(고유아이디, 답변아이디, 내용)만 가져옴
+//        if (entity.getComments().size() != 0) {
+//            List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
+//
+//            for (Comment comment : entity.getComments()) {
+//                CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getPost().getId() ,comment.getAnswer().getId(), comment.getContent());
+//                commentDtoList.add(commentDto);
+//            }
+//            this.commentDto = commentDtoList;
+//        }
+//        log.info("댓글 작업 끝");
 
     }
 
@@ -105,5 +113,8 @@ public class MyPageDto {
     }
 
 }
+
+
+
 
 

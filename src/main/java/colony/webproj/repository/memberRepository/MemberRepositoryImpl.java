@@ -1,11 +1,13 @@
 package colony.webproj.repository.memberRepository;
 
 
+import colony.webproj.dto.MemberDto;
 import colony.webproj.dto.MemberManageDto;
 import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.QMemberManageDto;
 import colony.webproj.entity.*;
 import colony.webproj.entity.type.SearchType;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -94,16 +96,71 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     @Override
     public MyPageDto findMemberWithLikeCount(String loginId) {
 
-        Member memberEntity = queryFactory.selectFrom(member)
-                .leftJoin(member.posts, post)
-                .leftJoin(member.comments, comment)
-                .leftJoin(member.answers, answer)
-                .where(member.loginId.eq(loginId))
-                .fetchOne();
+//        Member memberEntity = queryFactory.selectFrom(member)
+//                .leftJoin(member.posts, post)
+//                .leftJoin(member.comments, comment)
+//                .leftJoin(member.answers, answer)
+//                .where(member.loginId.eq(loginId))
+//                .fetchOne();
+//
+//
+//
+//        MyPageDto myPageDto = new MyPageDto(memberEntity);
 
 
 
-        MyPageDto myPageDto = new MyPageDto(memberEntity);
+//        List<Tuple> results = queryFactory
+//                .select(member, post.id, post.title)
+//                .from(member)
+//                .leftJoin(member.posts, post)
+//                .leftJoin(member.comments, comment)
+//                .leftJoin(member.answers, answer)
+//                .where(member.loginId.eq(loginId))
+//                .fetch();
+//
+//        for (Tuple row : results) {
+//            Member memberEntity = row.get(member);
+//            Long postId = row.get(post.id);
+//            String postTitle = row.get(post.title);
+//
+//            // 필요한 로직 수행
+//        }
+
+
+        // First, find the member
+        String memberQuery = "SELECT m FROM Member m WHERE m.loginId = :loginId";
+        Member member = (Member) em.createQuery(memberQuery, Member.class)
+                .setParameter("loginId", loginId)
+                .getSingleResult();
+
+
+        MyPageDto myPageDto = new MyPageDto(member);
+
+        // Then fetch the posts
+        List<Post> posts = em.createQuery(
+                        "SELECT p FROM Post p WHERE p.member = :member", Post.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        myPageDto.setPostDto(posts);
+
+        // Then fetch the comments
+        List<MyPageDto.CommentDtoForMemberPage> comments = em.createQuery(
+                        "SELECT c.id, c.answer.post FROM Comment c WHERE c.member = :member", MyPageDto.CommentDtoForMemberPage.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        myPageDto.setCommentDto(comments);
+
+
+        // Then fetch the answers
+        List<MyPageDto.AnswerDtoForMemberPage> answers = em.createQuery(
+                        "SELECT a.id, a.post.id, a.content FROM Answer a WHERE a.member = :member", MyPageDto.AnswerDtoForMemberPage.class)
+                .setParameter("member", member)
+                .getResultList();
+
+        myPageDto.setAnswerDto(answers);
+
 
         return myPageDto;
     }
