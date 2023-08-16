@@ -27,10 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,13 +83,13 @@ public class AnswerService {
         String content = post.getMember().getNickname() + "님! 작성하신 [" + post.getTitle() + "] 질문에 답변이 달렸어요!";
 
         //본인의 게시글에 답변할 땐 알림 x
-        if(!Objects.equals(member.getId(), post.getMember().getId())) {
+        if (!Objects.equals(member.getId(), post.getMember().getId())) {
             Notification notification = notificationRepository.save(
                     notificationService.createNotification(post.getMember(), NotificationType.ANSWER, content, url)
             );
             log.info("답변 알람 repo 에 저장");
             notificationService.send(notification);
-            if(post.getMember().getEmailAlarm()) {
+            if (post.getMember().getEmailAlarm()) {
                 emailService.sendMail(post.getMember(), content, url, notification.getNotificationType());
             }
         }
@@ -110,13 +107,12 @@ public class AnswerService {
     }
 
 
-
     /**
      * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
      */
     @Transactional(readOnly = true)
-    public List<AnswerDto> findByPostId(Long postId) {
-        
+    public List<AnswerDto> findByPostId(Long postId, Long memberId) {
+
         //image, member join fetch 한 쿼리
         List<Answer> answerList = answerRepository.findAnswersByPostId(postId);
         List<Long> answerIds = answerList.stream().map(Answer::getId).collect(Collectors.toList());
@@ -127,7 +123,7 @@ public class AnswerService {
         //부모 댓글만 저장하는 commentMap 
         //key 가 answerId 이며 value 가 부모 댓글인 hashMap 으로 변환
         Map<Long, List<Comment>> commentMap = commentList.stream()
-                .filter(comment -> comment.getParent() == null) // parent 필드가 null이 아닌 경우만 필터링
+                .filter(comment -> comment.getParent() == null) // parent 필드가 null 이 아닌 경우만 필터링
                 .collect(Collectors.groupingBy(comment -> comment.getAnswer().getId()));
 
         //answer 엔티티에 부모 댓글 세팅
@@ -137,9 +133,23 @@ public class AnswerService {
             answer.setComments(answerComments);
         }
 
+        //로그인한 사용자가 좋아요 누른 answer
+        Map<Long, Boolean> userLikedAnswers = new HashMap<>();
+        if (memberId != null) {
+            List<Long> likedAnswerIdList = likesRepository.findByMemberId(memberId);
+            for (Long answerId : likedAnswerIdList) {
+                userLikedAnswers.put(answerId, true);
+            }
+        }
+
         List<AnswerDto> answerDtoList = answerList.stream()
-                .map(answer ->
-                    new AnswerDto(answer, answer.getLikes().size()))
+                .map(answer -> {
+                            AnswerDto answerDto = new AnswerDto(answer, answer.getLikes().size());
+                            Boolean isHearted = userLikedAnswers.getOrDefault(answerDto.getAnswerId(), false);
+                            answerDto.setIsHearted(isHearted);
+                            return answerDto;
+                        }
+                )
                 .collect(Collectors.toList());
         return answerDtoList;
     }
