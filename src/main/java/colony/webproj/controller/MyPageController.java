@@ -1,6 +1,7 @@
 package colony.webproj.controller;
 
 import colony.webproj.dto.MemberFormDto;
+import colony.webproj.dto.MemberPageDto;
 import colony.webproj.dto.MyPageDto;
 import colony.webproj.dto.PasswordFormDto;
 import colony.webproj.security.PrincipalDetails;
@@ -32,12 +33,11 @@ public class MyPageController {
     @GetMapping("/my-page")
     public String myPage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
         String loginId = principalDetails.getLoginId();
-        MyPageDto myPageDto = memberService.searchMember(loginId);
-        model.addAttribute("member", myPageDto);    // 좋아요 개수 포함.
-        model.addAttribute("posts", myPageDto.getPostDto());
-        model.addAttribute("answers", myPageDto.getAnswerDto());
-        model.addAttribute("comments", myPageDto.getCommentDto());
-
+        MemberPageDto memberPageDto = memberService.memberPageInfo(loginId);
+        model.addAttribute("member", memberPageDto);    // 좋아요 개수 포함.
+        model.addAttribute("posts", memberPageDto.getPostDtoList());
+        model.addAttribute("answers", memberPageDto.getAnswerDtoList());
+        model.addAttribute("comments", memberPageDto.getCommentDtoList());
         return "memberPage";
 
     }
@@ -83,16 +83,11 @@ public class MyPageController {
         return ResponseEntity.ok(true);
     }
 
-
-
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PasswordRequest {
         private String password;
-
     }
-
-
 }

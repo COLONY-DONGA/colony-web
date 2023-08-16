@@ -740,13 +740,13 @@
         });
       });
 
-      //댓글 수정 삭제 기능 권한 부여!!!
       document.addEventListener('DOMContentLoaded', function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
         const commentBoxes = document.querySelectorAll('.comment-box');
 
         commentBoxes.forEach((commentBox) => {
           const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+          const commentContent = commentBox.querySelector('.comment-content');
           const editBtn = commentBox.querySelector('.fa-pencil');
           const deleteBtn =
             commentBox.querySelector('.delete-comment-form i.fa-trash') ||
@@ -754,7 +754,10 @@
           // const deleteBtn = commentBox.querySelector('.fa-trash');
           // const btnbox = commentBox.querySelector('.btn');
 
-          if (userName === commentAuthor) {
+          // 삭제된 댓글 관련 처리
+          const commentRemoved = commentContent.textContent === '삭제된 댓글입니다.';
+
+          if (userName === commentAuthor && !commentRemoved) {
             editBtn.style.display = 'inline';
             deleteBtn.style.display = 'inline';
           } else {

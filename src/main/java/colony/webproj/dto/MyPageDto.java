@@ -71,6 +71,7 @@ public class MyPageDto {
             List<CommentDtoForMemberPage> commentDtoList = new ArrayList<>();
 
             for (Comment comment : entity.getComments()) {
+                if(comment.isRemoved()) continue;
                 CommentDtoForMemberPage commentDto = new CommentDtoForMemberPage(comment.getId(), comment.getAnswer().getPost().getId() ,comment.getAnswer().getId(), comment.getContent());
                 commentDtoList.add(commentDto);
             }
