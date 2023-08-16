@@ -138,7 +138,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
         // Then fetch the posts
         List<Post> posts = em.createQuery(
-                        "SELECT p FROM Post p WHERE p.member = :member", Post.class)
+                        "SELECT p.id,p.title FROM Post p WHERE p.member = :member", Post.class)
                 .setParameter("member", member)
                 .getResultList();
 
