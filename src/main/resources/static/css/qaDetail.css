@@ -970,3 +970,9 @@ ul {
 .edit-recomment-form button[type='button']:hover {
   background-color: #dddddd;
 }
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 100px; /* 오른쪽 여백 */
+}

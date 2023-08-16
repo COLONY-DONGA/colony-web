@@ -198,7 +198,6 @@
                         class="delete-comment-form"
                         method="get"
                         th:action="@{'/delete-comment/' + ${comment.commentId}}"
-                        style="display: none"
                       >
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       </form>
@@ -231,14 +230,13 @@
                         </div>
                         <div class="comment-box">
                           <div class="comment-head">
-                            <h6 class="comment-name reply-name" th:text="${recomment.createdBy}">
+                            <h6 class="comment-name" th:text="${recomment.createdBy}">
                               Jane Smith
                             </h6>
                             <form
                               class="delete-reply-form"
                               method="get"
                               th:action="@{'/delete-comment/' + ${recomment.commentId}}"
-                              style="display: none"
                             >
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </form>
@@ -314,6 +312,8 @@
     </div>
     <div id="footer"></div>
 
+    <div th:replace="~{layouts/footer :: footer}"></div>
+
     <script>
       $(document).ready(function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
@@ -340,44 +340,24 @@
           console.log('삭제버튼');
         });
 
-        var Aeditbtns = document.querySelectorAll('.editbtn[data-answer-id1]'); //answer 수정 버튼
-        Aeditbtns.forEach(function (Aeditbtn) {
-          Aeditbtn.style.display = 'none';
-          let answerName =
-            Aeditbtn.closest('.answer-box').querySelector('.answer-info-writer').textContent;
+        var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+        if (answereditbtn != null) {
+          answereditbtn.addEventListener('click', function () {
+            var answerId = this.getAttribute('data-answer-id1');
+            window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
+            console.log('answer editbtn');
+          });
+        }
+        var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
+        if (answerdeletebtn != null) {
+          answerdeletebtn.addEventListener('click', function () {
+            var answerId = this.getAttribute('data-answer-id2');
+            location.href = '/delete-answer/' + postId + '/' + answerId;
+            console.log('answer deletebtn');
+          });
+        }
 
-          if (userName === answerName) {
-            Aeditbtn.style.display = 'block';
-          }
-
-          if (Aeditbtn != null) {
-            Aeditbtn.addEventListener('click', function () {
-              var answerId = this.getAttribute('data-answer-id1');
-              window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
-            });
-          }
-        });
-
-        var Adeletebtns = document.querySelectorAll('.deletebtn[data-answer-id2]'); //answer 삭제 버튼
-        Adeletebtns.forEach(function (Adeletebtn) {
-          Adeletebtn.style.display = 'none';
-          let answerName =
-            Adeletebtn.closest('.answer-box').querySelector('.answer-info-writer').textContent;
-
-          if (userName === answerName) {
-            Adeletebtn.style.display = 'block';
-          }
-
-          if (Adeletebtn != null) {
-            Adeletebtn.addEventListener('click', function () {
-              var answerId = this.getAttribute('data-answer-id2');
-              location.href = '/delete-answer/' + postId + '/' + answerId;
-              console.log('answer deletebtn');
-            });
-          }
-        });
-
-        if (userName !== name || userName === '') {
+        if (userName != name || userName === '') {
           //게시글 수정 삭제 권한부여
           console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
@@ -389,6 +369,18 @@
           //   deletebtn.style.display = 'block';
           // }
         }
+
+        // if ((userName = answerName || userName === '')) {
+        //   //답변 수정 삭제 권한부여
+        //   answereditbtn.style.display = 'none';
+        //   answerdeletebtn.style.display = 'none';
+        //   //관리자일때도 권한 추가
+        //   // if (userName === 'admin') {
+        //   //   //관리자 이름을 어떻게 받더라....
+        //   //   answereditbtn.style.display = 'block';
+        //   //   answerdeletebtn.style.display = 'block';
+        //   // }
+        // }
 
         // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
         const replyButtons = document.querySelectorAll('.reply-button');
@@ -441,23 +433,23 @@
 
         //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
-        // // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-        // window.addEventListener('load', function () {
-        //   adjustQuestionAreaHeight();
-        // });
-        //
-        // // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-        // window.addEventListener('resize', function () {
-        //   adjustQuestionAreaHeight();
-        // });
-        //
-        // // 요소의 높이를 조정하는 함수
-        // function adjustQuestionAreaHeight() {
-        //   var qBox = document.getElementById('q-box');
-        //   var questionArea = document.getElementById('question-area');
-        //   var maxHeight = qBox.offsetHeight;
-        //   questionArea.style.height = maxHeight + 'px';
-        // }
+        // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+        window.addEventListener('load', function () {
+          adjustQuestionAreaHeight();
+        });
+
+        // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+        window.addEventListener('resize', function () {
+          adjustQuestionAreaHeight();
+        });
+
+        // 요소의 높이를 조정하는 함수
+        function adjustQuestionAreaHeight() {
+          var qBox = document.getElementById('q-box');
+          var questionArea = document.getElementById('question-area');
+          var maxHeight = qBox.offsetHeight;
+          questionArea.style.height = maxHeight + 'px';
+        }
 
         // answer-area css부분
         document.addEventListener('DOMContentLoaded', function () {
@@ -702,7 +694,30 @@
           });
         });
       });
+
+      //댓글 수정 삭제 기능 권한 부여!!!
+      document.addEventListener('DOMContentLoaded', function () {
+        let userName = $('.member-nickname').val(); // 로그인 유저
+        const commentBoxes = document.querySelectorAll('.comment-box');
+
+        commentBoxes.forEach((commentBox) => {
+          const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+          const editBtn = commentBox.querySelector('.fa-pencil');
+          const deleteBtn =
+            commentBox.querySelector('.delete-comment-form i.fa-trash') ||
+            commentBox.querySelector('.delete-reply-form i.fa-trash');
+          // const deleteBtn = commentBox.querySelector('.fa-trash');
+          // const btnbox = commentBox.querySelector('.btn');
+
+          if (userName === commentAuthor) {
+            editBtn.style.display = 'inline';
+            deleteBtn.style.display = 'inline';
+          } else {
+            editBtn.style.display = 'none';
+            deleteBtn.style.display = 'none';
+          }
+        });
+      });
     </script>
-    <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>
