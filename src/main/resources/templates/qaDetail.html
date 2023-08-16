@@ -198,13 +198,12 @@
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
-                      <!-- 유진 수정 폼 -->
-                      <form
-                        class="edit-comment-form"
-                        method="post"
-                        th:action="@{'/edit-comment/' + ${comment.commentId}}"
-                      >
-                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                      <!-- 유진 수정 위치 -->
+                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+                      <form class="edit-comment-form" method="post" style="display: none">
+                        <input type="text" name="content" />
+                        <button type="submit">수정 제출</button>
+                        <button type="button" class="cancel-edit-comment">취소</button>
                       </form>
                       <form
                         class="delete-comment-form"
@@ -528,6 +527,77 @@
 
       //댓글 수정 삭제 기능 권한 부여!!!
 
+      // // 댓글 수정 기능
+      document.addEventListener('DOMContentLoaded', function () {
+        const commentEditIs = document.querySelectorAll('.comment-edit-i');
+
+        commentEditIs.forEach((editIcon) => {
+          editIcon.addEventListener('click', function () {
+            const commentBox = this.closest('.comment-box');
+            const commentContent = commentBox.querySelector('.comment-content');
+            const editForm = commentBox.querySelector('.edit-comment-form');
+            const editInput = editForm.querySelector('input[type="text"]');
+
+            const textWrapper = document.createElement('span');
+            textWrapper.textContent = commentContent.childNodes[0].textContent;
+            commentContent.innerHTML = '';
+            commentContent.appendChild(textWrapper);
+
+            editInput.value = textWrapper.textContent;
+
+            textWrapper.style.display = 'none';
+            editForm.style.display = 'block';
+
+            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
+          });
+        });
+
+        const cancelButtons = document.querySelectorAll('.cancel-edit-comment');
+
+        cancelButtons.forEach((cancelButton) => {
+          cancelButton.addEventListener('click', function () {
+            const commentBox = this.closest('.comment-box');
+            const commentContent = commentBox.querySelector('.comment-content');
+            const editForm = commentBox.querySelector('.edit-comment-form');
+            const textWrapper = commentContent.querySelector('span');
+
+            editForm.style.display = 'none';
+            textWrapper.style.display = 'inline';
+          });
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const editCommentForms = document.querySelectorAll('.edit-comment-form');
+
+        editCommentForms.forEach((editForm) => {
+          editForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+
+            const commentId =
+              this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
+            const content = this.querySelector('input[type="text"]').value;
+
+            // json 형식으로 ajax 요청을 보냅니다.
+            $.ajax({
+              type: 'POST',
+              url: '/edit-comment/' + commentId,
+              contentType: 'application/json',
+              data: JSON.stringify({ content: content }),
+              success: function (response) {
+                window.location.reload(); // 성공적으로 수정되면 페이지를 새로고침합니다.
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
+          });
+        });
+      });
+
+      //대댓글 수정 기능
+
+      //댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 

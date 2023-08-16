@@ -685,6 +685,7 @@ ul {
   font-size: 1rem;
   font-style: rgb(120, 116, 116) (36, 35, 35);
   margin-top: 2rem;
+  white-space: pre-wrap;
 }
 /* This class will be added to the answer-text-box when you want to show its content */
 .answer-text-box.expanded {
