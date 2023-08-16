@@ -921,3 +921,9 @@ ul {
 
   align-items: center; /* 세로로 중앙 정렬 */
 }
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 100px; /* 오른쪽 여백 */
+}
