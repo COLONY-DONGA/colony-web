@@ -98,7 +98,6 @@ public class NotificationService {
         받을 회원의 emitter들을 모두 찾아 해당 emitter를 Send
      */
 
-    @Async
     public void send(Notification notification) {
         //알림 저장
         String receiverId = String.valueOf(notification.getReceiver().getId());
