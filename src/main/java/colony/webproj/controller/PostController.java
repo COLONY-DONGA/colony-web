@@ -84,7 +84,8 @@ public class PostController {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
 
-        List<AnswerDto> answerDtoList = answerService.findByPostId(postId); //답변과 댓글, 대댓글, 이미지데이터 가져오기
+        List<AnswerDto> answerDtoList =
+                answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
         model.addAttribute("answerDtoList", answerDtoList);
 
         if(principalDetails != null) {

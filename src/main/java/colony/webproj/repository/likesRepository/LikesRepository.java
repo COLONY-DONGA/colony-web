@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,6 +19,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     @Query("delete from Likes l where l.answer.id = :answerId")
     void deleteByAnswerId(@Param("answerId") Long answerId);
 
-//    @Query("select count()")
-//    Long findHearNumByAnswerId(@Param("answerId") Long answerId);
+    @Query("select l.answer.id from Likes l where l.member.id = :memberId")
+    List<Long> findByMemberId(@Param("memberId") Long memberId);
+
 }
