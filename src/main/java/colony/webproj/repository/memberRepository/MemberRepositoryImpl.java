@@ -99,7 +99,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .leftJoin(member.posts, post)
                 .leftJoin(member.comments, comment)
                 .leftJoin(member.answers, answer)
-                .where(member.loginId.eq(loginId))
+                .where(member.loginId.eq(loginId),
+                        comment.isRemoved.eq(Boolean.FALSE)
+                )
                 .fetchOne();
 
 
