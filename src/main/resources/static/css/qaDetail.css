@@ -791,16 +791,7 @@ ul {
   margin-left: 1rem;
 }
 
-.heart-button:hover {
-  color: red;
-}
-
-.heart-button-use {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  transition: color 0.3s ease;
+.likelike {
   color: red;
 }
 

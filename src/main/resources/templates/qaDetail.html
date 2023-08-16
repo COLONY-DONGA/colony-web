@@ -312,6 +312,8 @@
     </div>
     <div id="footer"></div>
 
+    <div th:replace="~{layouts/footer :: footer}"></div>
+
     <script>
       $(document).ready(function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
@@ -399,27 +401,72 @@
         });
 
         // 각 하트 버튼에 클릭 이벤트 리스너 추가
+        // const heartButtons = document.querySelectorAll('.heart-button');
+        // heartButtons.forEach((button) => {
+        //   button.addEventListener('click', function () {
+        //     // data-answer-id 속성 값을 가져옴
+        //     const answerId = this.getAttribute('data-answer-id');
+        //     console.log(answerId);
+
+        //     // json 형식으로 ajax 요청을 보냅니다.
+        //     $.ajax({
+        //       type: 'POST',
+        //       url: '/heart/' + answerId,
+        //       contentType: 'application/json',
+        //       data: JSON.stringify({ answerId: answerId, userName: userName }),
+        //       success: function (response) {
+        //         //likeCountElement
+        //         const likeCountElement = document.querySelector('#like-' + answerId);
+        //         // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+        //         if (response) {
+        //           likeCountElement.textContent++;
+        //         } else {
+        //           likeCountElement.textContent--;
+        //         }
+        //       },
+        //       error: function (xhr, status, error) {
+        //         console.error('Error:', status, error);
+        //       },
+        //     });
+        //   });
+        // });
+
         const heartButtons = document.querySelectorAll('.heart-button');
         heartButtons.forEach((button) => {
+          // 여긴 좋아요 색상 그거 클래스 추가임 (유진)
+          // const answerId = button.getAttribute('data-answer-id');
+          // $.ajax({
+          //   type: 'GET',
+          //   url: '/isLiked/' + answerId + '/' + userName,
+          //   success: function (response) {
+          //     if (response) {
+          //       button.classList.add('likelike');
+          //     } else {
+          //       button.classList.remove('likelike');
+          //     }
+          //   },
+          //   error: function (xhr, status, error) {
+          //     console.error('Error:', status, error);
+          //   },
+          // });
+
           button.addEventListener('click', function () {
-            // data-answer-id 속성 값을 가져옴
             const answerId = this.getAttribute('data-answer-id');
             console.log(answerId);
 
-            // json 형식으로 ajax 요청을 보냅니다.
             $.ajax({
               type: 'POST',
               url: '/heart/' + answerId,
               contentType: 'application/json',
               data: JSON.stringify({ answerId: answerId, userName: userName }),
               success: function (response) {
-                //likeCountElement
                 const likeCountElement = document.querySelector('#like-' + answerId);
-                // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
                 if (response) {
                   likeCountElement.textContent++;
+                  button.classList.add('likelike');
                 } else {
                   likeCountElement.textContent--;
+                  button.classList.remove('likelike');
                 }
               },
               error: function (xhr, status, error) {
@@ -657,7 +704,7 @@
         });
       });
 
-      //댓글 삭제 기능
+      // 댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 
@@ -675,7 +722,7 @@
         });
       });
 
-      //대댓글 삭제 기능
+      // 대댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
 
@@ -692,7 +739,30 @@
           });
         });
       });
+
+      //댓글 수정 삭제 기능 권한 부여!!!
+      document.addEventListener('DOMContentLoaded', function () {
+        let userName = $('.member-nickname').val(); // 로그인 유저
+        const commentBoxes = document.querySelectorAll('.comment-box');
+
+        commentBoxes.forEach((commentBox) => {
+          const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+          const editBtn = commentBox.querySelector('.fa-pencil');
+          const deleteBtn =
+            commentBox.querySelector('.delete-comment-form i.fa-trash') ||
+            commentBox.querySelector('.delete-reply-form i.fa-trash');
+          // const deleteBtn = commentBox.querySelector('.fa-trash');
+          // const btnbox = commentBox.querySelector('.btn');
+
+          if (userName === commentAuthor) {
+            editBtn.style.display = 'inline';
+            deleteBtn.style.display = 'inline';
+          } else {
+            editBtn.style.display = 'none';
+            deleteBtn.style.display = 'none';
+          }
+        });
+      });
     </script>
-    <div th:replace="~{layouts/footer :: footer}"></div>
   </body>
 </html>
