@@ -61,4 +61,4 @@ cloud:
 #server:
 #  port: 8090
 
-spring.jpa.open-in-view: false
+#spring.jpa.open-in-view: false
