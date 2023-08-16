@@ -154,6 +154,7 @@
           <a
             class="history-item"
             th:each="comment, status : ${member.commentDtoList}"
+            th:if="${!comment.isRemoved}"
             th:href="@{'/post/' + ${comment.postId}}"
             th:text="${'C' + (status.index + 1) + '. ' + comment.content}"
             >Comments</a
