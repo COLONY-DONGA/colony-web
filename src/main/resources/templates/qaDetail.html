@@ -1,698 +1,778 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/qaDetail.css" />
-    <link rel="stylesheet" href="/css/headerfooter.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <title>질문 세부 페이지</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/css/qaDetail.css" />
+  <link rel="stylesheet" href="/css/headerfooter.css" />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <title>질문 세부 페이지</title>
+</head>
 
-  <body>
-    <!--  로그인 유저 닉네임-->
-    <div>
-      <input class="member-nickname" th:value="${loginUser}" style="display: none" />
-    </div>
-    <div>
-      <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
-    </div>
+<body>
+<!--  로그인 유저 닉네임-->
+<div>
+  <input class="member-nickname" th:value="${loginUser}" style="display: none" />
+</div>
+<div>
+  <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
+</div>
 
-    <div th:replace="~{layouts/header :: header}"></div>
-    <br />
-    <br />
-    <br />
+<div th:replace="~{layouts/header :: header}"></div>
+<br />
+<br />
+<br />
 
-    <div class="qadetail-frame">
-      <div class="q-box">
-        <div class="horizontal-line"></div>
-        <div class="q-head">
-          <div class="question-title" th:text="${postDto.title}">title</div>
-          <div class="question-info">
-            <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-            <span th:text="${postDto.viewCount}"></span>
-            <!--조회수-->
+<div class="qadetail-frame">
+  <div class="q-box">
+    <div class="horizontal-line"></div>
+    <div class="q-head">
+      <div class="question-title" th:text="${postDto.title}">title</div>
+      <div class="question-info">
+        <i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+        <span th:text="${postDto.viewCount}"></span>
+        <!--조회수-->
 
-            <span class="small-line"> </span>
-            <i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
-            <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
-              >작성자</span
-            >
-            <span class="small-line"> </span>
+        <span class="small-line"> </span>
+        <i class="fa-solid fa-face-laugh-squint fa-bounce" style="color: Green"></i>
+        <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
+        >작성자</span
+        >
+        <span class="small-line"> </span>
 
-            <i class="fa-regular fa-clock"></i>
-            <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
-          </div>
+        <i class="fa-regular fa-clock"></i>
+        <span class="question-info-date" th:text="${postDto.createdAt}">date</span>
+      </div>
 
-          <br />
-          <br />
-          <div class="horizontal-line"></div>
+      <br />
+      <br />
+      <div class="horizontal-line"></div>
 
-          <!--<tr class="article-info">
-  <th>날짜</th>
-  <td th:text="${postDto.updatedAt}">date</td>
+      <!--<tr class="article-info">
+<th>날짜</th>
+<td th:text="${postDto.updatedAt}">date</td>
 </tr> -->
 
-          <!--내용칸-->
-        </div>
+      <!--내용칸-->
+    </div>
 
-        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+    <div class="question-area" th:text="${postDto.content}">Q. question area</div>
 
-        <input id="postId" type="hidden" th:value="${postDto.postId}" />
-        <!--포스트아이디-->
+    <input id="postId" type="hidden" th:value="${postDto.postId}" />
+    <!--포스트아이디-->
 
-        <div class="file-box">
-          <!-- Loop through the file list -->
-          <div th:each="file : ${postDto.imageDtoList}">
-            <div class="file-img">
-              <img th:src="${file.s3Url}" alt="이미지" />
-            </div>
-          </div>
-        </div>
-
-        <!--버튼바들-->
-        <div class="tool-box" id="question-tool-box">
-          <div class="btn">
-            <button class="qabtn" id="qabtn">
-              <i class="fa-keyboard-o"></i>
-              답변하기
-            </button>
-            <!--<button class="listbtn" id="listbtn">목록</button>-->
-            <button class="editbtn" id="editbtn">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-            <button class="deletebtn" id="deletebtn">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-            <!--<a href="#" class="btn green rounded">Button</a>-->
-          </div>
+    <div class="file-box">
+      <!-- Loop through the file list -->
+      <div th:each="file : ${postDto.imageDtoList}">
+        <div class="file-img">
+          <img th:src="${file.s3Url}" alt="이미지" />
         </div>
       </div>
-      <br />
-      <br />
+    </div>
 
-      <br />
+    <!--버튼바들-->
+    <div class="tool-box" id="question-tool-box">
+      <div class="btn">
+        <button class="qabtn" id="qabtn">
+          <i class="fa-keyboard-o"></i>
+          답변하기
+        </button>
+        <!--<button class="listbtn" id="listbtn">목록</button>-->
+        <button class="editbtn" id="editbtn">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="deletebtn" id="deletebtn">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <!--<a href="#" class="btn green rounded">Button</a>-->
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
 
-      <div class="answer-zone">
-        <div class="answer-title">
-          <i class="fa-solid fa-comment"></i>
-          <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
-          <span class="answer-label">Answer</span>
-        </div>
+  <br />
 
-        <div
-          th:each="answer, status : ${answerDtoList}"
-          class="answer-box"
-          id="answer-box-[[${answer.id}]]"
-        >
-          <div class="answer-horizontal-line"></div>
-          <div class="a-head">
-            <div class="answer-info">
-              <!--<span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
-      >작성자</span
+  <div class="answer-zone">
+    <div class="answer-title">
+      <i class="fa-solid fa-comment"></i>
+      <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
+      <span class="answer-label">Answer</span>
+    </div>
+
+    <div
+            th:each="answer, status : ${answerDtoList}"
+            class="answer-box"
+            id="answer-box-[[${answer.id}]]"
     >
-    <span class="small-line"> | </span>
-    <span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
-              <div class="answer-data-box">
-                <i
-                  class="fa-solid fa-face-laugh-squint"
-                  style="color: Green; margin-left: 1rem"
-                ></i>
-                <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}">
+      <div class="answer-horizontal-line"></div>
+      <div class="a-head">
+        <div class="answer-info">
+          <!--<span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}"
+  >작성자</span
+>
+<span class="small-line"> | </span>
+<span class="answer-info-date" th:text="${answer.createdAt}">date</span>-->
+          <div class="answer-data-box">
+            <i
+                    class="fa-solid fa-face-laugh-squint"
+                    style="color: Green; margin-left: 1rem"
+            ></i>
+            <span id="answer-writer" class="answer-info-writer" th:text="${answer.createdBy}">
                   작성자</span
-                >
+            >
 
-                <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
+            <i class="fa-solid fa-tags" style="color: #511f1f"></i>답변
 
-                <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
-        <span th:text="${postDto.viewCount}">조회수</span>-->
+            <!--<i class="fa-solid fa-eye" style="margin-left: 1rem"></i>
+    <span th:text="${postDto.viewCount}">조회수</span>-->
 
-                <span class="time">
+            <span class="time">
                   <i class="fa-regular fa-clock"></i>
                   <span class="answer-info-date" th:text="${answer.createdAt}">date</span>
                 </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="answer-text">
-            <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
-            <div class="answer-area" th:text="${answer.content}">
-              A.answer content A.answer content A.answer content A.answer content A.answer content
-            </div>
-          </div>
-
-          <!--파일-->
-
-          <div class="tool-box" id="answer-tool-box">
-            <button class="heart-button" th:data-answer-id="${answer.answerId}">
-              <i class="fa fa-heart"></i>
-            </button>
-            <div
-              class="likecount"
-              id="like"
-              th:id="'like-' + ${answer.answerId}"
-              th:text="${answer.heartNum}"
-            >
-              1
-            </div>
-            <div class="btn">
-              <button class="editbtn" id="Aeditbtn" th:data-answer-id1="${answer.answerId}">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </button>
-              <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-              <!--<a href="#" class="btn green rounded">Button</a>-->
-            </div>
-          </div>
-
-          <br />
-
-          <div class="comments-container">
-            <ul
-              id="comments-list"
-              class="comments-list"
-              th:each="comment, status : ${answer.commentList}"
-            >
-              <!-- 댓글이 여기에 추가될 예정 -->
-
-              <!-- 첫번째 댓글 1 -->
-              <li>
-                <div class="comment-main-level">
-                  <div class="comment-avatar">
-                    <img src="/img/colonyLogo.jpg" alt="" />
-                  </div>
-                  <div class="comment-box">
-                    <div class="comment-head">
-                      <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
-                      <i
-                        class="fa fa-reply reply-button"
-                        th:data-comment-id="${comment.commentId}"
-                      ></i>
-                      <!-- 유진 1 -->
-                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
-                      <form class="edit-comment-form" method="post" style="display: none">
-                        <input type="text" name="content" />
-                        <button type="submit">수정 제출</button>
-                        <button type="button" class="cancel-edit-comment">취소</button>
-                      </form>
-                      <form
-                        class="delete-comment-form"
-                        method="get"
-                        th:action="@{'/delete-comment/' + ${comment.commentId}}"
-                      >
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                      </form>
-                    </div>
-                    <div
-                      class="comment-content"
-                      th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
-                      th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
-                    >
-                      This is the main comment content.
-                    </div>
-                    <ul
-                      class="comments-list reply-list"
-                      th:each="recomment, status : ${comment.childList}"
-                    >
-                      <!-- 첫번째 댓글에 대한 대댓글1 -->
-                      <li>
-                        <div class="comment-avatar">
-                          <img src="/img/colony3.jpg" alt="" />
-                        </div>
-                        <div class="comment-box">
-                          <div class="comment-head">
-                            <h6 class="comment-name" th:text="${recomment.createdBy}">
-                              Jane Smith
-                            </h6>
-                            <!-- 유진 2 -->
-                            <i
-                              class="fa fa-pencil recomment-edit-i"
-                              aria-hidden="true"
-                              th:data-comment-id="${recomment.commentId}"
-                            ></i>
-                            <form class="edit-recomment-form" method="post" style="display: none">
-                              <input type="text" name="content" />
-                              <button type="submit">수정 제출</button>
-                              <button type="button" class="cancel-edit-recomment">취소</button>
-                            </form>
-                            <form
-                              class="delete-reply-form"
-                              method="get"
-                              th:action="@{'/delete-comment/' + ${recomment.commentId}}"
-                            >
-                              <i class="fa fa-trash" aria-hidden="true"></i>
-                            </form>
-                          </div>
-                          <div class="comment-content" th:text="${recomment.content}">
-                            This is a reply to the main comment.
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-
-                    <!--대댓글 입력 폼-->
-                    <div
-                      class="input-recomment-box"
-                      th:id="'recomment-' + ${comment.commentId}"
-                      th:data-answer-id="${answer.answerId}"
-                      style="display: none"
-                    >
-                      <form
-                        th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
-                        method="post"
-                      >
-                        <div class="reply-inputframe">
-                          <br />
-                          <h5>
-                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                            <input type="text" class="reply-input-text" name="content" />
-                          </h5>
-                          <button class="new-comment-btn">
-                            <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-            <!-- 새댓글 작성부분 -->
-            <div class="input-comment-box">
-              <form
-                th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
-                method="post"
-                id="comment-form"
-              >
-                <div class="inputframe">
-                  <br />
-                  <h5>
-                    <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                    <input type="text" class="input-text" id="newComment" name="content" />
-                  </h5>
-                  <button class="new-comment-btn" id="add-comment-button">
-                    <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
-        <br />
-        <br />
+      </div>
+
+      <div class="answer-text">
+        <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
+        <div class="answer-area" th:text="${answer.content}">
+          A.answer content A.answer content A.answer content A.answer content A.answer content
+        </div>
+      </div>
+
+      <!--파일-->
+
+      <div class="tool-box" id="answer-tool-box">
+        <button class="heart-button" th:data-answer-id="${answer.answerId}">
+          <i class="fa fa-heart"></i>
+        </button>
+        <div
+                class="likecount"
+                id="like"
+                th:id="'like-' + ${answer.answerId}"
+                th:text="${answer.heartNum}"
+        >
+          1
+        </div>
+        <div class="btn">
+          <button class="editbtn" id="Aeditbtn" th:data-answer-id1="${answer.answerId}">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <!--<a href="#" class="btn green rounded">Button</a>-->
+        </div>
+      </div>
+
+      <br />
+
+      <div class="comments-container">
+        <ul
+                id="comments-list"
+                class="comments-list"
+                th:each="comment, status : ${answer.commentList}"
+        >
+          <!-- 댓글이 여기에 추가될 예정 -->
+
+          <!-- 첫번째 댓글 1 -->
+          <li>
+            <div class="comment-main-level">
+              <div class="comment-avatar">
+                <img src="/img/colonyLogo.jpg" alt="" />
+              </div>
+              <div class="comment-box">
+                <div class="comment-head">
+                  <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
+                  <form
+                          class="delete-comment-form"
+                          method="get"
+                          th:action="@{'/delete-comment/' + ${comment.commentId}}"
+                  >
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </form>
+                  <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+                  <form class="edit-comment-form" method="post" style="display: none">
+                    <input type="text" name="content" />
+                    <button type="submit">수정</button>
+                    <button type="button" class="cancel-edit-comment">취소</button>
+                  </form>
+                  <i
+                          class="fa fa-reply reply-button"
+                          th:data-comment-id="${comment.commentId}"
+                  ></i>
+                </div>
+                <div
+                        class="comment-content"
+                        th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
+                        th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
+                >
+                  This is the main comment content.
+                </div>
+                <ul
+                        class="comments-list reply-list"
+                        th:each="recomment, status : ${comment.childList}"
+                >
+                  <!-- 첫번째 댓글에 대한 대댓글1 -->
+                  <li>
+                    <div class="comment-avatar">
+                      <img src="/img/colony3.jpg" alt="" />
+                    </div>
+                    <div class="comment-box">
+                      <div class="comment-head">
+                        <h6 class="comment-name" th:text="${recomment.createdBy}">
+                          Jane Smith
+                        </h6>
+                        <form
+                                class="delete-reply-form"
+                                method="get"
+                                th:action="@{'/delete-comment/' + ${recomment.commentId}}"
+                        >
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </form>
+                        <i
+                                class="fa fa-pencil recomment-edit-i"
+                                aria-hidden="true"
+                                th:data-comment-id="${recomment.commentId}"
+                        ></i>
+                        <form class="edit-recomment-form" method="post" style="display: none">
+                          <input type="text" name="content" />
+                          <button type="submit">수정</button>
+                          <button type="button" class="cancel-edit-recomment">취소</button>
+                        </form>
+                      </div>
+                      <div class="comment-content" th:text="${recomment.content}">
+                        This is a reply to the main comment.
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                <!--대댓글 입력 폼-->
+                <div
+                        class="input-recomment-box"
+                        th:id="'recomment-' + ${comment.commentId}"
+                        th:data-answer-id="${answer.answerId}"
+                        style="display: none"
+                >
+                  <form
+                          th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
+                          method="post"
+                  >
+                    <div class="reply-inputframe">
+                      <br />
+                      <h5>
+                        <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                        <input type="text" class="reply-input-text" name="content" />
+                      </h5>
+                      <button class="new-comment-btn">
+                        <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- 새댓글 작성부분 -->
+        <div class="input-comment-box">
+          <form
+                  th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
+                  method="post"
+                  id="comment-form"
+          >
+            <div class="inputframe">
+              <br />
+              <h5>
+                <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                <input type="text" class="input-text" id="newComment" name="content" />
+              </h5>
+              <button class="new-comment-btn" id="add-comment-button">
+                <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <div id="footer"></div>
+    <br />
+    <br />
+  </div>
+</div>
+<div id="footer"></div>
 
-    <script>
-      $(document).ready(function () {
-        let userName = $('.member-nickname').val(); // 로그인 유저
-        let name = $('.post-writer-nickname').val(); // post 작성자
-        let postId = $('#postId').val(); //post아이디
-        console.log('userName: ' + userName);
-        console.log('Name: ' + name);
+<div th:replace="~{layouts/footer :: footer}"></div>
 
-        var qabtn = document.getElementById('qabtn'); //답변등록 버튼
-        qabtn.addEventListener('click', function () {
-          window.open('/answer/' + postId, 'aEnroll');
-        });
+<script>
+  $(document).ready(function () {
+    let userName = $('.member-nickname').val(); // 로그인 유저
+    let name = $('.post-writer-nickname').val(); // post 작성자
+    let postId = $('#postId').val(); //post아이디
+    console.log('userName: ' + userName);
+    console.log('Name: ' + name);
 
-        var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
-        console.log(editbtn);
-        editbtn.addEventListener('click', function () {
-          location.href = '/edit-post/' + postId;
-          console.log('수정버튼');
-        });
+    var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+    qabtn.addEventListener('click', function () {
+      window.open('/answer/' + postId, 'aEnroll');
+    });
 
-        var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
-        deletebtn.addEventListener('click', function () {
-          location.href = '/delete-post/' + postId;
-          console.log('삭제버튼');
-        });
+    var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+    console.log(editbtn);
+    editbtn.addEventListener('click', function () {
+      location.href = '/edit-post/' + postId;
+      console.log('수정버튼');
+    });
 
-        var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-        if (answereditbtn != null) {
-          answereditbtn.addEventListener('click', function () {
-            var answerId = this.getAttribute('data-answer-id1');
-            window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
-            console.log('answer editbtn');
-          });
+    var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
+    deletebtn.addEventListener('click', function () {
+      location.href = '/delete-post/' + postId;
+      console.log('삭제버튼');
+    });
+
+    // var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
+    // if (answereditbtn != null) {
+    //   answereditbtn.addEventListener('click', function () {
+    //     var answerId = this.getAttribute('data-answer-id1');
+    //     window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
+    //     console.log('answer editbtn');
+    //   });
+    // }
+    // var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
+    // if (answerdeletebtn != null) {
+    //   answerdeletebtn.addEventListener('click', function () {
+    //     var answerId = this.getAttribute('data-answer-id2');
+    //     location.href = '/delete-answer/' + postId + '/' + answerId;
+    //     console.log('answer deletebtn');
+    //   });
+    // }
+
+    //answer 수정 삭제 버튼 이벤트 리스너
+    document.body.addEventListener('click', function (event) {
+      if (event.target && event.target.id === "Aeditbtn") {
+        var answerId = event.target.getAttribute('data-answer-id1');
+        window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
+        console.log('answer editbtn');
+      }
+
+      if (event.target && event.target.id === "Adeletebtn") {
+        var answerId = event.target.getAttribute('data-answer-id2');
+        location.href = '/delete-answer/' + postId + '/' + answerId;
+        console.log('answer deletebtn');
+      }
+    });
+
+    if (userName != name || userName === '') {
+      //게시글 수정 삭제 권한부여
+      console.log('css 숨기는 로직');
+      editbtn.style.display = 'none';
+      deletebtn.style.display = 'none';
+      //관리자일때도 권한 추가
+      // if (userName === 'admin') {
+      //   //관리자 이름을 어떻게 받더라....
+      //   editbtn.style.display = 'block';
+      //   deletebtn.style.display = 'block';
+      // }
+    }
+
+    // if ((userName = answerName || userName === '')) {
+    //   //답변 수정 삭제 권한부여
+    //   answereditbtn.style.display = 'none';
+    //   answerdeletebtn.style.display = 'none';
+    //   //관리자일때도 권한 추가
+    //   // if (userName === 'admin') {
+    //   //   //관리자 이름을 어떻게 받더라....
+    //   //   answereditbtn.style.display = 'block';
+    //   //   answerdeletebtn.style.display = 'block';
+    //   // }
+    // }
+
+    // // 답변 수정 삭제 권한부여
+    const answerBoxes = document.querySelectorAll('.answer-box');
+    answerBoxes.forEach((answerBox) => {
+      const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
+
+      const answerEditBtn = answerBox.querySelector('#Aeditbtn');
+      const answerDeleteBtn = answerBox.querySelector('#Adeletebtn');
+
+      if (userName === answerAuthor) {
+        answerEditBtn.style.display = 'block';
+        answerDeleteBtn.style.display = 'block';
+      } else {
+        answerEditBtn.style.display = 'none';
+        answerDeleteBtn.style.display = 'none';
+      }
+      // // 관리자일 때 추가 권한
+      // if (userName === 'admin') {
+      //   answerEditBtn.style.display = 'block';
+      //   answerDeleteBtn.style.display = 'block';
+      // }
+    });
+  });
+
+    // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
+    const replyButtons = document.querySelectorAll('.reply-button');
+    replyButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        // data-answer-id 속성 값을 가져옴
+        const commentId = this.getAttribute('data-comment-id');
+        console.log(commentId);
+
+        const recommentElement = document.querySelector('#recomment-' + commentId);
+
+        if (recommentElement.style.display === 'none') {
+          recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+        } else {
+          recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
         }
-        var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-        if (answerdeletebtn != null) {
-          answerdeletebtn.addEventListener('click', function () {
-            var answerId = this.getAttribute('data-answer-id2');
-            location.href = '/delete-answer/' + postId + '/' + answerId;
-            console.log('answer deletebtn');
-          });
-        }
+      });
+    });
 
-        if (userName != name || userName === '') {
-          //게시글 수정 삭제 권한부여
-          console.log('css 숨기는 로직');
-          editbtn.style.display = 'none';
-          deletebtn.style.display = 'none';
-          //관리자일때도 권한 추가
-          // if (userName === 'admin') {
-          //   //관리자 이름을 어떻게 받더라....
-          //   editbtn.style.display = 'block';
-          //   deletebtn.style.display = 'block';
-          // }
-        }
+    // 각 하트 버튼에 클릭 이벤트 리스너 추가
+    const heartButtons = document.querySelectorAll('.heart-button');
+    heartButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        // data-answer-id 속성 값을 가져옴
+        const answerId = this.getAttribute('data-answer-id');
+        console.log(answerId);
 
-        // if ((userName = answerName || userName === '')) {
-        //   //답변 수정 삭제 권한부여
-        //   answereditbtn.style.display = 'none';
-        //   answerdeletebtn.style.display = 'none';
-        //   //관리자일때도 권한 추가
-        //   // if (userName === 'admin') {
-        //   //   //관리자 이름을 어떻게 받더라....
-        //   //   answereditbtn.style.display = 'block';
-        //   //   answerdeletebtn.style.display = 'block';
-        //   // }
-        // }
-
-        // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
-        const replyButtons = document.querySelectorAll('.reply-button');
-        replyButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            // data-answer-id 속성 값을 가져옴
-            const commentId = this.getAttribute('data-comment-id');
-            console.log(commentId);
-
-            const recommentElement = document.querySelector('#recomment-' + commentId);
-
-            if (recommentElement.style.display === 'none') {
-              recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+        // json 형식으로 ajax 요청을 보냅니다.
+        $.ajax({
+          type: 'POST',
+          url: '/heart/' + answerId,
+          contentType: 'application/json',
+          data: JSON.stringify({ answerId: answerId, userName: userName }),
+          success: function (response) {
+            //likeCountElement
+            const likeCountElement = document.querySelector('#like-' + answerId);
+            // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
+            if (response) {
+              likeCountElement.textContent++;
             } else {
-              recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
+              likeCountElement.textContent--;
             }
-          });
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', status, error);
+          },
         });
+      });
+    });
 
-        // 각 하트 버튼에 클릭 이벤트 리스너 추가
-        const heartButtons = document.querySelectorAll('.heart-button');
-        heartButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            // data-answer-id 속성 값을 가져옴
-            const answerId = this.getAttribute('data-answer-id');
-            console.log(answerId);
+    //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
 
-            // json 형식으로 ajax 요청을 보냅니다.
-            $.ajax({
-              type: 'POST',
-              url: '/heart/' + answerId,
-              contentType: 'application/json',
-              data: JSON.stringify({ answerId: answerId, userName: userName }),
-              success: function (response) {
-                //likeCountElement
-                const likeCountElement = document.querySelector('#like-' + answerId);
-                // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-                if (response) {
-                  likeCountElement.textContent++;
-                } else {
-                  likeCountElement.textContent--;
-                }
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
+    // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
+    window.addEventListener('load', function () {
+      adjustQuestionAreaHeight();
+    });
 
-        //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+    // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
+    window.addEventListener('resize', function () {
+      adjustQuestionAreaHeight();
+    });
 
-        // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-        window.addEventListener('load', function () {
-          adjustQuestionAreaHeight();
-        });
+    // 요소의 높이를 조정하는 함수
+    function adjustQuestionAreaHeight() {
+      var qBox = document.getElementById('q-box');
+      var questionArea = document.getElementById('question-area');
+      var maxHeight = qBox.offsetHeight;
+      questionArea.style.height = maxHeight + 'px';
+    }
 
-        // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-        window.addEventListener('resize', function () {
-          adjustQuestionAreaHeight();
-        });
+    // answer-area css부분
+    document.addEventListener('DOMContentLoaded', function () {
+      const answerAreas = document.querySelectorAll('.answer-area');
+      for (const answerArea of answerAreas) {
+        adjustAnswerAreaHeight(answerArea);
+      }
+    });
 
-        // 요소의 높이를 조정하는 함수
-        function adjustQuestionAreaHeight() {
-          var qBox = document.getElementById('q-box');
-          var questionArea = document.getElementById('question-area');
-          var maxHeight = qBox.offsetHeight;
-          questionArea.style.height = maxHeight + 'px';
+    // answer-area의 높이를 자동으로 조절하는 함수
+    function adjustAnswerAreaHeight(element) {
+      element.style.height = 'auto'; // 높이 초기화
+    }
+
+
+    //댓글, 대댓글 작성 버튼 기능입니다!!
+    document.addEventListener('DOMContentLoaded', function () {
+      const addCommentButton = document.getElementById('add-comment-button');
+      const replyWriteButton = document.querySelectorAll('.reply-write-btn');
+
+      // 댓글 작성 이벤트 리스너
+      let commentButtonEnabled = true;
+      addCommentButton.addEventListener('click', function (event) {
+        if (!commentButtonEnabled) {
+          return;
         }
+        commentButtonEnabled = false;
 
-        // answer-area css부분
-        document.addEventListener('DOMContentLoaded', function () {
-          const answerAreas = document.querySelectorAll('.answer-area');
-          for (const answerArea of answerAreas) {
-            adjustAnswerAreaHeight(answerArea);
+        event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+        const commentForm = document.getElementById('comment-form');
+        newCommentInput.value = ''; // 입력란을 비웁니다.
+        commentForm.submit(); // 폼 제출
+        window.history.back(); // 이전 페이지로 이동
+
+        setTimeout(function () {
+          commentButtonEnabled = true;
+        }, 500);
+      });
+
+      replyWriteButton.forEach((button) => {
+        let replyButtonEnabled = true;
+        button.addEventListener('click', function (event) {
+          if (!replyButtonEnabled) {
+            return;
           }
-        });
+          replyButtonEnabled = false;
 
-        // answer-area의 높이를 자동으로 조절하는 함수
-        function adjustAnswerAreaHeight(element) {
-          element.style.height = 'auto'; // 높이 초기화
+          event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+
+          const recommentInput = button.closest('.inputframe').querySelector('.input-text');
+          window.location.reload(); //대댓글 작성 후 새로고침
+          recommentInput.value = ''; // 입력란을 비웁니다.
+
+          setTimeout(function () {
+            replyButtonEnabled = true;
+          }, 500);
+        });
+      });
+    });
+
+
+
+
+  // 댓글 수정 기능
+  document.addEventListener('DOMContentLoaded', function () {
+    const commentEditIs = document.querySelectorAll('.comment-edit-i');
+
+    commentEditIs.forEach((editIcon) => {
+      editIcon.addEventListener('click', function () {
+        const commentBox = this.closest('.comment-box');
+        const commentContent = commentBox.querySelector('.comment-content');
+        const editForm = commentBox.querySelector('.edit-comment-form');
+        const editInput = editForm.querySelector('input[type="text"]');
+
+        const textWrapper = document.createElement('span');
+        textWrapper.textContent = commentContent.childNodes[0].textContent;
+        commentContent.innerHTML = '';
+        commentContent.appendChild(textWrapper);
+
+        editInput.value = textWrapper.textContent;
+
+        textWrapper.style.display = 'none';
+        editForm.style.display = 'block';
+
+        textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
+      });
+    });
+
+    const cancelButtons = document.querySelectorAll('.cancel-edit-comment');
+
+    cancelButtons.forEach((cancelButton) => {
+      cancelButton.addEventListener('click', function () {
+        const commentBox = this.closest('.comment-box');
+        const commentContent = commentBox.querySelector('.comment-content');
+        const editForm = commentBox.querySelector('.edit-comment-form');
+        const textWrapper = commentContent.querySelector('span');
+
+        editForm.style.display = 'none';
+        textWrapper.style.display = 'inline';
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const editCommentForms = document.querySelectorAll('.edit-comment-form');
+
+    editCommentForms.forEach((editForm) => {
+      editForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const commentId =
+                this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
+        const content = this.querySelector('input[type="text"]').value;
+
+        $.ajax({
+          type: 'POST',
+          url: '/edit-comment/' + commentId,
+          contentType: 'application/json',
+          data: JSON.stringify({ content: content }),
+          success: function (response) {
+            window.location.reload();
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', status, error);
+          },
+        });
+      });
+    });
+  });
+
+  // 대댓글 수정 기능
+  document.addEventListener('DOMContentLoaded', function () {
+    const recommentEditIs = document.querySelectorAll('.recomment-edit-i');
+
+    recommentEditIs.forEach((editIcon) => {
+      editIcon.addEventListener('click', function () {
+        const commentBox = this.closest('.comment-box');
+        const commentContent = commentBox.querySelector('.comment-content');
+        const editForm = commentBox.querySelector('.edit-recomment-form');
+        const editInput = editForm.querySelector('input[type="text"]');
+
+        const textWrapper = document.createElement('span');
+        textWrapper.textContent = commentContent.childNodes[0].textContent;
+        commentContent.innerHTML = '';
+        commentContent.appendChild(textWrapper);
+
+        editInput.value = textWrapper.textContent;
+
+        textWrapper.style.display = 'none';
+        editForm.style.display = 'block';
+
+        textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
+      });
+    });
+
+    const cancelButtons = document.querySelectorAll('.cancel-edit-recomment');
+
+    cancelButtons.forEach((cancelButton) => {
+      cancelButton.addEventListener('click', function () {
+        const commentBox = this.closest('.comment-box');
+        const commentContent = commentBox.querySelector('.comment-content');
+        const editForm = commentBox.querySelector('.edit-recomment-form');
+        const textWrapper = commentContent.querySelector('span');
+
+        editForm.style.display = 'none';
+        textWrapper.style.display = 'inline';
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const editRecommentForms = document.querySelectorAll('.edit-recomment-form');
+
+    editRecommentForms.forEach((editForm) => {
+      editForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const commentId = this.closest('.comment-box')
+                .querySelector('.recomment-edit-i')
+                .getAttribute('data-comment-id');
+        const content = this.querySelector('input[type="text"]').value;
+
+        $.ajax({
+          type: 'POST',
+          url: '/edit-comment/' + commentId,
+          contentType: 'application/json',
+          data: JSON.stringify({ content: content }),
+          success: function (response) {
+            window.location.reload();
+          },
+          error: function (xhr, status, error) {
+            console.error('Error:', status, error);
+          },
+        });
+      });
+    });
+  });
+
+  //댓글 삭제 기능
+  document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
+
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const form = this.closest('.delete-comment-form');
+
+        if (form) {
+          const confirmDelete = confirm('정말 삭제하시겠습니까?');
+          if (confirmDelete) {
+            form.submit();
+          }
         }
+      });
+    });
+  });
 
-        function addNewCommentEventListeners(commentItem) {
-          const replyButton = commentItem.querySelector('.fa-reply');
-          replyButton.removeEventListener('click', onClickAddReplyButton); // 기존 이벤트 리스너 제거
-          replyButton.addEventListener('click', onClickAddReplyButton);
+  //대댓글 삭제 기능
+  document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
 
-          // 대댓글 작성 버튼에 대한 이벤트 리스너
-          const replyWriteBtn = commentItem.querySelectorAll('.reply-write-btn');
-          replyWriteBtn.forEach((button) => {
-            button.removeEventListener('click', onReplyWriteButtonClick); // 기존 이벤트 리스너 제거
-            button.addEventListener('click', onReplyWriteButtonClick);
-          });
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const form = this.closest('.delete-reply-form');
+
+        if (form) {
+          const confirmDelete = confirm('정말 삭제하시겠습니까?');
+          if (confirmDelete) {
+            form.submit();
+          }
         }
-
-        function onReplyWriteButtonClick(event) {
-          //대댓글 버튼 리스너
-          const button = event.target.closest('.reply-write-btn');
-          if (!button) return;
-
-          const commentIndex = button.closest('.comment-main-level').querySelector('.fa-reply')
-            .dataset.commentIndex;
-          const commentItem = button.closest('li');
-          const replyList = commentItem.closest('ul.reply-list');
-
-          const inputReply = replyList.querySelector('.inputReply');
-          const newReplyText = inputReply.value;
-
-          commentsData[commentIndex]['replies'].push({
-            name: '사용자',
-            content: newReplyText,
-          });
-        }
-
-        //댓글, 대댓글 작성 버튼 기능입니다!!
-        document.addEventListener('DOMContentLoaded', function () {
-          const addCommentButton = document.getElementById('add-comment-button');
-          const replyWriteButton = document.querySelectorAll('.reply-write-btn');
-
-          // 댓글 작성 이벤트 리스너
-          addCommentButton.addEventListener('click', function (event) {
-            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-            const commentForm = document.getElementById('comment-form');
-            newCommentInput.value = ''; // 입력란을 비웁니다.
-            commentForm.submit(); // 폼 제출
-            window.history.back(); // 이전 페이지로 이동
-          });
-
-          replyWriteButton.forEach((button) => {
-            button.addEventListener('click', function (event) {
-              event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-
-              const recommentInput = button.closest('.inputframe').querySelector('.input-text');
-              window.location.reload(); //대댓글 작성 후 새로고침
-              recommentInput.value = ''; // 입력란을 비웁니다.
-            });
-          });
-        });
       });
+    });
+  });
 
-      //댓글 수정 삭제 기능 권한 부여!!!
+  //댓글 수정 삭제 기능 권한 부여
+  document.addEventListener('DOMContentLoaded', function () {
+    let userName = $('.member-nickname').val(); // 로그인 유저
+    const commentBoxes = document.querySelectorAll('.comment-box');
 
-      // 댓글 수정 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const commentEditIs = document.querySelectorAll('.comment-edit-i');
+    commentBoxes.forEach((commentBox) => {
+      const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+      const editBtn = commentBox.querySelector('.fa-pencil');
+      const deleteBtn =
+              commentBox.querySelector('.delete-comment-form i.fa-trash') ||
+              commentBox.querySelector('.delete-reply-form i.fa-trash');
+      // const deleteBtn = commentBox.querySelector('.fa-trash');
+      // const btnbox = commentBox.querySelector('.btn');
 
-        commentEditIs.forEach((editIcon) => {
-          editIcon.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-comment-form');
-            const editInput = editForm.querySelector('input[type="text"]');
+      if (userName === commentAuthor) {
+        editBtn.style.display = 'inline';
+        deleteBtn.style.display = 'inline';
+      } else {
+        editBtn.style.display = 'none';
+        deleteBtn.style.display = 'none';
+      }
+    });
+  });
 
-            const textWrapper = document.createElement('span');
-            textWrapper.textContent = commentContent.childNodes[0].textContent;
-            commentContent.innerHTML = '';
-            commentContent.appendChild(textWrapper);
+  //삭제된 댓글에 대한 수정 삭제 버튼 지우기 로직
+  document.addEventListener('DOMContentLoaded', function () {
+    let userName = $('.member-nickname').val(); // 로그인 유저
+    const commentBoxes = document.querySelectorAll('.comment-box');
 
-            editInput.value = textWrapper.textContent;
+    commentBoxes.forEach((commentBox) => {
+      const commentAuthor = commentBox.querySelector('.comment-name').textContent;
+      const commentContent = commentBox.querySelector('.comment-content');
+      const editBtn = commentBox.querySelector('.fa-pencil');
+      const deleteBtn =
+              commentBox.querySelector('.delete-comment-form i.fa-trash') ||
+              commentBox.querySelector('.delete-reply-form i.fa-trash');
+      // const deleteBtn = commentBox.querySelector('.fa-trash');
+      // const btnbox = commentBox.querySelector('.btn');
 
-            textWrapper.style.display = 'none';
-            editForm.style.display = 'block';
+      // 삭제된 댓글 관련 처리
+      const commentRemoved = commentContent.textContent === '삭제된 댓글입니다.';
 
-            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
-          });
-        });
-
-        const cancelButtons = document.querySelectorAll('.cancel-edit-comment');
-
-        cancelButtons.forEach((cancelButton) => {
-          cancelButton.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-comment-form');
-            const textWrapper = commentContent.querySelector('span');
-
-            editForm.style.display = 'none';
-            textWrapper.style.display = 'inline';
-          });
-        });
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        const editCommentForms = document.querySelectorAll('.edit-comment-form');
-
-        editCommentForms.forEach((editForm) => {
-          editForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const commentId =
-              this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
-            const content = this.querySelector('input[type="text"]').value;
-
-            $.ajax({
-              type: 'POST',
-              url: '/edit-comment/' + commentId,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content }),
-              success: function (response) {
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      // 대댓글 수정 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const recommentEditIs = document.querySelectorAll('.recomment-edit-i');
-
-        recommentEditIs.forEach((editIcon) => {
-          editIcon.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-recomment-form');
-            const editInput = editForm.querySelector('input[type="text"]');
-
-            const textWrapper = document.createElement('span');
-            textWrapper.textContent = commentContent.childNodes[0].textContent;
-            commentContent.innerHTML = '';
-            commentContent.appendChild(textWrapper);
-
-            editInput.value = textWrapper.textContent;
-
-            textWrapper.style.display = 'none';
-            editForm.style.display = 'block';
-
-            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
-          });
-        });
-
-        const cancelButtons = document.querySelectorAll('.cancel-edit-recomment');
-
-        cancelButtons.forEach((cancelButton) => {
-          cancelButton.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-recomment-form');
-            const textWrapper = commentContent.querySelector('span');
-
-            editForm.style.display = 'none';
-            textWrapper.style.display = 'inline';
-          });
-        });
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        const editRecommentForms = document.querySelectorAll('.edit-recomment-form');
-
-        editRecommentForms.forEach((editForm) => {
-          editForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const commentId = this.closest('.recomment-edit-i').dataset.commentId;
-            const content = this.querySelector('input[type="text"]').value;
-
-            $.ajax({
-              type: 'POST',
-              url: '/edit-comment/' + commentId,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content }),
-              success: function (response) {
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      //댓글 삭제 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
-
-        deleteButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            const form = this.closest('.delete-comment-form');
-
-            if (form) {
-              const confirmDelete = confirm('정말 삭제하시겠습니까?');
-              if (confirmDelete) {
-                form.submit();
-              }
-            }
-          });
-        });
-      });
-
-      //대댓글 삭제 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
-
-        deleteButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            const form = this.closest('.delete-reply-form');
-
-            if (form) {
-              const confirmDelete = confirm('정말 삭제하시겠습니까?');
-              if (confirmDelete) {
-                form.submit();
-              }
-            }
-          });
-        });
-      });
-    </script>
-    <div th:replace="~{layouts/footer :: footer}"></div>
-  </body>
+      if (userName === commentAuthor && !commentRemoved) {
+        editBtn.style.display = 'inline';
+        deleteBtn.style.display = 'inline';
+      } else {
+        editBtn.style.display = 'none';
+        deleteBtn.style.display = 'none';
+      }
+    });
+  });
+</script>
+</body>
 </html>

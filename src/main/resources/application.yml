@@ -60,3 +60,5 @@ cloud:
       static: ap-northeast-2
 #server:
 #  port: 8090
+
+spring.jpa.open-in-view: false

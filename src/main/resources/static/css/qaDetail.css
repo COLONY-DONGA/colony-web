@@ -918,3 +918,61 @@ ul {
 
   align-items: center; /* 세로로 중앙 정렬 */
 }
+
+/* 수정 폼 스타일 */
+
+.edit-comment-form,
+.edit-recomment-form {
+  display: flex;
+  align-items: center;
+  /* padding: 10px; */
+  border-radius: 5px;
+}
+
+.edit-comment-form input[type='text'],
+.edit-recomment-form input[type='text'] {
+  flex-grow: 1;
+  padding: 5px 10px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.edit-comment-form input[type='text']:focus,
+.edit-recomment-form input[type='text']:focus {
+  border-color: #106ba3;
+}
+
+.edit-comment-form button,
+.edit-recomment-form button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #106ba3;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.edit-comment-form button:hover,
+.edit-recomment-form button:hover {
+  background-color: #248dc1;
+}
+
+.edit-comment-form button[type='button'],
+.edit-recomment-form button[type='button'] {
+  background-color: #cccccc;
+}
+
+.edit-comment-form button[type='button']:hover,
+.edit-recomment-form button[type='button']:hover {
+  background-color: #dddddd;
+}
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 100px; /* 오른쪽 여백 */
+}
