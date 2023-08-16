@@ -65,11 +65,13 @@ public class MemberPageDto {
         private Long commentId;
         private Long postId;
         private String content;
+        private Boolean isRemoved;
         @QueryProjection
-        public CommentDto(Long commentId, Long postId, String content) {
+        public CommentDto(Long commentId, Long postId, String content, Boolean isRemoved) {
             this.commentId = commentId;
             this.postId = postId;
             this.content = content;
+            this.isRemoved = isRemoved;
         }
     }
 }
