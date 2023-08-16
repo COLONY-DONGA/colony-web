@@ -572,20 +572,19 @@
 
         editCommentForms.forEach((editForm) => {
           editForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+            event.preventDefault();
 
             const commentId =
               this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
             const content = this.querySelector('input[type="text"]').value;
 
-            // json 형식으로 ajax 요청을 보냅니다.
             $.ajax({
               type: 'POST',
               url: '/edit-comment/' + commentId,
               contentType: 'application/json',
               data: JSON.stringify({ content: content }),
               success: function (response) {
-                window.location.reload(); // 성공적으로 수정되면 페이지를 새로고침합니다.
+                window.location.reload();
               },
               error: function (xhr, status, error) {
                 console.error('Error:', status, error);
