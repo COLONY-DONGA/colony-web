@@ -82,11 +82,11 @@ public class MemberService {
     /**
      * 예전 코드 (나중에 삭제)
      */
-    public MyPageDto searchMember(String loginID){
-        MyPageDto myPageDto = memberRepository.findMemberWithLikeCount(loginID);
-        myPageDto.setLikesCount(memberRepository.countAllAnswerLikes(loginID));
-        return myPageDto; // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
-    }
+//    public MyPageDto searchMember(String loginID){
+//        MyPageDto myPageDto = memberRepository.findMemberWithLikeCount(loginID);
+//        myPageDto.setLikesCount(memberRepository.countAllAnswerLikes(loginID));
+//        return myPageDto; // orElse 메서드를 사용하여 Optional이 비어있을 경우에는 null을 반환하도록 처리합니다.
+//    }
 
     /**
      * 마이페이지 패스워드 체크
