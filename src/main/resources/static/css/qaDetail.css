@@ -791,6 +791,10 @@ ul {
   margin-left: 1rem;
 }
 
+.heart-button:hover {
+  transform: scale(1.1);
+}
+
 .likelike {
   color: red;
 }

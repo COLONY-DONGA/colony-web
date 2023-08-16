@@ -153,7 +153,11 @@
           <!--파일-->
 
           <div class="tool-box" id="answer-tool-box">
-            <button class="heart-button" th:data-answer-id="${answer.answerId}">
+            <button
+              class="heart-button"
+              th:data-answer-id="${answer.answerId}"
+              th:data-is-hearted="${answer.isHearted}"
+            >
               <i class="fa fa-heart"></i>
             </button>
             <div
@@ -340,23 +344,6 @@
           console.log('삭제버튼');
         });
 
-        // var answereditbtn = document.getElementById('Aeditbtn'); //answer 수정 버튼
-        // if (answereditbtn != null) {
-        //   answereditbtn.addEventListener('click', function () {
-        //     var answerId = this.getAttribute('data-answer-id1');
-        //     window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
-        //     console.log('answer editbtn');
-        //   });
-        // }
-        // var answerdeletebtn = document.getElementById('Adeletebtn'); //answer 삭제 버튼
-        // if (answerdeletebtn != null) {
-        //   answerdeletebtn.addEventListener('click', function () {
-        //     var answerId = this.getAttribute('data-answer-id2');
-        //     location.href = '/delete-answer/' + postId + '/' + answerId;
-        //     console.log('answer deletebtn');
-        //   });
-        // }
-
         //answer 수정 삭제 버튼 이벤트 리스너
         document.body.addEventListener('click', function (event) {
           if (event.target && event.target.id === 'Aeditbtn') {
@@ -418,53 +405,56 @@
           //   answerDeleteBtn.style.display = 'block';
           // }
         });
-      });
 
-      // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
-      const replyButtons = document.querySelectorAll('.reply-button');
-      replyButtons.forEach((button) => {
-        button.addEventListener('click', function () {
-          // data-answer-id 속성 값을 가져옴
-          const commentId = this.getAttribute('data-comment-id');
-          console.log(commentId);
+        // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
+        const replyButtons = document.querySelectorAll('.reply-button');
+        replyButtons.forEach((button) => {
+          button.addEventListener('click', function () {
+            // data-answer-id 속성 값을 가져옴
+            const commentId = this.getAttribute('data-comment-id');
+            console.log(commentId);
 
-          const recommentElement = document.querySelector('#recomment-' + commentId);
+            const recommentElement = document.querySelector('#recomment-' + commentId);
 
-          if (recommentElement.style.display === 'none') {
-            recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
-          } else {
-            recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
-          }
+            if (recommentElement.style.display === 'none') {
+              recommentElement.style.display = 'block'; // 이미 숨겨진 경우 보이도록 설정
+            } else {
+              recommentElement.style.display = 'none'; // 이미 보이는 경우 숨김으로 설정
+            }
+          });
         });
-      });
 
-      // 각 하트 버튼에 클릭 이벤트 리스너 추가
-      const heartButtons = document.querySelectorAll('.heart-button');
-      heartButtons.forEach((button) => {
-        button.addEventListener('click', function () {
-          // data-answer-id 속성 값을 가져옴
-          const answerId = this.getAttribute('data-answer-id');
-          console.log(answerId);
+        // 각 하트 버튼에 클릭 이벤트 리스너 추가
+        const heartButtons = document.querySelectorAll('.heart-button');
+        heartButtons.forEach((button) => {
+          const isHearted = button.getAttribute('data-is-hearted') === 'true'; // 엥?
 
-          // json 형식으로 ajax 요청을 보냅니다.
-          $.ajax({
-            type: 'POST',
-            url: '/heart/' + answerId,
-            contentType: 'application/json',
-            data: JSON.stringify({ answerId: answerId, userName: userName }),
-            success: function (response) {
-              //likeCountElement
-              const likeCountElement = document.querySelector('#like-' + answerId);
-              // const likeCountElement = document.querySelector(`#answer-box-${answerId} .likecount`);
-              if (response) {
-                likeCountElement.textContent++;
-              } else {
-                likeCountElement.textContent--;
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error('Error:', status, error);
-            },
+          if (isHearted) {
+            button.classList.add('likelike');
+          }
+
+          button.addEventListener('click', function () {
+            const answerId = this.getAttribute('data-answer-id');
+
+            $.ajax({
+              type: 'POST',
+              url: '/heart/' + answerId,
+              contentType: 'application/json',
+              data: JSON.stringify({ answerId: answerId, userName: userName }),
+              success: function (response) {
+                const likeCountElement = document.querySelector('#like-' + answerId);
+                if (response) {
+                  likeCountElement.textContent++;
+                  button.classList.add('likelike');
+                } else {
+                  likeCountElement.textContent--;
+                  button.classList.remove('likelike');
+                }
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
           });
         });
       });
@@ -682,7 +672,7 @@
         });
       });
 
-      //댓글 삭제 기능
+      // 댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
 
@@ -700,7 +690,7 @@
         });
       });
 
-      //대댓글 삭제 기능
+      // 대댓글 삭제 기능
       document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
 
@@ -718,7 +708,7 @@
         });
       });
 
-      //댓글 수정 삭제 기능 권한 부여
+      // 댓글 수정 삭제 기능 권한 부여
       document.addEventListener('DOMContentLoaded', function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
         const commentBoxes = document.querySelectorAll('.comment-box');
@@ -729,8 +719,6 @@
           const deleteBtn =
             commentBox.querySelector('.delete-comment-form i.fa-trash') ||
             commentBox.querySelector('.delete-reply-form i.fa-trash');
-          // const deleteBtn = commentBox.querySelector('.fa-trash');
-          // const btnbox = commentBox.querySelector('.btn');
 
           if (userName === commentAuthor) {
             editBtn.style.display = 'inline';
@@ -742,7 +730,7 @@
         });
       });
 
-      //삭제된 댓글에 대한 수정 삭제 버튼 지우기 로직
+      // 삭제된 댓글에 대한 수정 삭제 버튼 지우기 로직
       document.addEventListener('DOMContentLoaded', function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
         const commentBoxes = document.querySelectorAll('.comment-box');
@@ -754,8 +742,6 @@
           const deleteBtn =
             commentBox.querySelector('.delete-comment-form i.fa-trash') ||
             commentBox.querySelector('.delete-reply-form i.fa-trash');
-          // const deleteBtn = commentBox.querySelector('.fa-trash');
-          // const btnbox = commentBox.querySelector('.btn');
 
           // 삭제된 댓글 관련 처리
           const commentRemoved = commentContent.textContent === '삭제된 댓글입니다.';
