@@ -23,9 +23,17 @@ public class MyPageDto {
     private String department; //학과
     private long likesCount; // 본인의 모든 Answer에 대한 좋아요 합계
 
-    private List<AnswerDtoForMemberPage> answerDto;
-    private List<PostDtoForMemberPage> postDto;
-    private List<CommentDtoForMemberPage> commentDto;
+    private List<AnswerDtoForMemberPage> answerDto = new ArrayList<>();
+    private List<PostDtoForMemberPage> postDto = new ArrayList<>();
+    private List<CommentDtoForMemberPage> commentDto = new ArrayList<>();
+
+
+    public void setPostDto(List<Post> posts){
+        for(Post post : posts){
+            log.info("쿼리 날라가는거 테스트");
+            this.postDto.add(new PostDtoForMemberPage(post.getId(),post.getTitle()));
+        }
+    }
 
 
     public MyPageDto(Member entity) {
@@ -106,5 +114,8 @@ public class MyPageDto {
     }
 
 }
+
+
+
 
 
