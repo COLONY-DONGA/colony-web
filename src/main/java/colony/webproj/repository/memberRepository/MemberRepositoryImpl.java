@@ -128,7 +128,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .fetch();
 
         List<MemberPageDto.CommentDto> commentDtoList = queryFactory
-                .select(new QMemberPageDto_CommentDto(comment.id, post.id, comment.content))
+                .select(new QMemberPageDto_CommentDto(comment.id, post.id, comment.content, comment.isRemoved))
                 .from(comment)
                 .join(answer.post, post)
                 .where(comment.member.loginId.eq(loginId))
