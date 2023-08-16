@@ -194,17 +194,6 @@
                   <div class="comment-box">
                     <div class="comment-head">
                       <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
-                      <i
-                        class="fa fa-reply reply-button"
-                        th:data-comment-id="${comment.commentId}"
-                      ></i>
-                      <!-- 유진 1 -->
-                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
-                      <form class="edit-comment-form" method="post" style="display: none">
-                        <input type="text" name="content" />
-                        <button type="submit">수정 제출</button>
-                        <button type="button" class="cancel-edit-comment">취소</button>
-                      </form>
                       <form
                         class="delete-comment-form"
                         method="get"
@@ -212,6 +201,16 @@
                       >
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       </form>
+                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+                      <form class="edit-comment-form" method="post" style="display: none">
+                        <input type="text" name="content" />
+                        <button type="submit">수정</button>
+                        <button type="button" class="cancel-edit-comment">취소</button>
+                      </form>
+                      <i
+                        class="fa fa-reply reply-button"
+                        th:data-comment-id="${comment.commentId}"
+                      ></i>
                     </div>
                     <div
                       class="comment-content"
@@ -234,7 +233,13 @@
                             <h6 class="comment-name" th:text="${recomment.createdBy}">
                               Jane Smith
                             </h6>
-                            <!-- 유진 2 -->
+                            <form
+                              class="delete-reply-form"
+                              method="get"
+                              th:action="@{'/delete-comment/' + ${recomment.commentId}}"
+                            >
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </form>
                             <i
                               class="fa fa-pencil recomment-edit-i"
                               aria-hidden="true"
@@ -242,15 +247,8 @@
                             ></i>
                             <form class="edit-recomment-form" method="post" style="display: none">
                               <input type="text" name="content" />
-                              <button type="submit">수정 제출</button>
+                              <button type="submit">수정</button>
                               <button type="button" class="cancel-edit-recomment">취소</button>
-                            </form>
-                            <form
-                              class="delete-reply-form"
-                              method="get"
-                              th:action="@{'/delete-comment/' + ${recomment.commentId}}"
-                            >
-                              <i class="fa fa-trash" aria-hidden="true"></i>
                             </form>
                           </div>
                           <div class="comment-content" th:text="${recomment.content}">
@@ -638,7 +636,9 @@
           editForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const commentId = this.closest('.recomment-edit-i').dataset.commentId;
+            const commentId = this.closest('.comment-box')
+              .querySelector('.recomment-edit-i')
+              .getAttribute('data-comment-id');
             const content = this.querySelector('input[type="text"]').value;
 
             $.ajax({
