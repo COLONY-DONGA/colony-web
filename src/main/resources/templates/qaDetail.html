@@ -63,7 +63,7 @@
         <!--포스트아이디-->
 
         <!-- 질문 이미지 나열 -->
-        <div class="file-box">
+        <div class="file-box" style="display: none">
           <div class="image-container">
             <div th:each="file : ${postDto.imageDtoList}">
               <div class="file-img">
@@ -140,7 +140,7 @@
           </div>
 
           <!-- 답변 이미지 나열 -->
-          <div class="file-box">
+          <div class="file-box" style="display: none">
             <div class="image-container">
               <div th:each="file : ${answer.imageDtoList}">
                 <div class="file-img">
@@ -763,6 +763,31 @@
             const imageUrl = this.getAttribute('src');
             window.open(imageUrl, '_blank');
           });
+        });
+      });
+
+      // 이미지 있을 때와 없을 때, display 속성 변경
+      document.addEventListener('DOMContentLoaded', function () {
+        const setImageContainerVisibility = (imageContainer, imageDtoList) => {
+          if (imageDtoList.length > 0) {
+            imageContainer.style.display = 'block';
+          } else {
+            imageContainer.style.display = 'none';
+          }
+        };
+
+        // 질문 이미지 나열
+        const questionImageContainers = document.querySelectorAll('.q-box .file-box');
+        questionImageContainers.forEach((container) => {
+          const imageDtoList = container.querySelectorAll('.file-img');
+          setImageContainerVisibility(container, imageDtoList);
+        });
+
+        // 답변 이미지 나열
+        const answerImageContainers = document.querySelectorAll('.answer-box .file-box');
+        answerImageContainers.forEach((container) => {
+          const imageDtoList = container.querySelectorAll('.file-img');
+          setImageContainerVisibility(container, imageDtoList);
         });
       });
     </script>
