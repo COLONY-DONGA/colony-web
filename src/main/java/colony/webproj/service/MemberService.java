@@ -109,13 +109,11 @@ public class MemberService {
     public Long updateMember(String loginId, MemberFormDto memberFormDto) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-
         member.setName(memberFormDto.getName());
         member.setPhoneNumber(memberFormDto.getPhoneNumber());
         member.setDepartment(memberFormDto.getDepartment());
         member.setEmail(memberFormDto.getEmail());
-
-        memberRepository.save(member);
+        member.setEmailAlarm(memberFormDto.getEmailAlarm());
 
          return member.getId();
     }

@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Image {
+public class Image extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "image_id")
