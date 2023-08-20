@@ -53,20 +53,18 @@
 //            em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 //
 //            List<Post> posts = new ArrayList<Post>();
-//            for(int i = 1; i<=15; i++) {
+//            for(int i = 1; i<=70; i++) {
 //                Post post = new Post();
-//                if (i <= 5) {
-//                    post = Post.builder().title("제목" + i).content("내용" + i).member(member1).answered(false).build();
-//                } else if(i<=3) {
-//                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
-//                } else if(i<=6) {
-//                    post = Post.builder().title("제목제목제목제목" + i).content("내용" + i).member(member3).answered(false).build();
-//                } else if(i<=9) {
-//                    post = Post.builder().title("제목" + i).content("내용" + i).member(member4).answered(false).build();
-//                } else if(i<=12) {
-//                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(false).build();
-//                } else if(i<=15) {
-//                    post = Post.builder().title("제목제목제목제목제목제목제목제목제목제목제목제" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
+//                if (i <= 10) {
+//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).build();
+//                } else if(i<=20) {
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
+//                } else if(i<=30) {
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member3).answered(false).build();
+//                } else if(i<=40) {
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member4).answered(false).build();
+//                } else if(i<=70) {
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(false).build();
 //                }
 //
 //                posts.add(post);
@@ -76,26 +74,6 @@
 //                Member member_ = Member.builder().loginId("dummyId"+i).password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
 //                        .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();
 //                em.persist(member_);
-//            }
-//
-//            List<Answer> answers = new ArrayList<Answer>();
-//            for(int i =1; i<=5; i++){
-//                Answer answer= Answer.builder().content("test"+i).post(posts.get(i-1)).member(member1).build();
-//                answers.add(answer);
-//                em.persist(answer);
-//            }
-//
-//
-//            for(int i =1; i<=5; i++){
-//                Comment comment= Comment.builder().content("test comment"+i).answer(answers.get(i-1)).member(member1).build();
-//
-//                em.persist(comment);
-//            }
-//
-//
-//            for (int i =0;i<5;i++){
-//                Likes likes = Likes.builder().answer(answers.get(0)).member(members.get(i)).build();
-//                em.persist(likes);
 //            }
 //        }
 //    }

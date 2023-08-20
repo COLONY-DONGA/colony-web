@@ -208,8 +208,7 @@
           success: function (result) {
             document.getElementById('modal-overlay-1').style.display = 'none';
             document.getElementById('modal-1').style.display = 'none';
-            validation1(event);
-            changeEmailAlarm();
+            validation1();
           },
           error: function () {
             alert('올바르지 않은 패스워드입니다. 다시 입력해주세요.');
@@ -292,12 +291,13 @@
         let email = document.getElementById('email').value;
         let phoneNumber = document.getElementById('phone').value;
         let department = document.getElementById('department').value;
-
+        let emailAlarm = $("#emailAlarm").is(":checked");
+        console.log(emailAlarm);
         $.ajax({
           type: 'PUT',
           url: '/edit-mypage',
           headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ name, email, phoneNumber, department }),
+          data: JSON.stringify({ name, email, phoneNumber, department, emailAlarm }),
           success: function (result) {
             alert('프로필이 성공적으로 업데이트되었습니다.');
           },
@@ -306,17 +306,6 @@
           },
         });
       }
-
-      let changeEmailAlarm = function () {
-        $.ajax({
-          type: 'POST',
-          url: '/email-alarm',
-          headers: { 'Content-Type': 'application/json' },
-          data: JSON.stringify({ emailAlarm }),
-          success: function (result) {},
-          error: function () {},
-        });
-      };
 
       closeModal1.onclick = function () {
         document.getElementById('modal-overlay-1').style.display = 'none';
