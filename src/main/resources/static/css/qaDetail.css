@@ -162,7 +162,6 @@
   top: 0px;
 }
 
-
 .comment-widget * {
   margin: 0;
   padding: 0;
@@ -200,7 +199,6 @@
   margin-top: 30px;
   position: relative;
 }
-
 
 .comments-list:before {
   content: '';
@@ -656,7 +654,8 @@
   background-color: #b8aeeb;
 }
 
-.new-comment-btn {
+.new-comment-btn,
+.new-recomment-btn {
   width: 50px;
   height: 30px;
   font-weight: 520;
@@ -673,7 +672,8 @@
   margin-left: 1rem;
 }
 
-.new-comment-btn:hover {
+.new-comment-btn:hover,
+.new-recomment-btn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
     4px 4px 5px 0px #0001;
   background-color: #80ff80;

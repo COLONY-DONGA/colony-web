@@ -270,21 +270,26 @@
                         th:data-answer-id="${answer.answerId}"
                         style="display: none"
                       >
-                        <!-- <form
+                        <form
                           th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
+                          class="recommentEnroll"
                           method="post"
-                        > -->
-                        <div class="reply-inputframe">
-                          <br />
-                          <h5>
-                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                            <input type="text" class="reply-input-text" name="content" />
-                          </h5>
-                          <button class="new-recomment-btn">
-                            <i class="fa-regular fa-paper-plane"></i>
-                          </button>
-                        </div>
-                        <!-- </form> -->
+                        >
+                          <div class="reply-inputframe">
+                            <br />
+                            <h5>
+                              <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                              <input
+                                type="text"
+                                class="reply-input-text newRecomment"
+                                name="content"
+                              />
+                            </h5>
+                            <button class="new-recomment-btn">
+                              <i class="fa-regular fa-paper-plane"></i>
+                            </button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -301,7 +306,7 @@
                     <br />
                     <h5>
                       <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                      <input type="text" class="input-text" id="newComment" name="content" />
+                      <input type="text" class="input-text newComment" name="content" />
                     </h5>
                     <button class="new-comment-btn">
                       <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
@@ -492,28 +497,15 @@
         element.style.height = 'auto'; // 높이 초기화
       }
 
-      // // 댓글 및 대댓글 중복 작성 방지 (삭제 예정)
-      // document.querySelectorAll('.new-comment-btn').forEach((btn) => {
-      //   btn.addEventListener('click', function (event) {
-      //     event.preventDefault();
-      //     btn.disabled = true;
-
-      //     setTimeout(() => {
-      //       this.closest('form').submit();
-      //       btn.disabled = false;
-      //     }, 1000);
-      //   });
-      // });
-
-      // 댓글 중복 작성 방지
+      // 댓글 작성
       document.addEventListener('DOMContentLoaded', function () {
-        const commentEnrollForms = document.querySelectorAll('commentEnroll');
+        const commentEnrollForms = document.querySelectorAll('.commentEnroll');
         commentEnrollForms.forEach((enrollForm) => {
           enrollForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const url = $('#commentEnroll').attr('action');
-            const content = document.getElementById('newComment').value;
+            const url = enrollForm.getAttribute('action');
+            const content = enrollForm.querySelector('.newComment').value;
 
             $.ajax({
               type: 'POST',
@@ -531,25 +523,28 @@
         });
       });
 
-      // 대댓글 중복 작성 방지
-      document.querySelectorAll('.new-recomment-btn').forEach((btn) => {
-        const answerId = this.getAttribute('data-answer-id');
-        const commentId =
-          this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
-        const content = this.querySelector('input[type="text"]').value;
+      // 대댓글 작성
+      document.addEventListener('DOMContentLoaded', function () {
+        const recommentEnrollForms = document.querySelectorAll('.recommentEnroll');
+        recommentEnrollForms.forEach((enrollForm) => {
+          enrollForm.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-        btn.addEventListener('click', function (event) {
-          $.ajax({
-            type: 'POST',
-            url: 'comment/' + answerId + '/' + commentId,
-            contentType: 'application/json',
-            data: JSON.stringify({ content }),
-            success: function (response) {
-              window.location.reload();
-            },
-            error: function (xhr, status, error) {
-              console.error('Error:', status, error);
-            },
+            const url = enrollForm.getAttribute('action');
+            const content = enrollForm.querySelector('.newRecomment').value;
+
+            $.ajax({
+              type: 'POST',
+              url: url,
+              contentType: 'application/json',
+              data: JSON.stringify({ content }),
+              success: function (response) {
+                window.location.reload();
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
           });
         });
       });
@@ -676,7 +671,7 @@
             $.ajax({
               type: 'POST',
               url: '/edit-comment/' + commentId,
-              headers: { 'Content-Type': 'application/json' },
+              contentType: 'application/json',
               data: JSON.stringify({ content: content }),
               success: function (response) {
                 window.location.reload();
