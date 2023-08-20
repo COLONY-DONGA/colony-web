@@ -92,22 +92,45 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     /**
      * 멤버정보를 가져오고, 작성한 답변에 대해 받은 총 좋아요 개수도 가져옴
      */
-    @Override
-    public MyPageDto findMemberWithLikeCount(String loginId) {
-
-        Member memberEntity = queryFactory.selectFrom(member)
-                .leftJoin(member.posts, post)
-                .leftJoin(member.comments, comment)
-                .leftJoin(member.answers, answer)
-                .where(member.loginId.eq(loginId))
-                .fetchOne();
-
-
-
-        MyPageDto myPageDto = new MyPageDto(memberEntity);
-
-        return myPageDto;
-    }
+//    @Override
+//    public MyPageDto findMemberWithLikeCount(String loginId) {
+//
+//        String memberQuery = "SELECT m FROM Member m WHERE m.loginId = :loginId";
+//        Member member = (Member) em.createQuery(memberQuery, Member.class)
+//                .setParameter("loginId", loginId)
+//                .getSingleResult();
+//
+//
+//        MyPageDto myPageDto = new MyPageDto(member);
+//
+//
+//        List<Post> posts = em.createQuery(
+//                        "SELECT p.id,p.title FROM Post p WHERE p.member = :member", Post.class)
+//                .setParameter("member", member)
+//                .getResultList();
+//
+//        myPageDto.setPostDto(posts);
+//
+//
+//        List<MyPageDto.CommentDtoForMemberPage> comments = em.createQuery(
+//                        "SELECT c.id, c.answer.post FROM Comment c WHERE c.member = :member", MyPageDto.CommentDtoForMemberPage.class)
+//                .setParameter("member", member)
+//                .getResultList();
+//
+//        myPageDto.setCommentDto(comments);
+//
+//
+//
+//        List<MyPageDto.AnswerDtoForMemberPage> answers = em.createQuery(
+//                        "SELECT a.id, a.post.id, a.content FROM Answer a WHERE a.member = :member", MyPageDto.AnswerDtoForMemberPage.class)
+//                .setParameter("member", member)
+//                .getResultList();
+//
+//        myPageDto.setAnswerDto(answers);
+//
+//
+//        return myPageDto;
+//    }
 
     @Override
     public MemberPageDto findMemberInfo(String loginId) {
@@ -126,10 +149,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .fetch();
 
         List<MemberPageDto.CommentDto> commentDtoList = queryFactory
-                .select(new QMemberPageDto_CommentDto(comment.id, post.id, comment.content))
+                .select(new QMemberPageDto_CommentDto(comment.id, post.id, comment.content, comment.isRemoved))
                 .from(comment)
                 .join(answer.post, post)
-                .where(comment.member.loginId.eq(loginId))
+                .where(comment.member.loginId.eq(loginId),comment.isRemoved.eq(false)
+                        )
                 .fetch();
 
         MemberPageDto memberPageDto = queryFactory

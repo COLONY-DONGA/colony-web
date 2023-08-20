@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface MemberRepositoryCustom {
     public Page<MemberManageDto> findAllMemberInfo(Pageable pageable, SearchType searchType, String searchValue);
 
-    public MyPageDto findMemberWithLikeCount(String loginId);
+//    public MyPageDto findMemberWithLikeCount(String loginId);
 
     MemberPageDto findMemberInfo(String loginId);
 }

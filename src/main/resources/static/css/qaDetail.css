@@ -179,13 +179,6 @@ footer {
 }
 
 .editbtn {
-  /* background-color: #a7ff1999;
-  border-radius: 0.5rem;
-  height: 2rem;
-  left: 1rem;
-  width: 4rem;
-  margin-left: 2rem;
-   */
   width: 60px;
   height: 40px;
   border: 0.8px solid #ffffff;
@@ -206,7 +199,6 @@ footer {
 .editbtn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
     4px 4px 5px 0px #0001;
-
   background-color: rgba(152, 246, 121, 0.604);
 }
 
@@ -660,6 +652,15 @@ ul {
   font-weight: 200;
 }
 
+.question-info span {
+  margin-left: 0.25rem;
+}
+
+.info-item {
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+}
+
 .question-info-writer {
   font-weight: 300;
   font-style: rgb(120, 116, 116) (36, 35, 35);
@@ -669,15 +670,6 @@ ul {
   font-weight: 200;
   font-size: 1rem;
   font-style: rgb(83, 78, 78) (36, 35, 35);
-}
-
-.small-line {
-  font-weight: 200;
-  font-size: 0.8rem;
-  font-style: rgb(120, 116, 116) (36, 35, 35);
-  margin-left: 5px;
-  margin-right: 5px;
-  display: inline; /* display 속성을 inline으로 설정 */
 }
 
 .question-area {
@@ -757,7 +749,9 @@ ul {
   font-size: 0.9rem;
   margin-right: 1rem;
 }
-
+.fa-tags {
+  margin-right: 0.25rem;
+}
 .answer-info-date {
   font-weight: 200;
   font-size: 0.8rem;
@@ -792,15 +786,10 @@ ul {
 }
 
 .heart-button:hover {
-  color: red;
+  transform: scale(1.1);
 }
 
-.heart-button-use {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  transition: color 0.3s ease;
+.likelike {
   color: red;
 }
 
@@ -841,9 +830,9 @@ ul {
 }
 
 .new-comment-btn:hover {
-  /* Hover effect remains unchanged */
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
     4px 4px 5px 0px #0001;
+  background-color: #80ff80;
 }
 
 .likecount {
@@ -975,4 +964,43 @@ ul {
   display: flex;
   justify-content: space-between;
   margin-right: 100px; /* 오른쪽 여백 */
+}
+
+/* 질문 및 답변 이미지 나열 */
+.file-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-container {
+  display: flex;
+  overflow-x: auto;
+  margin-top: 2rem;
+  border: 2px solid #93bfa9;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.image-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.image-container::-webkit-scrollbar-track {
+  background-color: #c8e6c9;
+  border-radius: 10px;
+}
+
+.image-container::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+
+.file-img img {
+  width: auto;
+  height: 100px;
+  margin-right: 1rem;
+  cursor: pointer;
 }

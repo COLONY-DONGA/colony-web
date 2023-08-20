@@ -105,12 +105,7 @@ public class MemberController {
 
         return "deniedPage";
     }
-    //알림 수신 동의 변경
-    @PostMapping("/email-alarm")
-    public ResponseEntity<?> changeEmailAlarmAgree(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        memberService.changeEmailAlarmAgree(principalDetails.getId());
-        return ResponseEntity.ok(true);
-    }
+
 
     @Getter @Setter
     @NoArgsConstructor
