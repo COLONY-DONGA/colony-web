@@ -509,11 +509,10 @@
           const commentForm = document.getElementById('comment-form');
           newCommentInput.value = ''; // 입력란을 비웁니다.
           commentForm.submit(); // 폼 제출
-          window.history.back(); // 이전 페이지로 이동
 
           setTimeout(function () {
             commentButtonEnabled = true;
-          }, 500);
+          }, 500); // 이게 왜 안먹는지 모르겠음
         });
 
         replyWriteButton.forEach((button) => {
