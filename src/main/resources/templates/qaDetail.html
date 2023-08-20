@@ -197,6 +197,7 @@
                     <div class="comment-box">
                       <div class="comment-head">
                         <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
+                        <div class="comment-time" th:text="${comment.enrollTime}"></div>
                         <form
                           class="delete-comment-form"
                           method="get"
@@ -236,6 +237,7 @@
                               <h6 class="comment-name" th:text="${recomment.createdBy}">
                                 Jane Smith
                               </h6>
+                              <div class="comment-time" th:text="${recomment.enrollTime}"></div>
                               <form
                                 class="delete-reply-form"
                                 method="get"
