@@ -270,21 +270,21 @@
                         th:data-answer-id="${answer.answerId}"
                         style="display: none"
                       >
-                        <form
+                        <!-- <form
                           th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
                           method="post"
-                        >
-                          <div class="reply-inputframe">
-                            <br />
-                            <h5>
-                              <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                              <input type="text" class="reply-input-text" name="content" />
-                            </h5>
-                            <button class="new-comment-btn">
-                              <i class="fa-regular fa-paper-plane"></i>
-                            </button>
-                          </div>
-                        </form>
+                        > -->
+                        <div class="reply-inputframe">
+                          <br />
+                          <h5>
+                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                            <input type="text" class="reply-input-text" name="content" />
+                          </h5>
+                          <button class="new-recomment-btn">
+                            <i class="fa-regular fa-paper-plane"></i>
+                          </button>
+                        </div>
+                        <!-- </form> -->
                       </div>
                     </div>
                   </div>
@@ -294,8 +294,8 @@
               <div class="input-comment-box">
                 <form
                   th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
+                  class="commentEnroll"
                   method="post"
-                  id="comment-form"
                 >
                   <div class="inputframe">
                     <br />
@@ -303,7 +303,7 @@
                       <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
                       <input type="text" class="input-text" id="newComment" name="content" />
                     </h5>
-                    <button class="new-comment-btn" id="add-comment-button">
+                    <button class="new-comment-btn">
                       <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
                     </button>
                   </div>
@@ -461,8 +461,6 @@
         });
       });
 
-      //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
-
       // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
       window.addEventListener('load', function () {
         adjustQuestionAreaHeight();
@@ -494,47 +492,64 @@
         element.style.height = 'auto'; // 높이 초기화
       }
 
-      //댓글, 대댓글 작성 버튼 기능입니다!!
+      // // 댓글 및 대댓글 중복 작성 방지 (삭제 예정)
+      // document.querySelectorAll('.new-comment-btn').forEach((btn) => {
+      //   btn.addEventListener('click', function (event) {
+      //     event.preventDefault();
+      //     btn.disabled = true;
+
+      //     setTimeout(() => {
+      //       this.closest('form').submit();
+      //       btn.disabled = false;
+      //     }, 1000);
+      //   });
+      // });
+
+      // 댓글 중복 작성 방지
       document.addEventListener('DOMContentLoaded', function () {
-        const addCommentButton = document.getElementById('add-comment-button');
-        const replyWriteButton = document.querySelectorAll('.reply-write-btn');
+        const commentEnrollForms = document.querySelectorAll('commentEnroll');
+        commentEnrollForms.forEach((enrollForm) => {
+          enrollForm.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-        // 댓글 작성 이벤트 리스너
-        let commentButtonEnabled = true;
-        addCommentButton.addEventListener('click', function (event) {
-          if (!commentButtonEnabled) {
-            return;
-          }
-          commentButtonEnabled = false;
+            const url = $('#commentEnroll').attr('action');
+            const content = document.getElementById('newComment').value;
 
-          event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-          const commentForm = document.getElementById('comment-form');
-          newCommentInput.value = ''; // 입력란을 비웁니다.
-          commentForm.submit(); // 폼 제출
-          window.history.back(); // 이전 페이지로 이동
-
-          setTimeout(function () {
-            commentButtonEnabled = true;
-          }, 500);
+            $.ajax({
+              type: 'POST',
+              url: url,
+              contentType: 'application/json',
+              data: JSON.stringify({ content }),
+              success: function (response) {
+                window.location.reload();
+              },
+              error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+              },
+            });
+          });
         });
+      });
 
-        replyWriteButton.forEach((button) => {
-          let replyButtonEnabled = true;
-          button.addEventListener('click', function (event) {
-            if (!replyButtonEnabled) {
-              return;
-            }
-            replyButtonEnabled = false;
+      // 대댓글 중복 작성 방지
+      document.querySelectorAll('.new-recomment-btn').forEach((btn) => {
+        const answerId = this.getAttribute('data-answer-id');
+        const commentId =
+          this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
+        const content = this.querySelector('input[type="text"]').value;
 
-            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
-
-            const recommentInput = button.closest('.inputframe').querySelector('.input-text');
-            window.location.reload(); //대댓글 작성 후 새로고침
-            recommentInput.value = ''; // 입력란을 비웁니다.
-
-            setTimeout(function () {
-              replyButtonEnabled = true;
-            }, 500);
+        btn.addEventListener('click', function (event) {
+          $.ajax({
+            type: 'POST',
+            url: 'comment/' + answerId + '/' + commentId,
+            contentType: 'application/json',
+            data: JSON.stringify({ content }),
+            success: function (response) {
+              window.location.reload();
+            },
+            error: function (xhr, status, error) {
+              console.error('Error:', status, error);
+            },
           });
         });
       });
@@ -661,7 +676,7 @@
             $.ajax({
               type: 'POST',
               url: '/edit-comment/' + commentId,
-              contentType: 'application/json',
+              headers: { 'Content-Type': 'application/json' },
               data: JSON.stringify({ content: content }),
               success: function (response) {
                 window.location.reload();
