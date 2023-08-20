@@ -1,9 +1,6 @@
 package colony.webproj.service;
 
-import colony.webproj.dto.AnswerDto;
-import colony.webproj.dto.AnswerFormDto;
-import colony.webproj.dto.AnswerUpdateFormDto;
-import colony.webproj.dto.ImageDto;
+import colony.webproj.dto.*;
 import colony.webproj.entity.*;
 import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
@@ -27,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -151,6 +150,24 @@ public class AnswerService {
                         }
                 )
                 .collect(Collectors.toList());
+
+        // 댓글 시간 처리
+        LocalDateTime currentTime = LocalDateTime.now();
+        for (AnswerDto answerDto : answerDtoList) {
+            List<CommentDto> parentComment = answerDto.getCommentList();
+            for (CommentDto commentDto : parentComment) {
+                LocalDateTime createdAt = commentDto.getCreatedAt();
+                Duration duration = Duration.between(createdAt, currentTime);
+                String enrollTime = getTimeAgo(duration);
+                commentDto.setEnrollTime(enrollTime);
+                for (CommentDto commentDtoChild : commentDto.getChildList()) {
+                    LocalDateTime createdAtChild = commentDtoChild.getCreatedAt();
+                    Duration durationChild = Duration.between(createdAtChild, currentTime);
+                    String enrollTimeChild = getTimeAgo(durationChild);
+                    commentDtoChild.setEnrollTime(enrollTimeChild);
+                }
+            }
+        }
         return answerDtoList;
     }
 
@@ -244,6 +261,29 @@ public class AnswerService {
             Post post = postRepository.findById(postId)
                     .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
             post.setAnswered(false);
+        }
+    }
+
+    private String getTimeAgo(Duration duration) {
+        long seconds = duration.getSeconds();
+
+        if (seconds < 60) {
+            return "방금 전";
+        } else if (seconds < 3600) {
+            long minutes = duration.toMinutes();
+            return minutes + "분 전";
+        } else if (seconds < 86400) {
+            long hours = duration.toHours();
+            return hours + "시간 전";
+        } else if (seconds < 2592000) {
+            long days = duration.toDays();
+            return days + "일 전";
+        } else if (seconds < 31536000) {
+            long months = duration.toDays() / 30;
+            return months + "달 전";
+        } else {
+            long years = duration.toDays() / 365;
+            return years + "년 전";
         }
     }
 }

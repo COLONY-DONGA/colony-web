@@ -3,17 +3,14 @@ package colony.webproj.dto;
 import colony.webproj.entity.Answer;
 import colony.webproj.entity.Comment;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +22,7 @@ public class CommentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long parentId;
+    private String enrollTime; // 생성
     private List<CommentDto> childList = new ArrayList<>();
 
     @QueryProjection
