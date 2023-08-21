@@ -52,18 +52,16 @@ public class PostDto {
         this.answerCount = answerCount;
     }
 
-//    /**
-//     * Post객체를 PostDto로 변환하기 위한 함수
-//     */
-//    public static PostDto from(Post entity) {
-//        return new PostDto(
-//                entity.getId(),
-//                entity.getTitle(),
-//                entity.getContent(),
-//                null, //에러떠서 null 로 넣어둠.
-//                entity.getCreatedAt(),
-//                entity.getUpdatedAt(),
-//                entity.isAnswered()
-//        );
-//    }
+    /**
+     * postList 공지
+     */
+    @QueryProjection
+    public PostDto(Long id, String title, String nickname, LocalDateTime createdAt, Integer viewCount) {
+        this.postId = id;
+        this.title = title;
+        this.createdBy = nickname;
+        this.createdAt = createdAt;
+        this.viewCount = viewCount;
+    }
+
 }

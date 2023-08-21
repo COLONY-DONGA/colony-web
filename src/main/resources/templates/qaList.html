@@ -142,6 +142,35 @@
       <!-- 카드 -->
       <div class="card-container">
         <div
+          th:each="postDto : ${postDtoListNotice}"
+          class="card-item"
+          th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+        >
+          <div class="card-info">
+            <div class="card-header">
+              <div class="card-state-yes">
+                <div>Notice</div>
+              </div>
+              <div class="card-title" th:text="${postDto.title}"></div>
+            </div>
+            <p class="card-content" th:text="${postDto.content}"></p>
+            <div class="card-footer">
+              <p class="card-author-date">
+                <span th:text="${postDto.createdBy}"></span>
+                <span>|</span>
+                <span th:text="${postDto.enrollTime}"></span>
+              </p>
+              <p class="card-view-answer">
+                <i class="fa-regular fa-eye"></i>
+                <span th:text="${postDto.viewCount}"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div
           th:each="postDto : ${postDtoList}"
           class="card-item"
           th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
