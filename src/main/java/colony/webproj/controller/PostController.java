@@ -96,8 +96,9 @@ public class PostController {
             List<AnswerDto> answerDtoList =
                     answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
             model.addAttribute("answerDtoList", answerDtoList);
+            return "qaDetail";
         }
-        return "qaDetail";
+        return "noDetail";
     }
 
 
@@ -123,9 +124,11 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "qEnroll";
         }
+        String postType = "";
+        postType = (principalDetails.getRole() == Role.ROLE_ADMIN) ? "n" : "p";
 
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
-        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        return "redirect:/post/" + savedPostId + "?postType=" + postType; //상세 페이지로 이동
     }
 
 
