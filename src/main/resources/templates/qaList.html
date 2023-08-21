@@ -139,17 +139,18 @@
           <button class="enroll-btn" id="postwritebtn">질문 등록</button>
         </div>
       </div>
-      <!-- 카드 -->
+      <!-- 공지 및 카드 -->
       <div class="card-container">
+        <!-- 공지 -->
         <div
           th:each="postDto : ${postDtoListNotice}"
-          class="card-item"
+          class="card-item notice"
           th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
         >
           <div class="card-info">
             <div class="card-header">
-              <div class="card-state-yes">
-                <div>Notice</div>
+              <div class="card-state-notice">
+                <div>공지사항</div>
               </div>
               <div class="card-title" th:text="${postDto.title}"></div>
             </div>
@@ -167,9 +168,7 @@
             </div>
           </div>
         </div>
-
-
-
+        <!-- 카드 -->
         <div
           th:each="postDto : ${postDtoList}"
           class="card-item"
