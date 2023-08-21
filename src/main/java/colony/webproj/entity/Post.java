@@ -20,9 +20,11 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content; // 본문 내용
     @Builder.Default
-    private boolean answered = false; // 답변 완료시 true
+    private Boolean answered = false; // 답변 완료시 true
     @Builder.Default
     private int viewCount = 0; // 조회 수
+    @Builder.Default
+    private Boolean isNotice = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

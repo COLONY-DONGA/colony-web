@@ -61,6 +61,8 @@ public class PostController {
         //진수방식
         Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
         model.addAttribute("postDtoList", postDtoList);
+        List<PostDto> postDtoListNotice = postService.searchPostListNotice();
+        model.addAttribute("postDtoListNotice", postDtoListNotice);
 
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);

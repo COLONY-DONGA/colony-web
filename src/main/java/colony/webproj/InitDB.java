@@ -56,7 +56,7 @@
 //            for(int i = 1; i<=70; i++) {
 //                Post post = new Post();
 //                if (i <= 10) {
-//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).isNotice(true).build();
 //                } else if(i<=20) {
 //                    post = Post.builder().title("더미 데이터 제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
 //                } else if(i<=30) {
