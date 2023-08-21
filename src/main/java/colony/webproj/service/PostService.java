@@ -46,9 +46,9 @@ public class PostService {
      * queryDsl 게시글 리스트 조회
      */
     @Transactional(readOnly = true)
-    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
         Page<PostDto> resultPage =
-                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable);
+                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable, categoryId);
 
         List<PostDto> resultList = resultPage.getContent();
         for (PostDto postDto : resultList) {
