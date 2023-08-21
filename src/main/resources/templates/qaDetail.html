@@ -507,18 +507,20 @@
 
       // 댓글 중복 작성 방지
       document.addEventListener('DOMContentLoaded', function () {
-        const commentEnrollForms = document.querySelectorAll('commentEnroll');
+        const commentEnrollForms = document.querySelectorAll('.commentEnroll');
         commentEnrollForms.forEach((enrollForm) => {
           enrollForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const url = $('#commentEnroll').attr('action');
-            const content = document.getElementById('newComment').value;
-
+            const url = enrollForm.attr('action');
+            // enrollForm 내의 content에 대한 참조를 얻음
+            const contentElement = enrollForm.querySelector(".input-text");
+            const content = contentElement.value;
+            console.log(url)
             $.ajax({
               type: 'POST',
               url: url,
-              contentType: 'application/json',
+              headers: { 'Content-Type': 'application/json' },
               data: JSON.stringify({ content }),
               success: function (response) {
                 window.location.reload();
