@@ -114,6 +114,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(new QPostDto(
                         post.id,
                         post.title,
+                        post.content,
                         member2.nickname,
                         post.createdAt,
                         post.viewCount
