@@ -144,7 +144,7 @@
         <div
           th:each="postDto : ${postDtoListNotice}"
           class="card-item"
-          th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
+          th:onclick="'redirectToNotice(' + ${postDto.postId} + ')'"
         >
           <div class="card-info">
             <div class="card-header">
@@ -282,7 +282,10 @@
 
     <script>
       function redirectToPost(postId) {
-        window.location.href = '/post/' + postId;
+        window.location.href = '/post/' + postId + '?postType=p';
+      }
+      function redirectToNotice(postId) {
+        window.location.href = '/post/' + postId + '?postType=n';
       }
 
       var postwritebtn = document.getElementById('postwritebtn');

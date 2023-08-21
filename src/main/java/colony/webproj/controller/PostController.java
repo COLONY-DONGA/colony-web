@@ -81,19 +81,21 @@ public class PostController {
      */
     @GetMapping("/post/{postId}")
     public String postDetail(@PathVariable("postId") Long postId,
+                             @RequestParam String postType,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
-
-        List<AnswerDto> answerDtoList =
-                answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
-        model.addAttribute("answerDtoList", answerDtoList);
-
         if(principalDetails != null) {
             if(principalDetails.getRole() == Role.ROLE_ADMIN) model.addAttribute("loginUser", "관리자");
             else model.addAttribute("loginUser", principalDetails.getNickname());
             model.addAttribute("postUser", postDto.getCreatedBy());
+        }
+
+        if (postType.equals("p")) {
+            List<AnswerDto> answerDtoList =
+                    answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
+            model.addAttribute("answerDtoList", answerDtoList);
         }
         return "qaDetail";
     }
