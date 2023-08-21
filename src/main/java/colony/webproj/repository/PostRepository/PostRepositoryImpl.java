@@ -36,7 +36,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
         LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
         QAnswer answer = new QAnswer("answer");
@@ -58,7 +58,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered),
-                        post.isNotice.eq(false)
+                        post.isNotice.eq(false),
+                        Category(categoryId)
                 )
                 .orderBy(postOrderBy(sortBy))
                 .offset(pageable.getOffset())
@@ -70,7 +71,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(
                         searchValue(searchType, searchValue),
                         answeredEq(answered),
-                        post.isNotice.eq(false)
+                        post.isNotice.eq(false),
+                        Category(categoryId)
                 )
                 .fetchOne();
 
@@ -148,6 +150,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
+    }
+
+    private BooleanExpression Category(Long categoryId){
+        if(categoryId==null){
+            return null;
+        }
+        else{
+            return post.category.id.eq(categoryId);
+        }
     }
 
     private BooleanExpression answeredEq(Boolean answered) {

@@ -7,9 +7,7 @@ import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
-import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,18 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,7 +37,8 @@ public class PostController {
      * 게시글 리스트
      */
     @GetMapping("/post-list")
-    public String postList(@RequestParam(required = false) SearchType searchType,
+    public String postList(@RequestParam(required = false) Long categoryId,
+                           @RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(required = false) String sortBy, //정렬기준
@@ -59,7 +54,7 @@ public class PostController {
             log.info("회원 로그인");
         }
         //진수방식
-        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryId);
         model.addAttribute("postDtoList", postDtoList);
         List<PostDto> postDtoListNotice = postService.searchPostListNotice();
         model.addAttribute("postDtoListNotice", postDtoListNotice);
