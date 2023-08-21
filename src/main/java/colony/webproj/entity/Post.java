@@ -1,5 +1,6 @@
 package colony.webproj.entity;
 
+import colony.webproj.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +36,9 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Answer> answerList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category category;
 
 }

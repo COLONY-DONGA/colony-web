@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/qaDetail.css" />
-    <link rel="stylesheet" href="/css/headerfooter.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -283,6 +282,7 @@
                                 type="text"
                                 class="reply-input-text newRecomment"
                                 name="content"
+                                required
                               />
                             </h5>
                             <button class="new-recomment-btn">
@@ -306,7 +306,7 @@
                     <br />
                     <h5>
                       <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                      <input type="text" class="input-text newComment" name="content" />
+                      <input type="text" class="input-text newComment" name="content" required />
                     </h5>
                     <button class="new-comment-btn">
                       <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
@@ -322,6 +322,10 @@
       </div>
     </div>
     <div id="footer"></div>
+
+    <div id="loadingOverlay" class="hidden">
+      <div class="loader"></div>
+    </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
@@ -497,24 +501,39 @@
         element.style.height = 'auto'; // 높이 초기화
       }
 
+      // 로딩 화면 ON
+      function showLoadingScreen() {
+        $('#loadingOverlay').removeClass('hidden');
+      }
+
+      // 로딩 화면 OFF
+      function hideLoadingScreen() {
+        $('#loadingOverlay').addClass('hidden');
+      }
+
       // 댓글 작성
       document.addEventListener('DOMContentLoaded', function () {
         const commentEnrollForms = document.querySelectorAll('.commentEnroll');
         commentEnrollForms.forEach((enrollForm) => {
           enrollForm.addEventListener('submit', (event) => {
             event.preventDefault();
+            showLoadingScreen();
 
             const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newComment').value;
+            const content = enrollForm.querySelector('.newComment');
+
             $.ajax({
               type: 'POST',
               url: url,
-              headers: { 'Content-Type': 'application/json' },
-              data: JSON.stringify({ content }),
+              contentType: 'application/json',
+              data: JSON.stringify({ content: content.value }),
               success: function (response) {
+                content.value = '';
+                hideLoadingScreen();
                 window.location.reload();
               },
               error: function (xhr, status, error) {
+                hideLoadingScreen();
                 console.error('Error:', status, error);
               },
             });
@@ -528,19 +547,23 @@
         recommentEnrollForms.forEach((enrollForm) => {
           enrollForm.addEventListener('submit', (event) => {
             event.preventDefault();
+            showLoadingScreen();
 
             const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newRecomment').value;
+            const content = enrollForm.querySelector('.newRecomment');
 
             $.ajax({
               type: 'POST',
               url: url,
               contentType: 'application/json',
-              data: JSON.stringify({ content }),
+              data: JSON.stringify({ content: content.value }),
               success: function (response) {
+                content.value = '';
+                hideLoadingScreen();
                 window.location.reload();
               },
               error: function (xhr, status, error) {
+                hideLoadingScreen();
                 console.error('Error:', status, error);
               },
             });
