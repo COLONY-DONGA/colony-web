@@ -28,29 +28,27 @@ public class CommentController {
      * 댓글 생성
      */
     @PostMapping("/comment/{answerId}")
-    public String saveComment(HttpServletRequest request,
-                                         @PathVariable("answerId") Long answerId,
-                                         CommentFormDto commentFormDto,
-                                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        System.out.println("==========   " + commentFormDto.getContent());
-        String refer = request.getHeader("Referer"); // 이전 url 주소
+    @ResponseBody
+    public ResponseEntity<?> saveComment(HttpServletRequest request,
+                                               @PathVariable("answerId") Long answerId,
+                                               @RequestBody CommentFormDto commentFormDto,
+                                               @AuthenticationPrincipal PrincipalDetails principalDetails) {
         commentService.saveComment(answerId, commentFormDto, principalDetails.getLoginId());
-        return "redirect:" + refer;
+        return ResponseEntity.ok(true);
     }
 
     /**
      * 대댓글 생성
      */
     @PostMapping("/comment/{answerId}/{commentId}")
-    public String saveReComment(HttpServletRequest request,
+    @ResponseBody
+    public ResponseEntity<?> saveReComment(HttpServletRequest request,
                                            @PathVariable("answerId") Long answerId,
                                            @PathVariable("commentId") Long commentId,
-                                           CommentFormDto commentFormDto,
+                                           @RequestBody CommentFormDto commentFormDto,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        String refer = request.getHeader("Referer"); // 이전 url 주소
-
         commentService.saveReComment(answerId, commentId, commentFormDto, principalDetails.getLoginId());
-        return "redirect:" + refer;
+        return ResponseEntity.ok(true);
     }
 
     @GetMapping("/edit-comment/{commentId}")
@@ -76,8 +74,6 @@ public class CommentController {
                                                             @PathVariable("commentId") Long commentId,
                                                             @RequestBody CommentFormDto commentFormDto,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        String refer = request.getHeader("Referer"); // 이전 url 주소
-
         //로그인 유저가 작성자와 다를 때
         //admin 은 수정 가능
         if (!principalDetails.getLoginId().equals(commentService.findWriter(commentId)) &&

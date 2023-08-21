@@ -58,7 +58,9 @@ cloud:
     stack.auto: false #기본 cloudFormation 구성 시작 사용 x
     region:
       static: ap-northeast-2
-#server:
-#  port: 8090
+
+server:
+  port: 8080
+
 
 spring.jpa.open-in-view: false
