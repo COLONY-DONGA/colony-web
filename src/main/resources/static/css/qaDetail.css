@@ -812,7 +812,7 @@
 
 /* 질문 및 답변 이미지 나열 */
 .file-box {
-  width: 100%;
+  width: 99.5%;
   display: flex;
   flex-direction: column;
 }
