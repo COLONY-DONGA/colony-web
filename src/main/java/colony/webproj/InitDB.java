@@ -32,7 +32,7 @@
 //        private final BCryptPasswordEncoder encoder;
 //
 //        public void initMember() {
-//            Member member1 = Member.builder().loginId("a").password(encoder.encode("a")).role(Role.ROLE_MEMBER)
+//            Member member1 = Member.builder().loginId("a").password(encoder.encode("a")).role(Role.ROLE_ADMIN)
 //                    .name("김진수").department("컴퓨터공학과").nickname("김진짜").phoneNumber("01012345678").email("kimjinsu3206@gmail.com").emailAlarm(true).build();
 //            Member member2 = Member.builder().loginId("b").password(encoder.encode("b")).role(Role.ROLE_MEMBER)
 //                    .name("채승지").department("컴퓨터공학과").nickname("채똘복").phoneNumber("01012345678").build();

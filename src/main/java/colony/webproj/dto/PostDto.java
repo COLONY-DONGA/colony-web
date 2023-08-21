@@ -56,9 +56,10 @@ public class PostDto {
      * postList 공지
      */
     @QueryProjection
-    public PostDto(Long id, String title, String nickname, LocalDateTime createdAt, Integer viewCount) {
+    public PostDto(Long id, String title, String content, String nickname, LocalDateTime createdAt, Integer viewCount) {
         this.postId = id;
         this.title = title;
+        this.content = content;
         this.createdBy = nickname;
         this.createdAt = createdAt;
         this.viewCount = viewCount;
