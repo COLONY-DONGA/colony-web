@@ -8,8 +8,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/qaDetail.css" />
-
+    <link rel="stylesheet" href="../css/qaDetail.css" />
+    <link rel="stylesheet" href="../css/headerfooter.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -222,27 +222,6 @@
                         method="get"
                         th:action="@{'/delete-comment/' + ${comment.commentId}}"
                       >
-                        <form
-                          th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
-                          class="recommentEnroll"
-                          method="post"
-                        >
-                          <div class="reply-inputframe">
-                            <br />
-                            <h5>
-                              <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                              <input
-                                type="text"
-                                class="reply-input-text newRecomment"
-                                name="content"
-                                required
-                              />
-                            </h5>
-                            <button class="new-recomment-btn">
-                              <i class="fa-regular fa-paper-plane"></i>
-                            </button>
-                          </div>
-                        </form>
                         <button class="comment-delete">삭제</button>
                       </form>
 
@@ -253,10 +232,12 @@
                         <button type="submit">수정</button>
                         <button type="button" class="cancel-edit-comment">취소</button>
                       </form>
+
                       <i
                         class="fa fa-reply reply-button"
                         th:data-comment-id="${comment.commentId}"
                       ></i>
+
                       </div>
                     </div>
 
@@ -337,27 +318,27 @@
                       </form>
                     </div>
                   </div>
-                </li>
-              </ul>
-              <!-- 새댓글 작성부분 -->
-              <div class="input-comment-box">
-                <form
-                  th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
-                  class="commentEnroll"
-                  method="post"
-                >
-                  <div class="inputframe">
-                    <br />
-                    <h5>
-                      <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                      <input type="text" class="input-text newComment" name="content" required />
-                    </h5>
-                    <button class="new-comment-btn">
-                      <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+              </li>
+            </ul>
+            <!-- 새댓글 작성부분 -->
+            <div class="input-comment-box">
+              <form
+                th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
+                method="post"
+                id="comment-form"
+              >
+                <div class="inputframe">
+                  <br />
+                  <h5>
+                    <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                    <input type="text" class="input-text" id="newComment" name="content" />
+                  </h5>
+                  <button class="new-comment-btn" id="add-comment-button">
+                    <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -366,10 +347,6 @@
       </div>
     </div>
     <div id="footer"></div>
-
-    <div id="loadingOverlay" class="hidden">
-      <div class="loader"></div>
-    </div>
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
@@ -514,6 +491,8 @@
         });
       });
 
+      //css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!  css 관련 코드!
+
       // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
       window.addEventListener('load', function () {
         adjustQuestionAreaHeight();
@@ -545,72 +524,46 @@
         element.style.height = 'auto'; // 높이 초기화
       }
 
-      // 로딩 화면 ON
-      function showLoadingScreen() {
-        $('#loadingOverlay').removeClass('hidden');
-      }
-
-      // 로딩 화면 OFF
-      function hideLoadingScreen() {
-        $('#loadingOverlay').addClass('hidden');
-      }
-
-      // 댓글 작성
+      //댓글, 대댓글 작성 버튼 기능입니다!!
       document.addEventListener('DOMContentLoaded', function () {
-        const commentEnrollForms = document.querySelectorAll('.commentEnroll');
-        commentEnrollForms.forEach((enrollForm) => {
-          enrollForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            showLoadingScreen();
+        const addCommentButton = document.getElementById('add-comment-button');
+        const replyWriteButton = document.querySelectorAll('.reply-write-btn');
 
-            const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newComment');
+        // 댓글 작성 이벤트 리스너
+        let commentButtonEnabled = true;
+        addCommentButton.addEventListener('click', function (event) {
+          if (!commentButtonEnabled) {
+            return;
+          }
+          commentButtonEnabled = false;
 
-            $.ajax({
-              type: 'POST',
-              url: url,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content.value }),
-              success: function (response) {
-                content.value = '';
-                hideLoadingScreen();
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                hideLoadingScreen();
-                console.error('Error:', status, error);
-              },
-            });
-          });
+          event.preventDefault(); // 폼 제출 이벤트를 막습니다.
+          const commentForm = document.getElementById('comment-form');
+          newCommentInput.value = ''; // 입력란을 비웁니다.
+          commentForm.submit(); // 폼 제출
+
+          setTimeout(function () {
+            commentButtonEnabled = true;
+          }, 500); // 이게 왜 안먹는지 모르겠음
         });
-      });
 
-      // 대댓글 작성
-      document.addEventListener('DOMContentLoaded', function () {
-        const recommentEnrollForms = document.querySelectorAll('.recommentEnroll');
-        recommentEnrollForms.forEach((enrollForm) => {
-          enrollForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            showLoadingScreen();
+        replyWriteButton.forEach((button) => {
+          let replyButtonEnabled = true;
+          button.addEventListener('click', function (event) {
+            if (!replyButtonEnabled) {
+              return;
+            }
+            replyButtonEnabled = false;
 
-            const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newRecomment');
+            event.preventDefault(); // 폼 제출 이벤트를 막습니다.
 
-            $.ajax({
-              type: 'POST',
-              url: url,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content.value }),
-              success: function (response) {
-                content.value = '';
-                hideLoadingScreen();
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                hideLoadingScreen();
-                console.error('Error:', status, error);
-              },
-            });
+            const recommentInput = button.closest('.inputframe').querySelector('.input-text');
+            window.location.reload(); //대댓글 작성 후 새로고침
+            recommentInput.value = ''; // 입력란을 비웁니다.
+
+            setTimeout(function () {
+              replyButtonEnabled = true;
+            }, 500);
           });
         });
       });
