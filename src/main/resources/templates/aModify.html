@@ -67,11 +67,10 @@
     <input type="hidden" class="getPostId" th:value="${postDto.postId}" />
     <input type="hidden" class="getAnswerId" th:value="${answerDto.answerId}" />
 
-    <script>
+    <script th:inline="javascript">
       /*<![CDATA[*/
       let uploadedImages = /*[[${answerDto.imageDtoList}]]*/ [];
       /*]]>*/
-
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
       let submitBtn = document.querySelector('.submit-btn');
