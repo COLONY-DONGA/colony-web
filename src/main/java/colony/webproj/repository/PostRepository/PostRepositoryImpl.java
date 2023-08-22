@@ -1,5 +1,6 @@
 package colony.webproj.repository.PostRepository;
 
+import colony.webproj.category.entity.QCategory;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostManageDto;
 import colony.webproj.dto.QPostDto;
@@ -40,6 +41,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
         QAnswer answer = new QAnswer("answer");
+        QCategory category = new QCategory("category");
         List<PostDto> result = queryFactory
                 .select(new QPostDto(
                         post.id,
@@ -49,6 +51,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdAt,
                         post.answered,
                         post.viewCount,
+                        category.id,
                         JPAExpressions.select(answer.count())
                                 .from(answer)
                                 .where(answer.post.eq(post))
