@@ -144,7 +144,7 @@
         <!-- 공지 -->
         <div
           th:each="postDto : ${postDtoListNotice}"
-          class="card-item"
+          class="card-item notice"
           th:onclick="'redirectToNotice(' + ${postDto.postId} + ')'"
         >
           <div class="card-info">
@@ -205,79 +205,78 @@
       <!-- 페이징 -->
       <div class="pagination-container">
         <ul
-                class="pagination"
-                th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}"
+          class="pagination"
+          th:with="start=${(pageNum/maxPage)*maxPage + 1}, end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}), prev=${start - maxPage - 1}, next=${start + maxPage - 1}, maxPage=${5}"
         >
           <li th:if="${start > 1}">
             <a
-                    th:if="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<<'"
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
             ></a>
             <a
-                    th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<<'"
+              th:href="@{/post-list(page=0, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
             ></a>
           </li>
 
           <li th:if="${start > 1}">
             <a
-                    th:if="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<'"
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<'"
             ></a>
             <a
-                    th:unless="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<'"
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${prev}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<'"
             ></a>
           </li>
 
           <li
-                  th:each="page: ${#numbers.sequence(start, end)}"
-                  th:class="${page == (pageNum + 1)} ? 'active' : ''"
+            th:each="page: ${#numbers.sequence(start, end)}"
+            th:class="${page == (pageNum + 1)} ? 'active' : ''"
           >
             <a
-                    th:if="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="${page}"
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="${page}"
             ></a>
             <a
-                    th:unless="${searchType} != null and ${searchValue} != null"
-                    th:text="${page}"
-                    th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"
-            ></a>
-          </li>
-
-          <li th:if="${end < totalPages}">
-            <a
-                    th:if="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>'"
-            ></a>
-            <a
-                    th:unless="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>'"
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:text="${page}"
+              th:href="@{/post-list(page=${page - 1}, sortBy=${sortBy}, answered=${answered})}"
             ></a>
           </li>
 
           <li th:if="${end < totalPages}">
             <a
-                    th:if="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>>'"
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
             ></a>
             <a
-                    th:unless="${searchType} != null and ${searchValue} != null"
-                    th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>>'"
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${next}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
+            ></a>
+          </li>
+
+          <li th:if="${end < totalPages}">
+            <a
+              th:if="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
+            ></a>
+            <a
+              th:unless="${searchType} != null and ${searchValue} != null"
+              th:href="@{/post-list(page=${totalPages - 1}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
             ></a>
           </li>
         </ul>
       </div>
     </div>
-
 
     <div th:replace="~{layouts/footer :: footer}"></div>
 
