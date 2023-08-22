@@ -17,6 +17,12 @@
   border-bottom: 3px solid #6b9275;
   padding-bottom: 5px;
 }
+.explain {
+  position: absolute;
+  top: 9.625rem;
+  font-size: 0.8rem;
+  color: gray;
+}
 .item-box {
   display: flex;
   align-items: center;

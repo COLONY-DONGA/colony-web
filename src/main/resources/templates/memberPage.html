@@ -13,6 +13,10 @@
 
     <div class="my-profile">
       <div class="title">My Profile</div>
+      <div class="explain">
+        회원 정보 변경 방법 : 우선 변경하고픈 정보를 변경하고, EDIT PROFILE을 눌러서 현재 패스워드를
+        입력하면 정상적으로 바뀜
+      </div>
       <div class="my-profile-item">
         <div class="item-box">
           <div class="item-1">
@@ -292,7 +296,7 @@
         let email = document.getElementById('email').value;
         let phoneNumber = document.getElementById('phone').value;
         let department = document.getElementById('department').value;
-        let emailAlarm = $("#emailAlarm").is(":checked");
+        let emailAlarm = $('#emailAlarm').is(':checked');
         console.log(emailAlarm);
         $.ajax({
           type: 'PUT',
