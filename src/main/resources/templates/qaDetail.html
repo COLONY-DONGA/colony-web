@@ -185,7 +185,7 @@
         <ul
                 id="comments-list"
                 class="comments-list"
-                th:each="comment, status : ${answer.commentList}"
+                th:each="comment, status : ${answer.commentList} "
         >
           <li>
             <div class="comment-main-level">
@@ -194,6 +194,33 @@
                   <span class="comment-name" th:text="${comment.createdBy}">John Doe</span>
                   <span class="small-line"> | </span>
                   <span class="comment-time" th:text="${comment.enrollTime}">몇 시간전</span>
+                  <!--삭제, 수정, 답글 버튼-->
+
+                    <div class="commenttool">
+                      <form
+                              class="delete-comment-form"
+                              method="get"
+                              th:action="@{'/delete-comment/' + ${comment.commentId}}"
+                      >
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </form>
+
+                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+
+                      <form class="edit-comment-form" method="post" style="display: none">
+                        <input type="text" name="content" />
+                        <button type="submit">수정</button>
+                        <button type="button" class="cancel-edit-comment">취소</button>
+                      </form>
+
+                      <i
+                              class="fa fa-reply reply-button"
+                              th:data-comment-id="${comment.commentId}"
+                      ></i>
+                    </div>
+
+
+
                 </div>
                 <div
                         class="comment-content"
@@ -202,31 +229,8 @@
                 >
                   This is the main comment content.
                 </div>
+                <div class="tool"></div>
 
-                <div class="tool">
-                  <div class="commenttool">
-                    <form
-                            class="delete-comment-form"
-                            method="get"
-                            th:action="@{'/delete-comment/' + ${comment.commentId}}"
-                    >
-                      <button class="comment-delete">삭제</button>
-                    </form>
-
-                    <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
-
-                    <form class="edit-comment-form" method="post" style="display: none">
-                      <input type="text" name="content" />
-                      <button type="submit">수정</button>
-                      <button type="button" class="cancel-edit-comment">취소</button>
-                    </form>
-
-                    <i
-                            class="fa fa-reply reply-button"
-                            th:data-comment-id="${comment.commentId}"
-                    ></i>
-                  </div>
-                </div>
 
                 <!-- 대댓글 -->
                 <ul
@@ -248,33 +252,33 @@
                           <span class="comment-time" th:text="${recomment.enrollTime}"
                           >몇 시간전</span
                           >
+                          <div class="replytool">
+                            <form
+                                    class="delete-reply-form"
+                                    method="get"
+                                    th:action="@{'/delete-comment/' + ${recomment.commentId}}"
+                            >
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </form>
+
+                            <i
+                                    class="fa fa-pencil recomment-edit-i"
+                                    aria-hidden="true"
+                                    th:data-comment-id="${recomment.commentId}"
+                            ></i>
+
+                            <form class="edit-recomment-form" method="post" style="display: none">
+                              <input type="text" name="content" />
+                              <button type="submit">수정</button>
+                              <button type="button" class="cancel-edit-recomment">취소</button>
+                            </form>
+                          </div>
                         </div>
                         <div class="comment-content" th:text="${recomment.content}">
                           This is a reply to the main comment.
                         </div>
                       </div>
                       <div class="tool reply-tool">
-                        <div class="replytool">
-                          <form
-                                  class="delete-reply-form"
-                                  method="get"
-                                  th:action="@{'/delete-comment/' + ${recomment.commentId}}"
-                          >
-                            <button type="submit">삭제</button>
-                          </form>
-
-                          <i
-                                  class="fa fa-pencil recomment-edit-i"
-                                  aria-hidden="true"
-                                  th:data-comment-id="${recomment.commentId}"
-                          ></i>
-
-                          <form class="edit-recomment-form" method="post" style="display: none">
-                            <input type="text" name="content" />
-                            <button type="submit">수정</button>
-                            <button type="button" class="cancel-edit-recomment">취소</button>
-                          </form>
-                        </div>
                       </div>
                     </div>
                   </li>
