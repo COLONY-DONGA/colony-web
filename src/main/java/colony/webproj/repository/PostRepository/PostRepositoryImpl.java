@@ -6,6 +6,7 @@ import colony.webproj.dto.QPostDto;
 import colony.webproj.dto.QPostManageDto;
 import colony.webproj.entity.QAnswer;
 import colony.webproj.entity.QMember;
+import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
@@ -35,7 +36,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
         LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
         QAnswer answer = new QAnswer("answer");
@@ -56,7 +57,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.member, member)
                 .where(
                         searchValue(searchType, searchValue),
-                        answeredEq(answered)
+                        answeredEq(answered),
+                        post.isNotice.eq(false),
+                        Category(categoryId)
                 )
                 .orderBy(postOrderBy(sortBy))
                 .offset(pageable.getOffset())
@@ -67,7 +70,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .from(post)
                 .where(
                         searchValue(searchType, searchValue),
-                        answeredEq(answered)
+                        answeredEq(answered),
+                        post.isNotice.eq(false),
+                        Category(categoryId)
                 )
                 .fetchOne();
 
@@ -104,6 +109,29 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(result, pageable, total);
     }
 
+    @Override
+    public List<PostDto> findPostDtoNotice() {
+        QMember member2 = new QMember("member2");
+        List<PostDto> result = queryFactory
+                .select(new QPostDto(
+                        post.id,
+                        post.title,
+                        post.content,
+                        member2.nickname,
+                        post.createdAt,
+                        post.viewCount
+                ))
+                .from(post)
+                .join(post.member, member2)
+                .where(
+                        post.isNotice.eq(true),
+                        member2.role.eq(Role.ROLE_ADMIN)
+                )
+                .orderBy(post.createdAt.desc())
+                .fetch();
+        return result;
+    }
+
     private OrderSpecifier<?> postOrderBy(String sortBy) {
         if (sortBy.equals("createdAtDesc")) return post.createdAt.desc();
         if (sortBy.equals("createdAtAsc")) return post.createdAt.asc();
@@ -123,6 +151,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.member.nickname.containsIgnoreCase(searchValue);
         }
         return null;
+    }
+
+    private BooleanExpression Category(Long categoryId){
+        if(categoryId==null){
+            return null;
+        }
+        else{
+            return post.category.id.eq(categoryId);
+        }
     }
 
     private BooleanExpression answeredEq(Boolean answered) {

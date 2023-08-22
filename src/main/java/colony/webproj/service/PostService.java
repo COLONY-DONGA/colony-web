@@ -7,6 +7,7 @@ import colony.webproj.dto.PostUpdateFormDto;
 import colony.webproj.entity.Image;
 import colony.webproj.entity.Member;
 import colony.webproj.entity.Post;
+import colony.webproj.entity.Role;
 import colony.webproj.entity.type.SearchType;
 import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
@@ -44,9 +45,10 @@ public class PostService {
     /**
      * queryDsl 게시글 리스트 조회
      */
-    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
         Page<PostDto> resultPage =
-                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable);
+                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable, categoryId);
 
         List<PostDto> resultList = resultPage.getContent();
         for (PostDto postDto : resultList) {
@@ -60,6 +62,25 @@ public class PostService {
         return resultPage;
     }
 
+    /**
+     * queryDsl 게시글 리스트 공지 조회
+     */
+    @Transactional(readOnly = true)
+    public List<PostDto> searchPostListNotice() {
+
+        List<PostDto> postDtoNotice = postRepository.findPostDtoNotice();
+
+        for (PostDto postDto : postDtoNotice) {
+            LocalDateTime createdAt = postDto.getCreatedAt();
+            LocalDateTime currentTime = LocalDateTime.now();
+            Duration duration = Duration.between(createdAt, currentTime);
+
+            String enrollTime = getTimeAgo(duration);
+            postDto.setEnrollTime(enrollTime);
+        }
+        log.info("size: " + postDtoNotice.size());
+        return postDtoNotice;
+    }
 
     /**
      * 게시글 저장
@@ -67,9 +88,11 @@ public class PostService {
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        Boolean isNotice = (member.getRole() == Role.ROLE_ADMIN) ? true : false;
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
+                .isNotice(isNotice)
                 .member(member)
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
@@ -178,7 +201,7 @@ public class PostService {
                 .createdBy(post.getMember().getNickname())
                 .createdAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
-                .Answered(post.isAnswered())
+                .Answered(post.getAnswered())
                 .viewCount(post.getViewCount())
                 .imageDtoList(imageDtoList) //이미지
                 .build();

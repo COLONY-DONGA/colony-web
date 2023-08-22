@@ -7,9 +7,7 @@ import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.AnswerService;
-import colony.webproj.service.CommentService;
 import colony.webproj.service.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,18 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,7 +37,8 @@ public class PostController {
      * 게시글 리스트
      */
     @GetMapping("/post-list")
-    public String postList(@RequestParam(required = false) SearchType searchType,
+    public String postList(@RequestParam(required = false) Long categoryId,
+                           @RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
                            @RequestParam(required = false) String sortBy, //정렬기준
@@ -59,8 +54,10 @@ public class PostController {
             log.info("회원 로그인");
         }
         //진수방식
-        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable);
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryId);
         model.addAttribute("postDtoList", postDtoList);
+        List<PostDto> postDtoListNotice = postService.searchPostListNotice();
+        model.addAttribute("postDtoListNotice", postDtoListNotice);
 
         model.addAttribute("searchType", searchType);
         model.addAttribute("searchValue", searchValue);
@@ -79,21 +76,24 @@ public class PostController {
      */
     @GetMapping("/post/{postId}")
     public String postDetail(@PathVariable("postId") Long postId,
+                             @RequestParam String postType,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
-
-        List<AnswerDto> answerDtoList =
-                answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
-        model.addAttribute("answerDtoList", answerDtoList);
-
         if(principalDetails != null) {
             if(principalDetails.getRole() == Role.ROLE_ADMIN) model.addAttribute("loginUser", "관리자");
             else model.addAttribute("loginUser", principalDetails.getNickname());
             model.addAttribute("postUser", postDto.getCreatedBy());
         }
-        return "qaDetail";
+
+        if (postType.equals("p")) {
+            List<AnswerDto> answerDtoList =
+                    answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
+            model.addAttribute("answerDtoList", answerDtoList);
+            return "qaDetail";
+        }
+        return "noDetail";
     }
 
 
@@ -119,9 +119,11 @@ public class PostController {
             model.addAttribute("postFormDto", postFormDto);
             return "qEnroll";
         }
+        String postType = "";
+        postType = (principalDetails.getRole() == Role.ROLE_ADMIN) ? "n" : "p";
 
         Long savedPostId = postService.savePost(postFormDto, principalDetails.getUsername());
-        return "redirect:/post/" + savedPostId; //상세 페이지로 이동
+        return "redirect:/post/" + savedPostId + "?postType=" + postType; //상세 페이지로 이동
     }
 
 

@@ -15,6 +15,7 @@ public enum ErrorCode {
     ANSWER_DELETE_WRONG_ACCESS(HttpStatus.UNAUTHORIZED, "본인의 답변만 삭제할 수 있습니다."),
     ANSWER_UPDATE_WRONG_ACCESS(HttpStatus.UNAUTHORIZED, "본인의 답변만 수정할 수 있습니다."),
     ANSWER_NO_REQUIRED_VALUE(HttpStatus.BAD_REQUEST, "답변의 필수 값이 존재하지 않습니다."),
+    ANSWER_WRONG_ACCESS_TO_NOTICE(HttpStatus.BAD_REQUEST, "공지사항에는 답변을 등록할 수 없습니다."),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다."),
     COMMENT_PARENT_NOT_FOUND(HttpStatus.NOT_FOUND, "부모 댓글이 존재하지 않습니다."),
     COMMENT_DELETE_WRONG_ACCESS(HttpStatus.UNAUTHORIZED, "본인의 댓글만 삭제할 수 있습니다."),

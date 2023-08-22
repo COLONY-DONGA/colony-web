@@ -365,7 +365,15 @@
   transform: scale(1.1);
 }
 
-/* 카드 */
+/* 공지 및 카드 */
+
+.card-item.notice {
+  background-color: #f9f9f8;
+}
+
+.card-item.notice:hover {
+  background-color: #efefee;
+}
 
 .card-item {
   max-width: 1000px;
@@ -394,6 +402,7 @@
   flex-direction: row;
 }
 
+.card-state-notice,
 .card-state-yes,
 .card-state-no {
   display: inline-flex;
@@ -409,6 +418,11 @@
   padding-left: 8px;
   padding-right: 8px;
   margin: auto 0;
+}
+
+.card-state-notice {
+  border: 1px solid #ff4e59;
+  background-color: #ff4e59;
 }
 
 .card-state-yes {

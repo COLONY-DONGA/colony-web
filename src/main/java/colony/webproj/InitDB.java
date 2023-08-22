@@ -32,7 +32,7 @@
 //        private final BCryptPasswordEncoder encoder;
 //
 //        public void initMember() {
-//            Member member1 = Member.builder().loginId("a").password(encoder.encode("a")).role(Role.ROLE_MEMBER)
+//            Member member1 = Member.builder().loginId("a").password(encoder.encode("a")).role(Role.ROLE_ADMIN)
 //                    .name("김진수").department("컴퓨터공학과").nickname("김진짜").phoneNumber("01012345678").email("kimjinsu3206@gmail.com").emailAlarm(true).build();
 //            Member member2 = Member.builder().loginId("b").password(encoder.encode("b")).role(Role.ROLE_MEMBER)
 //                    .name("채승지").department("컴퓨터공학과").nickname("채똘복").phoneNumber("01012345678").build();
@@ -56,7 +56,7 @@
 //            for(int i = 1; i<=70; i++) {
 //                Post post = new Post();
 //                if (i <= 10) {
-//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).isNotice(true).build();
 //                } else if(i<=20) {
 //                    post = Post.builder().title("더미 데이터 제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
 //                } else if(i<=30) {

@@ -56,6 +56,10 @@ public class AnswerService {
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        //공지사항인 글 예외 처리
+        if (post.getIsNotice()) {
+            throw new CustomException(ErrorCode.ANSWER_WRONG_ACCESS_TO_NOTICE);
+        }
         post.setAnswered(true); //답변 등록됨 체크
         //answer 저장
         Answer answer = Answer.builder()
