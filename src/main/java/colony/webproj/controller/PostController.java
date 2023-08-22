@@ -81,7 +81,7 @@ public class PostController {
      */
     @GetMapping("/post/{postId}")
     public String postDetail(@PathVariable("postId") Long postId,
-                             @RequestParam String postType,
+                             @RequestParam(required = false, defaultValue = "p") String postType,
                              @AuthenticationPrincipal PrincipalDetails principalDetails,
                              Model model) {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기

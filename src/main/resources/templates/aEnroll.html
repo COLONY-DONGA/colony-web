@@ -41,6 +41,7 @@
               />
               <label for="file-input" class="input-imageList">📁Add file</label>
               <div id="file-list-box">
+                <div class="explain">좌측의 Add file을 누르시면 파일을 첨부할 수 있습니다</div>
                 <ul id="file-list"></ul>
               </div>
             </div>
@@ -64,6 +65,22 @@
       let cancelBtn = document.querySelector('.cancel-btn');
       let getPostId = document.querySelector('.getPostId').value;
       let allSelectedFiles = [];
+
+      // 파일 리스트와 설명 업데이트
+      function updateFileListDisplay() {
+        const fileList = document.getElementById('file-list');
+        const explain = document.querySelector('.explain');
+
+        if (fileList.children.length === 0) {
+          fileList.style.display = 'none';
+          explain.style.display = 'block';
+        } else {
+          fileList.style.display = 'block';
+          explain.style.display = 'none';
+        }
+      }
+
+      updateFileListDisplay();
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -128,11 +145,15 @@
               });
               fileInput.files = newFileList.files;
             }
+
+            updateFileListDisplay();
           });
 
           listItem.appendChild(deleteButton);
           fileList.appendChild(listItem);
         });
+
+        updateFileListDisplay();
       });
 
       // 파일 크기를 사람이 읽기 쉬운 형식으로 변환하는 함수
@@ -189,7 +210,7 @@
           processData: false,
           contentType: false,
           success: function (response) {
-            if(response) {
+            if (response) {
               console.log('답변 등록 완료');
               window.opener.location.reload();
               window.close();
