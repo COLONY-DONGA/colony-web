@@ -1,0 +1,28 @@
+version: "3.8"                                          # 파일 규격 버전
+services:                                               # 이 항목 밑에 실행하려는 컨테이너들을 정의
+  database:
+    container_name: database
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: dgjisnu/database
+    environment:
+      - MARIADB_DATABASE=colony
+      - MARIADB_ROOT_PASSWORD=1234
+    ports:
+      - "13306:3306"      # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+
+  colony-app:
+    container_name: colony-app
+    build: .
+    depends_on: # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
+      - database
+    image: dgjinsu/colony-app
+    environment:
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "80:8080"
+    restart: always # depends on은 실행 순서만 컨트롤 할뿐,

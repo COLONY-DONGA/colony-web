@@ -14,6 +14,10 @@ configurations {
 	}
 }
 
+bootJar {
+	archiveFileName = 'app.jar'
+}
+
 repositories {
 	mavenCentral()
 }
@@ -24,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	//swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
