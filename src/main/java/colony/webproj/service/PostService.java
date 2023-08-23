@@ -1,5 +1,7 @@
 package colony.webproj.service;
 
+import colony.webproj.category.entity.Category;
+import colony.webproj.category.repository.CategoryRepository;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
@@ -40,6 +42,7 @@ public class PostService {
     private final AnswerService answerService;
     private final PostRepository postRepository;
     private final ImageService imageService;
+    private final CategoryRepository categoryRepository;
 
 
     /**
@@ -88,11 +91,25 @@ public class PostService {
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        Boolean isNotice = (member.getRole() == Role.ROLE_ADMIN) ? true : false;
+
+        Boolean isNotice = false;
+        Category category;
+
+        if (member.getRole() == Role.ROLE_ADMIN) {
+            isNotice = true;
+            category = categoryRepository.findByCategoryName("공지사항")
+                    .orElseThrow(() -> new RuntimeException("fdsfs"));
+        }
+        else{
+            category = categoryRepository.findById(postFormDto.getCategoryId())
+                    .orElseThrow(()-> new RuntimeException("fdsfsd"));
+        }
+        
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
                 .isNotice(isNotice)
+                .category(category)
                 .member(member)
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
@@ -128,6 +145,8 @@ public class PostService {
 
         post.setTitle(postUpdateFormDto.getTitle());
         post.setContent(postUpdateFormDto.getContent());
+        post.setCategory(categoryRepository.findById(postUpdateFormDto.getCategoryId())
+                .orElseThrow(()-> new RuntimeException("Fdsfsd")));
 
         //수정하며 삭제할 사진 s3, db 에서 제거
         imageService.deleteFileWithStoreImageName(postUpdateFormDto.getDeleteImageList());

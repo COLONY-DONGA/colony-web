@@ -34,15 +34,13 @@ public class CategoryService {
      */
     public void insertCategories(String categoryName){
 
-        Optional<String> usedName = categoryRepository.findByCategoryName(categoryName);
-
-        // 카테고리가 이미 존재하면 어떻게 할지는 일단 보류
+        if(categoryRepository.findByCategoryName(categoryName).isPresent()){
+            throw new RuntimeException("Fds");
+        }
 
         Category category = Category.builder().
                 categoryName(categoryName).
                 build();
-
-        categoryRepository.save(category);
     }
 
     /**
@@ -53,7 +51,5 @@ public class CategoryService {
                 .orElseThrow(() -> new RuntimeException("fdsfs"));
 
         category.setCategoryName(categoryDto.getCategoryName());
-
-        categoryRepository.save(category);
     }
 }
