@@ -19,5 +19,6 @@ public class PostUpdateFormDto {
     private String content;
     private List<MultipartFile> imageList;
     private List<String> deleteImageList;
+    private Long categoryId;
 
 }

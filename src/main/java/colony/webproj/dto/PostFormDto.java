@@ -1,5 +1,6 @@
 package colony.webproj.dto;
 
+import colony.webproj.category.entity.Category;
 import colony.webproj.entity.Image;
 import colony.webproj.entity.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,8 +26,9 @@ public class PostFormDto {
 
 
     private List<ImageDto> imageDtoList = new ArrayList<>();
+    private Long categoryId;
 
-    public PostFormDto(String title, String content, List<MultipartFile> imageList ){
+    public PostFormDto(String title, String content, List<MultipartFile> imageList,Long categoryId ){
         this.title = title;
         this.content = content;
         this.imageList = imageList;
