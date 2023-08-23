@@ -1,6 +1,7 @@
 package colony.webproj.controller;
 
 import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.dto.CategoryDtoList;
 import colony.webproj.category.service.CategoryService;
 import colony.webproj.dto.*;
 import colony.webproj.entity.Role;
@@ -56,6 +57,49 @@ public class PostController {
             log.info("회원 로그인");
         }
         List<CategoryDto> categoryDtoList = categoryService.getCategories();
+        model.addAttribute("categoryDtoList", categoryDtoList);
+
+        //진수방식
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryId);
+        model.addAttribute("postDtoList", postDtoList);
+        List<PostDto> postDtoListNotice = postService.searchPostListNotice();
+        model.addAttribute("postDtoListNotice", postDtoListNotice);
+
+        model.addAttribute("searchType", searchType);
+        model.addAttribute("searchValue", searchValue);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("answered", answered);
+
+        model.addAttribute("pageNum", pageable.getPageNumber());
+        model.addAttribute("totalPages", postDtoList.getTotalPages());
+        model.addAttribute("maxPage", 10);
+
+        return "qaList";
+    }
+
+
+    /**
+     * 이후 변경할 게시글 리스트
+     */
+    @GetMapping("/post-list/{categoryId}")
+    public String testpostList(@PathVariable("categoryId") Long categoryId,
+                           @RequestParam(required = false) SearchType searchType,
+                           @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
+                           @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
+                           @RequestParam(required = false) String sortBy, //정렬기준
+                           @PageableDefault(size = 10) Pageable pageable,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           Model model) {
+
+        if (principalDetails == null) {
+            model.addAttribute("username", "게스트");
+            log.info("비회원 로그인");
+        } else {
+            model.addAttribute("username", principalDetails.getNickname());
+            log.info("회원 로그인");
+        }
+
+        CategoryDtoList categoryDtoList = new CategoryDtoList(categoryService.getCategories(),categoryId);
         model.addAttribute("categoryDtoList", categoryDtoList);
 
         //진수방식
