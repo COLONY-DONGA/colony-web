@@ -51,10 +51,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.createdAt,
                         post.answered,
                         post.viewCount,
-                        category.id,
                         JPAExpressions.select(answer.count())
                                 .from(answer)
-                                .where(answer.post.eq(post))
+                                .where(answer.post.eq(post)),
+                        category.id
                 ))
                 .from(post)
                 .join(post.member, member)
