@@ -9,17 +9,22 @@
 
 /* 헤더 */
 
+body {
+  padding-top: 6rem;
+}
+
 .header {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80rem;
   height: 6rem;
   background-color: white;
-  margin: 0 auto;
   border-bottom: 1px solid #d3d3d3;
   z-index: 100;
 }
+
 header {
   position: fixed;
   width: 100%;
@@ -31,51 +36,43 @@ header {
   color: var(--baseColor);
   z-index: 9999;
 }
-header img {
+
+header > div {
+  display: flex;
+  align-items: center;
+}
+
+header .logo {
   width: 14rem;
   height: 4rem;
   cursor: pointer;
   margin-left: 3rem;
 }
-header .welcome {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-header > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header span {
-  font-weight: bold;
-}
-header .nav {
-  margin-right: 10rem;
-}
-header nav ul {
+
+header ul {
   display: flex;
   text-align: center;
   list-style: none;
-  padding: 0;
+  margin-left: -2rem;
 }
-header nav ul li {
-  /* padding: 0 10px; */
+
+header ul li {
   width: 100px;
 }
-header nav ul li a {
+
+header ul li a {
   position: relative;
   display: inline-block;
   line-height: 5rem;
   font-weight: bold;
   font-size: 1.0625rem;
 }
-header nav ul li:hover a {
+
+header ul li:hover a {
   color: var(--blueColor);
 }
-header nav ul li a:after {
+
+header ul li a:after {
   opacity: 0;
   content: '';
   position: absolute;
@@ -86,9 +83,11 @@ header nav ul li a:after {
   bottom: 0;
   transition: all 0.3s ease-in-out;
 }
-header nav ul li:hover a:after {
+
+header ul li:hover a:after {
   opacity: 1;
 }
+
 header a:link,
 header a:visited,
 header a:hover,
@@ -96,20 +95,12 @@ header a:active {
   color: var(--baseColor);
   text-decoration: none;
 }
-header nav ul li {
+
+header ul li {
   position: relative;
 }
-header nav ul li::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1.5px;
-  height: 50px;
-  background-color: #ccc;
-  left: 0;
-}
-header nav ul li:last-child::after {
+
+header ul li::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -119,15 +110,28 @@ header nav ul li:last-child::after {
   background-color: #ccc;
   right: 0;
 }
-body {
-  padding-top: 6rem;
+
+header ul li.no-border::before {
+  display: none;
 }
+
+/* 카테고리 */
+
+header .cagetory {
+  display: flex;
+}
+
+/* 알림 */
+
 .notification-container {
   position: absolute;
-  top: 1.5rem;
+  top: 50%;
   right: 3rem;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
 }
+
 #notification-icon {
   position: relative;
   display: inline-block;
@@ -137,6 +141,7 @@ body {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
 .notification-button {
   border: none;
   background-color: transparent;
@@ -149,10 +154,12 @@ body {
   align-items: center;
   outline: none;
 }
+
 #notification-icon:hover,
 .notification-button:hover .fa-bell {
   color: #7367f0;
 }
+
 .notification-badge {
   position: absolute;
   top: -5px;
@@ -168,24 +175,11 @@ body {
   justify-content: center;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
 }
+
 .show-badge {
   display: flex;
 }
-.header .welcome {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -45%);
-  text-align: center;
-}
-.notification-container {
-  position: absolute;
-  top: 50%;
-  right: 3rem;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-}
+
 @media (max-width: 768px) {
   .header .welcome {
     left: 45%;
@@ -194,6 +188,7 @@ body {
     right: 2.5rem;
   }
 }
+
 .header-notification-dropdown {
   position: absolute;
   top: 60px;
@@ -208,47 +203,58 @@ body {
   overflow-y: auto;
   z-index: 9999;
 }
+
 .header-notification-dropdown::-webkit-scrollbar {
   width: 10px;
 }
+
 .header-notification-dropdown::-webkit-scrollbar-track {
   background-color: #cccccc;
   border-radius: 10px;
 }
+
 .header-notification-dropdown::-webkit-scrollbar-thumb {
   background-color: #999;
   border-radius: 10px;
 }
+
 .notification-item {
   text-align: left;
   padding: 8px 0;
   border-bottom: 1px solid #d3d3d3;
 }
+
 .notification-item a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
   transition: color 0.3s;
 }
+
 .read-notification {
   background-color: #f0f0f0;
 }
+
 .unread-notification {
   background-color: #ffffff;
 }
+
 .unread-notification:hover {
   background-color: #f8f8f8;
 }
+
 .notification-arrive-time {
   color: #999;
   font-size: 13px;
 }
+
 .delete-btn {
   cursor: pointer;
   color: #aaa;
   float: right;
   margin-top: 5px;
 }
+
 .notification-action-btn {
   cursor: pointer;
   padding: 7px 14px;
@@ -261,10 +267,71 @@ body {
   transition: all 0.3s ease;
   font-weight: 500;
 }
+
 .notification-action-btn:hover {
   background-color: #e5e5e5;
   color: #555;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 유저 & 로그 */
+
+.right-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 19rem;
+  width: 9.5rem;
+}
+
+/* 유저 */
+
+header .user {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 2px solid #ccc;
+}
+
+header .profile {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+header span {
+  font-weight: bold;
+}
+
+header .member {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+header .guest {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 로그 */
+
+header .log {
+  display: flex;
+  align-items: center;
+}
+
+header .login a:hover {
+  color: rgba(111, 225, 92, 0.9);
+  font-weight: bold;
+}
+
+header .logout a:hover {
+  color: rgba(253, 23, 23, 0.7);
+  font-weight: bold;
 }
 
 /* 푸터 */
