@@ -59,7 +59,7 @@ cloud:
     region:
       static: ap-northeast-2
 server:
-  port: 8090
+  port: 8080
 
 
 spring.jpa.open-in-view: false

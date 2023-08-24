@@ -4,17 +4,17 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/qaDetail.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <title>질문 세부 페이지</title>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="/css/qaDetail.css" />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <title>질문 세부 페이지</title>
+</head>
 
 <body>
 <div th:replace="~{layouts/header :: header}"></div>
@@ -196,28 +196,28 @@
                   <span class="comment-time" th:text="${comment.enrollTime}">몇 시간전</span>
                   <!--삭제, 수정, 답글 버튼-->
 
-                    <div class="commenttool">
-                      <form
-                              class="delete-comment-form"
-                              method="get"
-                              th:action="@{'/delete-comment/' + ${comment.commentId}}"
-                      >
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                      </form>
+                  <div class="commenttool">
+                    <form
+                            class="delete-comment-form"
+                            method="get"
+                            th:action="@{'/delete-comment/' + ${comment.commentId}}"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </form>
 
-                      <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+                    <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
 
-                      <form class="edit-comment-form" method="post" style="display: none">
-                        <input type="text" name="content" />
-                        <button type="submit">수정</button>
-                        <button type="button" class="cancel-edit-comment">취소</button>
-                      </form>
+                    <form class="edit-comment-form" method="post" style="display: none">
+                      <input type="text" name="content" />
+                      <button type="submit">수정</button>
+                      <button type="button" class="cancel-edit-comment">취소</button>
+                    </form>
 
-                      <i
-                              class="fa fa-reply reply-button"
-                              th:data-comment-id="${comment.commentId}"
-                      ></i>
-                    </div>
+                    <i
+                            class="fa fa-reply reply-button"
+                            th:data-comment-id="${comment.commentId}"
+                    ></i>
+                  </div>
 
 
 
@@ -744,260 +744,10 @@
       button.addEventListener('click', function () {
         const form = this.closest('.delete-reply-form');
 
-      // 로딩 화면 OFF
-      function hideLoadingScreen() {
-        $('#loadingOverlay').addClass('hidden');
-      }
-
-      // 댓글 작성
-      document.addEventListener('DOMContentLoaded', function () {
-        const commentEnrollForms = document.querySelectorAll('.commentEnroll');
-        commentEnrollForms.forEach((enrollForm) => {
-          enrollForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            showLoadingScreen();
-
-            const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newComment');
-
-            $.ajax({
-              type: 'POST',
-              url: url,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content.value }),
-              success: function (response) {
-                content.value = '';
-                hideLoadingScreen();
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                hideLoadingScreen();
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      // 대댓글 작성
-      document.addEventListener('DOMContentLoaded', function () {
-        const recommentEnrollForms = document.querySelectorAll('.recommentEnroll');
-        recommentEnrollForms.forEach((enrollForm) => {
-          enrollForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            showLoadingScreen();
-
-            const url = enrollForm.getAttribute('action');
-            const content = enrollForm.querySelector('.newRecomment');
-
-            $.ajax({
-              type: 'POST',
-              url: url,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content.value }),
-              success: function (response) {
-                content.value = '';
-                hideLoadingScreen();
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                hideLoadingScreen();
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      // 댓글 수정 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const commentEditIs = document.querySelectorAll('.comment-edit-i');
-
-        commentEditIs.forEach((editIcon) => {
-          editIcon.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-comment-form');
-            const editInput = editForm.querySelector('input[type="text"]');
-
-            const textWrapper = document.createElement('span');
-            textWrapper.textContent = commentContent.childNodes[0].textContent;
-            commentContent.innerHTML = '';
-            commentContent.appendChild(textWrapper);
-
-            editInput.value = textWrapper.textContent;
-
-            textWrapper.style.display = 'none';
-            editForm.style.display = 'block';
-
-            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
-          });
-        });
-
-        const cancelButtons = document.querySelectorAll('.cancel-edit-comment');
-
-        cancelButtons.forEach((cancelButton) => {
-          cancelButton.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-comment-form');
-            const textWrapper = commentContent.querySelector('span');
-
-            editForm.style.display = 'none';
-            textWrapper.style.display = 'inline';
-          });
-        });
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        const editCommentForms = document.querySelectorAll('.edit-comment-form');
-
-        editCommentForms.forEach((editForm) => {
-          editForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const commentId =
-              this.closest('.comment-main-level').querySelector('.fa-reply').dataset.commentId;
-            const content = this.querySelector('input[type="text"]').value;
-
-            $.ajax({
-              type: 'POST',
-              url: '/edit-comment/' + commentId,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content }),
-              success: function (response) {
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      // 대댓글 수정 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const recommentEditIs = document.querySelectorAll('.recomment-edit-i');
-
-        recommentEditIs.forEach((editIcon) => {
-          editIcon.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-recomment-form');
-            const editInput = editForm.querySelector('input[type="text"]');
-
-            const textWrapper = document.createElement('span');
-            textWrapper.textContent = commentContent.childNodes[0].textContent;
-            commentContent.innerHTML = '';
-            commentContent.appendChild(textWrapper);
-
-            editInput.value = textWrapper.textContent;
-
-            textWrapper.style.display = 'none';
-            editForm.style.display = 'block';
-
-            textWrapper.parentElement.insertBefore(editForm, textWrapper.nextSibling);
-          });
-        });
-
-        const cancelButtons = document.querySelectorAll('.cancel-edit-recomment');
-
-        cancelButtons.forEach((cancelButton) => {
-          cancelButton.addEventListener('click', function () {
-            const commentBox = this.closest('.comment-box');
-            const commentContent = commentBox.querySelector('.comment-content');
-            const editForm = commentBox.querySelector('.edit-recomment-form');
-            const textWrapper = commentContent.querySelector('span');
-
-            editForm.style.display = 'none';
-            textWrapper.style.display = 'inline';
-          });
-        });
-      });
-
-      document.addEventListener('DOMContentLoaded', function () {
-        const editRecommentForms = document.querySelectorAll('.edit-recomment-form');
-
-        editRecommentForms.forEach((editForm) => {
-          editForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const commentId = this.closest('.comment-box')
-              .querySelector('.recomment-edit-i')
-              .getAttribute('data-comment-id');
-            const content = this.querySelector('input[type="text"]').value;
-
-            $.ajax({
-              type: 'POST',
-              url: '/edit-comment/' + commentId,
-              contentType: 'application/json',
-              data: JSON.stringify({ content: content }),
-              success: function (response) {
-                window.location.reload();
-              },
-              error: function (xhr, status, error) {
-                console.error('Error:', status, error);
-              },
-            });
-          });
-        });
-      });
-
-      // 댓글 삭제 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-comment-form i.fa-trash');
-
-        deleteButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            const form = this.closest('.delete-comment-form');
-
-            if (form) {
-              const confirmDelete = confirm('정말 삭제하시겠습니까?');
-              if (confirmDelete) {
-                form.submit();
-              }
-            }
-          });
-        });
-      });
-
-      // 대댓글 삭제 기능
-      document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-reply-form i.fa-trash');
-
-        deleteButtons.forEach((button) => {
-          button.addEventListener('click', function () {
-            const form = this.closest('.delete-reply-form');
-
-            if (form) {
-              const confirmDelete = confirm('정말 삭제하시겠습니까?');
-              if (confirmDelete) {
-                form.submit();
-              }
-            }
-          });
-        });
-      });
-
-      // 댓글 수정 삭제 기능 권한 부여
-      document.addEventListener('DOMContentLoaded', function () {
-        let userName = $('.member-nickname').val(); // 로그인 유저
-        const commentBoxes = document.querySelectorAll('.comment-box');
-
-        commentBoxes.forEach((commentBox) => {
-          const commentAuthor = commentBox.querySelector('.comment-name').textContent;
-          const editBtn = commentBox.querySelector('.fa-pencil');
-          const deleteBtn =
-            commentBox.querySelector('.delete-comment-form i.fa-trash') ||
-            commentBox.querySelector('.delete-reply-form i.fa-trash');
-
-          if (userName === commentAuthor) {
-            editBtn.style.display = 'inline';
-            deleteBtn.style.display = 'inline';
-          } else {
-            editBtn.style.display = 'none';
-            deleteBtn.style.display = 'none';
+        if (form) {
+          const confirmDelete = confirm('정말 삭제하시겠습니까?');
+          if (confirmDelete) {
+            form.submit();
           }
         }
       });
