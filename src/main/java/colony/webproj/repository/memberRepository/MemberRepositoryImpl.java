@@ -138,7 +138,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         List<MemberPageDto.PostDto> postDtoList = queryFactory
                 .select(new QMemberPageDto_PostDto(post.id, post.title))
                 .from(post)
-                .where(post.member.loginId.eq(loginId))
+                .where(post.member.loginId.eq(loginId),
+                        post.isNotice.eq(false)) //공지는 가져오지 않음
                 .fetch();
 
         List<MemberPageDto.AnswerDto> answerDtoList = queryFactory
