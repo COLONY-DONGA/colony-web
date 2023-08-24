@@ -28,7 +28,7 @@
 
 .qabtn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-  4px 4px 5px 0px #0001;
+    4px 4px 5px 0px #0001;
 }
 
 .listbtn {
@@ -60,7 +60,7 @@
 
 .editbtn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-  4px 4px 5px 0px #0001;
+    4px 4px 5px 0px #0001;
   background-color: rgba(152, 246, 121, 0.604);
 }
 
@@ -84,7 +84,7 @@
 
 .deletebtn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-  4px 4px 5px 0px #0001;
+    4px 4px 5px 0px #0001;
   background-color: rgb(255, 140, 59);
 }
 
@@ -192,8 +192,8 @@
   --c-secondary-rgb: 255, 116, 80;
   --c-secondary-darken: #ff6037;
   --font-base: 'Pretendard Variable', pretendard, -apple-system, blinkmacsystemfont, system-ui,
-  roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
-  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 }
 
 .qaDetail-frame {
@@ -398,7 +398,7 @@
 
 .new-comment-btn:hover {
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-  4px 4px 5px 0px #0001;
+    4px 4px 5px 0px #0001;
   background-color: #80ff80;
 }
 
@@ -716,10 +716,10 @@
   color: #1dc078;
 }
 
-.fa.fa-reply{
+.fa.fa-reply {
   color: #dadbdc;
 }
 
-.fa.fa-reply:hover{
+.fa.fa-reply:hover {
   color: #193057;
 }

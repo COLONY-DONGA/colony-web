@@ -23,7 +23,7 @@ public class PostDto {
     private Boolean Answered; //답변 유무
     private Long answerCount;
     private List<ImageDto> imageDtoList; // 사진
-
+    private Long categoryId;
     //댓글과 답변은 따로 modelAttribute 해줌
 
     //승지 from 코드 생성자
@@ -35,13 +35,14 @@ public class PostDto {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.Answered = answered;
+
     }
 
     /**
      * postList 에 사용
      */
     @QueryProjection
-    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered, Integer viewCount, Long answerCount) {
+    public PostDto(Long id, String title, String content, String createdBy, LocalDateTime createdAt, Boolean answered, Integer viewCount, Long answerCount, Long categoryId) {
         this.postId = id;
         this.title = title;
         this.content = content;
@@ -50,6 +51,7 @@ public class PostDto {
         this.Answered = answered;
         this.viewCount = viewCount;
         this.answerCount = answerCount;
+        this.categoryId = categoryId;
     }
 
     /**
@@ -63,6 +65,7 @@ public class PostDto {
         this.createdBy = nickname;
         this.createdAt = createdAt;
         this.viewCount = viewCount;
+        this.categoryId = categoryId;
     }
 
 }
