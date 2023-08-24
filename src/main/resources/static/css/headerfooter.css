@@ -18,8 +18,11 @@ body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80rem;
+  width: 100%;
   height: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-bottom: 1px solid #d3d3d3;
   z-index: 100;
@@ -43,10 +46,9 @@ header > div {
 }
 
 header .logo {
-  width: 14rem;
-  height: 4rem;
+  width: 10rem;
+  height: 3rem;
   cursor: pointer;
-  margin-left: 3rem;
 }
 
 header ul {
@@ -115,19 +117,87 @@ header ul li.no-border::before {
   display: none;
 }
 
-/* 카테고리 */
+/* 헤더 - 카테고리 */
 
-header .cagetory {
+header .category {
   display: flex;
+  margin: 0 10rem 0 1rem;
 }
 
-/* 알림 */
+/* 헤더 - 유저 */
+
+header .user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem 0 5rem;
+}
+
+header .dropBtn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: white;
+  font-family: 'NanumSquare', sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+header .profile {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+header span {
+  font-weight: bold;
+}
+
+.dropItem {
+  display: none;
+  position: absolute;
+  top: 4rem;
+  left: -3rem;
+  border-radius: 1.2rem;
+  font-weight: 400;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 10000;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.dropItem a {
+  display: block;
+  text-decoration: none;
+  border-radius: 1.2rem;
+  color: rgb(37, 37, 37);
+  font-size: 14px;
+  padding: 12px 20px;
+}
+
+.dropItem a:hover {
+  background-color: #ececec;
+}
+
+header .user:hover .dropItem {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+header .user:hover .dropBtn {
+  color: #7367f0;
+}
+
+/* 헤더 - 알림 */
 
 .notification-container {
-  position: absolute;
-  top: 50%;
-  right: 3rem;
-  transform: translateY(-50%);
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -180,19 +250,10 @@ header .cagetory {
   display: flex;
 }
 
-@media (max-width: 768px) {
-  .header .welcome {
-    left: 45%;
-  }
-  .notification-container {
-    right: 2.5rem;
-  }
-}
-
 .header-notification-dropdown {
   position: absolute;
-  top: 60px;
-  right: 10px;
+  top: 80%;
+  right: -150px;
   min-width: 400px;
   max-width: 450px;
   background-color: white;
@@ -272,66 +333,6 @@ header .cagetory {
   background-color: #e5e5e5;
   color: #555;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* 유저 & 로그 */
-
-.right-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-left: 19rem;
-  width: 9.5rem;
-}
-
-/* 유저 */
-
-header .user {
-  display: flex;
-  align-items: center;
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.6rem;
-  border-bottom: 2px solid #ccc;
-}
-
-header .profile {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-right: 0.5rem;
-}
-
-header span {
-  font-weight: bold;
-}
-
-header .member {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-header .guest {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-/* 로그 */
-
-header .log {
-  display: flex;
-  align-items: center;
-}
-
-header .login a:hover {
-  color: rgba(111, 225, 92, 0.9);
-  font-weight: bold;
-}
-
-header .logout a:hover {
-  color: rgba(253, 23, 23, 0.7);
-  font-weight: bold;
 }
 
 /* 푸터 */

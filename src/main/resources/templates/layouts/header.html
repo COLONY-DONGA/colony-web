@@ -33,7 +33,7 @@
         />
         <ul>
           <!-- 카테고리 -->
-          <div class="cagetory">
+          <div class="category">
             <li>
               <a href="#">공지사항</a>
             </li>
@@ -48,43 +48,38 @@
             </li>
           </div>
 
+          <!-- 유저 -->
+          <div class="user">
+            <button class="dropBtn" type="button">
+              <img
+                class="profile"
+                src="https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/mypagelogo.png"
+                alt="사진없음"
+              />
+              <div class="welcome" sec:authorize="isAuthenticated()">
+                <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님
+              </div>
+              <div class="welcome" sec:authorize="isAnonymous()"><span>Guest</span>&nbsp;님</div>
+            </button>
+            <div class="dropItem">
+              <a href="/my-page" sec:authorize="isAuthenticated()">My Page</a>
+              <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+              <a href="/login" sec:authorize="isAnonymous()">Login</a>
+            </div>
+          </div>
+
           <!-- 알림 -->
           <div class="notification-container" sec:authorize="isAuthenticated()">
-            <button type="button" id="notification-icon" class="notification-button">
+            <button class="notification-button" id="notification-icon" type="button">
               <i class="fa fa-bell"></i>
               <span class="notification-badge">0</span>
               Notice
             </button>
             <div
-              id="notification-dropdown"
               class="header-notification-dropdown"
+              id="notification-dropdown"
               style="display: none"
             ></div>
-          </div>
-          <!-- 유저 & 로그 -->
-          <div class="right-item">
-            <!-- 유저 -->
-            <div class="user">
-              <!-- 회원 -->
-              <a href="/my-page" class="member" sec:authorize="isAuthenticated()">
-                <img class="profile" src="/profile.png" alt="사진없음" />
-                <div class="welcome" sec:authorize="isAuthenticated()">
-                  <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님
-                </div>
-              </a>
-              <!-- 비회원 -->
-              <div class="guest" sec:authorize="isAnonymous()">
-                <img class="profile" src="/profile.png" alt="사진없음" />
-                <div class="welcome" sec:authorize="isAnonymous()"><span>Guest</span>&nbsp;님</div>
-              </div>
-            </div>
-            <!-- 로그 -->
-            <div class="log">
-              <div class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></div>
-              <div class="logout" sec:authorize="isAuthenticated()">
-                <a href="/logout">Logout</a>
-              </div>
-            </div>
           </div>
         </ul>
       </div>
