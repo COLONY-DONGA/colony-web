@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter@Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
@@ -15,10 +16,10 @@ public class CategoryDto {
     @NotBlank
     private String categoryName;
 
-    public static CategoryDto from(Category entity){
+    public static CategoryDto from(Category entity) {
         return new CategoryDto(
                 entity.getId(),
-        entity.getCategoryName()
-                );
+                entity.getCategoryName()
+        );
     }
 }
