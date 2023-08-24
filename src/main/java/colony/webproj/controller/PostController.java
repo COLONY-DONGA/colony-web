@@ -213,8 +213,9 @@ public class PostController {
             model.addAttribute("postFormDto", postUpdateFormDto);
             return "qEnroll";
         }
-        postService.updatePost(postId, postUpdateFormDto);
-        return "redirect:/post/" + postId;
+        //수정한 post 가 notice 인지
+        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "n" : "p";
+        return "redirect:/post/" + postId + "?postType=" + postType;
     }
 
     /**

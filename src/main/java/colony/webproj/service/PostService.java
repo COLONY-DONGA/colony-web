@@ -139,7 +139,7 @@ public class PostService {
     /**
      * 게시글 업데이트
      */
-    public Long updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
+    public Boolean updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
@@ -163,7 +163,7 @@ public class PostService {
                 log.info("이미지 저장 완료");
             }
         }
-        return post.getId();
+        return post.getIsNotice();
     }
 
     /**
