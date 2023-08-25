@@ -87,7 +87,7 @@
     <div class="qa-page">
       <!-- 검색 -->
       <div class="search-container">
-        <form th:action="@{/post-list}" method="get" autocomplete="on">
+        <form th:action="@{/post-list/{categoryId}(categoryId=${categoryDtoList.presentCategoryId})}" method="get" autocomplete="on">
           <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
             <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
@@ -202,6 +202,8 @@
         </div>
       </div>
 
+      <input type="hidden" id="categoryId" th:value="${categoryDtoList.presentCategoryId}">
+
       <!-- 페이지네이션 -->
       <div class="pagination-container">
         <ul
@@ -296,8 +298,10 @@
         var selectedValue = this.value;
         var searchValue = document.getElementById('searchValue').value;
         var searchType = document.getElementById('searchType').value;
+        var categoryId = document.getElementById('categoryId').value;
+        console.log(categoryId);
         window.location.href =
-          '/post-list?sortBy=' +
+          '/post-list/'+ categoryId + '?sortBy=' +
           selectedValue +
           '&searchType=' +
           searchType +
