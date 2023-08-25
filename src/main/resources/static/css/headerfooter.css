@@ -348,13 +348,13 @@ footer {
 }
 
 footer .logo {
-  width: 12rem;
-  height: 4rem;
+  width: 13rem;
+  height: 5rem;
   cursor: pointer;
 }
 
 footer .title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
@@ -365,21 +365,24 @@ footer a {
 }
 
 footer .f1 {
-  margin-right: 2rem;
+  font-size: 0.8rem;
   line-height: 1.5rem;
 }
 
 footer .f2 {
+  font-size: 0.8rem;
   margin: 0 2rem 0 2rem;
   line-height: 1.5rem;
 }
 
 footer .f3 {
+  font-size: 0.8rem;
   margin: 0 2rem 0 2rem;
   line-height: 1.5rem;
 }
 
 footer .f4 {
+  font-size: 0.8rem;
   margin-left: 2rem;
   line-height: 1.5rem;
 }
