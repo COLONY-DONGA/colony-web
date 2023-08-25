@@ -181,6 +181,7 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .imageDtoList(imageDtoList)
+                .categoryId(post.getCategory().getId()) // 여기서 쿼리 함더 나갈 듯
                 .build();
         return postFormDto;
     }
