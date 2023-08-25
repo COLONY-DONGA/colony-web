@@ -57,7 +57,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list", true)
+                        .defaultSuccessUrl("/post-list/2", true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )
