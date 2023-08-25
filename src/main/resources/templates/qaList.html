@@ -212,36 +212,23 @@
           end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}),
           prev=${start - maxPage - 1},
           next=${start + maxPage - 1},
-          maxPage=${5},
-          currentCategoryId=${categoryDtoList.presentCategoryId}"
+          maxPage=${5}"
+
         >
           <!-- 이전 페이지로 이동 -->
           <li th:if="${start > 1}">
             <a
-                    th:if="${currentCategoryId}"
                     th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
                     th:text="'<<'"
             ></a>
-            <a
-                    th:unless="${currentCategoryId}"
-                    th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<<'"
-            ></a>
           </li>
-
           <!-- 페이지 번호 출력 -->
           <li
                   th:each="page: ${#numbers.sequence(start, end)}"
                   th:class="${page == (pageNum + 1)} ? 'active' : ''"
           >
             <a
-                    th:if="${currentCategoryId}"
                     th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="${page}"
-            ></a>
-            <a
-                    th:unless="${currentCategoryId}"
-                    th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
                     th:text="${page}"
             ></a>
           </li>
@@ -249,26 +236,14 @@
           <!-- 다음 페이지로 이동 -->
           <li th:if="${end < totalPages}">
             <a
-                    th:if="${currentCategoryId}"
                     th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="'>'"
-            ></a>
-            <a
-                    th:unless="${currentCategoryId}"
-                    th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
                     th:text="'>'"
             ></a>
           </li>
 
           <li th:if="${end < totalPages}">
             <a
-                    th:if="${currentCategoryId}"
                     th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="'>>'"
-            ></a>
-            <a
-                    th:unless="${currentCategoryId}"
-                    th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
                     th:text="'>>'"
             ></a>
           </li>
