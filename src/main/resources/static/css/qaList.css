@@ -528,3 +528,12 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* tmp */
+
+.c {
+  position: absolute;
+  top: 24.5rem;
+  left: 18rem;
+  color: black;
+}
