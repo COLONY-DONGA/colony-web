@@ -15,12 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +35,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         if(CategoryDto.isFirst){
-            CategoryDto.defaultCategoryDto = categoryService.getDefaltCategory();
+            CategoryDto.defaultCategoryDto = categoryService.getDefaultCategory();
             CategoryDto.isFirst = false;
         }
 
