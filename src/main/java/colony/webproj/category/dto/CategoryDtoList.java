@@ -10,10 +10,10 @@ import java.util.List;
 @Getter@Setter
 public class CategoryDtoList {
     private List<CategoryDto> categoryDtoList;
-    private Long presentCategoryId;
+    private String presentCategory;
 
-    public CategoryDtoList(List<CategoryDto> categoryDtoList, Long presentCategoryId){
+    public CategoryDtoList(List<CategoryDto> categoryDtoList, String presentCategory){
         this.categoryDtoList = categoryDtoList;
-        this.presentCategoryId = presentCategoryId;
+        this.presentCategory = presentCategory;
     }
 }

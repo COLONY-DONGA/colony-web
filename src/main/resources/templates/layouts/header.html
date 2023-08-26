@@ -35,16 +35,16 @@
           <!-- 카테고리 -->
           <div class="category">
             <li>
-              <a href="#">공지사항</a>
+              <a href="/post-list/공지사항">공지사항</a>
             </li>
             <li>
-              <a href="#">Q&A</a>
+              <a href="/post-list/Q&A">Q&A</a>
             </li>
             <li>
-              <a href="#">스터디</a>
+              <a href="/post-list/스터디">스터디</a>
             </li>
             <li class="no-border">
-              <a href="#">기타</a>
+              <a href="/post-list/기타">기타</a>
             </li>
           </div>
 
@@ -91,7 +91,7 @@
       const isLoggedIn = Boolean(document.querySelector('[data-isloggedin]'));
 
       document.querySelector('.logo').addEventListener('click', () => {
-        location.href = '/post-list';
+        location.href = '/post-list/Q&A';
       });
 
       function updateNotificationBadge() {
