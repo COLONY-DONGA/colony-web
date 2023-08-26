@@ -1,6 +1,8 @@
 package colony.webproj.security;
 
 
+import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.service.CategoryService;
 import colony.webproj.entity.Role;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +34,16 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
 
     private final CustomAuthFailureHandler customAuthFailureHandler;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CategoryService categoryService;
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        if(CategoryDto.isFirst){
+            CategoryDto.defaultCategoryDto = categoryService.getDefaltCategory();
+            CategoryDto.isFirst = false;
+        }
 
 
         http.csrf().disable().cors().disable() //csrf 비활성화
@@ -57,7 +65,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list/2", true)
+                        .defaultSuccessUrl("/post-list/" + CategoryDto.defaultCategoryDto.getId(), true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )

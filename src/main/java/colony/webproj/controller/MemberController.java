@@ -1,5 +1,7 @@
 package colony.webproj.controller;
 
+import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.service.CategoryService;
 import colony.webproj.dto.JoinFormDto;
 import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final CategoryService categoryService;
 
     /**
      * 로그인 페이지
@@ -40,7 +43,12 @@ public class MemberController {
      */
     @GetMapping("/login-guest")
     public String guestLogin(Model model) {
-        return "redirect:/post-list";
+        if(CategoryDto.isFirst){
+            CategoryDto.defaultCategoryDto = categoryService.getDefaltCategory();
+            CategoryDto.isFirst = false;
+        }
+
+        return "redirect:/post-list/" + CategoryDto.defaultCategoryDto.getId();
     }
 
 

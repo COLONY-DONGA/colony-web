@@ -238,7 +238,7 @@ public class PostController {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         postService.deletePost(postId);
-        return "redirect:/post-list";
+        return "redirect:/post-list/" + CategoryDto.defaultCategoryDto.getId();
     }
 
     /**
