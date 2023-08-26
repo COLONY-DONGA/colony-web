@@ -17,7 +17,8 @@
   </head>
 
   <body>
-    <!--  로그인 유저 닉네임-->
+    <div th:replace="~{layouts/header :: header}"></div>
+
     <div>
       <input class="member-nickname" th:value="${loginUser}" style="display: none" />
     </div>
@@ -25,7 +26,6 @@
       <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
     </div>
 
-    <div th:replace="~{layouts/header :: header}"></div>
     <br />
     <br />
     <br />
@@ -53,13 +53,11 @@
           <br />
           <br />
           <div class="horizontal-line"></div>
-          <!--내용칸-->
         </div>
 
         <div class="question-area" th:text="${postDto.content}">Q. question area</div>
 
         <input id="postId" type="hidden" th:value="${postDto.postId}" />
-        <!--포스트아이디-->
 
         <!-- 질문 이미지 나열 -->
         <div class="file-box" style="display: none">
@@ -72,27 +70,25 @@
           </div>
         </div>
 
-        <!--버튼바들-->
+        <!-- 질문 버튼 (답변 & 수정 & 삭제) -->
         <div class="tool-box" id="question-tool-box">
           <div class="btn">
             <button class="qabtn" id="qabtn">
               <i class="fa-keyboard-o"></i>
               답변하기
             </button>
-            <!--<button class="listbtn" id="listbtn">목록</button>-->
             <button class="editbtn" id="editbtn">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
             <button class="deletebtn" id="deletebtn">
               <i class="fa-solid fa-trash"></i>
             </button>
-            <!--<a href="#" class="btn green rounded">Button</a>-->
           </div>
         </div>
       </div>
-      <br />
-      <br />
 
+      <br />
+      <br />
       <br />
 
       <div class="answer-zone">
@@ -132,7 +128,6 @@
           </div>
 
           <div class="answer-text">
-            <!-- 답변데이터가 타임리프로 이곳에 들어갈 예정입니다 -->
             <div class="answer-area" th:text="${answer.content}">
               A.answer content A.answer content A.answer content A.answer content A.answer content
             </div>
@@ -172,157 +167,180 @@
               <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">
                 <i class="fa-solid fa-trash"></i>
               </button>
-              <!--<a href="#" class="btn green rounded">Button</a>-->
             </div>
           </div>
 
           <br />
 
-          <div class="comments-container">
-            <div class="comments-container comment-widget">
-              <ul
-                id="comments-list"
-                class="comments-list"
-                th:each="comment, status : ${answer.commentList}"
-              >
-                <!-- 댓글이 여기에 추가될 예정 -->
+          <div class="heading">
+            <span class="heading-title">
+              <i class="fa-regular fa-comments"></i>
+              Comments
+            </span>
+          </div>
 
-                <!-- 첫번째 댓글 1 -->
-                <li>
-                  <div class="comment-main-level">
-                    <div class="comment-avatar">
-                      <img src="/img/colonyLogo.jpg" alt="" />
+          <!-- 댓글 및 대댓글 -->
+          <div class="comments-container">
+            <!-- 댓글 -->
+            <ul
+              id="comments-list"
+              class="comments-list"
+              th:each="comment, status : ${answer.commentList}"
+            >
+              <li>
+                <div class="comment-main-level">
+                  <div class="comment-box">
+                    <div class="comment-head">
+                      <span class="comment-name" th:text="${comment.createdBy}">John Doe</span>
+                      <span class="small-line"> | </span>
+                      <span class="comment-time" th:text="${comment.enrollTime}">몇 시간전</span>
                     </div>
-                    <div class="comment-box">
-                      <div class="comment-head">
-                        <h6 class="comment-name" th:text="${comment.createdBy}">John Doe</h6>
-                        <div class="comment-time" th:text="${comment.enrollTime}"></div>
+                    <div
+                      class="comment-content"
+                      th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
+                      th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
+                    >
+                      This is the main comment content.
+                    </div>
+
+                    <div class="tool">
+                      <div class="commenttool">
                         <form
                           class="delete-comment-form"
                           method="get"
                           th:action="@{'/delete-comment/' + ${comment.commentId}}"
                         >
-                          <i class="fa fa-trash" aria-hidden="true"></i>
+                          <button class="comment-delete">삭제</button>
                         </form>
+
                         <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
+
                         <form class="edit-comment-form" method="post" style="display: none">
                           <input type="text" name="content" />
                           <button type="submit">수정</button>
                           <button type="button" class="cancel-edit-comment">취소</button>
                         </form>
+
                         <i
                           class="fa fa-reply reply-button"
                           th:data-comment-id="${comment.commentId}"
                         ></i>
                       </div>
-                      <div
-                        class="comment-content"
-                        th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
-                        th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
-                      >
-                        This is the main comment content.
-                      </div>
-                      <ul
-                        class="comments-list reply-list"
-                        th:each="recomment, status : ${comment.childList}"
-                      >
-                        <!-- 첫번째 댓글에 대한 대댓글1 -->
-                        <li>
-                          <div class="comment-avatar">
-                            <img src="/img/colony3.jpg" alt="" />
-                          </div>
-                          <div class="comment-box">
+                    </div>
+
+                    <!-- 대댓글 -->
+                    <ul
+                      class="comments-list reply-list"
+                      th:each="recomment, status : ${comment.childList}"
+                    >
+                      <li>
+                        <div class="comment-box">
+                          <div class="comment-use">
                             <div class="comment-head">
-                              <h6 class="comment-name" th:text="${recomment.createdBy}">
+                              <i
+                                class="fa-solid fa-turn-up fa-rotate-90 fa-xl"
+                                style="color: #909192"
+                              ></i>
+                              <span class="comment-name" th:text="${recomment.createdBy}">
                                 Jane Smith
-                              </h6>
-                              <div class="comment-time" th:text="${recomment.enrollTime}"></div>
+                              </span>
+                              <span class="small-line">|</span>
+                              <span class="comment-time" th:text="${recomment.enrollTime}"
+                                >몇 시간전</span
+                              >
+                            </div>
+                            <div class="comment-content" th:text="${recomment.content}">
+                              This is a reply to the main comment.
+                            </div>
+                          </div>
+                          <div class="tool reply-tool">
+                            <div class="replytool">
                               <form
                                 class="delete-reply-form"
                                 method="get"
                                 th:action="@{'/delete-comment/' + ${recomment.commentId}}"
                               >
-                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                <button type="submit">삭제</button>
                               </form>
+
                               <i
                                 class="fa fa-pencil recomment-edit-i"
                                 aria-hidden="true"
                                 th:data-comment-id="${recomment.commentId}"
                               ></i>
+
                               <form class="edit-recomment-form" method="post" style="display: none">
                                 <input type="text" name="content" />
                                 <button type="submit">수정</button>
                                 <button type="button" class="cancel-edit-recomment">취소</button>
                               </form>
                             </div>
-                            <div class="comment-content" th:text="${recomment.content}">
-                              This is a reply to the main comment.
-                            </div>
                           </div>
-                        </li>
-                      </ul>
+                        </div>
+                      </li>
+                    </ul>
 
-                      <!--대댓글 입력 폼-->
-                      <div
-                        class="input-recomment-box"
-                        th:id="'recomment-' + ${comment.commentId}"
-                        th:data-answer-id="${answer.answerId}"
-                        style="display: none"
+                    <!-- 대댓글 입력 -->
+                    <div
+                      class="input-recomment-box"
+                      th:id="'recomment-' + ${comment.commentId}"
+                      th:data-answer-id="${answer.answerId}"
+                      style="display: none"
+                    >
+                      <form
+                        th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
+                        class="recommentEnroll"
+                        method="post"
                       >
-                        <form
-                          th:action="@{/comment/{answerId}/{commentId}(answerId=${answer.answerId}, commentId=${comment.commentId})}"
-                          class="recommentEnroll"
-                          method="post"
-                        >
-                          <div class="reply-inputframe">
-                            <br />
-                            <h5>
-                              <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                              <input
-                                type="text"
-                                class="reply-input-text newRecomment"
-                                name="content"
-                                required
-                              />
-                            </h5>
-                            <button class="new-recomment-btn">
-                              <i class="fa-regular fa-paper-plane"></i>
-                            </button>
-                          </div>
-                        </form>
-                      </div>
+                        <div class="reply-inputframe">
+                          <br />
+                          <h5>
+                            <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                            <input
+                              type="text"
+                              class="reply-input-text newRecomment"
+                              name="content"
+                              required
+                            />
+                          </h5>
+                          <button class="new-comment-btn">
+                            <i class="fa-regular fa-paper-plane"></i>
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                </li>
-              </ul>
-              <!-- 새댓글 작성부분 -->
-              <div class="input-comment-box">
-                <form
-                  th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
-                  class="commentEnroll"
-                  method="post"
-                >
-                  <div class="inputframe">
-                    <br />
-                    <h5>
-                      <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
-                      <input type="text" class="input-text newComment" name="content" required />
-                    </h5>
-                    <button class="new-comment-btn">
-                      <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+              </li>
+            </ul>
+            <!-- 댓글 입력 -->
+            <div class="input-comment-box">
+              <form
+                th:action="@{/comment/{answerId}(answerId=${answer.answerId})}"
+                class="commentEnroll"
+                method="post"
+              >
+                <div class="inputframe">
+                  <br />
+                  <h5>
+                    <i class="fa-regular fa-comment-dots" style="margin-left: 1rem"></i>
+                    <input type="text" class="input-text newComment" name="content" required />
+                  </h5>
+                  <button class="new-comment-btn">
+                    <i class="fa-regular fa-paper-plane" style="color: #193057"></i>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
+
         <br />
         <br />
       </div>
     </div>
-    <div id="footer"></div>
 
+    <!-- 로딩 화면 -->
     <div id="loadingOverlay" class="hidden">
       <div class="loader"></div>
     </div>
@@ -333,29 +351,29 @@
       $(document).ready(function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
         let name = $('.post-writer-nickname').val(); // post 작성자
-        let postId = $('#postId').val(); //post아이디
+        let postId = $('#postId').val(); // post 아이디
         console.log('userName: ' + userName);
         console.log('Name: ' + name);
 
-        var qabtn = document.getElementById('qabtn'); //답변등록 버튼
+        var qabtn = document.getElementById('qabtn'); // 답변 등록 버튼
         qabtn.addEventListener('click', function () {
           window.open('/answer/' + postId, 'aEnroll');
         });
 
-        var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+        var editbtn = document.getElementById('editbtn'); // post 글 수정 버튼
         console.log(editbtn);
         editbtn.addEventListener('click', function () {
           location.href = '/edit-post/' + postId;
           console.log('수정버튼');
         });
 
-        var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
+        var deletebtn = document.getElementById('deletebtn'); // post 글 삭제 버튼
         deletebtn.addEventListener('click', function () {
           location.href = '/delete-post/' + postId;
           console.log('삭제버튼');
         });
 
-        //answer 수정 삭제 버튼 이벤트 리스너
+        // 답변 수정 삭제 버튼 이벤트 리스너
         document.body.addEventListener('click', function (event) {
           if (event.target && event.target.id === 'Aeditbtn') {
             var answerId = event.target.getAttribute('data-answer-id1');
@@ -371,31 +389,31 @@
         });
 
         if (userName != name || userName === '') {
-          //게시글 수정 삭제 권한부여
+          // 게시글 수정 삭제 권한 부여
           console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
           deletebtn.style.display = 'none';
-          //관리자일때도 권한 추가
+          // 관리자일 때도 권한 추가
           // if (userName === 'admin') {
-          //   //관리자 이름을 어떻게 받더라....
+          //   // 관리자 이름을 어떻게 받더라 ....
           //   editbtn.style.display = 'block';
           //   deletebtn.style.display = 'block';
           // }
         }
 
         // if ((userName = answerName || userName === '')) {
-        //   //답변 수정 삭제 권한부여
+        //   // 답변 수정 삭제 권한 부여
         //   answereditbtn.style.display = 'none';
         //   answerdeletebtn.style.display = 'none';
-        //   //관리자일때도 권한 추가
+        //   // 관리자일 때도 권한 추가
         //   // if (userName === 'admin') {
-        //   //   //관리자 이름을 어떻게 받더라....
+        //   //   // 관리자 이름을 어떻게 받더라 ....
         //   //   answereditbtn.style.display = 'block';
         //   //   answerdeletebtn.style.display = 'block';
         //   // }
         // }
 
-        // // 답변 수정 삭제 권한부여
+        // 답변 수정 삭제 권한부여
         const answerBoxes = document.querySelectorAll('.answer-box');
         answerBoxes.forEach((answerBox) => {
           const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
@@ -470,16 +488,6 @@
         });
       });
 
-      // 문서가 로드되면 요소의 크기를 자동으로 조정합니다.
-      window.addEventListener('load', function () {
-        adjustQuestionAreaHeight();
-      });
-
-      // 뷰포트 크기가 변경될 때마다 요소의 크기를 다시 조정합니다.
-      window.addEventListener('resize', function () {
-        adjustQuestionAreaHeight();
-      });
-
       // 요소의 높이를 조정하는 함수
       function adjustQuestionAreaHeight() {
         var qBox = document.getElementById('q-box');
@@ -498,7 +506,7 @@
 
       // answer-area의 높이를 자동으로 조절하는 함수
       function adjustAnswerAreaHeight(element) {
-        element.style.height = 'auto'; // 높이 초기화
+        element.style.height = 'auto';
       }
 
       // 로딩 화면 ON

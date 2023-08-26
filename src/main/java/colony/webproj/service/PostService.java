@@ -1,5 +1,7 @@
 package colony.webproj.service;
 
+import colony.webproj.category.entity.Category;
+import colony.webproj.category.repository.CategoryRepository;
 import colony.webproj.dto.ImageDto;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostFormDto;
@@ -40,15 +42,16 @@ public class PostService {
     private final AnswerService answerService;
     private final PostRepository postRepository;
     private final ImageService imageService;
+    private final CategoryRepository categoryRepository;
 
 
     /**
      * queryDsl 게시글 리스트 조회
      */
     @Transactional(readOnly = true)
-    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
+    public Page<PostDto> searchPostList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, String categoryName) {
         Page<PostDto> resultPage =
-                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable, categoryId);
+                postRepository.findPostDtoList(searchType, searchValue, answered, (sortBy == null || sortBy.equals("")) ? "createdAtDesc" : sortBy, pageable, categoryName);
 
         List<PostDto> resultList = resultPage.getContent();
         for (PostDto postDto : resultList) {
@@ -78,7 +81,6 @@ public class PostService {
             String enrollTime = getTimeAgo(duration);
             postDto.setEnrollTime(enrollTime);
         }
-        log.info("size: " + postDtoNotice.size());
         return postDtoNotice;
     }
 
@@ -88,11 +90,25 @@ public class PostService {
     public Long savePost(PostFormDto postFormDto, String loginId) throws IOException {
         Member member = memberRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        Boolean isNotice = (member.getRole() == Role.ROLE_ADMIN) ? true : false;
+
+        Boolean isNotice = false;
+        Category category;
+
+        if (member.getRole() == Role.ROLE_ADMIN) {
+            isNotice = true;
+            category = categoryRepository.findByCategoryName("공지사항")
+                    .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
+        }
+        else{
+            category = categoryRepository.findByCategoryName(postFormDto.getCategoryName())
+                    .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
+        }
+        
         Post postEntity = Post.builder()
                 .title(postFormDto.getTitle())
                 .content(postFormDto.getContent())
                 .isNotice(isNotice)
+                .category(category)
                 .member(member)
                 .build();
         Long savedPost = postRepository.save(postEntity).getId(); //이미지 보다 먼저 저장
@@ -122,12 +138,14 @@ public class PostService {
     /**
      * 게시글 업데이트
      */
-    public Long updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
+    public Boolean updatePost(Long postId, PostUpdateFormDto postUpdateFormDto) throws IOException {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         post.setTitle(postUpdateFormDto.getTitle());
         post.setContent(postUpdateFormDto.getContent());
+        post.setCategory(categoryRepository.findByCategoryName(postUpdateFormDto.getCategoryName())
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND)));
 
         //수정하며 삭제할 사진 s3, db 에서 제거
         imageService.deleteFileWithStoreImageName(postUpdateFormDto.getDeleteImageList());
@@ -144,7 +162,7 @@ public class PostService {
                 log.info("이미지 저장 완료");
             }
         }
-        return post.getId();
+        return post.getIsNotice();
     }
 
     /**
@@ -162,6 +180,7 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .imageDtoList(imageDtoList)
+                .categoryName(post.getCategory().getCategoryName())
                 .build();
         return postFormDto;
     }
@@ -170,16 +189,19 @@ public class PostService {
      * 게시글 삭제
      * 댓글 등 연관된 데이터 제거 필요
      */
-    public void deletePost(Long postId) {
+    public String deletePost(Long postId) {
+        Post post = postRepository.findByIdWithCategory(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        String currentCategoryName = post.getCategory().getCategoryName();
+
         List<Image> imageList = imageRepository.findByPostId(postId);
         imageService.deleteFile(imageList); //게시글 관련 이미지 로컬에서 제거
-
 
         //답변 제거
         //답변에 대한 이미지도 로컬에서 지워야 되기 때문에 cascade 사용 x
         answerService.deleteByPostId(postId);
-
         postRepository.deleteById(postId); //종속된 엔티티를 전부 제거한 후 게시글 삭제
+        return currentCategoryName;
     }
 
     /**

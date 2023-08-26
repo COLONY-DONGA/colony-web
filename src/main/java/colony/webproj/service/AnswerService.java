@@ -185,6 +185,7 @@ public class AnswerService {
         List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
+        log.info("기존에 등록했던 image 크기: " + imageDtoList.size());
 
         AnswerDto answerDto = AnswerDto.builder()
                 .answerId(answer.getId())

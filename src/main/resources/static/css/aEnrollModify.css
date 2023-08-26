@@ -94,10 +94,13 @@
 
 .image-box label {
   margin-right: 4.1rem;
+  cursor: pointer;
 }
 
 #file-list-box {
-  width: 53.5rem;
+  display: flex;
+  align-items: center;
+  width: 53.275rem;
   border: 1px solid #93bfa9;
   border-radius: 5px;
   overflow-y: auto;
@@ -119,6 +122,11 @@
 #file-list-box::-webkit-scrollbar-thumb {
   background-color: #4caf50;
   border-radius: 10px;
+}
+
+.explain {
+  font-size: 0.8rem;
+  color: gray;
 }
 
 #file-list {

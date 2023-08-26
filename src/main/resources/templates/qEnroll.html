@@ -14,8 +14,17 @@
     <div class="frame">
       <div class="container">
         <div class="question-enroll">Question Enroll</div>
-        <form action="/post" method="post" enctype="multipart/form-data">
+        <form action="/post" method="post" enctype="multipart/form-data" class="postEnrollForm">
           <div class="enroll-form">
+            <div class="category-box">
+              <label for="categoryId">Category</label>
+              <select id="categoryId" name="categoryId">
+                <option value="공지사항" selected disabled>카테고리를 선택하세요</option>
+                <option value="Q&A">Q&A</option>
+                <option value="스터디">스터디</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
             <div class="title-box">
               <label for="title">Title</label>
               <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />
@@ -40,6 +49,7 @@
               />
               <label for="file-input" class="input-imageList">📁Add file</label>
               <div id="file-list-box">
+                <div class="explain">좌측의 Add file을 누르시면 파일을 첨부할 수 있습니다</div>
                 <ul id="file-list"></ul>
               </div>
             </div>
@@ -55,10 +65,37 @@
     <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
+      let postEnrollForm = document.querySelector('.postEnrollForm');
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
       let cancelBtn = document.querySelector('.cancel-btn');
       let allSelectedFiles = [];
+
+      // 카테고리 입력 필수
+      postEnrollForm.addEventListener('submit', () => {
+        let categoryId = document.getElementById('categoryId');
+        if (categoryId.value === '?') {
+          alert('카테고리를 선택하세요');
+          return false;
+        }
+        return true;
+      });
+
+      // 파일 리스트와 설명 업데이트
+      function updateFileListDisplay() {
+        const fileList = document.getElementById('file-list');
+        const explain = document.querySelector('.explain');
+
+        if (fileList.children.length === 0) {
+          fileList.style.display = 'none';
+          explain.style.display = 'block';
+        } else {
+          fileList.style.display = 'block';
+          explain.style.display = 'none';
+        }
+      }
+
+      updateFileListDisplay();
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
       fileInput.addEventListener('change', () => {
@@ -123,11 +160,15 @@
               });
               fileInput.files = newFileList.files;
             }
+
+            updateFileListDisplay();
           });
 
           listItem.appendChild(deleteButton);
           fileList.appendChild(listItem);
         });
+
+        updateFileListDisplay();
       });
 
       // 파일 크기를 사람이 읽기 쉬운 형식으로 변환하는 함수
