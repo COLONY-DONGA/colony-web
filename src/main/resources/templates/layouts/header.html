@@ -26,41 +26,65 @@
   <body>
     <header>
       <div class="header">
+        <!-- 로고 -->
         <img
           class="logo"
           src="https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/colony.jpg"
         />
-        <div class="welcome" sec:authorize="isAuthenticated()">
-          <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님, 환영합니다 !
-        </div>
-        <div class="welcome" sec:authorize="isAnonymous()">
-          <span>Guest</span>&nbsp;님, 환영합니다 !
-        </div>
-        <div class="nav">
-          <nav>
-            <ul>
-              <li class="mypage" sec:authorize="isAuthenticated()">
-                <a href="/my-page">My Page</a>
-              </li>
-              <li class="logout" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
-              <li class="login" sec:authorize="isAnonymous()"><a href="/login">Login</a></li>
-              <div class="notification-container" sec:authorize="isAuthenticated()">
-                <button type="button" id="notification-icon" class="notification-button">
-                  <i class="fa fa-bell"></i>
-                  <span class="notification-badge">0</span>
-                  Notice
-                </button>
-                <div
-                  id="notification-dropdown"
-                  class="header-notification-dropdown"
-                  style="display: none"
-                ></div>
+        <ul>
+          <!-- 카테고리 -->
+          <div class="category">
+            <li>
+              <a href="#">공지사항</a>
+            </li>
+            <li>
+              <a href="#">Q&A</a>
+            </li>
+            <li>
+              <a href="#">스터디</a>
+            </li>
+            <li class="no-border">
+              <a href="#">기타</a>
+            </li>
+          </div>
+
+          <!-- 유저 -->
+          <div class="user">
+            <button class="dropBtn" type="button">
+              <img
+                class="profile"
+                src="https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/mypagelogo.png"
+                alt="사진없음"
+              />
+              <div class="welcome" sec:authorize="isAuthenticated()">
+                <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님
               </div>
-            </ul>
-          </nav>
-        </div>
+              <div class="welcome" sec:authorize="isAnonymous()"><span>Guest</span>&nbsp;님</div>
+            </button>
+            <div class="dropItem">
+              <a href="/my-page" sec:authorize="isAuthenticated()">My Page</a>
+              <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+              <a href="/login" sec:authorize="isAnonymous()">Login</a>
+            </div>
+          </div>
+
+          <!-- 알림 -->
+          <div class="notification-container" sec:authorize="isAuthenticated()">
+            <button class="notification-button" id="notification-icon" type="button">
+              <i class="fa fa-bell"></i>
+              <span class="notification-badge">0</span>
+              Notice
+            </button>
+            <div
+              class="header-notification-dropdown"
+              id="notification-dropdown"
+              style="display: none"
+            ></div>
+          </div>
+        </ul>
       </div>
     </header>
+
     <div class="welcome" th:attr="data-isloggedin=true" sec:authorize="isAuthenticated()"></div>
 
     <script>

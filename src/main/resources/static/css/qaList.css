@@ -367,14 +367,6 @@
 
 /* 공지 및 카드 */
 
-.card-item.notice {
-  background-color: #f9f9f8;
-}
-
-.card-item.notice:hover {
-  background-color: #efefee;
-}
-
 .card-item {
   max-width: 1000px;
   margin: 0 auto 0 auto;
@@ -391,6 +383,15 @@
 
 .card-item:hover {
   background-color: #f8f9fa;
+}
+
+.card-item.notice {
+  background-color: #f0f0f0;
+  border-top: 2px solid #dddddd;
+}
+
+.card-item.notice:hover {
+  background-color: #dfdfdf;
 }
 
 .card-info {
