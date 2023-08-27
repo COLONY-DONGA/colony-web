@@ -49,8 +49,8 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                         .requestMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
                                         .requestMatchers(
                                                 "/login", "/join", "/login-guest", "/validation-id",
-                                                "/validation-nickname", "/validation-email", "/post-list",
-                                                "/post/{postId}", "/denied-page", "/time").permitAll()
+                                                "/validation-nickname", "/validation-email", "/post-list/{categoryName}",
+                                                "/post/{postId}", "/denied-page", "/denied-comment", "/time", "/").permitAll()
 //                                .requestMatchers("/**").permitAll()
                                         .anyRequest().authenticated()
                 )
@@ -59,7 +59,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list/" + CategoryDto.defaultCategoryDto.getId(), true)
+                        .defaultSuccessUrl("/post-list/Q&A", true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )

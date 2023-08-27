@@ -18,7 +18,11 @@
     <div th:replace="~{layouts/header :: header}"></div>
 
     <!-- 배너  -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
       <div class="carousel-indicators">
         <button
           type="button"
@@ -47,10 +51,16 @@
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
               <h2 class="firstBanner_title">콜로니 웹 사이트 오픈!🎉</h2>
-              <h2 class="firstBanner_sub_title">모르는게 있다면 자유롭게 질문을 남겨보세요</h2>
+              <h2 class="firstBanner_sub_title">
+                모르는게 있다면 자유롭게 질문을 남겨보세요
+              </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -59,10 +69,16 @@
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
               <h2 class="firstBanner_title">9월7일 콜로니 종강총회</h2>
-              <h2 class="firstBanner_sub_title">장소: 꽃다지 입장비: 10000원</h2>
+              <h2 class="firstBanner_sub_title">
+                장소: 꽃다지 입장비: 10000원
+              </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -70,14 +86,20 @@
           <div class="firstBanner_container">
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
-              <h2 class="firstBanner_title">졸업한 선배의 이야기가 궁금하다면?</h2>
+              <h2 class="firstBanner_title">
+                졸업한 선배의 이야기가 궁금하다면?
+              </h2>
               <h2 class="firstBanner_sub_title">
-                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글 폼을 통해
-                신청해주세요
+                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글
+                폼을 통해 신청해주세요
               </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -87,13 +109,23 @@
     <div class="qa-page">
       <!-- 검색 -->
       <div class="search-container">
-        <form th:action="@{/post-list/{categoryId}(categoryId=${categoryDtoList.presentCategoryId})}" method="get" autocomplete="on">
+        <form
+          th:action="@{/post-list/{categoryName}(categoryName=${categoryDtoList.presentCategory})}"
+          method="get"
+          autocomplete="on"
+        >
           <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
-            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+            <option
+              value="NICKNAME"
+              th:selected="${#strings.equals(searchType, 'NICKNAME')}"
+            >
               닉네임으로 검색
             </option>
-            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+            <option
+              value="TITLE"
+              th:selected="${#strings.equals(searchType, 'TITLE')}"
+            >
               제목으로 검색
             </option>
           </select>
@@ -120,17 +152,25 @@
           <div class="sort-container">
             <label for="sortSelect"></label>
             <select id="sortSelect" name="sort" th:value="${sortBy}">
-              <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
+              <option th:selected="${#strings.isEmpty(sortBy)}">
+                정렬 기준
+              </option>
               <option
                 value="createdAtDesc"
                 th:selected="${#strings.equals(sortBy, 'createdAtDesc')}"
               >
                 최신순
               </option>
-              <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
+              <option
+                value="createdAtAsc"
+                th:selected="${#strings.equals(sortBy, 'createdAtAsc')}"
+              >
                 오래된 순
               </option>
-              <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">
+              <option
+                value="title"
+                th:selected="${#strings.equals(sortBy, 'title')}"
+              >
                 제목 순
               </option>
             </select>
@@ -202,49 +242,77 @@
         </div>
       </div>
 
-      <input type="hidden" id="categoryId" th:value="${categoryDtoList.presentCategoryId}">
+      <input
+        type="hidden"
+        id="categoryName"
+        th:value="${categoryDtoList.presentCategory}"
+      />
 
       <!-- 페이지네이션 -->
       <div class="pagination-container">
         <ul
-                class="pagination"
-                th:with="start=${(pageNum/maxPage)*maxPage + 1},
+          class="pagination"
+          th:with="start=${(pageNum/maxPage)*maxPage + 1},
           end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}),
           prev=${start - maxPage - 1},
           next=${start + maxPage - 1},
-          maxPage=${5}"
-
+          maxPage=${5},
+          presentCategory=${categoryDtoList.presentCategory}"
         >
           <!-- 이전 페이지로 이동 -->
           <li th:if="${start > 1}">
             <a
-                    th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="'<<'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'<<'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
             ></a>
           </li>
           <!-- 페이지 번호 출력 -->
           <li
-                  th:each="page: ${#numbers.sequence(start, end)}"
-                  th:class="${page == (pageNum + 1)} ? 'active' : ''"
+            th:each="page: ${#numbers.sequence(start, end)}"
+            th:class="${page == (pageNum + 1)} ? 'active' : ''"
           >
             <a
-                    th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="${page}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="${page}"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="${page}"
             ></a>
           </li>
 
           <!-- 다음 페이지로 이동 -->
           <li th:if="${end < totalPages}">
             <a
-                    th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="'>'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
             ></a>
           </li>
 
           <li th:if="${end < totalPages}">
             <a
-                    th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
-                    th:text="'>>'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>>'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
             ></a>
           </li>
         </ul>
@@ -255,44 +323,48 @@
 
     <script>
       function redirectToPost(postId) {
-        window.location.href = '/post/' + postId + '?postType=p';
+        window.location.href = "/post/" + postId + "?postType=p";
       }
 
       function redirectToNotice(postId) {
-        window.location.href = '/post/' + postId + '?postType=n';
+        window.location.href = "/post/" + postId + "?postType=n";
       }
 
-      var postwritebtn = document.getElementById('postwritebtn');
-      postwritebtn.addEventListener('click', function () {
-        location.href = '/post-form';
-        console.log('post글쓰기 btn');
+      var postwritebtn = document.getElementById("postwritebtn");
+      postwritebtn.addEventListener("click", function () {
+        location.href = "/post-form";
+        console.log("post글쓰기 btn");
       });
 
-      document.getElementById('sortSelect').addEventListener('change', function (event) {
-        if (event.target.value === '정렬 기준') return;
-        var selectedValue = this.value;
-        var searchValue = document.getElementById('searchValue').value;
-        var searchType = document.getElementById('searchType').value;
-        var categoryId = document.getElementById('categoryId').value;
-        console.log(categoryId);
-        window.location.href =
-          '/post-list/'+ categoryId + '?sortBy=' +
-          selectedValue +
-          '&searchType=' +
-          searchType +
-          '&searchValue=' +
-          searchValue;
-      });
+      document
+        .getElementById("sortSelect")
+        .addEventListener("change", function (event) {
+          if (event.target.value === "정렬 기준") return;
+          var selectedValue = this.value;
+          var searchValue = document.getElementById("searchValue").value;
+          var searchType = document.getElementById("searchType").value;
+          var categoryName = document.getElementById("categoryName").value;
+          console.log(categoryName);
+          window.location.href =
+            "/post-list/" +
+            categoryName +
+            "?sortBy=" +
+            selectedValue +
+            "&searchType=" +
+            searchType +
+            "&searchValue=" +
+            searchValue;
+        });
 
-      const checkbox = document.getElementById('check_btn');
+      const checkbox = document.getElementById("check_btn");
       // 체크 박스 상태 변경 시 이벤트 핸들러 등록
-      checkbox.addEventListener('change', function () {
+      checkbox.addEventListener("change", function () {
         const urlParams = new URLSearchParams(window.location.search);
 
         if (this.checked) {
-          urlParams.set('answered', 'true');
+          urlParams.set("answered", "true");
         } else {
-          urlParams.delete('answered');
+          urlParams.delete("answered");
         }
 
         // 변경된 파라미터로 새로운 URL 생성

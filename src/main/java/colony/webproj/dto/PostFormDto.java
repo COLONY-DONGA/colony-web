@@ -26,11 +26,6 @@ public class PostFormDto {
 
 
     private List<ImageDto> imageDtoList = new ArrayList<>();
-    private Long categoryId;
+    private String categoryName;
 
-    public PostFormDto(String title, String content, List<MultipartFile> imageList,Long categoryId ){
-        this.title = title;
-        this.content = content;
-        this.imageList = imageList;
-    }
 }

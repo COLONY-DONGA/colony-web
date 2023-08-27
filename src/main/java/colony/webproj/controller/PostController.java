@@ -40,8 +40,8 @@ public class PostController {
     /**
      * 게시글 리스트
      */
-    @GetMapping("/post-list")
-    public String postList(@RequestParam(required = false) Long categoryId,
+    @GetMapping("/post-list/{categoryName}")
+    public String postList(@PathVariable String categoryName,
                            @RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
@@ -56,11 +56,11 @@ public class PostController {
             model.addAttribute("username", principalDetails.getNickname());
             log.info("회원 로그인");
         }
-        List<CategoryDto> categoryDtoList = categoryService.getCategories();
+        CategoryDtoList categoryDtoList = new CategoryDtoList(categoryService.getCategories(),categoryName);
         model.addAttribute("categoryDtoList", categoryDtoList);
 
         //진수방식
-        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryId);
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryName);
         model.addAttribute("postDtoList", postDtoList);
         List<PostDto> postDtoListNotice = postService.searchPostListNotice();
         model.addAttribute("postDtoListNotice", postDtoListNotice);
@@ -81,8 +81,8 @@ public class PostController {
     /**
      * 이후 변경할 게시글 리스트
      */
-    @GetMapping("/post-list/{categoryId}")
-    public String testpostList(@PathVariable("categoryId") Long categoryId,
+//    @GetMapping("/post-list/{categoryName}")
+    public String testpostList(@PathVariable("categoryName") String categoryName,
                            @RequestParam(required = false) SearchType searchType,
                            @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
                            @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
@@ -99,11 +99,11 @@ public class PostController {
             log.info("회원 로그인");
         }
 
-        CategoryDtoList categoryDtoList = new CategoryDtoList(categoryService.getCategories(),categoryId);
+        CategoryDtoList categoryDtoList = new CategoryDtoList(categoryService.getCategories(),categoryName);
         model.addAttribute("categoryDtoList", categoryDtoList);
 
         //진수방식
-        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryId);
+        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryName);
         model.addAttribute("postDtoList", postDtoList);
         List<PostDto> postDtoListNotice = postService.searchPostListNotice();
         model.addAttribute("postDtoListNotice", postDtoListNotice);
@@ -162,7 +162,6 @@ public class PostController {
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
         log.info("포스트 저장 진입");
-        System.out.println("이미지 크기: " + postFormDto.getImageList().size());
         if (bindingResult.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
             model.addAttribute("postFormDto", postFormDto);
@@ -237,8 +236,16 @@ public class PostController {
                 principalDetails.getRole() != Role.ROLE_ADMIN) {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
-        postService.deletePost(postId);
-        return "redirect:/post-list/" + CategoryDto.defaultCategoryDto.getId();
+        String currentCategoryName = postService.deletePost(postId);
+        return "redirect:/post-list/" + currentCategoryName;
+    }
+
+    /**
+     * 기본 주소 매핑
+     */
+    @GetMapping("/")
+    public String redirectPostList() {
+        return "redirect:/post-list/Q&A";
     }
 
     /**

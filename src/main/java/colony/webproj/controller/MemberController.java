@@ -38,12 +38,7 @@ public class MemberController {
      */
     @GetMapping("/login-guest")
     public String guestLogin(Model model) {
-        if(CategoryDto.isFirst){
-            CategoryDto.defaultCategoryDto = categoryService.getDefaultCategory();
-            CategoryDto.isFirst = false;
-        }
-
-        return "redirect:/post-list/" + CategoryDto.defaultCategoryDto.getId();
+        return "redirect:/post-list/Q&A";
     }
 
 
@@ -97,7 +92,7 @@ public class MemberController {
 
     // 접근 거부 처리
     @GetMapping("/denied-page")
-    public String showDeniedPage(HttpSession session, @RequestParam("type") String type, Model model) {
+    public String showDeniedPage(@RequestParam("type") String type, Model model) {
         if(type.equals("UNAUTHORIZED")) {
             model.addAttribute("msg", "접근 권한이 없습니다.");
         }
@@ -107,6 +102,13 @@ public class MemberController {
         }
 
         return "deniedPage";
+    }
+
+    // 댓글 접근 거부 처리
+    @GetMapping("/denied-comment")
+    @ResponseBody
+    public ResponseEntity<?> deniedCommentHandler() {
+        return ResponseEntity.badRequest().build();
     }
 
 

@@ -11,20 +11,10 @@ import java.util.Optional;
 @Getter@Setter
 public class CategoryDtoList {
     private List<CategoryDto> categoryDtoList;
-    private Long presentCategoryId;
-    private String presentCategoryName;
+    private String presentCategory;
 
-    public CategoryDtoList(List<CategoryDto> categoryDtoList, Long presentCategoryId){
+    public CategoryDtoList(List<CategoryDto> categoryDtoList, String presentCategory){
         this.categoryDtoList = categoryDtoList;
-        this.presentCategoryId = presentCategoryId;
-        this.presentCategoryName=findCategoryNameById(presentCategoryId);
-    }
-
-    private String findCategoryNameById(Long id) {
-        Optional<CategoryDto> category = categoryDtoList.stream()
-                .filter(dto -> dto.getId().equals(id))
-                .findFirst();
-
-        return category.isPresent() ? category.get().getCategoryName() : null;
+        this.presentCategory = presentCategory;
     }
 }
