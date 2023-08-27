@@ -30,7 +30,6 @@ public class LikesService {
     /**
      *  좋아요 확인
      */
-    @Transactional
     public boolean checkLike(Long answerId, String loginId) {
         Optional<Likes> existingLikes = likesRepository.findByAnswerIdAndMemberId(answerId, loginId);
 

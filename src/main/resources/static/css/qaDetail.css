@@ -302,7 +302,7 @@
   margin-top: 1em;
   margin-bottom: 1em;
   width: 49rem;
-  margin-left: 19rem;
+  
 }
 
 .answer-info {
@@ -524,6 +524,12 @@
   margin-right: 100px;
 }
 
+.answer-box .btn {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+}
+
 /* 질문 및 답변 이미지 나열 START */
 
 .file-box {
@@ -647,14 +653,23 @@
 .comment-head {
   background-color: relative;
   padding: 1.8%;
+  display: flex;
 }
 
 .comment-name {
   font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comments-list.reply-list .comment-name {
+  margin-left: 1.2rem;
 }
 
 .comment-time {
   color: #757575;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .tool {
@@ -669,16 +684,23 @@
 
 .reply-tool {
   background-color: #f4f5f6;
+  margin-left: 35.7rem;
 }
 
 .replytool {
-  margin-left: 3.5rem;
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
 .commenttool {
-  margin-left: 17px;
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
 .heading-title {
@@ -692,3 +714,43 @@
   border-bottom: 0.5px solid #dedede;
   top: 1rem;
 }
+
+.comment-box .fa.fa-trash {
+  color: #dadbdc;
+  transition: color 0.3s;
+}
+
+.fa.fa-trash:hover {
+  color: #1da1f2;
+}
+
+.comment-box .fa.fa-pencil {
+  color: #dadbdc;
+  transition: color 0.3s;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.fa.fa-pencil:hover {
+  color: #1dc078;
+}
+
+.fa.fa-reply {
+  color: #dadbdc;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.fa.fa-reply:hover {
+  color: #193057;
+  cursor: pointer;
+}
+
+.Abox {
+  height: auto;
+  margin: 1rem auto;
+  top: 0;
+  width: 54rem;
+  position: relative;
+}
+

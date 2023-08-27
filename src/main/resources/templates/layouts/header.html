@@ -43,7 +43,7 @@
             <li>
               <a href="/post-list/스터디">스터디</a>
             </li>
-            <li class="no-border" >
+            <li class="no-border">
               <a href="/post-list/기타">기타</a>
             </li>
           </div>
@@ -99,423 +99,270 @@
     ></div>
 
     <script>
-      const isLoggedIn = Boolean(document.querySelector("[data-isloggedin]"));
+            const isLoggedIn = Boolean(document.querySelector("[data-isloggedin]"));
 
-      document.querySelector(".logo").addEventListener("click", () => {
-        location.href = "/post-list/Q&A";
-      });
+      <<<<<<< HEAD
+            document.querySelector(".logo").addEventListener("click", () => {
+              location.href = "/post-list/Q&A";
+      =======
+            document.querySelector('.logo').addEventListener('click', () => {
+              location.href = '/post-list/Q&A';
+      >>>>>>> main
+            });
 
-      function updateNotificationBadge() {
-        $.ajax({
-          type: "GET",
-          url: "/notification/count",
-          dataType: "json",
-          success: function (data) {
-            const notificationCount = parseInt(data.count);
-            console.log(notificationCount);
-            $(".notification-badge").text(notificationCount);
-          },
-          error: function (error) {
-            console.error("Error fetching notification count: " + error);
-          },
-        });
-      }
-
-      $(document).ready(function () {
-        if (isLoggedIn) {
-          console.log("알람 구독 로직 시작");
-          updateNotificationBadge();
-
-          const source = new EventSource("/subscribe");
-
-          window.addEventListener("beforeunload", () => {
-            console.log("구독 취소");
-            source.close();
-          });
-
-          source.onmessage = function (event) {
-            const data = event.data;
-            console.log(data);
-            const notificationCount = parseInt($(".notification-badge").text());
-
-            if (data === "연결완료") {
-              return;
-            } else {
-              toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                timeOut: 3000,
-              };
-
-              console.log(data.content);
-              toastr.success("새로운 알림이 도착했습니다.");
-
-              $(".notification-badge")
-                .text(notificationCount + 1)
-                .addClass("show-badge");
+            function updateNotificationBadge() {
+              $.ajax({
+                type: "GET",
+                url: "/notification/count",
+                dataType: "json",
+                success: function (data) {
+                  const notificationCount = parseInt(data.count);
+                  console.log(notificationCount);
+                  $(".notification-badge").text(notificationCount);
+                },
+                error: function (error) {
+                  console.error("Error fetching notification count: " + error);
+                },
+              });
             }
-          };
-        }
 
-        const notificationIcon = document.getElementById("notification-icon");
-        const notificationDropdown = document.getElementById(
-          "notification-dropdown"
-        );
+            $(document).ready(function () {
+              if (isLoggedIn) {
+                console.log("알람 구독 로직 시작");
+                updateNotificationBadge();
 
-        notificationIcon.addEventListener("click", function (e) {
-          if (notificationDropdown.style.display === "none") {
-            notificationDropdown.style.display = "block";
-            fetchNotifications();
-          } else {
-            notificationDropdown.style.display = "none";
-          }
-        });
+                // const source = new EventSource('/subscribe');
 
-        // // async를 사용한 기존의 함수
-        // async function fetchNotifications() {
-        //   try {
-        //     const res = await fetch('/notifications');
-        //     const data = await res.json();
+                // window.addEventListener('beforeunload', () => {
+                //   console.log('구독 취소');
+                //   source.close();
+                // });
 
-        //     notificationDropdown.innerHTML = '';
+                // source.onmessage = function (event) {
+                //   const data = event.data;
+                //   console.log(data);
+                //   const notificationCount = parseInt($('.notification-badge').text());
+                //
+                //   if (data === '연결완료') {
+                //     return;
+                //   } else {
+                //     toastr.options = {
+                //       closeButton: true,
+                //       progressBar: true,
+                //       timeOut: 3000,
+                //     };
+                //
+                //     console.log(data.content);
+                //     toastr.success('새로운 알림이 도착했습니다.');
+                //
+                //     $('.notification-badge')
+                //       .text(notificationCount + 1)
+                //       .addClass('show-badge');
+                //   }
+                // };
+              }
 
-        //     if (data.length === 0) {
-        //       const emptyMessage = document.createElement('div');
-        //       emptyMessage.className = 'empty-notification-message';
-        //       emptyMessage.textContent = '현재 알림이 없습니다';
-        //       notificationDropdown.appendChild(emptyMessage);
-        //     } else {
-        //       data.forEach((notification) => {
-        //         const notificationItem = document.createElement('div');
-        //         notificationItem.className = 'notification-item';
+              const notificationIcon = document.getElementById("notification-icon");
+              const notificationDropdown = document.getElementById(
+                "notification-dropdown"
+              );
 
-        //         if (notification.status) {
-        //           notificationItem.classList.add('read-notification');
-        //         } else {
-        //           notificationItem.classList.add('unread-notification');
-        //         }
+              notificationIcon.addEventListener("click", function (e) {
+                if (notificationDropdown.style.display === "none") {
+                  notificationDropdown.style.display = "block";
+                  fetchNotifications();
+                } else {
+                  notificationDropdown.style.display = "none";
+                }
+              });
 
-        //         const link = document.createElement('a');
-        //         link.href = notification.url;
-        //         link.textContent = notification.content;
+              // ASYNC 함수를 없앤 후, AJAX 통신 설정
+              function fetchNotifications() {
+                // AJAX 통신으로 알림 가져오기
+                $.ajax({
+                  url: "/notifications",
+                  type: "GET",
+                  dataType: "json",
+                  success: function (data) {
+                    notificationDropdown.innerHTML = "";
 
-        //         link.onclick = async function () {
-        //           try {
-        //             const readRes = await fetch(`/notification/read/${notification.id}`, {
-        //               mode: 'cors',
-        //               method: 'POST',
-        //               headers: {
-        //                 'Content-Type': 'application/json',
-        //               },
-        //             });
-        //             if (!readRes.ok) {
-        //               throw new Error('Error marking the notification as read');
-        //             }
-        //           } catch (error) {
-        //             console.error('Error marking notification as read:', error);
-        //           }
-        //         };
-
-        //         const arriveTimeSpan = document.createElement('span');
-        //         arriveTimeSpan.className = 'notification-arrive-time';
-        //         arriveTimeSpan.textContent = notification.arriveTime;
-
-        //         const deleteButton = document.createElement('span');
-        //         deleteButton.classList.add('delete-btn');
-        //         deleteButton.innerHTML = '&times;';
-
-        //         deleteButton.onclick = async function () {
-        //           try {
-        //             const deleteRes = await fetch(`/notification/delete/${notification.id}`, {
-        //               method: 'POST',
-        //               headers: {
-        //                 'Content-Type': 'application/json',
-        //               },
-        //             });
-        //             if (!deleteRes.ok) {
-        //               throw new Error('Error deleting the notification');
-        //             }
-        //             notificationItem.remove();
-
-        //             const remainingNotifications =
-        //               document.querySelectorAll('.notification-item').length;
-        //             if (remainingNotifications === 0) {
-        //               newNotificationActions.style.display = 'none';
-        //               const emptyMessage = document.createElement('div');
-        //               emptyMessage.className = 'empty-notification-message';
-        //               emptyMessage.textContent = '현재 알림이 없습니다';
-        //               notificationDropdown.appendChild(emptyMessage);
-        //             }
-
-        //             updateNotificationBadge();
-        //           } catch (error) {
-        //             console.error('Error deleting notification:', error);
-        //           }
-        //         };
-        //         notificationItem.appendChild(link);
-        //         notificationItem.appendChild(document.createElement('br'));
-        //         notificationItem.appendChild(arriveTimeSpan);
-        //         notificationItem.appendChild(deleteButton);
-        //         notificationDropdown.appendChild(notificationItem);
-        //       });
-
-        //       const newNotificationActions = document.createElement('div');
-        //       newNotificationActions.className = 'notification-actions';
-        //       newNotificationActions.style.display = 'flex';
-        //       newNotificationActions.style.justifyContent = 'space-between';
-        //       newNotificationActions.style.padding = '8px';
-
-        //       const readAllButton = document.createElement('button');
-        //       readAllButton.id = 'read-all-btn';
-        //       readAllButton.className = 'notification-action-btn';
-        //       readAllButton.textContent = 'All Read';
-        //       readAllButton.addEventListener('click', async function () {
-        //         try {
-        //           const readAllRes = await fetch('/notification/readAll', {
-        //             method: 'POST',
-        //             headers: {
-        //               'Content-Type': 'application/json',
-        //             },
-        //           });
-        //           if (!readAllRes.ok) {
-        //             throw new Error('Error marking all notifications as read');
-        //           }
-        //           document
-        //             .querySelectorAll('.unread-notification')
-        //             .forEach(function (notification) {
-        //               notification.classList.remove('unread-notification');
-        //               notification.classList.add('read-notification');
-        //             });
-        //           $('.notification-badge').text(0);
-        //         } catch (error) {
-        //           console.error('Error marking all notifications as read:', error);
-        //         }
-        //       });
-        //       newNotificationActions.appendChild(readAllButton);
-
-        //       const deleteAllButton = document.createElement('button');
-        //       deleteAllButton.id = 'delete-all-btn';
-        //       deleteAllButton.className = 'notification-action-btn';
-        //       deleteAllButton.textContent = 'All Delete';
-        //       deleteAllButton.addEventListener('click', async function () {
-        //         try {
-        //           const deleteAllRes = await fetch('/notification/deleteAll', {
-        //             method: 'POST',
-        //             headers: {
-        //               'Content-Type': 'application/json',
-        //             },
-        //           });
-        //           if (!deleteAllRes.ok) {
-        //             throw new Error('Error deleting all notifications');
-        //           }
-        //           document
-        //             .querySelectorAll('.notification-item')
-        //             .forEach((notification) => notification.remove());
-        //           $('.notification-badge').text(0);
-        //           newNotificationActions.style.display = 'none';
-        //           const emptyMessage = document.createElement('div');
-        //           emptyMessage.className = 'empty-notification-message';
-        //           emptyMessage.textContent = '현재 알림이 없습니다';
-        //           notificationDropdown.appendChild(emptyMessage);
-        //         } catch (error) {
-        //           console.error('Error deleting all notifications:', error);
-        //         }
-        //       });
-        //       newNotificationActions.appendChild(deleteAllButton);
-        //       notificationDropdown.appendChild(newNotificationActions);
-        //     }
-        //   } catch (error) {
-        //     console.error('Error fetching notifications:', error);
-        //   }
-        // }
-
-        // 일반 함수로 바꾼 후, AJAX 통신 설정
-        function fetchNotifications() {
-          // AJAX 통신으로 알림 가져오기
-          $.ajax({
-            url: "/notifications",
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-              notificationDropdown.innerHTML = "";
-
-              if (data.length === 0) {
-                const emptyMessage = document.createElement("div");
-                emptyMessage.className = "empty-notification-message";
-                emptyMessage.textContent = "현재 알림이 없습니다";
-                notificationDropdown.appendChild(emptyMessage);
-              } else {
-                data.forEach(notification => {
-                  const notificationItem = document.createElement("div");
-                  notificationItem.className = "notification-item";
-
-                  if (notification.status) {
-                    notificationItem.classList.add("read-notification");
-                  } else {
-                    notificationItem.classList.add("unread-notification");
-                  }
-
-                  const link = document.createElement("a");
-                  link.href = notification.url;
-                  link.textContent = notification.content;
-
-                  link.onclick = function () {
-                    // 알림을 읽음으로 표시하기 위한 AJAX 요청
-                    $.ajax({
-                      url: `/notification/read/${notification.id}`,
-                      type: "POST",
-                      dataType: "json",
-                      contentType: "application/json",
-                      success: function (response) {
-                        if (!response.ok) {
-                          console.error(
-                            "Error marking the notification as read"
-                          );
-                        }
-                      },
-                      error: function (error) {
-                        console.error(
-                          "Error marking notification as read:",
-                          error
-                        );
-                      },
-                    });
-                  };
-
-                  const arriveTimeSpan = document.createElement("span");
-                  arriveTimeSpan.className = "notification-arrive-time";
-                  arriveTimeSpan.textContent = notification.arriveTime;
-
-                  const deleteButton = document.createElement("span");
-                  deleteButton.classList.add("delete-btn");
-                  deleteButton.innerHTML = "&times;";
-
-                  deleteButton.onclick = function () {
-                    // 알림을 삭제하기 위한 AJAX 요청
-                    $.ajax({
-                      url: `/notification/delete/${notification.id}`,
-                      type: "POST",
-                      dataType: "json",
-                      contentType: "application/json",
-                      success: function (response) {
-                        if (!response.ok) {
-                          console.error("Error deleting the notification");
-                        }
-                      },
-                      error: function (error) {
-                        console.error("Error deleting notification:", error);
-                      },
-                    });
-
-                    notificationItem.remove();
-
-                    const remainingNotifications =
-                      document.querySelectorAll(".notification-item").length;
-                    if (remainingNotifications === 0) {
-                      newNotificationActions.style.display = "none";
+                    if (data.length === 0) {
                       const emptyMessage = document.createElement("div");
                       emptyMessage.className = "empty-notification-message";
                       emptyMessage.textContent = "현재 알림이 없습니다";
                       notificationDropdown.appendChild(emptyMessage);
+                    } else {
+                      data.forEach(notification => {
+                        const notificationItem = document.createElement("div");
+                        notificationItem.className = "notification-item";
+
+                        if (notification.status) {
+                          notificationItem.classList.add("read-notification");
+                        } else {
+                          notificationItem.classList.add("unread-notification");
+                        }
+
+                        const link = document.createElement("a");
+                        link.href = notification.url;
+                        link.textContent = notification.content;
+
+                        link.onclick = function () {
+                          // 알림을 읽음으로 표시하기 위한 AJAX 요청
+                          $.ajax({
+                            url: `/notification/read/${notification.id}`,
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (response) {
+                              if (!response.ok) {
+                                console.error(
+                                  "Error marking the notification as read"
+                                );
+                              }
+                            },
+                            error: function (error) {
+                              console.error(
+                                "Error marking notification as read:",
+                                error
+                              );
+                            },
+                          });
+                        };
+
+                        const arriveTimeSpan = document.createElement("span");
+                        arriveTimeSpan.className = "notification-arrive-time";
+                        arriveTimeSpan.textContent = notification.arriveTime;
+
+                        const deleteButton = document.createElement("span");
+                        deleteButton.classList.add("delete-btn");
+                        deleteButton.innerHTML = "&times;";
+
+                        deleteButton.onclick = function () {
+                          // 알림을 삭제하기 위한 AJAX 요청
+                          $.ajax({
+                            url: `/notification/delete/${notification.id}`,
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (response) {
+                              if (!response.ok) {
+                                console.error("Error deleting the notification");
+                              }
+                            },
+                            error: function (error) {
+                              console.error("Error deleting notification:", error);
+                            },
+                          });
+
+                          notificationItem.remove();
+
+                          const remainingNotifications =
+                            document.querySelectorAll(".notification-item").length;
+                          if (remainingNotifications === 0) {
+                            newNotificationActions.style.display = "none";
+                            const emptyMessage = document.createElement("div");
+                            emptyMessage.className = "empty-notification-message";
+                            emptyMessage.textContent = "현재 알림이 없습니다";
+                            notificationDropdown.appendChild(emptyMessage);
+                          }
+
+                          updateNotificationBadge();
+                        };
+
+                        notificationItem.appendChild(link);
+                        notificationItem.appendChild(document.createElement("br"));
+                        notificationItem.appendChild(arriveTimeSpan);
+                        notificationItem.appendChild(deleteButton);
+                        notificationDropdown.appendChild(notificationItem);
+                      });
+
+                      const newNotificationActions = document.createElement("div");
+                      newNotificationActions.className = "notification-actions";
+                      newNotificationActions.style.display = "flex";
+                      newNotificationActions.style.justifyContent = "space-between";
+                      newNotificationActions.style.padding = "8px";
+
+                      const readAllButton = document.createElement("button");
+                      readAllButton.id = "read-all-btn";
+                      readAllButton.className = "notification-action-btn";
+                      readAllButton.textContent = "All Read";
+
+                      readAllButton.addEventListener("click", function () {
+                        // 모든 알림을 읽음으로 표시하기 위한 AJAX 요청
+                        $.ajax({
+                          url: "/notification/readAll",
+                          type: "POST",
+                          dataType: "json",
+                          contentType: "application/json",
+                          success: function (response) {
+                            if (!response.ok) {
+                              console.error(
+                                "Error marking all notifications as read"
+                              );
+                            }
+                          },
+                          error: function (error) {
+                            console.error(
+                              "Error marking all notifications as read:",
+                              error
+                            );
+                          },
+                        });
+
+                        document
+                          .querySelectorAll(".unread-notification")
+                          .forEach(function (notification) {
+                            notification.classList.remove("unread-notification");
+                            notification.classList.add("read-notification");
+                          });
+                        $(".notification-badge").text(0);
+                      });
+
+                      newNotificationActions.appendChild(readAllButton);
+
+                      const deleteAllButton = document.createElement("button");
+                      deleteAllButton.id = "delete-all-btn";
+                      deleteAllButton.className = "notification-action-btn";
+                      deleteAllButton.textContent = "All Delete";
+
+                      deleteAllButton.addEventListener("click", function () {
+                        // 모든 알림을 삭제하기 위한 AJAX 요청
+                        $.ajax({
+                          url: "/notification/deleteAll",
+                          type: "POST",
+                          dataType: "json",
+                          contentType: "application/json",
+                          success: function (response) {
+                            if (!response.ok) {
+                              console.error("Error deleting all notifications");
+                            }
+                          },
+                          error: function (error) {
+                            console.error("Error deleting all notifications:", error);
+                          },
+                        });
+
+                        document
+                          .querySelectorAll(".notification-item")
+                          .forEach(notification => notification.remove());
+                        $(".notification-badge").text(0);
+                        newNotificationActions.style.display = "none";
+                        const emptyMessage = document.createElement("div");
+                        emptyMessage.className = "empty-notification-message";
+                        emptyMessage.textContent = "현재 알림이 없습니다";
+                        notificationDropdown.appendChild(emptyMessage);
+                      });
+
+                      newNotificationActions.appendChild(deleteAllButton);
+                      notificationDropdown.appendChild(newNotificationActions);
                     }
-
-                    updateNotificationBadge();
-                  };
-
-                  notificationItem.appendChild(link);
-                  notificationItem.appendChild(document.createElement("br"));
-                  notificationItem.appendChild(arriveTimeSpan);
-                  notificationItem.appendChild(deleteButton);
-                  notificationDropdown.appendChild(notificationItem);
+                  },
+                  error: function (error) {
+                    console.error("Error fetching notifications:", error);
+                  },
                 });
-
-                const newNotificationActions = document.createElement("div");
-                newNotificationActions.className = "notification-actions";
-                newNotificationActions.style.display = "flex";
-                newNotificationActions.style.justifyContent = "space-between";
-                newNotificationActions.style.padding = "8px";
-
-                const readAllButton = document.createElement("button");
-                readAllButton.id = "read-all-btn";
-                readAllButton.className = "notification-action-btn";
-                readAllButton.textContent = "All Read";
-
-                readAllButton.addEventListener("click", function () {
-                  // 모든 알림을 읽음으로 표시하기 위한 AJAX 요청
-                  $.ajax({
-                    url: "/notification/readAll",
-                    type: "POST",
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: function (response) {
-                      if (!response.ok) {
-                        console.error(
-                          "Error marking all notifications as read"
-                        );
-                      }
-                    },
-                    error: function (error) {
-                      console.error(
-                        "Error marking all notifications as read:",
-                        error
-                      );
-                    },
-                  });
-
-                  document
-                    .querySelectorAll(".unread-notification")
-                    .forEach(function (notification) {
-                      notification.classList.remove("unread-notification");
-                      notification.classList.add("read-notification");
-                    });
-                  $(".notification-badge").text(0);
-                });
-
-                newNotificationActions.appendChild(readAllButton);
-
-                const deleteAllButton = document.createElement("button");
-                deleteAllButton.id = "delete-all-btn";
-                deleteAllButton.className = "notification-action-btn";
-                deleteAllButton.textContent = "All Delete";
-
-                deleteAllButton.addEventListener("click", function () {
-                  // 모든 알림을 삭제하기 위한 AJAX 요청
-                  $.ajax({
-                    url: "/notification/deleteAll",
-                    type: "POST",
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: function (response) {
-                      if (!response.ok) {
-                        console.error("Error deleting all notifications");
-                      }
-                    },
-                    error: function (error) {
-                      console.error("Error deleting all notifications:", error);
-                    },
-                  });
-
-                  document
-                    .querySelectorAll(".notification-item")
-                    .forEach(notification => notification.remove());
-                  $(".notification-badge").text(0);
-                  newNotificationActions.style.display = "none";
-                  const emptyMessage = document.createElement("div");
-                  emptyMessage.className = "empty-notification-message";
-                  emptyMessage.textContent = "현재 알림이 없습니다";
-                  notificationDropdown.appendChild(emptyMessage);
-                });
-
-                newNotificationActions.appendChild(deleteAllButton);
-                notificationDropdown.appendChild(newNotificationActions);
               }
-            },
-            error: function (error) {
-              console.error("Error fetching notifications:", error);
-            },
-          });
-        }
-      });
+            });
     </script>
   </body>
 </html>

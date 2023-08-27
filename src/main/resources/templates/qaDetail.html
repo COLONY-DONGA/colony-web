@@ -13,7 +13,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <title>질문 세부 페이지</title>
+    <title>qaDetail</title>
   </head>
 
   <body>
@@ -92,6 +92,7 @@
       <br />
 
       <div class="answer-zone">
+        <div class="Abox">
         <div class="answer-title">
           <i class="fa-solid fa-comment"></i>
           <span class="answer-number" th:text="${answerDtoList.size()}">1</span>
@@ -185,7 +186,7 @@
             <ul
               id="comments-list"
               class="comments-list"
-              th:each="comment, status : ${answer.commentList}"
+              th:each="comment, status : ${answer.commentList} "
             >
               <li>
                 <div class="comment-main-level">
@@ -193,28 +194,19 @@
                     <div class="comment-head">
                       <span class="comment-name" th:text="${comment.createdBy}">John Doe</span>
                       <span class="small-line"> | </span>
-                      <span class="comment-time" th:text="${comment.enrollTime}">몇 시간전</span>
-                    </div>
-                    <div
-                      class="comment-content"
-                      th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
-                      th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
-                    >
-                      This is the main comment content.
-                    </div>
+                      <span class="comment-time" th:text="${comment.enrollTime}">몇 시간 전</span>
+                      <!--삭제, 수정, 답글 버튼-->
 
-                    <div class="tool">
                       <div class="commenttool">
                         <form
                           class="delete-comment-form"
                           method="get"
                           th:action="@{'/delete-comment/' + ${comment.commentId}}"
                         >
-                          <button class="comment-delete">삭제</button>
+                          <i class="fa fa-trash" aria-hidden="true"></i>
                         </form>
 
                         <i class="fa fa-pencil comment-edit-i" aria-hidden="true"></i>
-
                         <form class="edit-comment-form" method="post" style="display: none">
                           <input type="text" name="content" />
                           <button type="submit">수정</button>
@@ -227,6 +219,14 @@
                         ></i>
                       </div>
                     </div>
+                    <div
+                      class="comment-content"
+                      th:classappend="${comment.isRemoved} ? 'deleted-comment' : ''"
+                      th:text="${comment.isRemoved} ? '삭제된 댓글입니다.' : ${comment.content}"
+                    >
+                      This is the main comment content.
+                    </div>
+                    <div class="tool"></div>
 
                     <!-- 대댓글 -->
                     <ul
@@ -248,34 +248,37 @@
                               <span class="comment-time" th:text="${recomment.enrollTime}"
                                 >몇 시간전</span
                               >
+                              <div class="replytool">
+                                <form
+                                  class="delete-reply-form"
+                                  method="get"
+                                  th:action="@{'/delete-comment/' + ${recomment.commentId}}"
+                                >
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </form>
+
+                                <i
+                                  class="fa fa-pencil recomment-edit-i"
+                                  aria-hidden="true"
+                                  th:data-comment-id="${recomment.commentId}"
+                                ></i>
+
+                                <form
+                                  class="edit-recomment-form"
+                                  method="post"
+                                  style="display: none"
+                                >
+                                  <input type="text" name="content" />
+                                  <button type="submit">수정</button>
+                                  <button type="button" class="cancel-edit-recomment">취소</button>
+                                </form>
+                              </div>
                             </div>
                             <div class="comment-content" th:text="${recomment.content}">
                               This is a reply to the main comment.
                             </div>
                           </div>
-                          <div class="tool reply-tool">
-                            <div class="replytool">
-                              <form
-                                class="delete-reply-form"
-                                method="get"
-                                th:action="@{'/delete-comment/' + ${recomment.commentId}}"
-                              >
-                                <button type="submit">삭제</button>
-                              </form>
-
-                              <i
-                                class="fa fa-pencil recomment-edit-i"
-                                aria-hidden="true"
-                                th:data-comment-id="${recomment.commentId}"
-                              ></i>
-
-                              <form class="edit-recomment-form" method="post" style="display: none">
-                                <input type="text" name="content" />
-                                <button type="submit">수정</button>
-                                <button type="button" class="cancel-edit-recomment">취소</button>
-                              </form>
-                            </div>
-                          </div>
+                          <div class="tool reply-tool"></div>
                         </div>
                       </li>
                     </ul>
@@ -333,6 +336,7 @@
               </form>
             </div>
           </div>
+        </div>
         </div>
 
         <br />
@@ -542,7 +546,8 @@
               },
               error: function () {
                 hideLoadingScreen();
-                alert("로그인 후 이용가능합니다.")
+                alert('로그인 후 이용가능합니다.');
+                window.location.href = '/login';
               },
             });
           });
@@ -572,7 +577,8 @@
               },
               error: function () {
                 hideLoadingScreen();
-                alert("로그인 후 이용가능합니다.")
+                alert('로그인 후 이용가능합니다.');
+                window.location.href = '/login';
               },
             });
           });

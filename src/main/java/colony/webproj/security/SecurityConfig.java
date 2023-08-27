@@ -45,7 +45,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                         .requestMatchers(
                                                 "/login", "/join", "/login-guest", "/validation-id",
                                                 "/validation-nickname", "/validation-email", "/post-list/{categoryName}",
-                                                "/post/{postId}", "/denied-page", "/denied-comment", "/time", "/").permitAll()
+                                                "/post/{postId}", "/denied-page", "/denied-comment", "/time", "/", "/subscribe").permitAll()
 //                                .requestMatchers("/**").permitAll()
                                         .anyRequest().authenticated()
                 )

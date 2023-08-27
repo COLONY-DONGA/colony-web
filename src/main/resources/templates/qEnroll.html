@@ -22,9 +22,9 @@
         >
           <div class="enroll-form">
             <div class="category-box">
-              <label for="categoryId">Category</label>
-              <select id="categoryId" name="categoryName">
-                <option value="공지사항" selected disabled>
+              <label for="categoryName">Category</label>
+              <select id="categoryName" name="categoryName">
+                <option value="없음" selected disabled>
                   카테고리를 선택하세요
                 </option>
                 <option value="Q&A">Q&A</option>
@@ -77,23 +77,36 @@
       </div>
     </div>
 
+    <!-- 로딩 화면 -->
+    <div id="loadingOverlay" class="hidden">
+      <div class="loader"></div>
+    </div>
+
     <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
       let postEnrollForm = document.querySelector(".postEnrollForm");
       let fileInput = document.getElementById("file-input");
       let fileList = document.getElementById("file-list");
+      let submitBtn = document.querySelector(".submit-btn");
       let cancelBtn = document.querySelector(".cancel-btn");
       let allSelectedFiles = [];
 
+      // 로딩 화면 ON
+      function showLoadingScreen() {
+        $("#loadingOverlay").removeClass("hidden");
+      }
+
       // 카테고리 입력 필수
       postEnrollForm.addEventListener("submit", event => {
-        let categoryId = document.getElementById("categoryId");
-        if (categoryId.value === "0") {
+        let categoryId = document.getElementById("categoryName");
+        if (categoryId.value === "없음") {
           alert("카테고리를 선택하세요");
           event.preventDefault();
           return false;
         }
+        // 폼 제출 전에 로딩 화면을 띄우고, 폼 제출 되면 로딩 화면 닫기
+        showLoadingScreen();
         return true;
       });
 

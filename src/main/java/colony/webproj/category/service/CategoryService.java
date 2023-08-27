@@ -24,6 +24,7 @@ public class CategoryService {
     /**
      *  카테고리 가져오기
      */
+    @Transactional(readOnly=true)
     public List<CategoryDto> getCategories(){
         List<CategoryDto> categories = categoryRepository.findAll().stream()
                 .map(CategoryDto::from)

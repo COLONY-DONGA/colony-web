@@ -342,7 +342,7 @@
       };
 
       function validation2(event) {
-        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
         let newPassword = document.getElementById('new-password');
         let newPasswordConfirm = document.getElementById('confirm-password');
@@ -361,7 +361,7 @@
         }
 
         if (!pw_reg.test(newPassword.value)) {
-          alert('패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.');
+          alert('패스워드는 영어, 숫자를 포함하는 8글자 이상이어야 합니다.');
           newPassword.value = '';
           newPassword.focus();
           event.preventDefault();

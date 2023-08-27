@@ -49,6 +49,7 @@ header .logo {
   width: 10rem;
   height: 3rem;
   cursor: pointer;
+  z-index: 1;
 }
 
 header ul {
@@ -344,7 +345,7 @@ footer {
   font-size: 14px;
   font-family: 'NanumSquare', sans-serif;
   color: var(--baseColor);
-  margin-bottom: 3rem;
+  margin: 2rem 0 3rem 0;
 }
 
 footer .logo {
@@ -356,7 +357,9 @@ footer .logo {
 footer .title {
   font-size: 1.1rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
+  border-bottom: 3px solid #6b9275;
 }
 
 footer a {

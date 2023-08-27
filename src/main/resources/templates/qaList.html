@@ -107,6 +107,19 @@
     </div>
     <!-- 질문 목록  -->
     <div class="qa-page">
+      <!-- 카테고리 -->
+      <div class="category-container">
+        <div class="category-left">
+          <div
+            class="category-item"
+            th:text="${categoryDtoList.presentCategory}"
+          >
+            카테고리 이름
+          </div>
+          <div class="category-comment">카테고리 설명</div>
+        </div>
+        <img class="category-image" src="" alt="카테고리 사진" />
+      </div>
       <!-- 검색 -->
       <div class="search-container">
         <form
@@ -373,6 +386,32 @@
         // 새로운 URL로 페이지 이동
         window.location.href = newUrl;
       });
+
+      // 카테고리 별 코멘트 및 이미지 설정
+      let categoryItem = document.querySelector(".category-item").textContent;
+      let categoryComment = document.querySelector(".category-comment");
+      let categoryImage = document.querySelector(".category-image");
+
+      if (categoryItem === "공지사항") {
+        categoryComment.textContent =
+          "중요한 소식과 업데이트 정보를 놓치지 마세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/notice.png";
+      } else if (categoryItem === "Q&A") {
+        categoryComment.textContent =
+          "좋은 질문과 답변으로 의견을 공유하고 지식을 얻어가세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/QA.png";
+      } else if (categoryItem === "스터디") {
+        categoryComment.textContent = "함께 배우고, 성장하는 공간입니다.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/study.png";
+      } else if (categoryItem === "기타") {
+        categoryComment.textContent =
+          "당신의 생각과 아이디어를 자유롭게 나눠보세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/etc.png";
+      }
     </script>
   </body>
 </html>

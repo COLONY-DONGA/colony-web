@@ -103,6 +103,7 @@ public class AnswerService {
     /**
      * 답변 작성자 찾기
      */
+    @Transactional(readOnly=true)
     public String findWriter(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
@@ -180,6 +181,7 @@ public class AnswerService {
     /**
      * 답변 상세 정보 (update 에서 사용)
      */
+    @Transactional(readOnly=true)
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
