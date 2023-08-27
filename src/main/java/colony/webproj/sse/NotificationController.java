@@ -9,6 +9,7 @@ import colony.webproj.sse.dto.NotificationHistoryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -31,13 +32,15 @@ public class NotificationController {
     // 로그인한 유저는 SSE 연결
     // lAST_EVENT_ID = 이전에 받지 못한 이벤트가 존재하는 경우 [ SSE 시간 만료 혹은 종료 ]
     // 전달받은 마지막 ID 값을 넘겨 그 이후의 데이터[ 받지 못한 데이터 ]부터 받을 수 있게 한다
-    @GetMapping(value = "/subscribe", produces = "text/event-stream")
+    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseBody
     public SseEmitter subscribe(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
                                 String lastEventId) {
         log.info("구독 컨트롤러 진입");
-        return notificationService.subscribe(principalDetails.getId(), lastEventId);
+        SseEmitter sseEmitter = notificationService.subscribe(principalDetails.getId(), lastEventId);
+        System.out.println("sseEmitter: " + sseEmitter);
+        return sseEmitter;
     }
 
     //알림조회

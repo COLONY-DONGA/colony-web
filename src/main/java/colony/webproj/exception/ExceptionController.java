@@ -21,6 +21,7 @@ public class ExceptionController {
     public String handleCustomException(Exception e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
         log.info("핸들링하지 않은 에러 발생");
+        log.info("exception: " + e);
         return "errorPage";
     }
 }

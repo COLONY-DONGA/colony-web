@@ -37,10 +37,10 @@ public class EmailService {
                 type = "댓글";
             }
 
-            //todo: 배포 시 경로 변경
             mimeMessageHelper.setText(content + "<br>"
                     + "아래 링크를 클릭해 새로 작성된 " + type + "을 확인해보세요!" + "<br>"
-                    + "localhost:8080" + url, true); // 메일 본문 내용, HTML 여부
+                    + "https://dau-colony.kro.kr/" + url + "<br>"
+                    + "<img src=\"https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/colony.jpg\" width=\"540\" height=\"173\">", true);
             javaMailSender.send(mimeMessage);
 
             log.info("Email Send Success");

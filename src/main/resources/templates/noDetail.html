@@ -1,158 +1,156 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="/css/qaDetail.css" />
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
-  <title>질문 세부 페이지</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/qaDetail.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>noDetail</title>
+  </head>
 
-<body>
-<!--  로그인 유저 닉네임-->
-<div>
-  <input class="member-nickname" th:value="${loginUser}" style="display: none" />
-</div>
-<div>
-  <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
-</div>
-
-<div th:replace="~{layouts/header :: header}"></div>
-<br />
-<br />
-<br />
-
-<div class="qadetail-frame">
-  <div class="q-box">
-    <div class="horizontal-line"></div>
-    <div class="q-head">
-      <div class="question-title" th:text="${postDto.title}">title</div>
-      <div class="question-info">
-        <i class="fa-solid fa-eye info-item"></i>
-        <span th:text="${postDto.viewCount}">조회수</span>
-        <i class="fa-solid fa-face-laugh-squint fa-bounce info-item" style="color: Green"></i>
-        <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
-        >작성자</span
-        >
-        <i class="fa-regular fa-clock info-item"></i>
-        <span
-                class="question-info-date"
-                th:text="${#temporals.format(postDto.createdAt, 'YY/MM/dd HH:mm')}"
-        >작성일</span
-        >
-      </div>
-
-      <br />
-      <br />
-      <div class="horizontal-line"></div>
-      <!--내용칸-->
+  <body>
+    <!--  로그인 유저 닉네임-->
+    <div>
+      <input class="member-nickname" th:value="${loginUser}" style="display: none" />
+    </div>
+    <div>
+      <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
     </div>
 
-    <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+    <div th:replace="~{layouts/header :: header}"></div>
+    <br />
+    <br />
+    <br />
 
-    <input id="postId" type="hidden" th:value="${postDto.postId}" />
-    <!--포스트아이디-->
+    <div class="qadetail-frame">
+      <div class="q-box">
+        <div class="horizontal-line"></div>
+        <div class="q-head">
+          <div class="question-title" th:text="${postDto.title}">title</div>
+          <div class="question-info">
+            <i class="fa-solid fa-eye info-item"></i>
+            <span th:text="${postDto.viewCount}">조회수</span>
+            <i class="fa-solid fa-face-laugh-squint fa-bounce info-item" style="color: Green"></i>
+            <span id="post-writer" class="question-info-writer" th:text="${postDto.createdBy}"
+              >작성자</span
+            >
+            <i class="fa-regular fa-clock info-item"></i>
+            <span
+              class="question-info-date"
+              th:text="${#temporals.format(postDto.createdAt, 'YY/MM/dd HH:mm')}"
+              >작성일</span
+            >
+          </div>
 
-    <!-- 질문 이미지 나열 -->
-    <div class="file-box" style="display: none">
-      <div class="image-container">
-        <div th:each="file : ${postDto.imageDtoList}">
-          <div class="file-img">
-            <img class="clickable-image" th:src="${file.s3Url}" alt="이미지" />
+          <br />
+          <br />
+          <div class="horizontal-line"></div>
+          <!--내용칸-->
+        </div>
+
+        <div class="question-area" th:text="${postDto.content}">Q. question area</div>
+
+        <input id="postId" type="hidden" th:value="${postDto.postId}" />
+        <!--포스트아이디-->
+
+        <!-- 질문 이미지 나열 -->
+        <div class="file-box" style="display: none">
+          <div class="image-container">
+            <div th:each="file : ${postDto.imageDtoList}">
+              <div class="file-img">
+                <img class="clickable-image" th:src="${file.s3Url}" alt="이미지" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--버튼바들-->
+        <div class="tool-box" id="question-tool-box">
+          <div class="btn">
+            <button class="editbtn" id="editbtn">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <button class="deletebtn" id="deletebtn">
+              <i class="fa-solid fa-trash"></i>
+            </button>
           </div>
         </div>
       </div>
+      <br />
+      <br />
+      <br />
     </div>
 
-    <!--버튼바들-->
-    <div class="tool-box" id="question-tool-box">
-      <div class="btn">
-        <button class="editbtn" id="editbtn">
-          <i class="fa fa-pencil" aria-hidden="true"></i>
-        </button>
-        <button class="deletebtn" id="deletebtn">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <br />
-  <br />
-  <br />
-</div>
+    <div th:replace="~{layouts/footer :: footer}"></div>
 
-<div th:replace="~{layouts/footer :: footer}"></div>
+    <script>
+      $(document).ready(function () {
+        let userName = $('.member-nickname').val(); // 로그인 유저
+        let name = $('.post-writer-nickname').val(); // post 작성자
+        let postId = $('#postId').val(); //post아이디
+        console.log('userName: ' + userName);
+        console.log('Name: ' + name);
 
-<script>
-  $(document).ready(function () {
-    let userName = $('.member-nickname').val(); // 로그인 유저
-    let name = $('.post-writer-nickname').val(); // post 작성자
-    let postId = $('#postId').val(); //post아이디
-    console.log('userName: ' + userName);
-    console.log('Name: ' + name);
+        var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
+        console.log(editbtn);
+        editbtn.addEventListener('click', function () {
+          location.href = '/edit-post/' + postId;
+          console.log('수정버튼');
+        });
 
-    var editbtn = document.getElementById('editbtn'); //post글 수정 버튼
-    console.log(editbtn);
-    editbtn.addEventListener('click', function () {
-      location.href = '/edit-post/' + postId;
-      console.log('수정버튼');
-    });
+        var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
+        deletebtn.addEventListener('click', function () {
+          location.href = '/delete-post/' + postId;
+          console.log('삭제버튼');
+        });
 
-    var deletebtn = document.getElementById('deletebtn'); //post글 삭제 버튼
-    deletebtn.addEventListener('click', function () {
-      location.href = '/delete-post/' + postId;
-      console.log('삭제버튼');
-    });
-
-
-    if (userName != name || userName === '') {
-      if (userName != '관리자') {
-        //게시글 수정 삭제 권한부여
-        console.log('css 숨기는 로직');
-        editbtn.style.display = 'none';
-        deletebtn.style.display = 'none';
-      }
-    }
-  });
-
-  // 이미지 클릭 시, 새 창에서 이미지 표시
-  document.addEventListener('DOMContentLoaded', function () {
-    const clickableImages = document.querySelectorAll('.clickable-image');
-
-    clickableImages.forEach((image) => {
-      image.addEventListener('click', function () {
-        const imageUrl = this.getAttribute('src');
-        window.open(imageUrl, '_blank');
+        if (userName != name || userName === '') {
+          if (userName != '관리자') {
+            //게시글 수정 삭제 권한부여
+            console.log('css 숨기는 로직');
+            editbtn.style.display = 'none';
+            deletebtn.style.display = 'none';
+          }
+        }
       });
-    });
-  });
 
-  // 이미지 있을 때와 없을 때, display 속성 변경
-  document.addEventListener('DOMContentLoaded', function () {
-    const setImageContainerVisibility = (imageContainer, imageDtoList) => {
-      if (imageDtoList.length > 0) {
-        imageContainer.style.display = 'block';
-      } else {
-        imageContainer.style.display = 'none';
-      }
-    };
+      // 이미지 클릭 시, 새 창에서 이미지 표시
+      document.addEventListener('DOMContentLoaded', function () {
+        const clickableImages = document.querySelectorAll('.clickable-image');
 
-    // 질문 이미지 나열
-    const questionImageContainers = document.querySelectorAll('.q-box .file-box');
-    questionImageContainers.forEach((container) => {
-      const imageDtoList = container.querySelectorAll('.file-img');
-      setImageContainerVisibility(container, imageDtoList);
-    });
-  });
+        clickableImages.forEach((image) => {
+          image.addEventListener('click', function () {
+            const imageUrl = this.getAttribute('src');
+            window.open(imageUrl, '_blank');
+          });
+        });
+      });
 
-</script>
-</body>
+      // 이미지 있을 때와 없을 때, display 속성 변경
+      document.addEventListener('DOMContentLoaded', function () {
+        const setImageContainerVisibility = (imageContainer, imageDtoList) => {
+          if (imageDtoList.length > 0) {
+            imageContainer.style.display = 'block';
+          } else {
+            imageContainer.style.display = 'none';
+          }
+        };
+
+        // 질문 이미지 나열
+        const questionImageContainers = document.querySelectorAll('.q-box .file-box');
+        questionImageContainers.forEach((container) => {
+          const imageDtoList = container.querySelectorAll('.file-img');
+          setImageContainerVisibility(container, imageDtoList);
+        });
+      });
+    </script>
+  </body>
 </html>

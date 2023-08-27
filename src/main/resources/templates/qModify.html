@@ -23,12 +23,11 @@
           <div class="modify-form">
             <div class="category-box">
               <label for="categoryId">Category</label>
-              <!-- 기존에 선택한걸 selected 해야 함 -->
               <select id="categoryId" name="categoryId">
-                <option value="?" selected disabled>카테고리를 선택하세요</option>
-                <option value="2">Q&A</option>
-                <option value="3">스터디</option>
-                <option value="4">기타</option>
+                <option value="?" disabled>카테고리를 선택하세요</option>
+                <option value="2" th:selected="${postFormDto.categoryId == 2}">Q&A</option>
+                <option value="3" th:selected="${postFormDto.categoryId == 3}">스터디</option>
+                <option value="4" th:selected="${postFormDto.categoryId == 4}">기타</option>
               </select>
             </div>
             <div class="title-box">
