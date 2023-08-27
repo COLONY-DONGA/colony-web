@@ -17,10 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryDto {
 
-    public static CategoryDto defaultCategoryDto;
-
-    public static boolean isFirst = true;
-
     private Long id;
     @NotBlank
     private String categoryName;
