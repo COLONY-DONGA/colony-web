@@ -85,9 +85,11 @@
     </div>
     <!-- 질문 목록  -->
     <div class="qa-page">
-      <h1 class="c" th:text="${categoryDtoList.presentCategoryName}">카테고리</h1>
-      <!-- 검색 -->
-      <div class="search-container">
+      <!-- 카테고리 & 검색 -->
+      <div class="category-search-container">
+        <!-- 카테고리 -->
+        <div class="category" th:text="${categoryDtoList.presentCategoryName}">카테고리</div>
+        <!-- 검색 -->
         <form
           th:action="@{/post-list/{categoryId}(categoryId=${categoryDtoList.presentCategoryId})}"
           method="get"

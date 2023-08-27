@@ -262,15 +262,21 @@
   cursor: pointer;
 }
 
-/* 검색 */
+/* 카테고리 & 검색 */
 
-.search-container {
+.category-search-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   padding: 20px 0;
   margin-top: -1rem;
+}
+/* 위치 수정 ㄱㄱ */
+.category-search-container .category {
+  color: #00c471;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 #searchType {
@@ -527,13 +533,4 @@
 body {
   margin: 0;
   padding: 0;
-}
-
-/* tmp */
-
-.c {
-  position: absolute;
-  top: 24.5rem;
-  left: 18rem;
-  color: black;
 }
