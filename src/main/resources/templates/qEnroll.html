@@ -17,12 +17,12 @@
         <form action="/post" method="post" enctype="multipart/form-data" class="postEnrollForm">
           <div class="enroll-form">
             <div class="category-box">
-              <label for="categoryId">Category</label>
-              <select id="categoryId" name="categoryId">
-                <option value="0" selected disabled>카테고리를 선택하세요</option>
-                <option value="2">Q&A</option>
-                <option value="3">스터디</option>
-                <option value="4">기타</option>
+              <label for="categoryName">Category</label>
+              <select id="categoryName" name="categoryName">
+                <option value="없음" selected disabled>카테고리를 선택하세요</option>
+                <option value="Q&A">Q&A</option>
+                <option value="스터디">스터디</option>
+                <option value="기타">기타</option>
               </select>
             </div>
             <div class="title-box">
@@ -73,8 +73,8 @@
 
       // 카테고리 입력 필수
       postEnrollForm.addEventListener('submit', (event) => {
-        let categoryId = document.getElementById('categoryId');
-        if (categoryId.value === '0') {
+        let categoryId = document.getElementById('categoryName');
+        if (categoryId.value === '없음') {
           alert('카테고리를 선택하세요');
           event.preventDefault();
           return false;
@@ -214,7 +214,7 @@
       }
 
       cancelBtn.addEventListener('click', () => {
-        location.href = '/post-list/2';
+        location.href = '/post-list/Q&A';
       });
     </script>
   </body>

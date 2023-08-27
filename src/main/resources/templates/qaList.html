@@ -91,7 +91,7 @@
         <div class="category" th:text="${categoryDtoList.presentCategoryName}">카테고리</div>
         <!-- 검색 -->
         <form
-          th:action="@{/post-list/{categoryId}(categoryId=${categoryDtoList.presentCategoryId})}"
+          th:action="@{/post-list/{categoryName}(categoryName=${categoryDtoList.presentCategory})}"
           method="get"
           autocomplete="on"
         >
@@ -209,7 +209,7 @@
         </div>
       </div>
 
-      <input type="hidden" id="categoryId" th:value="${categoryDtoList.presentCategoryId}" />
+      <input type="hidden" id="categoryName" th:value="${categoryDtoList.presentCategory}" />
 
       <!-- 페이지네이션 -->
       <div class="pagination-container">
@@ -219,12 +219,19 @@
           end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}),
           prev=${start - maxPage - 1},
           next=${start + maxPage - 1},
-          maxPage=${5}"
+          maxPage=${5},
+          presentCategory=${categoryDtoList.presentCategory}"
         >
           <!-- 이전 페이지로 이동 -->
           <li th:if="${start > 1}">
             <a
-              th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'<<'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
               th:text="'<<'"
             ></a>
           </li>
@@ -234,7 +241,13 @@
             th:class="${page == (pageNum + 1)} ? 'active' : ''"
           >
             <a
-              th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="${page}"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
               th:text="${page}"
             ></a>
           </li>
@@ -242,14 +255,26 @@
           <!-- 다음 페이지로 이동 -->
           <li th:if="${end < totalPages}">
             <a
-              th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
               th:text="'>'"
             ></a>
           </li>
 
           <li th:if="${end < totalPages}">
             <a
-              th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategoryId})}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>>'"
+            ></a>
+            <a
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
               th:text="'>>'"
             ></a>
           </li>
@@ -279,11 +304,11 @@
         var selectedValue = this.value;
         var searchValue = document.getElementById('searchValue').value;
         var searchType = document.getElementById('searchType').value;
-        var categoryId = document.getElementById('categoryId').value;
-        console.log(categoryId);
+        var categoryName = document.getElementById('categoryName').value;
+        console.log(categoryName);
         window.location.href =
           '/post-list/' +
-          categoryId +
+          categoryName +
           '?sortBy=' +
           selectedValue +
           '&searchType=' +
