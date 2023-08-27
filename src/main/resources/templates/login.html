@@ -1,404 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href=" /css/login.css" />
-  <title>Login & Register</title>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href=" /css/login.css" />
+    <title>Login & Register</title>
+  </head>
 
-<body>
-<div id="container" class="container">
-  <div class="row">
-    <!-- Sign Up -->
-    <div class="col align-items-center flex-col sign-up">
-      <div class="form-wrapper align-items-center">
-        <form action="/join" method="post">
-          <div class="form sign-up">
-            <div class="input-group form-row">
-              <i class="bx bx-mail-send"></i>
-              <input name="loginId" id="loginId" type="text" placeholder="loginId" required />
-              <button class="chk-btn" id="id-check">중복<br />체크</button>
-            </div>
-            <div id="loginId_result"></div>
-            <div class="input-group form-row">
-              <i class="bx bxs-user"></i>
-              <input
-                      name="nickname"
-                      id="nickname"
-                      type="text"
-                      placeholder="nickname"
+  <body>
+    <div id="container" class="container">
+      <div class="row">
+        <!-- Sign Up -->
+        <div class="col align-items-center flex-col sign-up">
+          <div class="form-wrapper align-items-center">
+            <form action="/join" method="post">
+              <div class="form sign-up">
+                <div class="input-group form-row">
+                  <i class="bx bx-mail-send"></i>
+                  <input name="loginId" id="loginId" type="text" placeholder="loginId" required />
+                  <button class="chk-btn" id="id-check">중복<br />체크</button>
+                </div>
+                <div id="loginId_result"></div>
+                <div class="input-group form-row">
+                  <i class="bx bxs-user"></i>
+                  <input
+                    name="nickname"
+                    id="nickname"
+                    type="text"
+                    placeholder="nickname"
+                    required
+                  />
+                  <button class="chk-btn" id="nickname-check">중복<br />체크</button>
+                </div>
+                <div id="nickname_result"></div>
+                <div class="input-group form-row">
+                  <i class="bx bxs-user"></i>
+                  <input name="email" id="email" type="text" placeholder="email" required />
+                  <button class="chk-btn" id="email-check">중복<br />체크</button>
+                </div>
+                <div id="email_result"></div>
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input
+                    name="department"
+                    id="department"
+                    type="text"
+                    placeholder="department"
+                    required
+                  />
+                </div>
+                <div id="department_result"></div>
+
+                <div class="form-row">
+                  <div class="input-group">
+                    <i class="bx bxs-lock-alt"></i>
+                    <input
+                      name="password"
+                      id="password"
+                      type="password"
+                      placeholder="password"
                       required
-              />
-              <button class="chk-btn" id="nickname-check">중복<br />체크</button>
-            </div>
-            <div id="nickname_result"></div>
-            <div class="input-group form-row">
-              <i class="bx bxs-user"></i>
-              <input name="email" id="email" type="text" placeholder="email" required />
-              <button class="chk-btn" id="email-check">중복<br />체크</button>
-            </div>
-            <div id="email_result"></div>
-            <div class="input-group">
-              <i class="bx bxs-user"></i>
-              <input
-                      name="department"
-                      id="department"
-                      type="text"
-                      placeholder="department"
+                    />
+                  </div>
+                  <div id="password_result"></div>
+                  <div class="input-group">
+                    <i class="bx bxs-lock-alt"></i>
+                    <input
+                      name="pw_check"
+                      id="pw_check"
+                      type="password"
+                      placeholder="password check"
                       required
-              />
-            </div>
-            <div id="department_result"></div>
+                    />
+                  </div>
+                  <div id="pw_check_result"></div>
+                </div>
 
-            <div class="form-row">
-              <div class="input-group">
-                <i class="bx bxs-lock-alt"></i>
-                <input
-                        name="password"
-                        id="password"
-                        type="password"
-                        placeholder="password"
-                        required
-                />
-              </div>
-              <div id="password_result"></div>
-              <div class="input-group">
-                <i class="bx bxs-lock-alt"></i>
-                <input
-                        name="pw_check"
-                        id="pw_check"
-                        type="password"
-                        placeholder="password check"
-                        required
-                />
-              </div>
-              <div id="pw_check_result"></div>
-            </div>
+                <div class="form-row">
+                  <div class="input-group">
+                    <i class="bx bxs-user"></i>
+                    <input name="name" id="name" type="text" placeholder="name" required />
+                  </div>
+                  <div id="name_result"></div>
+                  <div class="input-group">
+                    <i class="bx bxs-user"></i>
+                    <input
+                      name="phoneNumber"
+                      id="phoneNumber"
+                      type="text"
+                      placeholder="phoneNumber"
+                      required
+                    />
+                  </div>
+                  <div id="phoneNumber_result"></div>
+                </div>
 
-            <div class="form-row">
-              <div class="input-group">
-                <i class="bx bxs-user"></i>
-                <input name="name" id="name" type="text" placeholder="name" required />
-              </div>
-              <div id="name_result"></div>
-              <div class="input-group">
-                <i class="bx bxs-user"></i>
-                <input
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        type="text"
-                        placeholder="phoneNumber"
-                        required
-                />
-              </div>
-              <div id="phoneNumber_result"></div>
-            </div>
+                <div class="form-row email-container">
+                  <label>
+                    <input type="checkbox" name="emailAlarm" id="emailAlarm" />
+                    <span class="email-comment">푸쉬 알림 이메일 수신 동의</span>
+                  </label>
+                </div>
 
-            <div class="form-row email-container">
-              <label>
-                <input type="checkbox" name="emailAlarm" id="emailAlarm" />
-                <span class="email-comment">푸쉬 알림 이메일 수신 동의</span>
-              </label>
-            </div>
-
-            <button type="submit" class="join-btn">Sign up</button>
-            <p>
-              <b class="pointer" onclick="toggle()"> Sign in here </b>
-            </p>
+                <button type="submit" class="join-btn">Sign up</button>
+                <p>
+                  <b class="pointer" onclick="toggle()"> Sign in here </b>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>
-    <!-- Sign In -->
-    <div class="col align-items-center flex-col sign-in">
-      <div class="form-wrapper align-items-center">
-        <form action="/login" method="post">
-          <div class="form sign-in">
-            <div class="input-group">
-              <i class="bx bxs-user"></i>
-              <input name="loginId" id="login-id" type="text" placeholder="loginId" />
-            </div>
-            <div class="input-group">
-              <i class="bx bxs-lock-alt"></i>
-              <input name="password" id="login-pw" type="password" placeholder="Password" />
-            </div>
-            <button type="submit" class="login-btn">Sign in</button>
-            <button type="button" class="guest-btn">Guest</button>
-            <p>
-              <b class="pointer" onclick="toggle()"> Sign up here </b>
-            </p>
+        </div>
+        <!-- Sign In -->
+        <div class="col align-items-center flex-col sign-in">
+          <div class="form-wrapper align-items-center">
+            <form action="/login" method="post">
+              <div class="form sign-in">
+                <div class="input-group">
+                  <i class="bx bxs-user"></i>
+                  <input name="loginId" id="login-id" type="text" placeholder="loginId" />
+                </div>
+                <div class="input-group">
+                  <i class="bx bxs-lock-alt"></i>
+                  <input name="password" id="login-pw" type="password" placeholder="Password" />
+                </div>
+                <button type="submit" class="login-btn">Sign in</button>
+                <button type="button" class="guest-btn">Guest</button>
+                <p>
+                  <b class="pointer" onclick="toggle()"> Sign up here </b>
+                </p>
+              </div>
+            </form>
           </div>
-        </form>
+          <div class="form-wrapper"></div>
+        </div>
       </div>
-      <div class="form-wrapper"></div>
-    </div>
-  </div>
-  <!-- Green Toggle Screen -->
-  <div class="row content-row">
-    <div class="col align-items-center flex-col">
-      <div class="text sign-in">
-        <h2>Welcome</h2>
+      <!-- Green Toggle Screen -->
+      <div class="row content-row">
+        <div class="col align-items-center flex-col">
+          <div class="text sign-in">
+            <h2>Welcome</h2>
+          </div>
+          <div class="img sign-in"></div>
+        </div>
+        <div class="col align-items-center flex-col">
+          <div class="img sign-up"></div>
+          <div class="text sign-up">
+            <h2>Join with us</h2>
+          </div>
+        </div>
       </div>
-      <div class="img sign-in"></div>
     </div>
-    <div class="col align-items-center flex-col">
-      <div class="img sign-up"></div>
-      <div class="text sign-up">
-        <h2>Join with us</h2>
-      </div>
-    </div>
-  </div>
-</div>
 
-<script th:inline="javascript">
-  var errorMessage = /*[[${errorMessage}]]*/ '';
-</script>
+    <script th:inline="javascript">
+      var errorMessage = /*[[${errorMessage}]]*/ '';
+    </script>
 
-<script>
-  let container = document.getElementById('container');
+    <script>
+      let container = document.getElementById('container');
 
-  toggle = () => {
-    document.getElementById('login-id').value = '';
-    document.getElementById('login-pw').value = '';
-    document.getElementById('loginId').value = '';
-    document.getElementById('nickname').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('pw_check').value = '';
-    document.getElementById('name').value = '';
-    document.getElementById('phoneNumber').value = '';
-    document.getElementById('department').value = '';
+      toggle = () => {
+        document.getElementById('login-id').value = '';
+        document.getElementById('login-pw').value = '';
+        document.getElementById('loginId').value = '';
+        document.getElementById('nickname').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('pw_check').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('department').value = '';
 
-    idChecked = false;
-    nicknameChecked = false;
-    emailChecked = false;
+        idChecked = false;
+        nicknameChecked = false;
+        emailChecked = false;
 
-    container.classList.toggle('sign-in');
-    container.classList.toggle('sign-up');
-  };
+        container.classList.toggle('sign-in');
+        container.classList.toggle('sign-up');
+      };
 
-  setTimeout(() => {
-    container.classList.add('sign-in');
-  }, 200);
+      setTimeout(() => {
+        container.classList.add('sign-in');
+      }, 200);
 
-  $(function () {
-    function displayErrorMessage(errorMessage) {
-      alert(errorMessage);
-    }
+      $(function () {
+        function displayErrorMessage(errorMessage) {
+          alert(errorMessage);
+        }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const errorMessage = urlParams.get('exception');
-    console.log(errorMessage);
-    if (errorMessage) {
-      const decodedErrorMessage = decodeURIComponent(errorMessage);
-      displayErrorMessage(decodedErrorMessage);
-    }
-  });
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('exception');
+        console.log(errorMessage);
+        if (errorMessage) {
+          const decodedErrorMessage = decodeURIComponent(errorMessage);
+          displayErrorMessage(decodedErrorMessage);
+        }
+      });
 
-  $(function () {
-    if (errorMessage === '이미 가입된 회원입니다.') {
-      alert(errorMessage);
-    }
-  });
-</script>
+      $(function () {
+        if (errorMessage === '이미 가입된 회원입니다.') {
+          alert(errorMessage);
+        }
+      });
+    </script>
 
-<script>
-  document.querySelector('.guest-btn').addEventListener('click', function () {
-    window.location.href = '/login-guest';
-  });
-</script>
+    <script>
+      document.querySelector('.guest-btn').addEventListener('click', function () {
+        window.location.href = '/login-guest';
+      });
+    </script>
 
-<script>
-  let joinBtn = document.querySelector('.join-btn');
-  let id_check = document.getElementById('id-check');
-  let nickname_check = document.getElementById('nickname-check');
-  let email_check = document.getElementById('email-check');
+    <script>
+      let joinBtn = document.querySelector('.join-btn');
+      let id_check = document.getElementById('id-check');
+      let nickname_check = document.getElementById('nickname-check');
+      let email_check = document.getElementById('email-check');
 
-  let idChecked = false;
-  let nicknameChecked = false;
-  let emailChecked = false;
+      let idChecked = false;
+      let nicknameChecked = false;
+      let emailChecked = false;
 
-  joinBtn.onclick = function (event) {
-    // 패스워드 : 영문 대소문자, 숫자를 반드시 포함하는 8글자 이상
-    let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
-    let na_reg = /^[가-힣]{2,}$/;
-    // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
-    let ph_reg = /^\d{11}$/;
+      joinBtn.onclick = function (event) {
+        // 패스워드 : 영문 대소문자, 숫자를 반드시 포함하는 8글자 이상
+        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
+        let na_reg = /^[가-힣]{2,}$/;
+        // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
+        let ph_reg = /^\d{11}$/;
 
-    let id = document.getElementById('loginId');
-    let ni = document.getElementById('nickname');
-    let em = document.getElementById('email');
-    let de = document.getElementById('department');
-    let pw = document.getElementById('password');
-    let pw_check = document.getElementById('pw_check');
-    let na = document.getElementById('name');
-    let ph = document.getElementById('phoneNumber');
+        let id = document.getElementById('loginId');
+        let ni = document.getElementById('nickname');
+        let em = document.getElementById('email');
+        let de = document.getElementById('department');
+        let pw = document.getElementById('password');
+        let pw_check = document.getElementById('pw_check');
+        let na = document.getElementById('name');
+        let ph = document.getElementById('phoneNumber');
 
-    let de_result = document.getElementById('department_result');
-    let pw_result = document.getElementById('password_result');
-    let pw_check_result = document.getElementById('pw_check_result');
-    let na_result = document.getElementById('name_result');
-    let ph_result = document.getElementById('phoneNumber_result');
+        let de_result = document.getElementById('department_result');
+        let pw_result = document.getElementById('password_result');
+        let pw_check_result = document.getElementById('pw_check_result');
+        let na_result = document.getElementById('name_result');
+        let ph_result = document.getElementById('phoneNumber_result');
 
-    de_result.innerText = '';
-    pw_result.innerText = '';
-    pw_check_result.innerText = '';
-    na_result.innerText = '';
-    ph_result.innerText = '';
+        de_result.innerText = '';
+        pw_result.innerText = '';
+        pw_check_result.innerText = '';
+        na_result.innerText = '';
+        ph_result.innerText = '';
 
-    id.oninput = function () {
-      idChecked = false;
-    };
-    if (!idChecked) {
-      alert('아이디 중복 체크가 필요합니다.');
-      event.preventDefault();
-      return false;
-    }
-
-    ni.oninput = function () {
-      nicknameChecked = false;
-    };
-    if (!nicknameChecked) {
-      alert('닉네임 중복 체크가 필요합니다.');
-      event.preventDefault();
-      return false;
-    }
-
-    em.oninput = function () {
-      emailChecked = false;
-    };
-    if (!emailChecked) {
-      alert('이메일 중복 체크가 필요합니다.');
-      event.preventDefault();
-      return false;
-    }
-
-    if (!pw_reg.test(pw.value)) {
-      pw_result.innerText = '패스워드는 영어, 숫자를 포함하는 8글자 이상이어야 합니다.';
-      pw.value = '';
-      pw.focus();
-      event.preventDefault();
-      return false;
-    }
-
-    if (pw.value !== pw_check.value) {
-      pw_check_result.innerText = '패스워드를 확인해주세요.';
-      pw_check.value = '';
-      pw_check.focus();
-      event.preventDefault();
-      return false;
-    }
-
-    if (!na_reg.test(na.value)) {
-      na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
-      na.value = '';
-      na.focus();
-      event.preventDefault();
-      return false;
-    }
-
-    if (!ph_reg.test(ph.value)) {
-      ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
-      ph.value = '';
-      ph.focus();
-      event.preventDefault();
-      return false;
-    }
-  };
-
-  id_check.onclick = function (event) {
-    event.preventDefault(); // 폼 제출 방지
-    let id_reg = /^[A-Za-z0-9]{4,16}$/;
-    let id = document.getElementById('loginId');
-    let id_result = document.getElementById('loginId_result');
-    id_result.innerText = '';
-
-    $.ajax({
-      type: 'POST',
-      url: '/validation-id', // 서버로 경로 지정 (아이디 중복 체크)
-      headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-      data: JSON.stringify({ loginId: id.value }), // JSON 형식으로 데이터 전송
-      success: function (result) {
-        if (!id_reg.test(id.value)) {
-          id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
-          id.value = '';
-          id.focus();
+        id.oninput = function () {
+          idChecked = false;
+        };
+        if (!idChecked) {
+          alert('아이디 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        idChecked = true;
-        alert('사용 가능한 아이디입니다.');
-      },
-      error: function () {
-        alert('사용할 수 없는 아이디입니다.');
-      },
-    });
-  };
-
-  nickname_check.onclick = function (event) {
-    event.preventDefault(); // 폼 제출 방지
-    let ni_reg = /^[A-Za-z가-힣0-9]{2,6}$/;
-    let ni = document.getElementById('nickname');
-    let ni_result = document.getElementById('nickname_result');
-    ni_result.innerText = '';
-
-    $.ajax({
-      type: 'POST',
-      url: '/validation-nickname', // 서버로 경로 지정 (닉네임 중복 체크)
-      headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-      data: JSON.stringify({ nickname: ni.value }), // JSON 형식으로 데이터 전송
-      success: function (result) {
-        if (!ni_reg.test(ni.value)) {
-          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
-          ni.value = '';
-          ni.focus();
+        ni.oninput = function () {
+          nicknameChecked = false;
+        };
+        if (!nicknameChecked) {
+          alert('닉네임 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        nicknameChecked = true;
-        alert('사용 가능한 닉네임입니다.');
-      },
-      error: function () {
-        alert('사용할 수 없는 닉네임입니다.');
-      },
-    });
-  };
-
-  email_check.onclick = function (event) {
-    event.preventDefault(); // 폼 제출 방지
-    let em_reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    let em = document.getElementById('email');
-    let em_result = document.getElementById('email_result');
-    em_result.innerText = '';
-
-    $.ajax({
-      type: 'POST',
-      url: '/validation-email', // 서버로 경로 지정 (닉네임 중복 체크)
-      headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-      data: JSON.stringify({ email: em.value }), // JSON 형식으로 데이터 전송
-      success: function (result) {
-        if (!em_reg.test(em.value)) {
-          em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
-          em.value = '';
-          em.focus();
+        em.oninput = function () {
+          emailChecked = false;
+        };
+        if (!emailChecked) {
+          alert('이메일 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        emailChecked = true;
-        alert('사용 가능한 이메일입니다.');
-      },
-      error: function () {
-        alert('사용할 수 없는 이메일입니다.');
-      },
-    });
-  };
-</script>
-</body>
+        if (!pw_reg.test(pw.value)) {
+          pw_result.innerText = '패스워드는 영어, 숫자를 포함하는 8글자 이상이어야 합니다.';
+          pw.value = '';
+          pw.focus();
+          event.preventDefault();
+          return false;
+        }
+
+        if (pw.value !== pw_check.value) {
+          pw_check_result.innerText = '패스워드를 확인해주세요.';
+          pw_check.value = '';
+          pw_check.focus();
+          event.preventDefault();
+          return false;
+        }
+
+        if (!na_reg.test(na.value)) {
+          na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
+          na.value = '';
+          na.focus();
+          event.preventDefault();
+          return false;
+        }
+
+        if (!ph_reg.test(ph.value)) {
+          ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
+          ph.value = '';
+          ph.focus();
+          event.preventDefault();
+          return false;
+        }
+      };
+
+      id_check.onclick = function (event) {
+        event.preventDefault(); // 폼 제출 방지
+        let id_reg = /^[A-Za-z0-9]{4,16}$/;
+        let id = document.getElementById('loginId');
+        let id_result = document.getElementById('loginId_result');
+        id_result.innerText = '';
+
+        $.ajax({
+          type: 'POST',
+          url: '/validation-id', // 서버로 경로 지정 (아이디 중복 체크)
+          headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
+          data: JSON.stringify({ loginId: id.value }), // JSON 형식으로 데이터 전송
+          success: function (result) {
+            if (!id_reg.test(id.value)) {
+              id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
+              id.value = '';
+              id.focus();
+              event.preventDefault();
+              return false;
+            }
+
+            idChecked = true;
+            alert('사용 가능한 아이디입니다.');
+          },
+          error: function () {
+            alert('사용할 수 없는 아이디입니다.');
+          },
+        });
+      };
+
+      nickname_check.onclick = function (event) {
+        event.preventDefault(); // 폼 제출 방지
+        let ni_reg = /^[A-Za-z가-힣0-9]{2,6}$/;
+        let ni = document.getElementById('nickname');
+        let ni_result = document.getElementById('nickname_result');
+        ni_result.innerText = '';
+
+        $.ajax({
+          type: 'POST',
+          url: '/validation-nickname', // 서버로 경로 지정 (닉네임 중복 체크)
+          headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
+          data: JSON.stringify({ nickname: ni.value }), // JSON 형식으로 데이터 전송
+          success: function (result) {
+            if (!ni_reg.test(ni.value)) {
+              ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
+              ni.value = '';
+              ni.focus();
+              event.preventDefault();
+              return false;
+            }
+
+            nicknameChecked = true;
+            alert('사용 가능한 닉네임입니다.');
+          },
+          error: function () {
+            alert('사용할 수 없는 닉네임입니다.');
+          },
+        });
+      };
+
+      email_check.onclick = function (event) {
+        event.preventDefault(); // 폼 제출 방지
+        let em_reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let em = document.getElementById('email');
+        let em_result = document.getElementById('email_result');
+        em_result.innerText = '';
+
+        $.ajax({
+          type: 'POST',
+          url: '/validation-email', // 서버로 경로 지정 (닉네임 중복 체크)
+          headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
+          data: JSON.stringify({ email: em.value }), // JSON 형식으로 데이터 전송
+          success: function (result) {
+            if (!em_reg.test(em.value)) {
+              em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
+              em.value = '';
+              em.focus();
+              event.preventDefault();
+              return false;
+            }
+
+            emailChecked = true;
+            alert('사용 가능한 이메일입니다.');
+          },
+          error: function () {
+            alert('사용할 수 없는 이메일입니다.');
+          },
+        });
+      };
+    </script>
+  </body>
 </html>
