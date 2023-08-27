@@ -14,8 +14,17 @@
     <div class="frame">
       <div class="container">
         <div class="question-enroll">Question Enroll</div>
-        <form action="/post" method="post" enctype="multipart/form-data">
+        <form action="/post" method="post" enctype="multipart/form-data" class="postEnrollForm">
           <div class="enroll-form">
+            <div class="category-box">
+              <label for="categoryId">Category</label>
+              <select id="categoryId" name="categoryName">
+                <option value="공지사항" selected disabled>카테고리를 선택하세요</option>
+                <option value="Q&A">Q&A</option>
+                <option value="스터디">스터디</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
             <div class="title-box">
               <label for="title">Title</label>
               <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />
@@ -56,10 +65,21 @@
     <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
+      let postEnrollForm = document.querySelector('.postEnrollForm');
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
       let cancelBtn = document.querySelector('.cancel-btn');
       let allSelectedFiles = [];
+
+      // 카테고리 입력 필수
+      postEnrollForm.addEventListener('submit', () => {
+        let categoryId = document.getElementById('categoryId');
+        if (categoryId.value === '?') {
+          alert('카테고리를 선택하세요');
+          return false;
+        }
+        return true;
+      });
 
       // 파일 리스트와 설명 업데이트
       function updateFileListDisplay() {

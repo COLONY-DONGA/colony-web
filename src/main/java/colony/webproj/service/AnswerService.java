@@ -172,6 +172,8 @@ public class AnswerService {
                 }
             }
         }
+        log.info("commentMap size: " + commentMap.size());
+        log.info("userLikedAnswers size: " + userLikedAnswers.size());
         return answerDtoList;
     }
 

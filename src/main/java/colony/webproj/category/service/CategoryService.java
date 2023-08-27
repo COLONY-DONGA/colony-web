@@ -4,6 +4,8 @@ package colony.webproj.category.service;
 import colony.webproj.category.dto.CategoryDto;
 import colony.webproj.category.entity.Category;
 import colony.webproj.category.repository.CategoryRepository;
+import colony.webproj.exception.CustomException;
+import colony.webproj.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +36,9 @@ public class CategoryService {
      */
     public void insertCategories(String categoryName){
 
-        Optional<String> usedName = categoryRepository.findByCategoryName(categoryName);
-
-        // 카테고리가 이미 존재하면 어떻게 할지는 일단 보류
+        if(categoryRepository.findByCategoryName(categoryName).isPresent()){
+            throw new CustomException(ErrorCode.CATEGORY_ALREADY_EXIST);
+        }
 
         Category category = Category.builder().
                 categoryName(categoryName).
@@ -50,10 +52,8 @@ public class CategoryService {
      */
     public void updateCategory(CategoryDto categoryDto) {
         Category category = categoryRepository.findById(categoryDto.getId())
-                .orElseThrow(() -> new RuntimeException("fdsfs"));
+                .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
 
         category.setCategoryName(categoryDto.getCategoryName());
-
-        categoryRepository.save(category);
     }
 }

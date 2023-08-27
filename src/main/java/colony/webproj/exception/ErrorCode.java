@@ -28,7 +28,10 @@ public enum ErrorCode {
     IMAGE_NOT_SUPPORTED_EXTENSION(HttpStatus.BAD_REQUEST, "지원하지 않는 이미지 형식입니다. jpg, png 형식으로 업로드 해주십시오."),
     IMAGE_DELETE_WRONG_ACCESS(HttpStatus.UNAUTHORIZED, "본인이 등록한 사진만 삭제할 수 있습니다."),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "좋아요 누른 기록이 존재하지 않습니다."),
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다.");
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원이 존재하지 않습니다."),
+
+    CATEGORY_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 있는 카테고리 명입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "카테고리가 존재하지 않습니다.");
     private final HttpStatus status;
     private final String errorMessage;
 }
