@@ -26,6 +26,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -237,7 +239,8 @@ public class PostController {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         String currentCategoryName = postService.deletePost(postId);
-        return "redirect:/post-list/" + currentCategoryName;
+        String encodedCategoryName = URLEncoder.encode(currentCategoryName, StandardCharsets.UTF_8);
+        return "redirect:/post-list/" + encodedCategoryName;
     }
 
     /**
