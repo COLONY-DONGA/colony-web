@@ -302,7 +302,7 @@
   margin-top: 1em;
   margin-bottom: 1em;
   width: 49rem;
-  margin-left: 19rem;
+  
 }
 
 .answer-info {
@@ -745,3 +745,12 @@
   color: #193057;
   cursor: pointer;
 }
+
+.Abox {
+  height: auto;
+  margin: 1rem auto;
+  top: 0;
+  width: 54rem;
+  position: relative;
+}
+
