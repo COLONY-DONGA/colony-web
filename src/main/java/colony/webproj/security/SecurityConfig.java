@@ -34,11 +34,6 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        if(CategoryDto.isFirst){
-            CategoryDto.defaultCategoryDto = categoryService.getDefaultCategory();
-            CategoryDto.isFirst = false;
-        }
-
 
         http.csrf().disable().cors().disable() //csrf 비활성화
                 .authorizeHttpRequests(request ->
@@ -74,7 +69,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                 .accessDeniedHandler(customAccessDeniedHandler())
                 );
 
-
+        log.info("필터체인 메소드 실행");
         return http.build();
     }
 

@@ -32,15 +32,6 @@ public class CategoryService {
         return categories;
     }
 
-    public CategoryDto getDefaultCategory(){
-        Category defaultCategory = categoryRepository.findDefaultCategoryId().
-                orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND));
-
-        CategoryDto categoryDto = new CategoryDto(defaultCategory);
-
-        return categoryDto;
-
-    }
 
     /**
      * 카테고리 추가

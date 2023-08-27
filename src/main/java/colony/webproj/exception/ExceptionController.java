@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class ExceptionController {
 
+
     @ExceptionHandler(CustomException.class)
     public String handleCustomException(CustomException e, Model model) {
         model.addAttribute("errorMessage", e.getErrorMessage());

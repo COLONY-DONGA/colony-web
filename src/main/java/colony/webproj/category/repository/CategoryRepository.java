@@ -14,7 +14,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c from Category c where c.categoryName=:categoryName")
     Optional<Category> findByCategoryName(@Param("categoryName") String categoryName);
-
-    @Query("select c from Category c where c.isDefault=true")
-    Optional<Category> findDefaultCategoryId();
 }
