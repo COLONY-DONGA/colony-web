@@ -115,35 +115,35 @@
           console.log('알람 구독 로직 시작');
           updateNotificationBadge();
 
-          const source = new EventSource('/subscribe');
+          // const source = new EventSource('/subscribe');
 
-          window.addEventListener('beforeunload', () => {
-            console.log('구독 취소');
-            source.close();
-          });
+          // window.addEventListener('beforeunload', () => {
+          //   console.log('구독 취소');
+          //   source.close();
+          // });
 
-          source.onmessage = function (event) {
-            const data = event.data;
-            console.log(data);
-            const notificationCount = parseInt($('.notification-badge').text());
-
-            if (data === '연결완료') {
-              return;
-            } else {
-              toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                timeOut: 3000,
-              };
-
-              console.log(data.content);
-              toastr.success('새로운 알림이 도착했습니다.');
-
-              $('.notification-badge')
-                .text(notificationCount + 1)
-                .addClass('show-badge');
-            }
-          };
+          // source.onmessage = function (event) {
+          //   const data = event.data;
+          //   console.log(data);
+          //   const notificationCount = parseInt($('.notification-badge').text());
+          //
+          //   if (data === '연결완료') {
+          //     return;
+          //   } else {
+          //     toastr.options = {
+          //       closeButton: true,
+          //       progressBar: true,
+          //       timeOut: 3000,
+          //     };
+          //
+          //     console.log(data.content);
+          //     toastr.success('새로운 알림이 도착했습니다.');
+          //
+          //     $('.notification-badge')
+          //       .text(notificationCount + 1)
+          //       .addClass('show-badge');
+          //   }
+          // };
         }
 
         const notificationIcon = document.getElementById('notification-icon');
