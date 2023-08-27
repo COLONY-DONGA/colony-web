@@ -731,6 +731,7 @@
   color: #dadbdc;
   transition: color 0.3s;
   margin-left: 5px;
+  cursor: pointer;
 }
 
 .fa.fa-pencil:hover {
@@ -740,10 +741,12 @@
 .fa.fa-reply {
   color: #dadbdc;
   margin-left: 5px;
+  cursor: pointer;
 }
 
 .fa.fa-reply:hover {
   color: #193057;
+  cursor: pointer;
 }
 
 
