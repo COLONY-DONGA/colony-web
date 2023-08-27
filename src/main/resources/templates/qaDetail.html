@@ -540,9 +540,9 @@
                 hideLoadingScreen();
                 window.location.reload();
               },
-              error: function (xhr, status, error) {
+              error: function () {
                 hideLoadingScreen();
-                console.error('Error:', status, error);
+                alert("로그인 후 이용가능합니다.")
               },
             });
           });
@@ -570,9 +570,9 @@
                 hideLoadingScreen();
                 window.location.reload();
               },
-              error: function (xhr, status, error) {
+              error: function () {
                 hideLoadingScreen();
-                console.error('Error:', status, error);
+                alert("로그인 후 이용가능합니다.")
               },
             });
           });

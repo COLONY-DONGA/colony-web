@@ -241,6 +241,14 @@ public class PostController {
     }
 
     /**
+     * 기본 주소 매핑
+     */
+    @GetMapping("/")
+    public String redirectPostList() {
+        return "redirect:/post-list/Q&A";
+    }
+
+    /**
      * 데이터 잘 뿌려졌는지 확인하기 위해 잠시 만든 클래스
      */
     @Data
