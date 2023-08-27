@@ -1,3 +1,5 @@
+로그인 시에스에스
+
 :root {
   --primary-color: #98e68a;
   --secondary-color: #b4f2b3;
@@ -210,6 +212,7 @@ body {
 }
 
 .email-comment {
+  font-family: 'NanumSquare', sans-serif;
   font-size: 0.9rem;
   color: var(--gray-2);
   vertical-align: 0.15rem;
