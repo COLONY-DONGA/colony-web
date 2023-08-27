@@ -524,12 +524,11 @@
   margin-right: 100px;
 }
 
-.answer-box .btn{
+.answer-box .btn {
   display: flex;
   justify-content: space-between;
   margin-left: 50px;
 }
-
 
 /* 질문 및 답변 이미지 나열 START */
 
@@ -659,7 +658,6 @@
 
 .comment-name {
   font-weight: 600;
-
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -695,7 +693,6 @@
   width: 100%;
   padding-right: 20px;
   box-sizing: border-box;
-
 }
 
 .commenttool {
@@ -748,5 +745,3 @@
   color: #193057;
   cursor: pointer;
 }
-
-
