@@ -22,12 +22,14 @@
         >
           <div class="modify-form">
             <div class="category-box">
-              <label for="categoryId">Category</label>
-              <select id="categoryId" name="categoryId">
-                <option value="?" disabled>카테고리를 선택하세요</option>
-                <option value="2" th:selected="${postFormDto.categoryId == 2}">Q&A</option>
-                <option value="3" th:selected="${postFormDto.categoryId == 3}">스터디</option>
-                <option value="4" th:selected="${postFormDto.categoryId == 4}">기타</option>
+              <label for="categoryName">Category</label>
+              <select id="categoryName" name="categoryName">
+                <option value="없음" disabled>카테고리를 선택하세요</option>
+                <option value="Q&A" th:selected="${postFormDto.categoryName == 2}">Q&A</option>
+                <option value="스터디" th:selected="${postFormDto.categoryName == 3}">
+                  스터디
+                </option>
+                <option value="기타" th:selected="${postFormDto.categoryName == 4}">기타</option>
               </select>
             </div>
             <div class="title-box">
