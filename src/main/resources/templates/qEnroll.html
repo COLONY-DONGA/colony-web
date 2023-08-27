@@ -62,14 +62,25 @@
       </div>
     </div>
 
+    <!-- 로딩 화면 -->
+    <div id="loadingOverlay" class="hidden">
+      <div class="loader"></div>
+    </div>
+
     <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
       let postEnrollForm = document.querySelector('.postEnrollForm');
       let fileInput = document.getElementById('file-input');
       let fileList = document.getElementById('file-list');
+      let submitBtn = document.querySelector('.submit-btn');
       let cancelBtn = document.querySelector('.cancel-btn');
       let allSelectedFiles = [];
+
+      // 로딩 화면 ON
+      function showLoadingScreen() {
+        $('#loadingOverlay').removeClass('hidden');
+      }
 
       // 카테고리 입력 필수
       postEnrollForm.addEventListener('submit', (event) => {
@@ -79,6 +90,8 @@
           event.preventDefault();
           return false;
         }
+        // 폼 제출 전에 로딩 화면을 띄우고, 폼 제출 되면 로딩 화면 닫기
+        showLoadingScreen();
         return true;
       });
 

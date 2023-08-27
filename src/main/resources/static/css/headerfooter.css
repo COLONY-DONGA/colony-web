@@ -345,7 +345,7 @@ footer {
   font-size: 14px;
   font-family: 'NanumSquare', sans-serif;
   color: var(--baseColor);
-  margin-bottom: 3rem;
+  margin: 2rem 0 3rem 0;
 }
 
 footer .logo {
