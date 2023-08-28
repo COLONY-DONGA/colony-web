@@ -1,6 +1,8 @@
 package colony.webproj.security;
 
 
+import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.service.CategoryService;
 import colony.webproj.entity.Role;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +28,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
 
     private final CustomAuthFailureHandler customAuthFailureHandler;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CategoryService categoryService;
 
 
     @Bean
@@ -72,7 +69,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                 .accessDeniedHandler(customAccessDeniedHandler())
                 );
 
-
+        log.info("필터체인 메소드 실행");
         return http.build();
     }
 

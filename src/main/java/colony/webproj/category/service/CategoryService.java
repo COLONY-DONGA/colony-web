@@ -7,16 +7,17 @@ import colony.webproj.category.repository.CategoryRepository;
 import colony.webproj.exception.CustomException;
 import colony.webproj.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
@@ -31,6 +32,7 @@ public class CategoryService {
 
         return categories;
     }
+
 
     /**
      * 카테고리 추가
