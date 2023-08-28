@@ -42,7 +42,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                 .authorizeHttpRequests(request ->
                                 request
                                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
+                                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**", "/favicon.ico", "/error").permitAll() //정적
                                         .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
                                         .requestMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
                                         .requestMatchers(
