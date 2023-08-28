@@ -433,12 +433,16 @@
 }
 
 .card-info {
-  padding: 20px 0 10px 0;
+  padding-top: 10px;
 }
 
 .card-header {
   display: flex;
   flex-direction: row;
+}
+
+.header-margin {
+  margin-bottom: -0.5rem;
 }
 
 .card-state-notice,
@@ -497,6 +501,10 @@
 .card-footer {
   display: flex;
   flex-direction: row;
+}
+
+.footer-margin {
+  margin-top: -1.5rem;
 }
 
 .card-author-date {
