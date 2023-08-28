@@ -10,6 +10,7 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 @Slf4j
 public class ExceptionController {
 
+
     @ExceptionHandler(CustomException.class)
     public String handleCustomException(CustomException e, Model model) {
         model.addAttribute("errorMessage", e.getErrorMessage());

@@ -14,12 +14,19 @@
     <div class="frame">
       <div class="container">
         <div class="question-enroll">Question Enroll</div>
-        <form action="/post" method="post" enctype="multipart/form-data" class="postEnrollForm">
+        <form
+          action="/post"
+          method="post"
+          enctype="multipart/form-data"
+          class="postEnrollForm"
+        >
           <div class="enroll-form">
             <div class="category-box">
               <label for="categoryName">Category</label>
               <select id="categoryName" name="categoryName">
-                <option value="없음" selected disabled>카테고리를 선택하세요</option>
+                <option value="없음" selected disabled>
+                  카테고리를 선택하세요
+                </option>
                 <option value="Q&A">Q&A</option>
                 <option value="스터디">스터디</option>
                 <option value="기타">기타</option>
@@ -27,7 +34,13 @@
             </div>
             <div class="title-box">
               <label for="title">Title</label>
-              <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required />
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="제목을 입력하세요"
+                required
+              />
             </div>
             <div class="content-box">
               <label for="content">Content</label>
@@ -49,7 +62,9 @@
               />
               <label for="file-input" class="input-imageList">📁Add file</label>
               <div id="file-list-box">
-                <div class="explain">좌측의 Add file을 누르시면 파일을 첨부할 수 있습니다</div>
+                <div class="explain">
+                  좌측의 Add file을 누르시면 파일을 첨부할 수 있습니다
+                </div>
                 <ul id="file-list"></ul>
               </div>
             </div>
@@ -70,23 +85,23 @@
     <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
-      let postEnrollForm = document.querySelector('.postEnrollForm');
-      let fileInput = document.getElementById('file-input');
-      let fileList = document.getElementById('file-list');
-      let submitBtn = document.querySelector('.submit-btn');
-      let cancelBtn = document.querySelector('.cancel-btn');
+      let postEnrollForm = document.querySelector(".postEnrollForm");
+      let fileInput = document.getElementById("file-input");
+      let fileList = document.getElementById("file-list");
+      let submitBtn = document.querySelector(".submit-btn");
+      let cancelBtn = document.querySelector(".cancel-btn");
       let allSelectedFiles = [];
 
       // 로딩 화면 ON
       function showLoadingScreen() {
-        $('#loadingOverlay').removeClass('hidden');
+        $("#loadingOverlay").removeClass("hidden");
       }
 
       // 카테고리 입력 필수
-      postEnrollForm.addEventListener('submit', (event) => {
-        let categoryId = document.getElementById('categoryName');
-        if (categoryId.value === '없음') {
-          alert('카테고리를 선택하세요');
+      postEnrollForm.addEventListener("submit", event => {
+        let categoryId = document.getElementById("categoryName");
+        if (categoryId.value === "없음") {
+          alert("카테고리를 선택하세요");
           event.preventDefault();
           return false;
         }
@@ -97,22 +112,22 @@
 
       // 파일 리스트와 설명 업데이트
       function updateFileListDisplay() {
-        const fileList = document.getElementById('file-list');
-        const explain = document.querySelector('.explain');
+        const fileList = document.getElementById("file-list");
+        const explain = document.querySelector(".explain");
 
         if (fileList.children.length === 0) {
-          fileList.style.display = 'none';
-          explain.style.display = 'block';
+          fileList.style.display = "none";
+          explain.style.display = "block";
         } else {
-          fileList.style.display = 'block';
-          explain.style.display = 'none';
+          fileList.style.display = "block";
+          explain.style.display = "none";
         }
       }
 
       updateFileListDisplay();
 
       // 파일 입력 값이 변경될 때 실행되는 이벤트 리스너를 추가
-      fileInput.addEventListener('change', () => {
+      fileInput.addEventListener("change", () => {
         // 선택된 파일들을 배열로 변환하여 변수에 저장
         let selectedFiles = Array.from(fileInput.files);
         // 선택된 파일들을 전체 선택된 파일들 배열에 추가
@@ -120,26 +135,26 @@
 
         // 전체 선택된 파일 목록을 업데이트
         const newFileList = new DataTransfer();
-        allSelectedFiles.forEach((file) => {
+        allSelectedFiles.forEach(file => {
           newFileList.items.add(file);
         });
         fileInput.files = newFileList.files;
 
         // 선택된 파일들을 반복하면서 각 파일에 대해 실행될 코드를 정의
-        selectedFiles.forEach((file) => {
+        selectedFiles.forEach(file => {
           // 새로운 리스트 아이템인 <li> 요소를 생성
-          let listItem = document.createElement('li');
+          let listItem = document.createElement("li");
           // 파일 리스트 항목에 해당하는 클래스 이름 추가
-          listItem.classList.add('file-list-item');
+          listItem.classList.add("file-list-item");
 
           // 파일 미리보기 이미지를 위한 <img> 요소를 생성
-          let filePreview = document.createElement('img');
-          filePreview.classList.add('file-preview');
+          let filePreview = document.createElement("img");
+          filePreview.classList.add("file-preview");
           let reader = new FileReader();
 
           // 파일이 로드되었을 때 이미지 크기를 조정하고 미리보기 요소의 소스로 설정
           reader.onload = function (e) {
-            resizeImage(e.target.result, 300, 300, (resizedImage) => {
+            resizeImage(e.target.result, 300, 300, resizedImage => {
               filePreview.src = resizedImage;
             });
           };
@@ -149,17 +164,17 @@
           listItem.appendChild(filePreview);
 
           // 파일 정보(이름과 크기)를 표시하기 위한 <span> 요소를 생성
-          let fileInfo = document.createElement('span');
+          let fileInfo = document.createElement("span");
           // 리스트 아이템의 텍스트 내용을 파일 이름과 파일 크기로 설정
           fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
           listItem.appendChild(fileInfo);
 
-          let deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add('delete-btn');
+          let deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.classList.add("delete-btn");
 
           // 삭제 버튼을 클릭했을 때 실행되는 이벤트 리스너를 추가
-          deleteButton.addEventListener('click', () => {
+          deleteButton.addEventListener("click", () => {
             listItem.remove();
 
             // 파일 input에서 해당 파일을 삭제
@@ -169,7 +184,7 @@
 
               // 전체 선택된 파일 목록을 파일 input의 값으로 업데이트
               const newFileList = new DataTransfer();
-              allSelectedFiles.forEach((file) => {
+              allSelectedFiles.forEach(file => {
                 newFileList.items.add(file);
               });
               fileInput.files = newFileList.files;
@@ -187,10 +202,12 @@
 
       // 파일 크기를 사람이 읽기 쉬운 형식으로 변환하는 함수
       function formatFileSize(size) {
-        if (size === 0) return '0 Bytes'; // 파일 크기가 0인 경우 '0 Bytes'를 반환
-        let units = ['Bytes', 'KB', 'MB', 'GB', 'TB']; // 파일 크기 단위를 정의
+        if (size === 0) return "0 Bytes"; // 파일 크기가 0인 경우 '0 Bytes'를 반환
+        let units = ["Bytes", "KB", "MB", "GB", "TB"]; // 파일 크기 단위를 정의
         let i = Math.floor(Math.log(size) / Math.log(1024)); // 파일 크기를 1024로 나누어 단위를 결정
-        return `${parseFloat((size / Math.pow(1024, i)).toFixed(2))} ${units[i]}`; // 사람이 읽기 쉬운 형식으로 파일 크기를 변환하여 반환
+        return `${parseFloat((size / Math.pow(1024, i)).toFixed(2))} ${
+          units[i]
+        }`; // 사람이 읽기 쉬운 형식으로 파일 크기를 변환하여 반환
       }
 
       // 이미지 크기를 조정하는 함수
@@ -212,22 +229,22 @@
             }
           }
 
-          let canvas = document.createElement('canvas');
+          let canvas = document.createElement("canvas");
           canvas.width = width;
           canvas.height = height;
 
-          let ctx = canvas.getContext('2d');
+          let ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, width, height);
 
-          let resizedImage = canvas.toDataURL('image/jpeg');
+          let resizedImage = canvas.toDataURL("image/jpeg");
           callback(resizedImage);
         };
 
         img.src = src;
       }
 
-      cancelBtn.addEventListener('click', () => {
-        location.href = '/post-list/Q&A';
+      cancelBtn.addEventListener("click", () => {
+        location.href = "/post-list/Q&A";
       });
     </script>
   </body>

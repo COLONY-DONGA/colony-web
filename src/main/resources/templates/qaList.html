@@ -18,7 +18,11 @@
     <div th:replace="~{layouts/header :: header}"></div>
 
     <!-- 배너  -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
       <div class="carousel-indicators">
         <button
           type="button"
@@ -47,10 +51,16 @@
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
               <h2 class="firstBanner_title">콜로니 웹 사이트 오픈!🎉</h2>
-              <h2 class="firstBanner_sub_title">모르는게 있다면 자유롭게 질문을 남겨보세요</h2>
+              <h2 class="firstBanner_sub_title">
+                모르는게 있다면 자유롭게 질문을 남겨보세요
+              </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -59,10 +69,16 @@
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
               <h2 class="firstBanner_title">9월7일 콜로니 종강총회</h2>
-              <h2 class="firstBanner_sub_title">장소: 꽃다지 입장비: 10000원</h2>
+              <h2 class="firstBanner_sub_title">
+                장소: 꽃다지 입장비: 10000원
+              </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -70,14 +86,20 @@
           <div class="firstBanner_container">
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
-              <h2 class="firstBanner_title">졸업한 선배의 이야기가 궁금하다면?</h2>
+              <h2 class="firstBanner_title">
+                졸업한 선배의 이야기가 궁금하다면?
+              </h2>
               <h2 class="firstBanner_sub_title">
-                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글 폼을 통해
-                신청해주세요
+                9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글
+                폼을 통해 신청해주세요
               </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img
+                src="https://holaworld.io/images/banner/33.png"
+                width="250px"
+                height="160px"
+              />
             </div>
           </div>
         </div>
@@ -88,7 +110,10 @@
       <!-- 카테고리 -->
       <div class="category-container">
         <div class="category-left">
-          <div class="category-item" th:text="${categoryDtoList.presentCategory}">
+          <div
+            class="category-item"
+            th:text="${categoryDtoList.presentCategory}"
+          >
             카테고리 이름
           </div>
           <div class="category-comment">카테고리 설명</div>
@@ -104,10 +129,16 @@
         >
           <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
-            <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
+            <option
+              value="NICKNAME"
+              th:selected="${#strings.equals(searchType, 'NICKNAME')}"
+            >
               닉네임으로 검색
             </option>
-            <option value="TITLE" th:selected="${#strings.equals(searchType, 'TITLE')}">
+            <option
+              value="TITLE"
+              th:selected="${#strings.equals(searchType, 'TITLE')}"
+            >
               제목으로 검색
             </option>
           </select>
@@ -134,17 +165,25 @@
           <div class="sort-container">
             <label for="sortSelect"></label>
             <select id="sortSelect" name="sort" th:value="${sortBy}">
-              <option th:selected="${#strings.isEmpty(sortBy)}">정렬 기준</option>
+              <option th:selected="${#strings.isEmpty(sortBy)}">
+                정렬 기준
+              </option>
               <option
                 value="createdAtDesc"
                 th:selected="${#strings.equals(sortBy, 'createdAtDesc')}"
               >
                 최신순
               </option>
-              <option value="createdAtAsc" th:selected="${#strings.equals(sortBy, 'createdAtAsc')}">
+              <option
+                value="createdAtAsc"
+                th:selected="${#strings.equals(sortBy, 'createdAtAsc')}"
+              >
                 오래된 순
               </option>
-              <option value="title" th:selected="${#strings.equals(sortBy, 'title')}">
+              <option
+                value="title"
+                th:selected="${#strings.equals(sortBy, 'title')}"
+              >
                 제목 순
               </option>
             </select>
@@ -216,7 +255,11 @@
         </div>
       </div>
 
-      <input type="hidden" id="categoryName" th:value="${categoryDtoList.presentCategory}" />
+      <input
+        type="hidden"
+        id="categoryName"
+        th:value="${categoryDtoList.presentCategory}"
+      />
 
       <!-- 페이지네이션 -->
       <div class="pagination-container">
@@ -293,46 +336,48 @@
 
     <script>
       function redirectToPost(postId) {
-        window.location.href = '/post/' + postId + '?postType=p';
+        window.location.href = "/post/" + postId + "?postType=p";
       }
 
       function redirectToNotice(postId) {
-        window.location.href = '/post/' + postId + '?postType=n';
+        window.location.href = "/post/" + postId + "?postType=n";
       }
 
-      var postwritebtn = document.getElementById('postwritebtn');
-      postwritebtn.addEventListener('click', function () {
-        location.href = '/post-form';
-        console.log('post글쓰기 btn');
+      var postwritebtn = document.getElementById("postwritebtn");
+      postwritebtn.addEventListener("click", function () {
+        location.href = "/post-form";
+        console.log("post글쓰기 btn");
       });
 
-      document.getElementById('sortSelect').addEventListener('change', function (event) {
-        if (event.target.value === '정렬 기준') return;
-        var selectedValue = this.value;
-        var searchValue = document.getElementById('searchValue').value;
-        var searchType = document.getElementById('searchType').value;
-        var categoryName = document.getElementById('categoryName').value;
-        console.log(categoryName);
-        window.location.href =
-          '/post-list/' +
-          categoryName +
-          '?sortBy=' +
-          selectedValue +
-          '&searchType=' +
-          searchType +
-          '&searchValue=' +
-          searchValue;
-      });
+      document
+        .getElementById("sortSelect")
+        .addEventListener("change", function (event) {
+          if (event.target.value === "정렬 기준") return;
+          var selectedValue = this.value;
+          var searchValue = document.getElementById("searchValue").value;
+          var searchType = document.getElementById("searchType").value;
+          var categoryName = document.getElementById("categoryName").value;
+          console.log(categoryName);
+          window.location.href =
+            "/post-list/" +
+            categoryName +
+            "?sortBy=" +
+            selectedValue +
+            "&searchType=" +
+            searchType +
+            "&searchValue=" +
+            searchValue;
+        });
 
-      const checkbox = document.getElementById('check_btn');
+      const checkbox = document.getElementById("check_btn");
       // 체크 박스 상태 변경 시 이벤트 핸들러 등록
-      checkbox.addEventListener('change', function () {
+      checkbox.addEventListener("change", function () {
         const urlParams = new URLSearchParams(window.location.search);
 
         if (this.checked) {
-          urlParams.set('answered', 'true');
+          urlParams.set("answered", "true");
         } else {
-          urlParams.delete('answered');
+          urlParams.delete("answered");
         }
 
         // 변경된 파라미터로 새로운 URL 생성
@@ -343,22 +388,29 @@
       });
 
       // 카테고리 별 코멘트 및 이미지 설정
-      let categoryItem = document.querySelector('.category-item').textContent;
-      let categoryComment = document.querySelector('.category-comment');
-      let categoryImage = document.querySelector('.category-image');
+      let categoryItem = document.querySelector(".category-item").textContent;
+      let categoryComment = document.querySelector(".category-comment");
+      let categoryImage = document.querySelector(".category-image");
 
-      if (categoryItem === '공지사항') {
-        categoryComment.textContent = '중요한 소식과 업데이트 정보를 놓치지 마세요.';
-        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/notice.png';
-      } else if (categoryItem === 'Q&A') {
-        categoryComment.textContent = '좋은 질문과 답변으로 의견을 공유하고 지식을 얻어가세요.';
-        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/QA.png';
-      } else if (categoryItem === '스터디') {
-        categoryComment.textContent = '함께 배우고, 성장하는 공간입니다.';
-        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/study.png';
-      } else if (categoryItem === '기타') {
-        categoryComment.textContent = '당신의 생각과 아이디어를 자유롭게 나눠보세요.';
-        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/etc.png';
+      if (categoryItem === "공지사항") {
+        categoryComment.textContent =
+          "중요한 소식과 업데이트 정보를 놓치지 마세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/notice.png";
+      } else if (categoryItem === "Q&A") {
+        categoryComment.textContent =
+          "좋은 질문과 답변으로 의견을 공유하고 지식을 얻어가세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/QA.png";
+      } else if (categoryItem === "스터디") {
+        categoryComment.textContent = "함께 배우고, 성장하는 공간입니다.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/study.png";
+      } else if (categoryItem === "기타") {
+        categoryComment.textContent =
+          "당신의 생각과 아이디어를 자유롭게 나눠보세요.";
+        categoryImage.src =
+          "https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/etc.png";
       }
     </script>
   </body>
