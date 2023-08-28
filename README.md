@@ -13,8 +13,8 @@
 colony-web은 동아대학교 정보보안동아리 colony의 자체제작 웹 서비스입니다.   
 colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티입니다.   
 재학생 뿐만 아니라 졸업생과의 연결부 역할을 하여 더 높은 수준의 정보를 제공 받을 수 있습니다.   
-<a href="http://bit.ly/dau-colony" target="_blank">배포된 서비스로 이동</a>
-
+#### <a href="http://bit.ly/dau-colony" target="_blank">배포된 서비스로 이동</a>
+#### [배포된 서비스로 이동]("http://bit.ly/dau-colony"){: target="_blank"}
 
 <br/>
 
