@@ -652,7 +652,7 @@
 
 .comment-head {
   background-color: relative;
-  padding: 1.8%;
+  padding: 1.8% 1.8% 1.0% 1.8%; /* 위, 오른쪽, 아래, 왼쪽 패딩 순서 */
   display: flex;
 }
 
@@ -716,7 +716,7 @@
 }
 
 .comment-box .fa.fa-trash {
-  color: #dadbdc;
+  color: #a4a4a4;
   transition: color 0.3s;
 }
 
@@ -725,7 +725,7 @@
 }
 
 .comment-box .fa.fa-pencil {
-  color: #dadbdc;
+  color: #a4a4a4;
   transition: color 0.3s;
   margin-left: 5px;
   cursor: pointer;
@@ -736,7 +736,7 @@
 }
 
 .fa.fa-reply {
-  color: #dadbdc;
+  color: #a4a4a4;
   margin-left: 5px;
   cursor: pointer;
 }
@@ -754,3 +754,6 @@
   position: relative;
 }
 
+.deleted-comment {
+  color: gray;
+}
