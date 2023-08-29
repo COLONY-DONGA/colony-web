@@ -1,5 +1,7 @@
 # Dong-A Colony Web
 
+## 목차
+
 1.[**웹 서비스 소개**](#1)
 1.[**주요 기능**](#2)
 1.[**기술 스택**](#3)
@@ -7,6 +9,9 @@
 1[**Software Architecture**](#5)
 
 <br/>
+
+<div id="1"></div>
+
 ## 🖥️ 서비스 소개
 colony-web은 동아대학교 정보보안동아리 colony의 자체제작 웹 서비스입니다.   
 colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티입니다.   
@@ -16,6 +21,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <br/>
 
+<div id="2"></div>
 ## 👥 멤버
 * Backend: [김진수(팀장)](https://github.com/dgjinsu) [채승지](https://github.com/ChaeSeungJi)
 * Frontend: [박유진](https://github.com/yujinn00) [최유현](https://github.com/Choiyuhyeon)
@@ -23,7 +29,9 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <br/>
 
-<h2>📚 STACKS</h2>
+<div id="3"></div>
+
+## 📚 STACKS
 <div> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
@@ -55,9 +63,13 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <br/>
 
+<div id="4"></div>
+
 ## 🎯 주요 기능
 
 <br/>
+
+<div id="5"></div>
 
 ## 🛠 Software Architecture
 ![image](https://github.com/dgjinsu/shop-1/assets/97269799/07dc46f6-4cc0-40a6-84a5-c4970202f5ab)
