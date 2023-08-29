@@ -302,7 +302,6 @@
   margin-top: 1em;
   margin-bottom: 1em;
   width: 49rem;
-  
 }
 
 .answer-info {
@@ -642,7 +641,7 @@
 
 .comment-content {
   background-color: #ffffff;
-  padding: 2%;
+  padding: 0.8% 2% 2% 2%;
 }
 
 .reply-list .comment-content {
@@ -652,7 +651,7 @@
 
 .comment-head {
   background-color: relative;
-  padding: 1.8% 1.8% 1.0% 1.8%; /* 위, 오른쪽, 아래, 왼쪽 패딩 순서 */
+  padding: 1.8% 1.8% 1% 1.8%;
   display: flex;
 }
 
@@ -693,6 +692,7 @@
   width: 100%;
   padding-right: 20px;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .commenttool {
@@ -701,6 +701,7 @@
   width: 100%;
   padding-right: 20px;
   box-sizing: border-box;
+  align-items: center;
 }
 
 .heading-title {
