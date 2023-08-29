@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -198,7 +199,8 @@ public class PostController {
      * 게시글 수정
      */
     @PostMapping("/edit-post/{postId}")
-    public String editPost(@PathVariable("postId") Long postId,
+    @ResponseBody
+    public ResponseEntity<?> editPost(@PathVariable("postId") Long postId,
                            @Valid PostUpdateFormDto postUpdateFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
@@ -211,12 +213,11 @@ public class PostController {
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
-            model.addAttribute("postFormDto", postUpdateFormDto);
-            return "qEnroll";
+            ResponseEntity.badRequest().build();
         }
         //수정한 post 가 notice 인지
-        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "n" : "p";
-        return "redirect:/post/" + postId + "?postType=" + postType;
+        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "?postType=n" : "?postType=n";
+        return ResponseEntity.ok(postType);
     }
 
     /**

@@ -283,7 +283,7 @@
           contentType: false,
           success: function (response) {
             console.log('수정 완료');
-            location.href = `/post/${getPostId}`;
+            location.href = `/post/${getPostId}${response}`;
           },
           error: function (err) {
             console.error('오류 발생: ', err);
