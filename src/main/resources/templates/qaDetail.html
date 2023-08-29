@@ -164,10 +164,10 @@
                 1
               </div>
               <div class="btn">
-                <button class="editbtn" id="Aeditbtn" th:data-answer-id1="${answer.answerId}">
+                <button class="editbtn aEditBtn" th:data-answer-id1="${answer.answerId}">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </button>
-                <button class="deletebtn" id="Adeletebtn" th:data-answer-id2="${answer.answerId}">
+                <button class="deletebtn aDeleteBtn" th:data-answer-id2="${answer.answerId}">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -381,19 +381,26 @@
           console.log('삭제버튼');
         });
 
-        // 답변 수정 삭제 버튼 이벤트 리스너
-        document.body.addEventListener('click', function (event) {
-          if (event.target && event.target.id === 'Aeditbtn') {
-            var answerId = event.target.getAttribute('data-answer-id1');
-            window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
-            console.log('answer editbtn');
-          }
+        // 답변 수정 삭제 버튼
+        let aEditBtns = document.querySelectorAll('.aEditBtn');
+        let aDeleteBtns = document.querySelectorAll('.aDeleteBtn');
 
-          if (event.target && event.target.id === 'Adeletebtn') {
-            var answerId = event.target.getAttribute('data-answer-id2');
+        // 수정 버튼 이벤트 리스너
+        aEditBtns.forEach(function (aEditBtn) {
+          aEditBtn.addEventListener('click', function (event) {
+            let answerId = event.currentTarget.getAttribute('data-answer-id1');
+            window.open('/edit-answer/' + postId + '/' + answerId, 'aModify');
+            console.log('답변 수정 버튼');
+          });
+        });
+
+        // 삭제 버튼 이벤트 리스너
+        aDeleteBtns.forEach(function (aDeleteBtn) {
+          aDeleteBtn.addEventListener('click', function (event) {
+            let answerId = event.currentTarget.getAttribute('data-answer-id2');
             location.href = '/delete-answer/' + postId + '/' + answerId;
-            console.log('answer deletebtn');
-          }
+            console.log('답변 삭제 버튼');
+          });
         });
 
         if (userName != name || userName === '') {
