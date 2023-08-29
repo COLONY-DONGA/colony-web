@@ -4,9 +4,11 @@
 
 1. [**웹 서비스 소개**](#1)
 1. [**주요 기능**](#2)
-1. [**기술 스택**](#3)
-1. [**멤버**](#4)
-1. [**Software Architecture**](#5)
+1. [**주요 화면**](#3)
+1. [**기술 스택**](#4)
+1. [**멤버**](#5)
+1. [**Software Architecture**](#6)
+1. [**ERD**](#7)
 
 <br/>
 
@@ -44,10 +46,22 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 * **실시간 알림** : 회원들을 웹 사이트에 로그인 하면서 실시간 알림 서비스를 받을 수 있습니다.
 * **이메일 알림** : 로그인을 하지 않고도 언제 어디서나 이메일을 통한 알림을 받을 수 있습니다.
 
+<br/>
+
+## 주요 화면
+<div id="3"></div>
+
+|        |        |
+| ------ | ------ |
+|<img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/0a991798-82bc-4c91-ab19-26e81327ecdf">  |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/852bf12e-22e8-47e6-847e-2429b553c38a">     |
+|    <div align=center> `메인 화면` </div>    |    <div align=center> `질문 등록` </div>    |
+|    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/60b18a65-e943-4f9a-b458-3e359764c98b">    |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/59b31654-01d7-42d7-9fc8-195cc378391f">    |
+|    <div align=center> `질문 상세` </div>    |    <div align=center> `마이페이지` </div>    |
+
 
 <br/>
 
-<div id="3"></div>
+<div id="4"></div>
 
 ## 📚 STACKS
 <div> 
@@ -81,7 +95,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <br/>
 
-<div id="4"></div>
+<div id="5"></div>
 
 ## 👥 멤버
 * Backend: [김진수(팀장)](https://github.com/dgjinsu) [채승지](https://github.com/ChaeSeungJi)
@@ -90,13 +104,13 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <br/>
 
-<div id="5"></div>
+<div id="6"></div>
 
 ## 🛠 Software Architecture
 ![image](https://github.com/dgjinsu/shop-1/assets/97269799/07dc46f6-4cc0-40a6-84a5-c4970202f5ab)  
 
 <br/>
-<div id="6"></div>
+<div id="7"></div>
 
 ## 🛠 ERD
 ![image](https://github.com/COLONY-DONGA/colony-web/assets/69447192/721c8a04-24df-47f1-9ffb-746739fd8763)
