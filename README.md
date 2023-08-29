@@ -22,10 +22,8 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 <br/>
 
 <div id="2"></div>
-## 👥 멤버
-* Backend: [김진수(팀장)](https://github.com/dgjinsu) [채승지](https://github.com/ChaeSeungJi)
-* Frontend: [박유진](https://github.com/yujinn00) [최유현](https://github.com/Choiyuhyeon)
-* Project Manager: [박태민](https://github.com/DLLegs)
+
+## 🎯 주요 기능
 
 <br/>
 
@@ -65,7 +63,10 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 <div id="4"></div>
 
-## 🎯 주요 기능
+## 👥 멤버
+* Backend: [김진수(팀장)](https://github.com/dgjinsu) [채승지](https://github.com/ChaeSeungJi)
+* Frontend: [박유진](https://github.com/yujinn00) [최유현](https://github.com/Choiyuhyeon)
+* Project Manager: [박태민](https://github.com/DLLegs)
 
 <br/>
 
