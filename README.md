@@ -94,6 +94,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 ## 🛠 Software Architecture
 ![image](https://github.com/dgjinsu/shop-1/assets/97269799/07dc46f6-4cc0-40a6-84a5-c4970202f5ab)
+![image](https://github.com/COLONY-DONGA/colony-web/assets/69447192/721c8a04-24df-47f1-9ffb-746739fd8763)
 
 ## 트러블 슈팅
 
