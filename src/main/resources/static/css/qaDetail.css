@@ -532,19 +532,26 @@
 /* 질문 및 답변 이미지 나열 START */
 
 .file-box {
-  width: 99.5%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: auto;
 }
 
 .image-container {
   display: flex;
-  overflow-x: auto;
   margin-top: 2rem;
-  border: 2px solid #93bfa9;
-  width: 100%;
   white-space: nowrap;
-  overflow-x: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.q-box .image-container {
+  border: 3px solid #aeebae;
+}
+
+.answer-box .image-container {
+  border: 3px solid #b8aeeb;
 }
 
 .image-container::-webkit-scrollbar {
@@ -552,14 +559,24 @@
   height: 10px;
 }
 
-.image-container::-webkit-scrollbar-track {
+.q-box .image-container::-webkit-scrollbar-track {
   background-color: #c8e6c9;
-  border-radius: 10px;
 }
 
-.image-container::-webkit-scrollbar-thumb {
+.q-box .image-container::-webkit-scrollbar-thumb {
   background-color: #4caf50;
-  border-radius: 10px;
+}
+
+.answer-box .image-container::-webkit-scrollbar-track {
+  background-color: #e6c9eb;
+}
+
+.answer-box .image-container::-webkit-scrollbar-thumb {
+  background-color: #9370db;
+}
+
+.file-img {
+  height: 100px;
 }
 
 .file-img img {
