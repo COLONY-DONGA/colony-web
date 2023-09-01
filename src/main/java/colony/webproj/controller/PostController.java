@@ -216,7 +216,7 @@ public class PostController {
             ResponseEntity.badRequest().build();
         }
         //수정한 post 가 notice 인지
-        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "?postType=n" : "?postType=n";
+        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "?postType=n" : "?postType=p";
         return ResponseEntity.ok(postType);
     }
 
