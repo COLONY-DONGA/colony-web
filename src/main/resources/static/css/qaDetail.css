@@ -727,8 +727,8 @@
 }
 
 .commenttool > * {
-  margin-left: 7px;
-  margin-right: 7px;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 .heading-title {
@@ -746,6 +746,7 @@
 .comment-box .fa.fa-trash {
   color: #a4a4a4;
   transition: color 0.3s;
+  cursor: pointer;
 }
 
 .fa.fa-trash:hover {
@@ -755,7 +756,7 @@
 .comment-box .fa.fa-pencil {
   color: #a4a4a4;
   transition: color 0.3s;
-  margin-left: 5px;
+  margin-left: 3px;
   cursor: pointer;
 }
 
@@ -765,13 +766,12 @@
 
 .fa.fa-reply {
   color: #a4a4a4;
-  margin-left: 5px;
+  margin-left: 3px;
   cursor: pointer;
 }
 
 .fa.fa-reply:hover {
   color: #193057;
-  cursor: pointer;
 }
 
 .Abox {
