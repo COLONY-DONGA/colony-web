@@ -27,6 +27,7 @@
     <div>
       <input class="post-writer-nickname" th:value="${postUser}" style="display: none" />
     </div>
+    <div class="is-admin" th:text="${isAdmin}" style="display: none"></div>
 
     <br />
     <br />
@@ -360,8 +361,10 @@
         let userName = $('.member-nickname').val(); // 로그인 유저
         let name = $('.post-writer-nickname').val(); // post 작성자
         let postId = $('#postId').val(); // post 아이디
+        let isAdmin = $('.is-admin').text() === 'true';
         console.log('userName: ' + userName);
         console.log('Name: ' + name);
+
 
         var qabtn = document.getElementById('qabtn'); // 답변 등록 버튼
         qabtn.addEventListener('click', function () {
@@ -402,50 +405,40 @@
           });
         });
 
-        if (userName != name || userName === '') {
-          // 게시글 수정 삭제 권한 부여
+
+        // 게시글 수정 삭제 권한 부여
+        if (userName != name || userName === '' ) {
           editbtn.style.display = 'none';
           deletebtn.style.display = 'none';
-          // 관리자일 때도 권한 추가
-          // if (userName === 'admin') {
-          //   // 관리자 이름을 어떻게 받더라 ....
-          //   editbtn.style.display = 'block';
-          //   deletebtn.style.display = 'block';
-          // }
         }
 
-        // if ((userName = answerName || userName === '')) {
-        //   // 답변 수정 삭제 권한 부여
-        //   answereditbtn.style.display = 'none';
-        //   answerdeletebtn.style.display = 'none';
-        //   // 관리자일 때도 권한 추가
-        //   // if (userName === 'admin') {
-        //   //   // 관리자 이름을 어떻게 받더라 ....
-        //   //   answereditbtn.style.display = 'block';
-        //   //   answerdeletebtn.style.display = 'block';
-        //   // }
-        // }
+        // 관리자 권한
+        if(isAdmin){
+          editbtn.style.display = 'block';
+          deletebtn.style.display = 'block';
+        }
+
 
         // 답변 수정 삭제 권한부여
         const answerBoxes = document.querySelectorAll('.answer-box');
         answerBoxes.forEach((answerBox) => {
           const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
-
           const answerEditBtn = answerBox.querySelector('.aEditBtn');
           const answerDeleteBtn = answerBox.querySelector('.aDeleteBtn');
 
           if (userName === answerAuthor) {
             answerEditBtn.style.display = 'block';
             answerDeleteBtn.style.display = 'block';
-          } else {
+          }
+          // 관리자 권한
+          else if(isAdmin){
+            answerEditBtn.style.display = 'block';
+            answerDeleteBtn.style.display = 'block';
+          }
+          else {
             answerEditBtn.style.display = 'none';
             answerDeleteBtn.style.display = 'none';
           }
-          // // 관리자일 때 추가 권한
-          // if (userName === 'admin') {
-          //   answerEditBtn.style.display = 'block';
-          //   answerDeleteBtn.style.display = 'block';
-          // }
         });
 
         // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
@@ -768,8 +761,10 @@
       // 댓글 수정 삭제 기능 권한 부여
       document.addEventListener('DOMContentLoaded', function () {
         let userName = $('.member-nickname').val(); // 로그인 유저
+        let isAdmin = $('.is-admin').text() === 'true';
         const commentBoxes = document.querySelectorAll('.comment-box');
 
+        console.log('isAdmin:', isAdmin);
         commentBoxes.forEach((commentBox) => {
           const commentAuthor = commentBox.querySelector('.comment-name').textContent;
           const editBtn = commentBox.querySelector('.fa-pencil');
@@ -777,12 +772,15 @@
             commentBox.querySelector('.delete-comment-form i.fa-trash') ||
             commentBox.querySelector('.delete-reply-form i.fa-trash');
 
-          if (userName === commentAuthor) {
+          if (userName === commentAuthor || isAdmin) {
             editBtn.style.display = 'inline';
             deleteBtn.style.display = 'inline';
-          } else {
+            console.log("댓글쓴이거나 관리자일때!!!!!");
+          }
+          else {
             editBtn.style.display = 'none';
             deleteBtn.style.display = 'none';
+            console.log("안보여야 하는 경우일때!!!!");
           }
         });
       });
