@@ -427,27 +427,25 @@
         // }
 
         // 답변 수정 삭제 권한부여
-        document.addEventListener('DOMContentLoaded', function () {
-          const answerBoxes = document.querySelectorAll('.answer-box');
-          answerBoxes.forEach((answerBox) => {
-            const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
+        const answerBoxes = document.querySelectorAll('.answer-box');
+        answerBoxes.forEach((answerBox) => {
+          const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
 
-            const answerEditBtn = answerBox.querySelector('.Aeditbtn');
-            const answerDeleteBtn = answerBox.querySelector('.Adeletebtn');
+          const answerEditBtn = answerBox.querySelector('.aEditBtn');
+          const answerDeleteBtn = answerBox.querySelector('.aDeleteBtn');
 
-            if (userName === answerAuthor) {
-              answerEditBtn.style.display = 'block';
-              answerDeleteBtn.style.display = 'block';
-            } else {
-              answerEditBtn.style.display = 'none';
-              answerDeleteBtn.style.display = 'none';
-            }
-            // // 관리자일 때 추가 권한
-            // if (userName === 'admin') {
-            //   answerEditBtn.style.display = 'block';
-            //   answerDeleteBtn.style.display = 'block';
-            // }
-          });
+          if (userName === answerAuthor) {
+            answerEditBtn.style.display = 'block';
+            answerDeleteBtn.style.display = 'block';
+          } else {
+            answerEditBtn.style.display = 'none';
+            answerDeleteBtn.style.display = 'none';
+          }
+          // // 관리자일 때 추가 권한
+          // if (userName === 'admin') {
+          //   answerEditBtn.style.display = 'block';
+          //   answerDeleteBtn.style.display = 'block';
+          // }
         });
 
         // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
