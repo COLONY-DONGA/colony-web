@@ -134,8 +134,10 @@ public class PostController {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
         if (principalDetails != null) {
-            if (principalDetails.getRole() == Role.ROLE_ADMIN) model.addAttribute("loginUser", "관리자");
-            else model.addAttribute("loginUser", principalDetails.getNickname());
+            if (principalDetails.getRole() == Role.ROLE_ADMIN) {
+                model.addAttribute("isAdmin", true); //admin 일 경우
+            }
+            model.addAttribute("loginUser", principalDetails.getNickname());
             model.addAttribute("postUser", postDto.getCreatedBy());
         }
 
