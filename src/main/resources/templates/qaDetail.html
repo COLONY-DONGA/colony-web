@@ -15,7 +15,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <title>qaDetail</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -369,7 +369,6 @@
         });
 
         var editbtn = document.getElementById('editbtn'); // post 글 수정 버튼
-        console.log(editbtn);
         editbtn.addEventListener('click', function () {
           location.href = '/edit-post/' + postId;
           console.log('수정버튼');
@@ -405,7 +404,6 @@
 
         if (userName != name || userName === '') {
           // 게시글 수정 삭제 권한 부여
-          console.log('css 숨기는 로직');
           editbtn.style.display = 'none';
           deletebtn.style.display = 'none';
           // 관리자일 때도 권한 추가
@@ -429,25 +427,27 @@
         // }
 
         // 답변 수정 삭제 권한부여
-        const answerBoxes = document.querySelectorAll('.answer-box');
-        answerBoxes.forEach((answerBox) => {
-          const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
+        document.addEventListener('DOMContentLoaded', function () {
+          const answerBoxes = document.querySelectorAll('.answer-box');
+          answerBoxes.forEach((answerBox) => {
+            const answerAuthor = answerBox.querySelector('.answer-info-writer').textContent;
 
-          const answerEditBtn = answerBox.querySelector('#Aeditbtn');
-          const answerDeleteBtn = answerBox.querySelector('#Adeletebtn');
+            const answerEditBtn = answerBox.querySelector('.Aeditbtn');
+            const answerDeleteBtn = answerBox.querySelector('.Adeletebtn');
 
-          if (userName === answerAuthor) {
-            answerEditBtn.style.display = 'block';
-            answerDeleteBtn.style.display = 'block';
-          } else {
-            answerEditBtn.style.display = 'none';
-            answerDeleteBtn.style.display = 'none';
-          }
-          // // 관리자일 때 추가 권한
-          // if (userName === 'admin') {
-          //   answerEditBtn.style.display = 'block';
-          //   answerDeleteBtn.style.display = 'block';
-          // }
+            if (userName === answerAuthor) {
+              answerEditBtn.style.display = 'block';
+              answerDeleteBtn.style.display = 'block';
+            } else {
+              answerEditBtn.style.display = 'none';
+              answerDeleteBtn.style.display = 'none';
+            }
+            // // 관리자일 때 추가 권한
+            // if (userName === 'admin') {
+            //   answerEditBtn.style.display = 'block';
+            //   answerDeleteBtn.style.display = 'block';
+            // }
+          });
         });
 
         // 각 댓글 폼 display 버튼에 클릭 이벤트 리스너 추가
