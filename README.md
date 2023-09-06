@@ -57,6 +57,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 |    <div align=center> `메인 화면` </div>    |    <div align=center> `질문 등록` </div>    |
 |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/60b18a65-e943-4f9a-b458-3e359764c98b">    |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/59b31654-01d7-42d7-9fc8-195cc378391f">    |
 |    <div align=center> `질문 상세` </div>    |    <div align=center> `마이페이지` </div>    |
+| <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/38dc9149-2474-4830-9495-07c15f97ecc8"| |
 
 
 <br/>
