@@ -28,7 +28,11 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 #### 1. 글 작성 및 답변 기능
 멤버들은 웹 서비스 내에서 특정 주제나 관심사에 대한 글을 작성할 수 있습니다.  
-다른 멤버들은 이러한 글에 답변을 제공하거나, 글과 관련된 추가적인 질문을 하는 댓글을 달 수 있습니다.   
+다른 멤버들은 이러한 글에 답변을 제공하거나, 글과 관련된 추가적인 질문을 하는 댓글을 작성하고 삭제할 수 있습니다.   
+
+<p align="center">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/924de946-0cf6-4516-b6e7-1195e6004172">
+</p>
 
 
 #### 2. 다양한 카테고리별 게시판
@@ -58,9 +62,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/60b18a65-e943-4f9a-b458-3e359764c98b">    |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/59b31654-01d7-42d7-9fc8-195cc378391f">    |
 |    <div align=center> `질문 상세` </div>    |    <div align=center> `마이페이지` </div>    |
 
-<p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/924de946-0cf6-4516-b6e7-1195e6004172">
-</p>
+
 
 
 <br/>
