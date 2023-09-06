@@ -59,7 +59,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 |    <div align=center> `질문 상세` </div>    |    <div align=center> `마이페이지` </div>    |
 
 <p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/dd8b1bb7-ca21-4799-98fb-44560720071f">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/924de946-0cf6-4516-b6e7-1195e6004172">
 </p>
 
 
