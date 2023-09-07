@@ -50,7 +50,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 * **이메일 알림** : 로그인을 하지 않고도 언제 어디서나 이메일을 통한 알림을 받을 수 있습니다.
 
 <p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/bad72e7c-797e-4e9a-90d3-b3f80cb4199e">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/dc9ba668-d9b3-4378-976c-5f7cb11f30e9">
 </p>
 
 
