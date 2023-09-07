@@ -31,7 +31,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 다른 멤버들은 이러한 글에 답변을 제공하거나, 글과 관련된 추가적인 질문을 하는 댓글을 작성하고 삭제할 수 있습니다.   
 
 <p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/924de946-0cf6-4516-b6e7-1195e6004172">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/8c5b9bb0-9cf8-4970-b583-31340753d708">
 </p>
 
 
