@@ -57,12 +57,9 @@
                 alt="사진없음"
               />
               <div class="welcome" sec:authorize="isAuthenticated()">
-                <span sec:authentication="principal.nickname">닉네임</span
-                >&nbsp;님
+                <span sec:authentication="principal.nickname">닉네임</span>&nbsp;님
               </div>
-              <div class="welcome" sec:authorize="isAnonymous()">
-                <span>Guest</span>&nbsp;님
-              </div>
+              <div class="welcome" sec:authorize="isAnonymous()"><span>Guest</span>&nbsp;님</div>
             </button>
             <div class="dropItem">
               <a href="/my-page" sec:authorize="isAuthenticated()">My Page</a>
@@ -73,11 +70,7 @@
 
           <!-- 알림 -->
           <div class="notification-container" sec:authorize="isAuthenticated()">
-            <button
-              class="notification-button"
-              id="notification-icon"
-              type="button"
-            >
+            <button class="notification-button" id="notification-icon" type="button">
               <i class="fa fa-bell"></i>
               <span class="notification-badge">0</span>
               Notice
@@ -92,11 +85,7 @@
       </div>
     </header>
 
-    <div
-      class="welcome"
-      th:attr="data-isloggedin=true"
-      sec:authorize="isAuthenticated()"
-    ></div>
+    <div class="welcome" th:attr="data-isloggedin=true" sec:authorize="isAuthenticated()"></div>
 
     <script>
       const isLoggedIn = Boolean(document.querySelector('[data-isloggedin]'));
@@ -158,9 +147,7 @@
         }
 
         const notificationIcon = document.getElementById('notification-icon');
-        const notificationDropdown = document.getElementById(
-          'notification-dropdown'
-        );
+        const notificationDropdown = document.getElementById('notification-dropdown');
 
         notificationIcon.addEventListener('click', function (e) {
           if (notificationDropdown.style.display === 'none') {
@@ -210,16 +197,11 @@
                       contentType: 'application/json',
                       success: function (response) {
                         if (!response.ok) {
-                          console.error(
-                            'Error marking the notification as read'
-                          );
+                          console.error('Error marking the notification as read');
                         }
                       },
                       error: function (error) {
-                        console.error(
-                          'Error marking notification as read:',
-                          error
-                        );
+                        console.error('Error marking notification as read:', error);
                       },
                     });
                   };
@@ -291,16 +273,11 @@
                     contentType: 'application/json',
                     success: function (response) {
                       if (!response.ok) {
-                        console.error(
-                          'Error marking all notifications as read'
-                        );
+                        console.error('Error marking all notifications as read');
                       }
                     },
                     error: function (error) {
-                      console.error(
-                        'Error marking all notifications as read:',
-                        error
-                      );
+                      console.error('Error marking all notifications as read:', error);
                     },
                   });
 
