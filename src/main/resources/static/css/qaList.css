@@ -211,22 +211,22 @@
   width: 100%;
   background-color: rgb(236, 198, 204);
   display: flex;
+  justify-content: center;
 }
 
 .firstBanner_left {
-  flex: 1;
   align-items: flex-start;
   padding: 20px;
-  margin-left: 150px;
+  margin-right: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .firstBanner_right {
-  flex: 1;
-  align-items: center;
+  align-items: flex-end;
   padding: 20px;
-  margin-right: 150px;
+  margin-left: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -243,7 +243,7 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 20px;
   text-align: left;
-  margin-top: 10px;
+  line-height: 0.75;
 }
 
 .firstBanner_content {
@@ -256,11 +256,27 @@
   border: none;
   border-radius: 20px;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 30px;
   font-size: 16px;
   margin-bottom: 15px;
   cursor: pointer;
 }
+
+.secondBanner_container {
+  background-color: #cbffcb;
+}
+
+.secondBanner_button {
+  background-color: #00d000;
+}
+
+/* .thirdBanner_container {
+  background-color: ?;
+}
+
+.thirdBanner_button {
+  background-color: ?;
+} */
 
 /* 카테고리 */
 

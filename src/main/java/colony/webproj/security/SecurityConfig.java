@@ -68,8 +68,6 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                 .authenticationEntryPoint(customAuthenticationEntryPoint())
                                 .accessDeniedHandler(customAccessDeniedHandler())
                 );
-
-        log.info("필터체인 메소드 실행");
         return http.build();
     }
 
