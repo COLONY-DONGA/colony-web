@@ -15,6 +15,9 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         dialect: org.hibernate.dialect.MySQL8Dialect
+  mvc:
+    async:
+      request-timeout: -1
 
 file:
   dir: D:/colony/
@@ -45,3 +48,4 @@ server:
 
 
 spring.jpa.open-in-view: false
+

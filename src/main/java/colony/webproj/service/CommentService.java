@@ -50,7 +50,6 @@ public class CommentService {
                 .answer(answer)
                 .build();
 
-        //todo: 배포하면 url 바꿔야함
         //알림 로직
         String url = "/post/" + answer.getPost().getId();
         String content = answer.getMember().getNickname() + "님! [" + answer.getPost().getTitle() + "] 질문에 남긴 답변에 댓글이 달렸어요!";
@@ -87,7 +86,6 @@ public class CommentService {
                 .parent(parentComment)
                 .build();
 
-        //todo: 배포하면 url 바꿔야함
         //알림 로직
         String url = "/post/" + answer.getPost().getId();
         String content = answer.getMember().getNickname() + "님! [" + answer.getPost().getTitle() + "] 질문에 남긴 답변에 댓글이 달렸어요!";

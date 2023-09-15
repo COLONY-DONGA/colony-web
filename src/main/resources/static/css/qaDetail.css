@@ -11,25 +11,22 @@
 .qabtn {
   width: 115px;
   height: 40px;
-  /* border: 1px solid #000000; */
-  /* font-family: 'Courier New', Courier, monospace; */
   font-weight: 520;
   font-size: 1em;
-  background-color: #89e888; /* Change the background color */
-  color: white; /* Set the text color to white */
+  background-color: #89e888;
+  color: white;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   display: flex;
-  justify-content: center; /* 수평 중앙 정렬 */
-  margin-left: 5px; /* Add a margin value as needed */
+  justify-content: center;
+  margin-left: 5px;
   border-radius: 4px;
   border-style: none;
   gap: 4px;
 }
 
 .qabtn:hover {
-  /* Hover effect remains unchanged */
   box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
     4px 4px 5px 0px #0001;
 }
@@ -54,11 +51,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  align-items: center; /* 수직 중앙 정렬 */
+  align-items: center;
   display: flex;
-  justify-content: center; /* 수평 중앙 정렬 */
+  justify-content: center;
   margin-right: 100;
-  margin-left: 34rem;
+  margin-left: 37rem;
 }
 
 .editbtn:hover {
@@ -78,9 +75,9 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  align-items: center; /* 수직 중앙 정렬 */
+  align-items: center;
   display: flex;
-  justify-content: center; /* 수평 중앙 정렬 */
+  justify-content: center;
   margin-right: 100;
   color: #555555;
 }
@@ -90,24 +87,20 @@
     4px 4px 5px 0px #0001;
   background-color: rgb(255, 140, 59);
 }
+
 .tool-box {
   background-color: #fffefec0;
   height: 5rem;
   margin: 1rem auto;
   padding-bottom: 3px;
   width: 54rem;
-  /* border-radius: 0.2rem;
-  border: 1px solid #89e888; */
-
   display: flex;
-
-  align-items: center; /* 세로로 중앙 정렬 */
+  align-items: center;
 }
 
-/* 버튼들을 가로로 나열 */
 .tool-box button {
   display: inline-block;
-  margin-right: 5px; /* 버튼들 사이의 간격을 조정할 수 있습니다. */
+  margin-right: 5px;
 }
 
 .comment-text-box {
@@ -124,7 +117,6 @@
   box-sizing: border-box;
   padding: 10px;
   font-size: 1em;
-
   background-color: #ffffffc0;
 }
 
@@ -141,11 +133,11 @@
   color: white;
   border-radius: 50px;
   font-size: 10px;
-
   position: relative;
   left: 0px;
   top: 0px;
 }
+
 .likeButton-use {
   width: 50px;
   height: 50px;
@@ -153,7 +145,6 @@
   color: white;
   border-radius: 50px;
   font-size: 10px;
-
   position: relative;
   left: 0px;
   top: 0px;
@@ -181,7 +172,7 @@
   border-color: rgb(215, 212, 212);
 }
 .input-text:focus {
-  border-color: #71e049; /* 요소가 클릭되어 포커스가 맞춰졌을 때 테두리 색을 변경 */
+  border-color: #71e049;
 }
 
 #like {
@@ -190,10 +181,8 @@
 }
 
 #like:hover {
-  color: red; /* 바뀔 색상 */
+  color: red;
 }
-
-/* 0728 css 재조정 */
 
 .body {
   --c-primary: #ed234b;
@@ -214,24 +203,24 @@
 
 .q-box {
   background-color: #ffffffc0;
-  max-height: 100%; /* 최대 높이를 100%로 설정 */
-  overflow: hidden; /* 스크롤바 숨김 */
+  max-height: 100%;
+  overflow: hidden;
   margin: 1rem auto;
   top: 0;
   width: 54rem;
   border: 0px solid rgba(179, 159, 159, 0.608);
   border-color: #000000;
-  box-sizing: border-box; /* border와 padding을 포함하여 크기를 계산합니다 */
+  box-sizing: border-box;
 }
 
 .answer-text {
   width: 100%;
-  height: 100%; /* 박스의 100% 높이를 사용합니다 */
-  resize: none; /* 크기 조정을 막습니다 */
-  box-sizing: border-box; /* 테두리와 패딩이 박스 크기에 포함되도록 box-sizing을 설정합니다 */
-  padding: 10px; /* 내용과 테두리 사이의 간격을 지정합니다 */
-  font-size: 1.3em; /* 텍스트의 크기를 1.2배로 늘립니다 */
-  white-space: pre-wrap; /* 문단 구분을 위한 줄 바꿈을 적용합니다 */
+  height: 100%;
+  resize: none;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 1.3em;
+  white-space: pre-wrap;
 }
 
 .question-title {
@@ -277,43 +266,34 @@
   margin-top: 2rem;
   white-space: pre-wrap;
 }
-/* This class will be added to the answer-text-box when you want to show its content */
+
 .answer-text-box.expanded {
   max-height: none;
 }
 
 .answer-box {
   background-color: white;
-  height: auto; /* Change to auto */
+  height: auto;
   margin: 1rem auto;
   top: 0;
   width: 54rem;
   position: relative;
-
   border: 0.3px solid rgba(179, 159, 159, 0.608);
-  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-  max-height: none; /* Adjust this value as needed */
-  /* overflow: hidden;
-  transition: max-height 0.3s ease; Add smooth transition  */
 }
 
 .answer-text {
-  height: auto; /* Change to auto */
-  white-space: pre-wrap; /* 문단 구분을 위한 줄 바꿈을 적용합니다 */
+  height: auto;
+  white-space: pre-wrap;
   font-weight: 150;
-  color: rgb(36, 35, 35); /* Corrected the font-style property */
+  color: rgb(36, 35, 35);
 }
 
 .answer-area {
-  font-size: 1rem; /* Change to your desired value */
-  color: rgb(43, 42, 42); /* Corrected the font-style property */
-
-  /* 요소가 컨텐츠에 맞게 늘어나도록 설정 */
+  font-size: 1rem;
+  color: rgb(43, 42, 42);
   height: auto;
-  max-height: none; /* 기본값인 none으로 설정 */
-  overflow-y: auto; /* 세로 스크롤바를 감춤 */
+  max-height: none;
+  overflow-y: auto;
 }
 
 .answer-title {
@@ -322,7 +302,6 @@
   margin-top: 1em;
   margin-bottom: 1em;
   width: 49rem;
-  margin-left: 19rem;
 }
 
 .answer-info {
@@ -334,22 +313,25 @@
   margin: 1rem auto;
   width: 54rem;
   border: 1px solid #e1e0e0;
-  border-left: none; /* 왼쪽 테두리 없애기 */
-  border-right: none; /* 오른쪽 테두리 없애기 */
+  border-left: none;
+  border-right: none;
   display: flex;
-  align-items: center; /* 세로로 중앙 정렬 */
+  align-items: center;
   font-style: rgb(120, 116, 116) (36, 35, 35);
   font-weight: 200;
   font-size: 0.9rem;
 }
+
 .answer-info-writer {
   font-weight: 300;
   font-size: 0.9rem;
   margin-right: 1rem;
 }
+
 .fa-tags {
   margin-right: 0.25rem;
 }
+
 .answer-info-date {
   font-weight: 200;
   font-size: 0.8rem;
@@ -431,13 +413,8 @@
   height: 5rem;
   margin: 1rem auto;
   width: 47rem;
-
-  /* border-radius: 0.2rem;
-  border: 1px solid #89e888; */
-
   display: flex;
-
-  align-items: center; /* 세로로 중앙 정렬 */
+  align-items: center;
 }
 
 .edit-comment-container {
@@ -450,7 +427,7 @@
 }
 
 .time {
-  margin-left: 25rem;
+  margin-left: 35rem;
 }
 
 .answer-zone {
@@ -475,7 +452,7 @@
 }
 
 .reply-input-text:focus {
-  border-color: #71e049; /* 요소가 클릭되어 포커스가 맞춰졌을 때 테두리 색을 변경 */
+  border-color: #71e049;
 }
 
 .reply-inputframe {
@@ -483,22 +460,16 @@
   height: 5rem;
   margin: 1rem auto;
   width: 41rem;
-
-  /* border-radius: 0.2rem;
-  border: 1px solid #89e888; */
-
   display: flex;
-
-  align-items: center; /* 세로로 중앙 정렬 */
+  align-items: center;
 }
 
-/* 수정 폼 스타일 */
+/* 수정 폼 스타일 START */
 
 .edit-comment-form,
 .edit-recomment-form {
   display: flex;
   align-items: center;
-  /* padding: 10px; */
   border-radius: 5px;
 }
 
@@ -544,27 +515,43 @@
   background-color: #dddddd;
 }
 
+/* 수정 폼 스타일 END */
+
 .btn {
   display: flex;
   justify-content: space-between;
-  margin-right: 100px; /* 오른쪽 여백 */
+  margin-right: 100px;
 }
 
-/* 질문 및 답변 이미지 나열 */
+.answer-box .btn {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+}
+
+/* 질문 및 답변 이미지 나열 START */
+
 .file-box {
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: auto;
 }
 
 .image-container {
   display: flex;
-  overflow-x: auto;
   margin-top: 2rem;
-  border: 2px solid #93bfa9;
-  width: 100%;
   white-space: nowrap;
-  overflow-x: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.q-box .image-container {
+  border: 3px solid #aeebae;
+}
+
+.answer-box .image-container {
+  border: 3px solid #b8aeeb;
 }
 
 .image-container::-webkit-scrollbar {
@@ -572,14 +559,24 @@
   height: 10px;
 }
 
-.image-container::-webkit-scrollbar-track {
+.q-box .image-container::-webkit-scrollbar-track {
   background-color: #c8e6c9;
-  border-radius: 10px;
 }
 
-.image-container::-webkit-scrollbar-thumb {
+.q-box .image-container::-webkit-scrollbar-thumb {
   background-color: #4caf50;
-  border-radius: 10px;
+}
+
+.answer-box .image-container::-webkit-scrollbar-track {
+  background-color: #e6c9eb;
+}
+
+.answer-box .image-container::-webkit-scrollbar-thumb {
+  background-color: #9370db;
+}
+
+.file-img {
+  height: 100px;
 }
 
 .file-img img {
@@ -588,6 +585,49 @@
   margin-right: 1rem;
   cursor: pointer;
 }
+
+/* 질문 및 답변 이미지 나열 END */
+
+/* 로딩 화면 START */
+
+.hidden {
+  display: none;
+}
+
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 6px solid #ccc;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* 로딩 화면 END */
 
 .small-line {
   margin-left: 5px;
@@ -598,17 +638,12 @@
 .comment-box {
   width: 864px;
   background-color: white;
-
 }
 
 .reply-list .comment-box {
-  /* 여기에 원하는 스타일 속성을 추가 */
-  /* border: 1px solid #ccc; */
   width: 864px;
-  background-color: #f4f5f6
-  /* ... */
+  background-color: #f4f5f6;
 }
-
 
 .comments-container {
   width: 864px;
@@ -616,32 +651,41 @@
 
 .comments-list {
   position: relative;
-  list-style: none; /* 목록 스타일 제거 */
-  padding-left: 0; /* 왼쪽 여백 제거 */
-  margin: 0; /* 상하 간격 제거 */
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 .comment-content {
   background-color: #ffffff;
-  padding: 2%;
+  padding: 0.8% 2% 2% 2%;
 }
 
-.reply-list .comment-content{
+.reply-list .comment-content {
   margin-left: 23px;
-  background-color: #f4f5f6
+  background-color: #f4f5f6;
 }
 
 .comment-head {
   background-color: relative;
-  padding: 1.8%;
+  padding: 1.8% 1.8% 1% 1.8%;
+  display: flex;
 }
 
 .comment-name {
   font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comments-list.reply-list .comment-name {
+  margin-left: 1.2rem;
 }
 
 .comment-time {
   color: #757575;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .tool {
@@ -650,38 +694,94 @@
   display: flex;
 }
 
-.comment-use{
+.comment-use {
   margin-left: 1rem;
 }
 
-.reply-tool{
-  /*margin-left: 1rem*/
-  background-color: #f4f5f6
+.reply-tool {
+  background-color: #f4f5f6;
+  margin-left: 35.7rem;
 }
 
-.replytool{
-margin-left:3.5rem;
-  display:flex;
+.replytool {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 3px;
+  box-sizing: border-box;
+  align-items: center;
 }
 
-.commenttool{
-  margin-left:17px;
-  display:flex;
+.replytool > * {
+  margin-left: 7px;
+  margin-right: 7px;
 }
 
-.heading-title{
+.commenttool {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 3px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.commenttool > * {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.heading-title {
   font-size: 12px;
-  font-weight:350;
+  font-weight: 350;
   padding-bottom: 10px;
   margin-left: 10px;
-
- 
 }
 
-.heading{
+.heading {
   border-bottom: 0.5px solid #dedede;
   top: 1rem;
 }
 
+.comment-box .fa.fa-trash {
+  color: #a4a4a4;
+  transition: color 0.3s;
+  cursor: pointer;
+}
 
+.fa.fa-trash:hover {
+  color: #1da1f2;
+}
 
+.comment-box .fa.fa-pencil {
+  color: #a4a4a4;
+  transition: color 0.3s;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
+.fa.fa-pencil:hover {
+  color: #1dc078;
+}
+
+.fa.fa-reply {
+  color: #a4a4a4;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
+.fa.fa-reply:hover {
+  color: #193057;
+}
+
+.Abox {
+  height: auto;
+  margin: 1rem auto;
+  top: 0;
+  width: 54rem;
+  position: relative;
+}
+
+.deleted-comment {
+  color: gray;
+}

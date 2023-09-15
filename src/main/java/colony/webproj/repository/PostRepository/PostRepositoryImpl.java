@@ -1,5 +1,6 @@
 package colony.webproj.repository.PostRepository;
 
+import colony.webproj.category.entity.QCategory;
 import colony.webproj.dto.PostDto;
 import colony.webproj.dto.PostManageDto;
 import colony.webproj.dto.QPostDto;
@@ -36,10 +37,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, Long categoryId) {
+    public Page<PostDto> findPostDtoList(SearchType searchType, String searchValue, Boolean answered, String sortBy, Pageable pageable, String categoryName) {
         LocalDateTime currentTime = LocalDateTime.now();
         QMember member = new QMember("member");
         QAnswer answer = new QAnswer("answer");
+        QCategory category = new QCategory("category");
         List<PostDto> result = queryFactory
                 .select(new QPostDto(
                         post.id,
@@ -51,7 +53,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.viewCount,
                         JPAExpressions.select(answer.count())
                                 .from(answer)
-                                .where(answer.post.eq(post))
+                                .where(answer.post.eq(post)),
+                        category.id
                 ))
                 .from(post)
                 .join(post.member, member)
@@ -59,7 +62,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         searchValue(searchType, searchValue),
                         answeredEq(answered),
                         post.isNotice.eq(false),
-                        Category(categoryId)
+                        post.category.categoryName.eq(categoryName)
                 )
                 .orderBy(postOrderBy(sortBy))
                 .offset(pageable.getOffset())
@@ -72,7 +75,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         searchValue(searchType, searchValue),
                         answeredEq(answered),
                         post.isNotice.eq(false),
-                        Category(categoryId)
+                        post.category.categoryName.eq(categoryName)
                 )
                 .fetchOne();
 
@@ -153,14 +156,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return null;
     }
 
-    private BooleanExpression Category(Long categoryId){
-        if(categoryId==null){
-            return null;
-        }
-        else{
-            return post.category.id.eq(categoryId);
-        }
-    }
 
     private BooleanExpression answeredEq(Boolean answered) {
         if (answered == null) return null;

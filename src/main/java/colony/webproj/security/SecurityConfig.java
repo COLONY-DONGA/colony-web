@@ -1,6 +1,8 @@
 package colony.webproj.security;
 
 
+import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.service.CategoryService;
 import colony.webproj.entity.Role;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +28,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
 
     private final CustomAuthFailureHandler customAuthFailureHandler;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CategoryService categoryService;
 
 
     @Bean
@@ -42,13 +39,13 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                 .authorizeHttpRequests(request ->
                                 request
                                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**").permitAll() //정적
+                                        .requestMatchers("/status", "/img/**", "/css/**", "/js/**", "/favicon.ico", "/error").permitAll() //정적
                                         .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //swagger
                                         .requestMatchers("/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
                                         .requestMatchers(
                                                 "/login", "/join", "/login-guest", "/validation-id",
-                                                "/validation-nickname", "/validation-email", "/post-list",
-                                                "/post/{postId}", "/denied-page", "/time").permitAll()
+                                                "/validation-nickname", "/validation-email", "/post-list/{categoryName}",
+                                                "/post/{postId}", "/denied-page", "/denied-comment", "/time", "/", "/subscribe").permitAll()
 //                                .requestMatchers("/**").permitAll()
                                         .anyRequest().authenticated()
                 )
@@ -57,7 +54,7 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                         .loginProcessingUrl("/login")
                         .usernameParameter("loginId")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/post-list", true)
+                        .defaultSuccessUrl("/post-list/Q&A", true)
                         .failureHandler(customAuthFailureHandler)
                         .permitAll()
                 )
@@ -71,8 +68,6 @@ public class SecurityConfig { // 정적 자원에 대해서는 Security 설정�
                                 .authenticationEntryPoint(customAuthenticationEntryPoint())
                                 .accessDeniedHandler(customAccessDeniedHandler())
                 );
-
-
         return http.build();
     }
 

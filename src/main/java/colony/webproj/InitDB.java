@@ -5,23 +5,28 @@
 //import jakarta.annotation.PostConstruct;
 //import jakarta.persistence.EntityManager;
 //import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.stereotype.Component;
 //import org.springframework.stereotype.Service;
 //import org.springframework.transaction.annotation.Transactional;
 //
+//import java.sql.Time;
 //import java.util.ArrayList;
 //import java.util.List;
 //
 //@Component
 //@RequiredArgsConstructor
+//@Slf4j
 //public class InitDB {
 //    private final InitService initService;
 //
+//    public static long time;
+//
 //    @PostConstruct
 //    public void init() {
-//        initService.initMember();
+////        initService.initMember();
 //    }
 //
 //    @Service

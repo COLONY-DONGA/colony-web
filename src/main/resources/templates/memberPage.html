@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--    https ajax 문제 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="stylesheet" href="/css/memberPage.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>memberPage</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -13,6 +15,10 @@
 
     <div class="my-profile">
       <div class="title">My Profile</div>
+      <div class="explain">
+        회원 정보를 변경하려면 우선 변경하고 싶은 정보를 입력한 뒤, EDIT PROFILE을 눌러서 현재
+        패스워드를 입력하면 정상적으로 바꿀 수 있습니다
+      </div>
       <div class="my-profile-item">
         <div class="item-box">
           <div class="item-1">
@@ -292,7 +298,7 @@
         let email = document.getElementById('email').value;
         let phoneNumber = document.getElementById('phone').value;
         let department = document.getElementById('department').value;
-        let emailAlarm = $("#emailAlarm").is(":checked");
+        let emailAlarm = $('#emailAlarm').is(':checked');
         console.log(emailAlarm);
         $.ajax({
           type: 'PUT',
@@ -338,7 +344,7 @@
       };
 
       function validation2(event) {
-        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
         let newPassword = document.getElementById('new-password');
         let newPasswordConfirm = document.getElementById('confirm-password');
@@ -357,7 +363,7 @@
         }
 
         if (!pw_reg.test(newPassword.value)) {
-          alert('패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.');
+          alert('패스워드는 영어, 숫자를 포함하는 8글자 이상이어야 합니다.');
           newPassword.value = '';
           newPassword.focus();
           event.preventDefault();

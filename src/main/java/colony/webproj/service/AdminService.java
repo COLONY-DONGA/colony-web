@@ -25,10 +25,11 @@ public class AdminService {
     /**
      * 회원 정보
      */
+    @Transactional(readOnly=true)
     public Page<MemberManageDto> findMemberInfo(Pageable pageable, SearchType searchType, String searchValue) {
         return memberRepository.findAllMemberInfo(pageable, searchType, searchValue);
     }
-
+    @Transactional(readOnly=true)
     public Page<PostManageDto> findPostInfo(SearchType searchType, String searchValue, Pageable pageable) {
         return postRepository.findPostDtoListAdmin(searchType, searchValue, pageable);
     }

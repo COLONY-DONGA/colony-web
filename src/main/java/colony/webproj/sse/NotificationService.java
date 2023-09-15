@@ -14,6 +14,7 @@ import colony.webproj.sse.repository.EmitterRepositoryImpl;
 import colony.webproj.sse.repository.NotificationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -36,7 +37,7 @@ public class NotificationService {
         //emitter 하나하나 에 고유의 값을 주기 위해
         String emitterId = makeTimeIncludeId(userId);
 
-        Long timeout = 60L * 1000L; //1분
+        Long timeout = 60L * 1000 * 10;// * 10L; //1분
         // 생성된 emiiterId를 기반으로 emitter를 저장
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
 
@@ -87,14 +88,10 @@ public class NotificationService {
                 .filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
                 .forEach(entry -> sendNotification(emitter, entry.getKey(), emitterId, entry.getValue()));
     }
-    // =============================================
     /*
-        : 실제 다른 사용자가 알림을 보낼 수 있는 기능이 필요
-        알림을 구성 후 해당 알림에 대한 이벤트를 발생
-        -> 어떤 회원에게 알림을 보낼지에 대해 찾고 알림을
         받을 회원의 emitter들을 모두 찾아 해당 emitter를 Send
      */
-
+    @Async
     public void send(Notification notification) {
         //알림 저장
         String receiverId = String.valueOf(notification.getReceiver().getId());

@@ -103,6 +103,7 @@ public class AnswerService {
     /**
      * 답변 작성자 찾기
      */
+    @Transactional(readOnly=true)
     public String findWriter(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
@@ -172,12 +173,15 @@ public class AnswerService {
                 }
             }
         }
+        log.info("commentMap size: " + commentMap.size());
+        log.info("userLikedAnswers size: " + userLikedAnswers.size());
         return answerDtoList;
     }
 
     /**
      * 답변 상세 정보 (update 에서 사용)
      */
+    @Transactional(readOnly=true)
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
@@ -185,6 +189,7 @@ public class AnswerService {
         List<ImageDto> imageDtoList = imageRepository.findByAnswerId(answerId).stream()
                 .map(image -> new ImageDto(image))
                 .collect(Collectors.toList());
+        log.info("기존에 등록했던 image 크기: " + imageDtoList.size());
 
         AnswerDto answerDto = AnswerDto.builder()
                 .answerId(answer.getId())

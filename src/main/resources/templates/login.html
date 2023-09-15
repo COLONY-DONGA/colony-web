@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--    https ajax 문제 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href=" /css/login.css" />
-    <title>Login & Register</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -19,32 +21,50 @@
               <div class="form sign-up">
                 <div class="input-group form-row">
                   <i class="bx bx-mail-send"></i>
-                  <input name="loginId" id="loginId" type="text" placeholder="loginId" />
+                  <input name="loginId" id="loginId" type="text" placeholder="loginId" required />
                   <button class="chk-btn" id="id-check">중복<br />체크</button>
                 </div>
                 <div id="loginId_result"></div>
                 <div class="input-group form-row">
                   <i class="bx bxs-user"></i>
-                  <input name="nickname" id="nickname" type="text" placeholder="nickname" />
+                  <input
+                    name="nickname"
+                    id="nickname"
+                    type="text"
+                    placeholder="nickname"
+                    required
+                  />
                   <button class="chk-btn" id="nickname-check">중복<br />체크</button>
                 </div>
                 <div id="nickname_result"></div>
                 <div class="input-group form-row">
                   <i class="bx bxs-user"></i>
-                  <input name="email" id="email" type="text" placeholder="email" />
+                  <input name="email" id="email" type="text" placeholder="email" required />
                   <button class="chk-btn" id="email-check">중복<br />체크</button>
                 </div>
                 <div id="email_result"></div>
                 <div class="input-group">
                   <i class="bx bxs-user"></i>
-                  <input name="department" id="department" type="text" placeholder="department" />
+                  <input
+                    name="department"
+                    id="department"
+                    type="text"
+                    placeholder="department"
+                    required
+                  />
                 </div>
                 <div id="department_result"></div>
 
                 <div class="form-row">
                   <div class="input-group">
                     <i class="bx bxs-lock-alt"></i>
-                    <input name="password" id="password" type="password" placeholder="password" />
+                    <input
+                      name="password"
+                      id="password"
+                      type="password"
+                      placeholder="password"
+                      required
+                    />
                   </div>
                   <div id="password_result"></div>
                   <div class="input-group">
@@ -54,6 +74,7 @@
                       id="pw_check"
                       type="password"
                       placeholder="password check"
+                      required
                     />
                   </div>
                   <div id="pw_check_result"></div>
@@ -62,7 +83,7 @@
                 <div class="form-row">
                   <div class="input-group">
                     <i class="bx bxs-user"></i>
-                    <input name="name" id="name" type="text" placeholder="name" />
+                    <input name="name" id="name" type="text" placeholder="name" required />
                   </div>
                   <div id="name_result"></div>
                   <div class="input-group">
@@ -72,6 +93,7 @@
                       id="phoneNumber"
                       type="text"
                       placeholder="phoneNumber"
+                      required
                     />
                   </div>
                   <div id="phoneNumber_result"></div>
@@ -202,14 +224,8 @@
       let emailChecked = false;
 
       joinBtn.onclick = function (event) {
-        // 아이디 : 영문 대소문자, 숫자를 포함하는 4~16글자
-        let id_reg = /^[A-Za-z0-9]{4,16}$/;
-        // 닉네임 : 영문 대소문자, 한글, 숫자를 포함하는 2~6글자
-        let ni_reg = /^[A-Za-z가-힣0-9]{2,6}$/;
-        // 이메일 : 로컬 파트 + 도메인 파트
-        let em_reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        // 패스워드 : 영문 대소문자, 숫자, 특수 문자를 반드시 포함하는 8글자 이상
-        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // 패스워드 : 영문 대소문자, 숫자를 반드시 포함하는 8글자 이상
+        let pw_reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
         // 이름 : 한글로만 이루어져 있는 2글자 이상 (공백 X)
         let na_reg = /^[가-힣]{2,}$/;
         // 전화번호 : 숫자로만 이루어져 있는 11글자 (하이픈 X)
@@ -224,118 +240,53 @@
         let na = document.getElementById('name');
         let ph = document.getElementById('phoneNumber');
 
-        let id_result = document.getElementById('loginId_result');
-        let ni_result = document.getElementById('nickname_result');
-        let em_result = document.getElementById('email_result');
         let de_result = document.getElementById('department_result');
         let pw_result = document.getElementById('password_result');
         let pw_check_result = document.getElementById('pw_check_result');
         let na_result = document.getElementById('name_result');
         let ph_result = document.getElementById('phoneNumber_result');
 
-        id_result.innerText = '';
-        ni_result.innerText = '';
-        em_result.innerText = '';
         de_result.innerText = '';
         pw_result.innerText = '';
         pw_check_result.innerText = '';
         na_result.innerText = '';
         ph_result.innerText = '';
 
-        if (id.value.trim() === '') {
-          id_result.innerText = '아이디를 입력해주세요.';
-          id.focus();
-          event.preventDefault();
-          return false;
-        }
         id.oninput = function () {
           idChecked = false;
         };
-        if (!id_reg.test(id.value)) {
-          id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
-          id.value = '';
-          id.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!idChecked) {
           alert('아이디 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        if (ni.value.trim() === '') {
-          ni_result.innerText = '닉네임을 입력해주세요.';
-          ni.focus();
-          event.preventDefault();
-          return false;
-        }
         ni.oninput = function () {
           nicknameChecked = false;
         };
-        if (!ni_reg.test(ni.value)) {
-          ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
-          ni.value = '';
-          ni.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!nicknameChecked) {
           alert('닉네임 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        if (em.value.trim() === '') {
-          em_result.innerText = '이메일을 입력해주세요.';
-          em.focus();
-          event.preventDefault();
-          return false;
-        }
         em.oninput = function () {
           emailChecked = false;
         };
-        if (!em_reg.test(em.value)) {
-          em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
-          em.value = '';
-          em.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!emailChecked) {
           alert('이메일 중복 체크가 필요합니다.');
           event.preventDefault();
           return false;
         }
 
-        if (de.value.trim() === '') {
-          de_result.innerText = '소속을 입력해주세요.';
-          de.focus();
-          event.preventDefault();
-          return false;
-        }
-
-        if (pw.value.trim() === '') {
-          pw_result.innerText = '패스워드를 입력해주세요.';
-          pw.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!pw_reg.test(pw.value)) {
-          pw_result.innerText =
-            '패스워드는 영어, 숫자, 특수문자를 포함하는 8글자 이상이어야 합니다.';
+          pw_result.innerText = '패스워드는 영어, 숫자를 포함하는 8글자 이상이어야 합니다.';
           pw.value = '';
           pw.focus();
           event.preventDefault();
           return false;
         }
 
-        if (pw_check.value.trim() === '') {
-          pw_check_result.innerText = '패스워드를 한 번 더 입력해주세요.';
-          pw_check.focus();
-          event.preventDefault();
-          return false;
-        }
         if (pw.value !== pw_check.value) {
           pw_check_result.innerText = '패스워드를 확인해주세요.';
           pw_check.value = '';
@@ -344,12 +295,6 @@
           return false;
         }
 
-        if (na.value.trim() === '') {
-          na_result.innerText = '이름을 입력해주세요.';
-          na.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!na_reg.test(na.value)) {
           na_result.innerText = '이름은 한글로만 이루어진 2글자 이상이어야 합니다.';
           na.value = '';
@@ -358,12 +303,6 @@
           return false;
         }
 
-        if (ph.value.trim() === '') {
-          ph_result.innerText = '전화번호를 입력해주세요.';
-          ph.focus();
-          event.preventDefault();
-          return false;
-        }
         if (!ph_reg.test(ph.value)) {
           ph_result.innerText = '전화번호는 숫자로만 이루어진 11글자여야 합니다.';
           ph.value = '';
@@ -375,54 +314,90 @@
 
       id_check.onclick = function (event) {
         event.preventDefault(); // 폼 제출 방지
-        let loginId = document.getElementById('loginId');
+        let id_reg = /^[A-Za-z0-9]{4,16}$/;
+        let id = document.getElementById('loginId');
+        let id_result = document.getElementById('loginId_result');
+        id_result.innerText = '';
+
         $.ajax({
           type: 'POST',
           url: '/validation-id', // 서버로 경로 지정 (아이디 중복 체크)
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-          data: JSON.stringify({ loginId: loginId.value }), // JSON 형식으로 데이터 전송
+          data: JSON.stringify({ loginId: id.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            if (!id_reg.test(id.value)) {
+              id_result.innerText = '아이디는 영어, 숫자를 포함하는 4~16글자여야 합니다.';
+              id.value = '';
+              id.focus();
+              event.preventDefault();
+              return false;
+            }
+
             idChecked = true;
             alert('사용 가능한 아이디입니다.');
           },
           error: function () {
-            alert('이미 사용 중인 아이디입니다.');
+            alert('사용할 수 없는 아이디입니다.');
           },
         });
       };
 
       nickname_check.onclick = function (event) {
         event.preventDefault(); // 폼 제출 방지
-        let nickname = document.getElementById('nickname');
+        let ni_reg = /^[A-Za-z가-힣0-9]{2,6}$/;
+        let ni = document.getElementById('nickname');
+        let ni_result = document.getElementById('nickname_result');
+        ni_result.innerText = '';
+
         $.ajax({
           type: 'POST',
           url: '/validation-nickname', // 서버로 경로 지정 (닉네임 중복 체크)
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-          data: JSON.stringify({ nickname: nickname.value }), // JSON 형식으로 데이터 전송
+          data: JSON.stringify({ nickname: ni.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            if (!ni_reg.test(ni.value)) {
+              ni_result.innerText = '닉네임은 영어, 한글, 숫자를 포함하는 2~6글자여야 합니다.';
+              ni.value = '';
+              ni.focus();
+              event.preventDefault();
+              return false;
+            }
+
             nicknameChecked = true;
             alert('사용 가능한 닉네임입니다.');
           },
           error: function () {
-            alert('이미 사용 중인 닉네임입니다.');
+            alert('사용할 수 없는 닉네임입니다.');
           },
         });
       };
 
       email_check.onclick = function (event) {
         event.preventDefault(); // 폼 제출 방지
-        let email = document.getElementById('email');
+        let em_reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let em = document.getElementById('email');
+        let em_result = document.getElementById('email_result');
+        em_result.innerText = '';
+
         $.ajax({
           type: 'POST',
           url: '/validation-email', // 서버로 경로 지정 (닉네임 중복 체크)
           headers: { 'Content-Type': 'application/json' }, // json 데이터로 지정
-          data: JSON.stringify({ email: email.value }), // JSON 형식으로 데이터 전송
+          data: JSON.stringify({ email: em.value }), // JSON 형식으로 데이터 전송
           success: function (result) {
+            if (!em_reg.test(em.value)) {
+              em_result.innerText = '이메일은 로컬 파트와 도메인 파트로 구성되어야 합니다.';
+              em.value = '';
+              em.focus();
+              event.preventDefault();
+              return false;
+            }
+
             emailChecked = true;
             alert('사용 가능한 이메일입니다.');
           },
           error: function () {
-            alert('이미 사용 중인 이메일입니다.');
+            alert('사용할 수 없는 이메일입니다.');
           },
         });
       };

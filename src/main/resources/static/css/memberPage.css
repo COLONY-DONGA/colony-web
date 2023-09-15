@@ -1,21 +1,31 @@
 .my-profile {
-  padding: 20px;
-  margin: 0 15rem 30px 15rem;
+  padding: 20px 20px 10px 20px;
+  margin: 0 15rem 0 15rem;
   font-family: 'NanumSquare', sans-serif;
 }
-.my-profile-item,
-.my-history-item {
+.my-profile-item {
   border: 1px solid #93bfa9;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 30px;
 }
-.title {
+.my-history-item {
+  border: 1px solid #93bfa9;
+  border-radius: 10px;
+  padding: 20px;
+}
+.my-profile .title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   border-bottom: 3px solid #6b9275;
   padding-bottom: 5px;
+}
+.explain {
+  position: absolute;
+  top: 9.625rem;
+  font-size: 0.8rem;
+  color: gray;
 }
 .item-box {
   display: flex;

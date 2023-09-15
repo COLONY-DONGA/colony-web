@@ -1,19 +1,16 @@
 package colony.webproj.controller;
 
+import colony.webproj.category.dto.CategoryDto;
+import colony.webproj.category.service.CategoryService;
 import colony.webproj.dto.JoinFormDto;
-import colony.webproj.security.PrincipalDetails;
 import colony.webproj.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +18,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final CategoryService categoryService;
 
     /**
      * 로그인 페이지
@@ -40,7 +38,7 @@ public class MemberController {
      */
     @GetMapping("/login-guest")
     public String guestLogin(Model model) {
-        return "redirect:/post-list";
+        return "redirect:/post-list/Q&A";
     }
 
 
@@ -94,7 +92,7 @@ public class MemberController {
 
     // 접근 거부 처리
     @GetMapping("/denied-page")
-    public String showDeniedPage(HttpSession session, @RequestParam("type") String type, Model model) {
+    public String showDeniedPage(@RequestParam("type") String type, Model model) {
         if(type.equals("UNAUTHORIZED")) {
             model.addAttribute("msg", "접근 권한이 없습니다.");
         }
@@ -104,6 +102,13 @@ public class MemberController {
         }
 
         return "deniedPage";
+    }
+
+    // 댓글 접근 거부 처리
+    @GetMapping("/denied-comment")
+    @ResponseBody
+    public ResponseEntity<?> deniedCommentHandler() {
+        return ResponseEntity.badRequest().build();
     }
 
 
