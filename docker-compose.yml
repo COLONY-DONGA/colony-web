@@ -9,20 +9,65 @@ services:                                               # 이 항목 밑에 실�
     environment:
       - MARIADB_DATABASE=colony
       - MARIADB_ROOT_PASSWORD=1234
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+      - ./database/data:/var/lib/mysql
     ports:
       - "13306:3306"      # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
 
-  colony-app:
-    container_name: colony-app
+  colony-app1:
+    container_name: colony-app1
     build: .
     depends_on: # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
       - database
-    image: dgjinsu/colony-app
+    image: dgjinsu/colony-app1
     environment:
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=1234
-    volumes:
-      - ./database/config:/etc/mysql/conf.d
-    ports:
-      - "80:8080"
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
     restart: always # depends on은 실행 순서만 컨트롤 할뿐,
+    ports:
+      - '8080:8080'
+  colony-app2:
+    container_name: colony-app2
+    build: .
+    depends_on: # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
+      - database
+    image: dgjinsu/colony-app2
+    environment:
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+    restart: always # depends on은 실행 순서만 컨트롤 할뿐,
+    ports:
+      - '8081:8080'
+  colony-app3:
+    container_name: colony-app3
+    build: .
+    depends_on: # DB, REDIS 컨테이너가 실행된 다음 WEB을 실행시킨다.
+      - database
+    image: dgjinsu/colony-app3
+    environment:
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+    restart: always # depends on은 실행 순서만 컨트롤 할뿐,
+    ports:
+      - '8082:8080'
+
+
+  proxy-be:
+    image: nginx:1.21.5-alpine
+    container_name: colony-nginx
+    restart: always
+    depends_on:
+      - colony-app1
+      - colony-app2
+      - colony-app3
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/nginx-be.conf:/etc/nginx/nginx.conf
