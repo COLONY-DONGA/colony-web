@@ -67,6 +67,9 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 <br/>
 
 <div id="3"></div>
+![KakaoTalk_20230918_221501580](https://github.com/COLONY-DONGA/colony-web/assets/97269799/f794c011-e8e1-4e34-9d44-2f2bd3670d61)
+![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/f819a1f8-ac65-4734-a01f-3edca10c8234)
+
 
 ## 🔍 주요 화면
 
