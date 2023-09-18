@@ -34,7 +34,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 답변에 도움이 되었다면 좋아요를 누를 수 있고 이는 계정당 1회로 제한됩니다. <br> <br> <br>
 
 <p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/8c5b9bb0-9cf8-4970-b583-31340753d708">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/5fd96bef-632a-4d62-94db-5cee64561ea5">
 </p>
 
 
@@ -53,7 +53,7 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 * **이메일 알림** : 로그인을 하지 않고도 언제 어디서나 이메일을 통한 알림을 받을 수 있습니다.
 
 <p align="center">
- <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/dc9ba668-d9b3-4378-976c-5f7cb11f30e9">
+ <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/85a0d738-6862-4840-a67c-7924f42fd8d8">
 </p>
 
 <br>
@@ -75,9 +75,9 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 
 |        |        |
 | ------ | ------ |
-|<img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/0a991798-82bc-4c91-ab19-26e81327ecdf">  |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/852bf12e-22e8-47e6-847e-2429b553c38a">     |
+|<img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/727cecf5-9f4b-4043-aefb-e6225bf5785a">  |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/5f15db2b-78fa-4313-b3a7-3d3d763de481">     |
 |    <div align=center> `메인 화면` </div>    |    <div align=center> `질문 등록` </div>    |
-|    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/60b18a65-e943-4f9a-b458-3e359764c98b">    |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/59b31654-01d7-42d7-9fc8-195cc378391f">    |
+|    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/4b641ab2-c72e-4500-980b-01fe96ad4e83">    |    <img src="https://github.com/COLONY-DONGA/colony-web/assets/69447192/1286b411-9b15-4185-abed-9cdc2405afc7">    |
 |    <div align=center> `질문 상세` </div>    |    <div align=center> `마이페이지` </div>    |
 
 
