@@ -67,8 +67,8 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 <br/>
 
 <div id="3"></div>
-![KakaoTalk_20230918_221501580](https://github.com/COLONY-DONGA/colony-web/assets/97269799/f794c011-e8e1-4e34-9d44-2f2bd3670d61)
-![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/f819a1f8-ac65-4734-a01f-3edca10c8234)
+
+
 
 
 ## 🔍 주요 화면
@@ -131,13 +131,15 @@ colony-web은 동아리원들 사이 정보 교류등의 다목적 커뮤니티�
 <div id="6"></div>
 
 ## 🛠 Software Architecture
-![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/16a8be35-7ce7-4497-906a-73eab3fe8837)
+![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/95d8597c-2801-4160-9c34-1591f6dfdbf7)
+
 
 <br/>
 <div id="7"></div>
 
 ## 🛠 ERD
-![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/b4a3843f-7359-4561-ac4d-a286fcf32800)
+![image](https://github.com/COLONY-DONGA/colony-web/assets/97269799/146de527-5fe4-47a4-b7c0-42cd105d801e)
+
 
 
 ## 트러블 슈팅
