@@ -29,4 +29,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long>, AnswerRep
     @Modifying
     @Query("DELETE FROM Answer a WHERE a.post.id = :postId")
     void deleteAnswersByPostId(@Param("postId") Long postId);
+
+    @Query("select a from Answer a where a.post.id = :postId")
+    List<Answer> findAnswerByPostIdRefactor(@Param("postId") Long postId);
 }
