@@ -40,4 +40,4 @@ echo "> 배포 종료 : $(date +%c)" >> $DEPLOY_LOG_PATH
 # nohup java -jar -Duser.timezone=Asia/Seoul web-proj-0.0.1-SNAPSHOT.jar >> application.log 2> deploy_err.log &
 
 # 모니터링
-# nohup java -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=8500 -Dcom.sun.management.jmxremote.rmi.port=8500 -Djava.rmi.server.hostname=3.37.206.141 -jar -Duser.timezone=Asia/Seoul tickerBell-0.0.1-SNAPSHOT.jar >> application.log 2> deploy_err.log &
+# nohup java -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=8500 -Dcom.sun.management.jmxremote.rmi.port=8500 -Djava.rmi.server.hostname=3.39.39.152 -jar -Duser.timezone=Asia/Seoul web-proj-0.0.1-SNAPSHOT.jar >> application.log 2> deploy_err.log &
