@@ -103,6 +103,7 @@ public class AnswerService {
     /**
      * 답변 작성자 찾기
      */
+    @Transactional(readOnly=true)
     public String findWriter(Long answerId) {
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));
@@ -112,10 +113,11 @@ public class AnswerService {
 
     /**
      * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
+     * refactoring 전 코드
      */
     @Transactional(readOnly = true)
     public List<AnswerDto> findByPostId(Long postId, Long memberId) {
-
+        log.info("[findByPostId] 시작");
         //image, member join fetch 한 쿼리
         List<Answer> answerList = answerRepository.findAnswersByPostId(postId);
         List<Long> answerIds = answerList.stream().map(Answer::getId).collect(Collectors.toList());
@@ -178,8 +180,50 @@ public class AnswerService {
     }
 
     /**
+     * 게시글에 해당하는 답변 리스트 (게시글 상세에서 사용)
+     */
+    @Transactional(readOnly = true)
+    public List<AnswerDto> findByPostIdRefactor(Long postId, Long memberId) {
+
+        //image, member join fetch 한 쿼리
+        List<Answer> answerList = answerRepository.findAnswerByPostIdRefactor(postId);
+
+        //로그인한 사용자가 좋아요 누른 answer
+        Map<Long, Boolean> userLikedAnswers = new HashMap<>();
+        if (memberId != null) {
+            List<Long> likedAnswerIdList = likesRepository.findByMemberId(memberId);
+            for (Long answerId : likedAnswerIdList) {
+                userLikedAnswers.put(answerId, true);
+            }
+        }
+
+        List<AnswerDto> answerDtoList = answerList.stream()
+                .map(answer -> AnswerDto.from(answer, userLikedAnswers))
+                .collect(Collectors.toList());
+        // 댓글 시간 처리
+        LocalDateTime currentTime = LocalDateTime.now();
+        for (AnswerDto answerDto : answerDtoList) {
+            List<CommentDto> parentComment = answerDto.getCommentList();
+            for (CommentDto commentDto : parentComment) {
+                LocalDateTime createdAt = commentDto.getCreatedAt();
+                Duration duration = Duration.between(createdAt, currentTime);
+                String enrollTime = getTimeAgo(duration);
+                commentDto.setEnrollTime(enrollTime);
+                for (CommentDto commentDtoChild : commentDto.getChildList()) {
+                    LocalDateTime createdAtChild = commentDtoChild.getCreatedAt();
+                    Duration durationChild = Duration.between(createdAtChild, currentTime);
+                    String enrollTimeChild = getTimeAgo(durationChild);
+                    commentDtoChild.setEnrollTime(enrollTimeChild);
+                }
+            }
+        }
+        return answerDtoList;
+    }
+
+    /**
      * 답변 상세 정보 (update 에서 사용)
      */
+    @Transactional(readOnly=true)
     public AnswerDto findAnswerDetail(Long answerId) {
         Answer answer = answerRepository.findAnswerDetail(answerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.ANSWER_NOT_FOUND));

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- https ajax 문제 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="stylesheet" href="/css/qaList.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -11,7 +13,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <title>qaList</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -34,20 +36,20 @@
           data-bs-slide-to="1"
           aria-label="Slide 2"
         ></button>
-        <button
+        <!-- <button
           type="button"
           data-bs-target="#carouselExampleIndicators"
           data-bs-slide-to="2"
           aria-label="Slide 3"
-        ></button>
+        ></button> -->
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="firstBanner_container">
             <div class="firstBanner_left">
               <button class="firstBanner_button">Notice</button>
-              <h2 class="firstBanner_title">콜로니 웹 사이트 오픈!🎉</h2>
-              <h2 class="firstBanner_sub_title">모르는게 있다면 자유롭게 질문을 남겨보세요</h2>
+              <h2 class="firstBanner_title">콜로니 웹 사이트 오픈! 🎉</h2>
+              <h2 class="firstBanner_sub_title">궁금한 것에 대해서 자유롭게 질문을 남겨보세요</h2>
             </div>
             <div class="firstBanner_right">
               <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
@@ -55,21 +57,24 @@
           </div>
         </div>
         <div class="carousel-item">
-          <div class="firstBanner_container">
+          <div class="firstBanner_container secondBanner_container">
             <div class="firstBanner_left">
-              <button class="firstBanner_button">Notice</button>
-              <h2 class="firstBanner_title">9월7일 콜로니 종강총회</h2>
-              <h2 class="firstBanner_sub_title">장소: 꽃다지 입장비: 10000원</h2>
+              <button class="firstBanner_button secondBanner_button">Notice</button>
+              <h2 class="firstBanner_title">2023-2학기 콜로니 개강총회! 🍺</h2>
+              <h2 class="firstBanner_sub_title">
+                일시: 09월 20일 수요일 18시
+                <p>장소: S06-0607</p>
+              </h2>
             </div>
             <div class="firstBanner_right">
-              <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
+              <img src="https://holaworld.io/images/banner/11.png" width="250px" height="160px" />
             </div>
           </div>
         </div>
-        <div class="carousel-item">
-          <div class="firstBanner_container">
+        <!-- <div class="carousel-item">
+          <div class="firstBanner_container thirdBanner_container">
             <div class="firstBanner_left">
-              <button class="firstBanner_button">Notice</button>
+              <button class="firstBanner_button thirdBanner_button">Notice</button>
               <h2 class="firstBanner_title">졸업한 선배의 이야기가 궁금하다면?</h2>
               <h2 class="firstBanner_sub_title">
                 9월7일 졸업하신 박태민 선배의 연애 이야기가 궁금하다면 아래 구글 폼을 통해
@@ -80,14 +85,28 @@
               <img src="https://holaworld.io/images/banner/33.png" width="250px" height="160px" />
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 질문 목록  -->
     <div class="qa-page">
+      <!-- 카테고리 -->
+      <div class="category-container">
+        <div class="category-left">
+          <div class="category-item" th:text="${categoryDtoList.presentCategory}">
+            카테고리 이름
+          </div>
+          <div class="category-comment">카테고리 설명</div>
+        </div>
+        <img class="category-image" src="" alt="카테고리 사진" />
+      </div>
       <!-- 검색 -->
       <div class="search-container">
-        <form th:action="@{/post-list/{categoryName}(categoryName=${categoryDtoList.presentCategory})}" method="get" autocomplete="on">
+        <form
+          th:action="@{/post-list/{categoryName}(categoryName=${categoryDtoList.presentCategory})}"
+          method="get"
+          autocomplete="on"
+        >
           <label for="searchType"></label>
           <select id="searchType" name="searchType" th:value="${searchType}">
             <option value="NICKNAME" th:selected="${#strings.equals(searchType, 'NICKNAME')}">
@@ -154,7 +173,7 @@
               </div>
               <div class="card-title" th:text="${postDto.title}"></div>
             </div>
-            <p class="card-content" th:text="${postDto.content}"></p>
+            <!-- <p class="card-content" th:text="${postDto.content}"></p> -->
             <div class="card-footer">
               <p class="card-author-date">
                 <span th:text="${postDto.createdBy}"></span>
@@ -175,7 +194,7 @@
           th:onclick="'redirectToPost(' + ${postDto.postId} + ')'"
         >
           <div class="card-info">
-            <div class="card-header">
+            <div class="card-header header-margin">
               <div class="card-state-yes" th:if="${postDto.answered}">
                 <div>답변 완료</div>
               </div>
@@ -185,7 +204,7 @@
               <div class="card-title" th:text="${postDto.title}"></div>
             </div>
             <p class="card-content" th:text="${postDto.content}"></p>
-            <div class="card-footer">
+            <div class="card-footer footer-margin">
               <p class="card-author-date">
                 <span th:text="${postDto.createdBy}"></span>
                 <span>|</span>
@@ -202,13 +221,13 @@
         </div>
       </div>
 
-      <input type="hidden" id="categoryName" th:value="${categoryDtoList.presentCategory}">
+      <input type="hidden" id="categoryName" th:value="${categoryDtoList.presentCategory}" />
 
       <!-- 페이지네이션 -->
       <div class="pagination-container">
         <ul
-                class="pagination"
-                th:with="start=${(pageNum/maxPage)*maxPage + 1},
+          class="pagination"
+          th:with="start=${(pageNum/maxPage)*maxPage + 1},
           end=(${(totalPages == 0) ? 1 : (start + (maxPage - 1) < totalPages ? start + (maxPage - 1) : totalPages)}),
           prev=${start - maxPage - 1},
           next=${start + maxPage - 1},
@@ -218,58 +237,57 @@
           <!-- 이전 페이지로 이동 -->
           <li th:if="${start > 1}">
             <a
-                    th:if="${presentCategory}"
-                    th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
-                    th:text="'<<'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'<<'"
             ></a>
             <a
-                    th:unless="${presentCategory}"
-                    th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'<<'"
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${prev}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'<<'"
             ></a>
           </li>
-
           <!-- 페이지 번호 출력 -->
           <li
-                  th:each="page: ${#numbers.sequence(start, end)}"
-                  th:class="${page == (pageNum + 1)} ? 'active' : ''"
+            th:each="page: ${#numbers.sequence(start, end)}"
+            th:class="${page == (pageNum + 1)} ? 'active' : ''"
           >
             <a
-                    th:if="${presentCategory}"
-                    th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
-                    th:text="${page}"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="${page}"
             ></a>
             <a
-                    th:unless="${presentCategory}"
-                    th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="${page}"
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${page - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="${page}"
             ></a>
           </li>
 
           <!-- 다음 페이지로 이동 -->
           <li th:if="${end < totalPages}">
             <a
-                    th:if="${presentCategory}"
-                    th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
-                    th:text="'>'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>'"
             ></a>
             <a
-                    th:unless="${presentCategory}"
-                    th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>'"
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${next}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>'"
             ></a>
           </li>
 
           <li th:if="${end < totalPages}">
             <a
-                    th:if="${presentCategory}"
-                    th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
-                    th:text="'>>'"
+              th:if="${presentCategory}"
+              th:href="@{/post-list/{id}(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered}, id=${categoryDtoList.presentCategory})}"
+              th:text="'>>'"
             ></a>
             <a
-                    th:unless="${presentCategory}"
-                    th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
-                    th:text="'>>'"
+              th:unless="${presentCategory}"
+              th:href="@{/post-list(page=${totalPages - 1}, searchType=${searchType}, searchValue=${searchValue}, sortBy=${sortBy}, answered=${answered})}"
+              th:text="'>>'"
             ></a>
           </li>
         </ul>
@@ -301,7 +319,9 @@
         var categoryName = document.getElementById('categoryName').value;
         console.log(categoryName);
         window.location.href =
-          '/post-list/'+ categoryName + '?sortBy=' +
+          '/post-list/' +
+          categoryName +
+          '?sortBy=' +
           selectedValue +
           '&searchType=' +
           searchType +
@@ -326,6 +346,25 @@
         // 새로운 URL로 페이지 이동
         window.location.href = newUrl;
       });
+
+      // 카테고리 별 코멘트 및 이미지 설정
+      let categoryItem = document.querySelector('.category-item').textContent;
+      let categoryComment = document.querySelector('.category-comment');
+      let categoryImage = document.querySelector('.category-image');
+
+      if (categoryItem === '공지사항') {
+        categoryComment.textContent = '중요한 소식과 업데이트 정보를 놓치지 마세요.';
+        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/notice.png';
+      } else if (categoryItem === 'Q&A') {
+        categoryComment.textContent = '좋은 질문과 답변으로 의견을 공유하고 지식을 얻어가세요.';
+        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/QA.png';
+      } else if (categoryItem === '스터디') {
+        categoryComment.textContent = '함께 배우고, 성장하는 공간입니다.';
+        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/study.png';
+      } else if (categoryItem === '기타') {
+        categoryComment.textContent = '당신의 생각과 아이디어를 자유롭게 나눠보세요.';
+        categoryImage.src = 'https://colony-web-bucket.s3.ap-northeast-2.amazonaws.com/etc.png';
+      }
     </script>
   </body>
 </html>

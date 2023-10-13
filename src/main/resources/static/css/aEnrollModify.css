@@ -76,7 +76,7 @@
 }
 
 .old-image-box .old-image-2 {
-  width: 53.5rem;
+  width: 53.25rem;
   border: 1px solid #93bfa9;
   border-radius: 5px;
 }
@@ -200,6 +200,47 @@
   background-color: rgba(172, 5, 5, 0.7);
   transform: scale(1.1);
 }
+
+/* 로딩 화면 START */
+
+.hidden {
+  display: none;
+}
+
+#loadingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 6px solid #ccc;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* 로딩 화면 END */
 
 body {
   margin: 0;

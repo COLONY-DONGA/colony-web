@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -77,49 +80,6 @@ public class PostController {
         return "qaList";
     }
 
-
-    /**
-     * 이후 변경할 게시글 리스트
-     */
-//    @GetMapping("/post-list/{categoryName}")
-    public String testpostList(@PathVariable("categoryName") String categoryName,
-                           @RequestParam(required = false) SearchType searchType,
-                           @RequestParam(required = false) String searchValue, // 검색타입과 검색어를 파라미터로 들고와서
-                           @RequestParam(required = false) Boolean answered, //답변 유무에 따른 필터
-                           @RequestParam(required = false) String sortBy, //정렬기준
-                           @PageableDefault(size = 10) Pageable pageable,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails,
-                           Model model) {
-
-        if (principalDetails == null) {
-            model.addAttribute("username", "게스트");
-            log.info("비회원 로그인");
-        } else {
-            model.addAttribute("username", principalDetails.getNickname());
-            log.info("회원 로그인");
-        }
-
-        CategoryDtoList categoryDtoList = new CategoryDtoList(categoryService.getCategories(),categoryName);
-        model.addAttribute("categoryDtoList", categoryDtoList);
-
-        //진수방식
-        Page<PostDto> postDtoList = postService.searchPostList(searchType, searchValue, answered, sortBy, pageable, categoryName);
-        model.addAttribute("postDtoList", postDtoList);
-        List<PostDto> postDtoListNotice = postService.searchPostListNotice();
-        model.addAttribute("postDtoListNotice", postDtoListNotice);
-
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("searchValue", searchValue);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("answered", answered);
-
-        model.addAttribute("pageNum", pageable.getPageNumber());
-        model.addAttribute("totalPages", postDtoList.getTotalPages());
-        model.addAttribute("maxPage", 10);
-
-        return "qaList";
-    }
-
     /**
      * 게시글 상세
      */
@@ -131,14 +91,17 @@ public class PostController {
         PostDto postDto = postService.findPostDetail(postId); //이미지, post 관련 데이터 가져오기
         model.addAttribute("postDto", postDto);
         if (principalDetails != null) {
-            if (principalDetails.getRole() == Role.ROLE_ADMIN) model.addAttribute("loginUser", "관리자");
-            else model.addAttribute("loginUser", principalDetails.getNickname());
+            if (principalDetails.getRole() == Role.ROLE_ADMIN) {
+                model.addAttribute("isAdmin", true); //admin 일 경우
+            }
+            model.addAttribute("loginUser", principalDetails.getNickname());
             model.addAttribute("postUser", postDto.getCreatedBy());
         }
 
         if (postType.equals("p")) {
-            List<AnswerDto> answerDtoList =
-                    answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
+//            List<AnswerDto> answerDtoList =
+//                    answerService.findByPostId(postId, (principalDetails != null) ? principalDetails.getId() : null); //답변과 댓글, 대댓글, 이미지데이터 가져오기
+            List<AnswerDto> answerDtoList = answerService.findByPostIdRefactor(postId, (principalDetails != null) ? principalDetails.getId() : null);
             model.addAttribute("answerDtoList", answerDtoList);
             return "qaDetail";
         }
@@ -196,7 +159,8 @@ public class PostController {
      * 게시글 수정
      */
     @PostMapping("/edit-post/{postId}")
-    public String editPost(@PathVariable("postId") Long postId,
+    @ResponseBody
+    public ResponseEntity<?> editPost(@PathVariable("postId") Long postId,
                            @Valid PostUpdateFormDto postUpdateFormDto, BindingResult bindingResult,
                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                            Model model) throws IOException {
@@ -209,12 +173,11 @@ public class PostController {
         }
         /* 수정 실패시 입력 데이터 값 유지 */
         if (bindingResult.hasErrors()) {
-            model.addAttribute("postFormDto", postUpdateFormDto);
-            return "qEnroll";
+            ResponseEntity.badRequest().build();
         }
         //수정한 post 가 notice 인지
-        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "n" : "p";
-        return "redirect:/post/" + postId + "?postType=" + postType;
+        String postType = (postService.updatePost(postId, postUpdateFormDto)) ? "?postType=n" : "?postType=p";
+        return ResponseEntity.ok(postType);
     }
 
     /**
@@ -237,7 +200,8 @@ public class PostController {
             throw new CustomException(ErrorCode.POST_DELETE_WRONG_ACCESS);
         }
         String currentCategoryName = postService.deletePost(postId);
-        return "redirect:/post-list/" + currentCategoryName;
+        String encodedCategoryName = URLEncoder.encode(currentCategoryName, StandardCharsets.UTF_8);
+        return "redirect:/post-list/" + encodedCategoryName;
     }
 
     /**

@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--    https ajax 문제 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="stylesheet" href="/css/aEnrollModify.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>aEnroll</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -54,9 +56,14 @@
       </div>
     </div>
 
-    <div th:replace="~{layouts/footer :: footer}"></div>
-
+    <!-- 로딩 화면 -->
+    <div id="loadingOverlay" class="hidden">
+      <div class="loader"></div>
+    </div>
+    <!-- postId -->
     <input type="hidden" class="getPostId" th:value="${postId}" />
+
+    <div th:replace="~{layouts/footer :: footer}"></div>
 
     <script>
       let fileInput = document.getElementById('file-input');
@@ -197,8 +204,14 @@
         img.src = src;
       }
 
+      // 로딩 화면 ON
+      function showLoadingScreen() {
+        $('#loadingOverlay').removeClass('hidden');
+      }
+
       submitBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        showLoadingScreen();
         console.log('핸들러 진입');
         let formData = new FormData(document.getElementById('answerEnrollForm'));
 

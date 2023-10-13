@@ -211,22 +211,22 @@
   width: 100%;
   background-color: rgb(236, 198, 204);
   display: flex;
+  justify-content: center;
 }
 
 .firstBanner_left {
-  flex: 1;
   align-items: flex-start;
   padding: 20px;
-  margin-left: 150px;
+  margin-right: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .firstBanner_right {
-  flex: 1;
-  align-items: center;
+  align-items: flex-end;
   padding: 20px;
-  margin-right: 150px;
+  margin-left: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -243,7 +243,7 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 20px;
   text-align: left;
-  margin-top: 10px;
+  line-height: 0.75;
 }
 
 .firstBanner_content {
@@ -256,10 +256,64 @@
   border: none;
   border-radius: 20px;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 30px;
   font-size: 16px;
   margin-bottom: 15px;
   cursor: pointer;
+}
+
+.secondBanner_container {
+  background-color: #cbffcb;
+}
+
+.secondBanner_button {
+  background-color: #00d000;
+}
+
+/* .thirdBanner_container {
+  background-color: ?;
+}
+
+.thirdBanner_button {
+  background-color: ?;
+} */
+
+/* 카테고리 */
+
+.qa-page .category-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  margin: 0 auto 1rem auto;
+  max-width: 65rem;
+}
+
+.qa-page .category-left {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px;
+  margin-right: auto;
+}
+
+.qa-page .category-item {
+  color: #111827;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.15rem;
+}
+
+.qa-page .category-comment {
+  color: #111827;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.qa-page .category-image {
+  width: 13rem;
+  height: 7rem;
+  padding-right: 50px;
 }
 
 /* 검색 */
@@ -395,12 +449,16 @@
 }
 
 .card-info {
-  padding: 20px 0 10px 0;
+  padding-top: 10px;
 }
 
 .card-header {
   display: flex;
   flex-direction: row;
+}
+
+.header-margin {
+  margin-bottom: -0.5rem;
 }
 
 .card-state-notice,
@@ -459,6 +517,10 @@
 .card-footer {
   display: flex;
   flex-direction: row;
+}
+
+.footer-margin {
+  margin-top: -1.5rem;
 }
 
 .card-author-date {

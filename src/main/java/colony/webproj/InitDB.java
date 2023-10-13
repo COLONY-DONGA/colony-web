@@ -1,23 +1,29 @@
 //package colony.webproj;
 //
+//import colony.webproj.category.entity.Category;
 //import colony.webproj.entity.*;
 //import colony.webproj.service.MemberService;
 //import jakarta.annotation.PostConstruct;
 //import jakarta.persistence.EntityManager;
 //import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.stereotype.Component;
 //import org.springframework.stereotype.Service;
 //import org.springframework.transaction.annotation.Transactional;
 //
+//import java.sql.Time;
 //import java.util.ArrayList;
 //import java.util.List;
 //
 //@Component
 //@RequiredArgsConstructor
+//@Slf4j
 //public class InitDB {
 //    private final InitService initService;
+//
+//    public static long time;
 //
 //    @PostConstruct
 //    public void init() {
@@ -43,33 +49,29 @@
 //            Member member5 = Member.builder().loginId("e").password(encoder.encode("e")).role(Role.ROLE_MEMBER)
 //                    .name("최유현").department("컴퓨터공학과").nickname("박유진이남친").phoneNumber("01012345678").build();
 //
-//            List<Member> members = new ArrayList<Member>();
-//            members.add(member1);
-//            members.add(member2);
-//            members.add(member3);
-//            members.add(member4);
-//            members.add(member5);
-//
 //            em.persist(member1);em.persist(member2);em.persist(member3);em.persist(member4);em.persist(member5);
 //
-//            List<Post> posts = new ArrayList<Post>();
+//            Category category1 = Category.builder().categoryName("Q&A").build();
+//            Category category2 = Category.builder().categoryName("스터디").build();
+//            Category category3 =  Category.builder().categoryName("기타").build();
+//            em.persist(category1);em.persist(category2);em.persist(category3);
+//
 //            for(int i = 1; i<=70; i++) {
 //                Post post = new Post();
 //                if (i <= 10) {
-//                    post = Post.builder().title("더미 데이터 긴 제목목목목목목목목목목목목목목목목목목목목목목목목목목목목목목" + i).content("내용" + i).member(member1).answered(false).isNotice(true).build();
+//                    post = Post.builder().title("더미 데이터" + i).content("내용" + i).member(member1).answered(false).isNotice(true).build();
 //                } else if(i<=20) {
-//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member2).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member2).answered(false).category(category1).build();
 //                } else if(i<=30) {
-//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member3).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member3).answered(false).category(category2).build();
 //                } else if(i<=40) {
-//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member4).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member4).answered(false).category(category3).build();
 //                } else if(i<=70) {
-//                    post = Post.builder().title("더미 데이터 제목" + i).content("내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용" + i).member(member5).answered(false).build();
+//                    post = Post.builder().title("더미 데이터 제목" + i).content("내용" + i).member(member5).answered(false).category(category3).build();
 //                }
-//
-//                posts.add(post);
 //                em.persist(post);
 //            }
+//
 //            for(int i = 1; i<=5; i++) {
 //                Member member_ = Member.builder().loginId("dummyId"+i).password(encoder.encode("abcdefg1!")).role(Role.ROLE_MEMBER)
 //                        .name("dummyName"+i).department("컴퓨터공학과").nickname("dummyNickname"+i).phoneNumber("01012345678").build();

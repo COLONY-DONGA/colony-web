@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <!--    https ajax 문제 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/qEnrollModify.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>qModify</title>
+    <title>Colony Website</title>
   </head>
 
   <body>
@@ -22,13 +24,14 @@
         >
           <div class="modify-form">
             <div class="category-box">
-              <label for="categoryId">Category</label>
-              <!-- 기존에 선택한걸 selected 해야 함 -->
-              <select id="categoryId" name="categoryId">
-                <option value="?" selected disabled>카테고리를 선택하세요</option>
-                <option value="2">Q&A</option>
-                <option value="3">스터디</option>
-                <option value="4">기타</option>
+              <label for="categoryName">Category</label>
+              <select id="categoryName" name="categoryName">
+                <option value="없음" disabled>카테고리를 선택하세요</option>
+                <option value="Q&A" th:selected="${postFormDto.categoryName == 2}">Q&A</option>
+                <option value="스터디" th:selected="${postFormDto.categoryName == 3}">
+                  스터디
+                </option>
+                <option value="기타" th:selected="${postFormDto.categoryName == 4}">기타</option>
               </select>
             </div>
             <div class="title-box">
@@ -280,7 +283,7 @@
           contentType: false,
           success: function (response) {
             console.log('수정 완료');
-            location.href = `/post/${getPostId}`;
+            location.href = `/post/${getPostId}${response}`;
           },
           error: function (err) {
             console.error('오류 발생: ', err);
